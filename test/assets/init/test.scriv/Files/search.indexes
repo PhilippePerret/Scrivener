@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SearchIndexes Version="1.0">
+    <Documents>
+        <Document ID="2CC3FF04-030D-430A-9AEB-A1B8056653F9 ">
+            <Title>MATHIAS revient chez lui (gare)</Title>
+            <Text>C’est la scène où Mathias revient chez lui, tranquillement.</Text>
+        </Document>
+        <Document ID="BFC6E873-1F59-41F8-8F2B-48E89E2A63B4 ">
+            <Title>Titre du document</Title>
+        </Document>
+        <Document ID="DDB67984-9078-42B6-BAFA-1C3904B584E4 ">
+            <Title>Mon nouveau beau document</Title>
+            <Text>Mon nouveau document avec du contenu.</Text>
+        </Document>
+        <Document ID="0BCA9F07-EDEE-4678-A474-DEC272D53D05 ">
+            <Title>Hélène disparaît (Mathias la cherche)</Title>
+            <Synopsis>C’est le résumé de la scène où Hélène disparait.</Synopsis>
+            <Text>Hélène disparait soudainement.</Text>
+        </Document>
+    </Documents>
+</SearchIndexes>

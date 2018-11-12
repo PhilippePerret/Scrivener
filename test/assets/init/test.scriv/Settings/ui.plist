@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NotesScaleFactor</key>
+	<real>2</real>
+	<key>binderSplitFrames</key>
+	<array>
+		<string>{{0, 0}, {434, 650}}</string>
+		<string>{{435, 0}, {1245, 650}}</string>
+	</array>
+	<key>bookmarksSelectionInfo</key>
+	<dict>
+		<key>Project</key>
+		<dict>
+			<key>Row</key>
+			<integer>-1</integer>
+		</dict>
+	</dict>
+	<key>collectionsRepresentedBinderDocumentsInfo</key>
+	<dict>
+		<key>MainID</key>
+		<string></string>
+		<key>SupportingID</key>
+		<string></string>
+	</dict>
+	<key>editorSplitFrames</key>
+	<array>
+		<string>{{513, 0}, {513, 620}}</string>
+	</array>
+	<key>fullScreenTextEditorSettings</key>
+	<dict>
+		<key>textScaleFactor</key>
+		<real>1.25</real>
+	</dict>
+	<key>inspectorSplitFrames</key>
+	<array>
+		<string>{{0, 0}, {999, 620}}</string>
+		<string>{{1000, 0}, {245, 620}}</string>
+	</array>
+	<key>inspectorWidth</key>
+	<real>245</real>
+	<key>lastDocumentSplitType</key>
+	<integer>1</integer>
+	<key>mainDocumentEditor.dockedQRTextSettings</key>
+	<dict>
+		<key>textScaleFactor</key>
+		<real>2</real>
+	</dict>
+	<key>mainDocumentEditor.outlinerColumnsWidths</key>
+	<dict>
+		<key>targetCount</key>
+		<real>107</real>
+		<key>targetCountType</key>
+		<real>103</real>
+		<key>title</key>
+		<real>468</real>
+	</dict>
+	<key>mainDocumentEditor.scrollRect</key>
+	<string>{{0, 0}, {620, 294}}</string>
+	<key>mainDocumentEditor.textEditorState</key>
+	<dict>
+		<key>textScaleFactor</key>
+		<real>2</real>
+	</dict>
+	<key>mainWindowFrame</key>
+	<string>0 355 1680 672 0 0 1680 1027 </string>
+	<key>supportingDocumentEditor.dockedQRTextSettings</key>
+	<dict>
+		<key>textScaleFactor</key>
+		<real>2</real>
+	</dict>
+	<key>supportingDocumentEditor.scrollRect</key>
+	<string>{{0, 0}, {620, 294}}</string>
+	<key>supportingDocumentEditor.textEditorState</key>
+	<dict>
+		<key>textScaleFactor</key>
+		<real>2</real>
+	</dict>
+	<key>supportingDocumentViewIsCurrent</key>
+	<false/>
+</dict>
+</plist>

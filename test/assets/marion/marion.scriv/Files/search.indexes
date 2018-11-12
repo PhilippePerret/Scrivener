@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SearchIndexes Version="1.0">
+    <Documents>
+        <Document ID="76E56CA6-F25A-41E6-A513-44309432382F">
+            <Title>Un second chapitre pour voir</Title>
+            <Text>Je voudrais savoir si j'utilise le terme Marion, ici ou çà et là ?</Text>
+        </Document>
+        <Document ID="8A0B3C46-465A-452B-992E-FF90FC4267F9">
+            <Title>Un troisième chapitre pour voir</Title>
+            <Text>Marion est ici aussi.</Text>
+        </Document>
+        <Document ID="0F81282D-A49B-43E4-8EDB-31E192CBF90A">
+            <Title>Premier chapitre</Title>
+            <Text>Un premier chapitre de Marion.
+Pour voir.
+
+Le mot Marion Marion est répété.</Text>
+        </Document>
+        <Document ID="96607C23-C15F-46E7-823A-6512DE979A7E">
+            <Title>Un troisième chapitre pour voir</Title>
+        </Document>
+    </Documents>
+</SearchIndexes>

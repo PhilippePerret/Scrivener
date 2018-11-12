@@ -1,0 +1,1196 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ScrivenerProject Identifier='1F930C85-52ED-4F71-9970-09A74368EBE5' Version='2.0' Creator='SCRMAC-3.0.3-3032' Device='MacBook-Air-de-Philippe' Author='Philippe Perret' Modified='2018-09-02 06:32:03 +0300' ModID='9751DC8A-5E30-49FD-A1F4-608629932ACF'
+>
+    <Binder
+  >
+        <BinderItem UUID='DF873933-9303-4FF7-AF5E-0997BEC0FB00' Type='DraftFolder' Created='2018-08-29 14:31:29 +0300' Modified='2018-08-29 14:31:29 +0300'
+    >
+            <Title
+      >Ébauche</Title
+      >
+            <MetaData
+      >
+                <IncludeInCompile
+        >Yes</IncludeInCompile
+        >
+            </MetaData
+      >
+            <Children
+      >
+                
+            <BinderItem Type='Folder' UUID='D15F0A1C-58DD-48FF-8D4A-6368277DFEF0' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300'
+        ><Title
+          >EXPOSITION</Title
+          ><MetaData
+          ><IncludeInCompile
+            >Yes</IncludeInCompile
+            ></MetaData
+          ><TextSettings
+          ><TextSelection
+            >0,0</TextSelection
+            ></TextSettings
+          ><Children
+          ><BinderItem UUID='676ACAAB-9035-42B1-A773-AF2A99A143F2' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >MATHIAS revient chez lui (gare)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1125</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='8BD58ADE-A1D1-4EA2-8B6F-98D31B59B5B1' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Des clochards « rôdent » autour de la gare</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >375</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='FFA06C9B-2CCD-475B-A12F-5F99208E321A' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias traverse la ville de nuit en taxi</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >938</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='FA81D32D-E6AD-4D8D-ACE7-BC7595CC9ED6' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias retrouve la maison de ses parents</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >2250</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='94F3ED44-ED31-4B6E-9607-8D4A6552111D' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >HÉLÈNE quitte le QG du maire</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >563</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='4595973C-551C-4502-9BB6-F5A62EBF8640' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >HÉLÈNE se fait agresser par un clochard</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >938</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='6683EC1F-C782-4BF5-9D1A-DB0485DD84DD' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Le MAIRE arrive chez Mathias en escorte</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1125</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='8C34EBB7-635F-4CC1-A0AE-F4B24549CA6B' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Retrouvailles entre Mathias et le Maire (comme père et fils)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1875</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='C3E054B0-6EA7-432A-A2F8-E9747CDF2FCF' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Le maire confie la mission à Mathias</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1875</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='D5FC246E-B243-488B-A997-0AED269EB778' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias retrouve la ville de son enfance</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1125</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='AC384D8A-DF30-451D-961C-3002CDCF49D2' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Quelqu’un rôde autour de la maison de Mathias</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >188</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ></Children
+          ></BinderItem
+        ><BinderItem Type='Folder' UUID='94182303-5E90-4E1A-80FA-84A661D87FB9' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300'
+        ><Title
+          >DÉVELOPPEMENT</Title
+          ><MetaData
+          ><IncludeInCompile
+            >Yes</IncludeInCompile
+            ></MetaData
+          ><TextSettings
+          ><TextSelection
+            >0,0</TextSelection
+            ></TextSettings
+          ><Children
+          ><BinderItem UUID='D27D6754-548A-4952-9650-D4531530BAB3' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias prépare sa mission</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >750</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='AC1E4B8A-632B-48FE-AAFF-0B3C02537AD7' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias repense à John, son coéquipier</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >938</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='436664CE-95B3-4B4A-B61A-CE71071ADB18' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias rencontre Hélène</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1125</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='CB5EEBD6-32B5-47BA-BA6B-11FBDD3289ED' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Premiers repérages de Mathias</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1125</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='E624550E-5828-40F7-BD47-0131F1144853' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Préparation des élections au QG du maire</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1500</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='4CF3646D-A8E8-4036-A4C4-6C8CA496D3D7' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias rend visite à sa mère à la maison de retraite</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >2250</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='C3FC0A45-2763-4961-8FE9-AC220FD154F5' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Sortie électorale au marché de la ville (maire doué)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1875</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='A0644F3A-3CFF-4AB8-B8BD-DD87EDC1E47C' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Discours virulent contre le maire</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >563</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='A6870368-3F89-4D75-94A8-6F3A0F61AE98' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias et le maire ravivent leurs souvenirs</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1500</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='4C4B335F-D7F8-43DA-8773-22D52EC453CE' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Le maire fait pression sur la presse</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >750</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='8ABA306E-AC4B-4CE6-9D3C-9FD3FA329AF5' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Le scientifique vient faire une rafle à la soupe populaire</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >2250</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='E1767218-4D1F-471B-B325-5C7F4DC3A679' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias surprend Babar autour de la maison</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >750</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='73D2FEAA-F08D-4812-9652-A6BB1AB5610B' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias retrouve les bandes de son père et les écoute</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >750</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='1415EE60-8B4C-4EB7-A390-E155A25DB65B' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias repense à son père (souvenirs)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >563</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='FFC475BF-5662-41B8-8610-2036ADD5EC82' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias cauchemarde la mort de John</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1500</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='14DE50D9-AD25-4CA4-8CFC-E395F5612B58' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Hélène vient habiter chez Mathias (chez ses parents)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >938</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='5BB1178D-7E12-41DC-A87C-94442643A6C7' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias repense à son enfance : le rôle du maire comme père</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1500</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='8C602347-23F1-47B1-8197-27ED23CDD951' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias et Hélène couchent ensemble</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >188</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='195164A3-3CAC-43A7-87C1-8FAF430752DE' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias veut arrêter son travail, c’est sa dernière mission</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >750</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='B286098E-C383-4956-B885-DC245E9F15A6' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias enquête chez Delacroix</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1125</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='67DCFD49-431E-4781-8A0B-21D6CD17F42C' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Le Maire met la pression sur le Scientifique</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >750</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='E9A1EF21-EA2C-4462-8DAD-FA9E1B72227E' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Hélène commence à se transformer (premiers symptômes)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >188</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='94DCC812-2008-4223-9A7F-664FE6F40E2E' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Débat télévisuel entre le Maire et Delacroix</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >16688</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='A1035877-7157-46E5-83D9-BCA5A1A321AF' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Agression du maire en sortant du débat (Mathias le sauve)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1125</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='F9E09586-8A63-484C-9708-FE44772D0D69' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias raconte la mort de John à Hélène</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1875</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='ABD668AD-FC48-48C8-B253-CCD4603812DB' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias découvre que Babar vit seul</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >750</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='72BD6211-02BE-43EE-9A9D-ADCD29261410' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Hélène perd la mémoire (oubli d’informations sur Mathias/John)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >563</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='7FC8B8BE-E720-49A8-8390-9BF974C624DD' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias repense à son père.</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1125</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='4E761F5E-D815-4829-B7EB-0A3F6361E6A6' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Visite à la mère (elle parle du père, en bien)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1500</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='09A8996C-EBA8-4CD1-9D02-E944F249C60A' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Hélène disparaît (Mathias la cherche)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >938</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='E15F538C-9028-4588-897C-F60C1AC2E1A7' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias comprend qu’il s’est trompé sur son père</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1313</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='6D256EDE-DE3E-45E4-889A-5E7B44D4AA6E' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias cherche Hélène en ville (en vain)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >375</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='8AFB6F4A-975B-4020-A41A-0C8C57C61BCF' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias poursuit le scientifique en rafle (en vain)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >750</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='B6BC5469-4C79-47B3-9E87-570F1CF2B5AA' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias récupère le « dossier secret » chez Delacroix</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >3000</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='0DB747D8-7A12-41F4-B6F1-D05ABCBAD022' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias avertit le maire (il a le dossier)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >188</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='13D52532-B268-4B7D-BE6F-9F7F08BD2766' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias découvre les enfouissements d’uranium illégaux</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1500</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='0909F8B4-EDA5-4FE3-91C3-1853BAC200C0' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias parvient à retrouver le scientifique</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >188</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='1910B41E-9280-45E4-8921-F9F2DDADD4C7' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias suit le scientifique jusque chez lui</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >563</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='CE24B444-AD1A-44EB-A3B6-75754CF9C4AD' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias pénètre chez le scientifique</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >375</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='753CBCF4-BE4F-47CC-B53C-043C7B19901C' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias se fait capturer par les clochards/vampires</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >750</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='4BD143DA-733E-4E49-8B5C-1D36896648D4' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias découvre que le chef des V. est son père</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >2063</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='4B9C7538-42C3-499B-B66F-9C42E369D179' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias découvre les agissements illégaux du maire (enfouissements)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1875</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ></Children
+          ></BinderItem
+        ><BinderItem Type='Folder' UUID='9406EC85-B2C5-4521-AE91-B8CDC838473A' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300'
+        ><Title
+          >DÉNOUEMENT</Title
+          ><MetaData
+          ><IncludeInCompile
+            >Yes</IncludeInCompile
+            ></MetaData
+          ><TextSettings
+          ><TextSelection
+            >0,0</TextSelection
+            ></TextSettings
+          ><Children
+          ><BinderItem UUID='C8F2CBA9-CBBB-489C-997B-E41E9422B333' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Mathias ne veut pas remettre le dossier secret au maire</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >750</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='030AA4C6-34C6-4572-A633-6F02290AB94F' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Le Maire tente de se débarrasser de Mathias (entrepôt)</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >5625</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='EB6BADD8-DD63-40C9-B6CE-6601D1258C13' Created='2018-09-02 06:42:58 +0300' Modified='2018-09-02 06:42:58 +0300' Type='Text'
+            ><Title
+              >Babar vient en aide à Mathias</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >375</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='86F02536-3F6E-4525-BBD6-9BA1F3AD4D7F' Created='2018-09-02 06:42:59 +0300' Modified='2018-09-02 06:42:59 +0300' Type='Text'
+            ><Title
+              >Mathias se rend sur les lieux de l’enfouissement illégal</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >750</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='C3889B60-F282-4F4D-819A-8A3CB4BCDC06' Created='2018-09-02 06:42:59 +0300' Modified='2018-09-02 06:42:59 +0300' Type='Text'
+            ><Title
+              >Mathias retrouve Hélène dans le squat des vampires</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1125</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='E9F39C93-3384-4663-9961-F221BF9D0F55' Created='2018-09-02 06:42:59 +0300' Modified='2018-09-02 06:42:59 +0300' Type='Text'
+            ><Title
+              >Mathias retrouve son père dans le squat des vampires</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1125</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='5BCE00CB-7986-4ABE-8BE3-9E8FF9C17A87' Created='2018-09-02 06:42:59 +0300' Modified='2018-09-02 06:42:59 +0300' Type='Text'
+            ><Title
+              >L’extermination des vampires est votée</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >750</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='3A6D46EE-4545-45B8-9BA0-800BF7AE9442' Created='2018-09-02 06:42:59 +0300' Modified='2018-09-02 06:42:59 +0300' Type='Text'
+            ><Title
+              >Extermination des vampires</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >3000</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='5AAF83B8-5118-4C36-BEB0-C8DBBF540A91' Created='2018-09-02 06:42:59 +0300' Modified='2018-09-02 06:42:59 +0300' Type='Text'
+            ><Title
+              >Mathias sauve Hélène et son père</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >2250</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='213384C2-80D2-4828-9AE6-4C9E686B7B70' Created='2018-09-02 06:42:59 +0300' Modified='2018-09-02 06:42:59 +0300' Type='Text'
+            ><Title
+              >Mathias va saluer sa mère</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >188</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='F852AD94-CFCA-4B50-A571-28E61375004C' Created='2018-09-02 06:42:59 +0300' Modified='2018-09-02 06:42:59 +0300' Type='Text'
+            ><Title
+              >Mathias confond le maire</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >4500</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='B4B9D0A8-D496-42DD-B28B-B644201B88CA' Created='2018-09-02 06:42:59 +0300' Modified='2018-09-02 06:42:59 +0300' Type='Text'
+            ><Title
+              >Mathias va se recueillir sur la tombe de son père</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >375</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='C361D86D-D381-46AD-A13D-AF7272F329A5' Created='2018-09-02 06:42:59 +0300' Modified='2018-09-02 06:42:59 +0300' Type='Text'
+            ><Title
+              >Mathias quitte la ville avec Babar</Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >1125</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ><BinderItem UUID='4197C663-599D-4F37-91B0-32E681D8385E' Created='2018-09-02 06:42:59 +0300' Modified='2018-09-02 06:42:59 +0300' Type='Text'
+            ><Title
+              ></Title
+              ><MetaData
+              ><IncludeInCompile
+                >Yes</IncludeInCompile
+                ></MetaData
+              ><TextSettings
+              ><Target Type='Words' Notify='No'
+                >0</Target
+                ><TextSelection
+                >0,0</TextSelection
+                ></TextSettings
+              ></BinderItem
+            ></Children
+          ></BinderItem
+        ></Children
+      >
+        </BinderItem
+    >
+        <BinderItem UUID='6E821F9B-0B65-4F53-B6C9-3E04C10D0E16' Type='ResearchFolder' Created='2018-08-29 14:31:29 +0300' Modified='2018-08-29 14:31:29 +0300'
+    >
+            <Title
+      >Recherche</Title
+      >
+            <MetaData
+      >
+                <IncludeInCompile
+        >Yes</IncludeInCompile
+        >
+            </MetaData
+      >
+        </BinderItem
+    >
+        <BinderItem UUID='2277A005-4059-476E-848F-8955B017F46A' Type='TrashFolder' Created='2018-08-29 14:31:29 +0300' Modified='2018-08-29 14:31:29 +0300'
+    >
+            <Title
+      >Corbeille</Title
+      >
+            <MetaData
+      >
+                <IncludeInCompile
+        >Yes</IncludeInCompile
+        >
+            </MetaData
+      >
+        </BinderItem
+    >
+    </Binder
+  >
+    <Collections
+  >
+        <Collection Type='Binder' ID='8B6F9B07-28FF-4EFB-A56D-9324B8AB2F2F' Color='0.924849 0.924014 0.949681'
+    >
+            <Title
+      >Classeur</Title
+      >
+        </Collection
+    >
+        <Collection Type='RecentSearch' ID='67B6BB4A-3F34-42AD-8254-3056B52A8FB0' Color='0.922176 0.818589 0.999618'
+    >
+            <Title
+      >Résultats de la recherche</Title
+      >
+        </Collection
+    >
+    </Collections
+  >
+    <SectionTypes
+  >
+        <TypeDefinitions
+    >
+            <Type ID='7FB73A5F-4C2A-4927-BAC2-8F4085A2FE67'
+      >En-tête</Type
+      >
+            <Type ID='A01F5E01-8713-4F04-96FC-D5D5849D6E45'
+      >En-tête</Type
+      >
+            <Type ID='43AEFF6A-E6C3-4D71-9975-2720C902C355'
+      >Section</Type
+      >
+        </TypeDefinitions
+    >
+        <LevelTypes
+    >
+            <Folders
+      >
+                <Type
+        >7FB73A5F-4C2A-4927-BAC2-8F4085A2FE67</Type
+        >
+            </Folders
+      >
+            <Containers
+      >
+                <Type
+        >43AEFF6A-E6C3-4D71-9975-2720C902C355</Type
+        >
+            </Containers
+      >
+            <Files
+      >
+                <Type
+        >43AEFF6A-E6C3-4D71-9975-2720C902C355</Type
+        >
+            </Files
+      >
+        </LevelTypes
+    >
+    </SectionTypes
+  >
+    <LabelSettings
+  >
+        <Title
+    >Étiquette</Title
+    >
+        <DefaultLabelID
+    >-1</DefaultLabelID
+    >
+        <Labels
+    >
+            <Label ID='-1'
+      >Aucune étiquette</Label
+      >
+            <Label ID='0' Color='0.993495 0.701207 0.732587'
+      >Rouge</Label
+      >
+            <Label ID='1' Color='0.995418 0.790946 0.652385'
+      >Orange</Label
+      >
+            <Label ID='2' Color='0.997722 0.89273 0.652569'
+      >Jaune</Label
+      >
+            <Label ID='3' Color='0.715855 0.948712 0.697692'
+      >Vert</Label
+      >
+            <Label ID='4' Color='0.702319 0.888276 0.974252'
+      >Bleu</Label
+      >
+            <Label ID='5' Color='0.957566 0.766747 0.999616'
+      >Violet</Label
+      >
+        </Labels
+    >
+    </LabelSettings
+  >
+    <StatusSettings
+  >
+        <Title
+    >Statut</Title
+    >
+        <DefaultStatusID
+    >-1</DefaultStatusID
+    >
+        <StatusItems
+    >
+            <Status ID='-1'
+      >Aucun statut</Status
+      >
+            <Status ID='0'
+      >À faire</Status
+      >
+            <Status ID='1'
+      >En cours</Status
+      >
+            <Status ID='2'
+      >Première ébauche</Status
+      >
+            <Status ID='3'
+      >Ébauche révisée</Status
+      >
+            <Status ID='4'
+      >Ébauche finale</Status
+      >
+            <Status ID='5'
+      >Terminé</Status
+      >
+        </StatusItems
+    >
+    </StatusSettings
+  >
+    <ProjectTargets Notify='No'
+  >
+        <DraftTarget Type='Words' CountIncludedOnly='Yes' CurrentCompileGroupOnly='No' Deadline='2018-08-29 14:31:28 +0300' IgnoreDeadline='Yes'
+    >0</DraftTarget
+    >
+        <SessionTarget Type='Words' CountDraftOnly='Yes' AllowNegatives='Yes' ResetType='Time' ResetTime='00:00' DeterminedFromDeadline='No' WritingDays='' CanWriteOnDeadlineDate='No'
+    >0</SessionTarget
+    >
+        <PreviousSession Words='0' Characters='0' Date='2018-09-02 06:31:46 +0300'
+    />
+    </ProjectTargets
+  >
+    <RecentWritingHistory Date='2018-09-02 00:00:00 +0300'
+  >
+        <DraftWordCount
+    >0</DraftWordCount
+    >
+        <DraftCharCount
+    >0</DraftCharCount
+    >
+        <OtherWordCount
+    >0</OtherWordCount
+    >
+        <OtherCharCount
+    >0</OtherCharCount
+    >
+    </RecentWritingHistory
+  >
+    <PrintSettings PaperSize='595.275567,841.889771' LeftMargin='72.0' RightMargin='72.0' TopMargin='90.0' BottomMargin='90.0' PaperType='iso-a4' Orientation='Portrait' HorizontalPagination='Clip' VerticalPagination='Auto' ScaleFactor='1.0' HorizontallyCentered='Yes' VerticallyCentered='Yes' Collates='Yes' PagesAcross='1' PagesDown='1'
+  />
+</ScrivenerProject
+>
