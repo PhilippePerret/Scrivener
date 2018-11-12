@@ -23,6 +23,21 @@ class ProxMot
     self.binder_item_uuid = binder_item_uuid
   end
 
+  # Redéfinition
+  def inspect
+    return '<<ProxMot(mon inspect) @offset=%i @real=%s @binder_item_uuid=%s, @proximite_avant_id=%s @proximite_apres_id=%s @length=%i>>' %
+      [self.offset, self.real, self.binder_item_uuid,
+      self.proximite_avant_id.inspect, self.proximite_apres_id.inspect, self.length]
+  end
+
+  def reset
+    self.real   = nil
+    [:downcase, :canonique, :length, :is_treatable, :is_real_mot, :distance_minimale
+    ].each do |prop|
+      self.instance_variable_set("@#{prop}", nil)
+    end
+  end
+
   def downcase
     @downcase ||= real.downcase # pour le moment
   end
@@ -34,82 +49,6 @@ class ProxMot
   end
 
   # ---------------------------------------------------------------------
-
-  # Procédure de remplacement du mot par +new_mot
-  # Cela va consister à :
-  #   * traiter le nouveau mot (downcase)
-  #   * changer le downcase
-  #   * changer le real
-  #   * changer le canonique (ou pas)
-  #   * retirer de la liste du mot
-  #   * ajouter dans la liste du nouveau mot
-  #
-  # Question : faut-il voir si ça supprime une proximité, ou alors est-ce
-  # qu'on change forcément par le biais des proximités.
-  # Cf. N0001 et oui, on ne procède que par proximités, donc il est inutile,
-  # ici, de voir si ça corrigera une proximité.
-  def remplace_par new_mot
-    self.real = new_mot
-    # Si le mot a changé de mot canonique, on doit le retirer de
-    # sa liste et la mettre dans la nouvelle
-    # Sinon, il n'y a rien à faire
-    new_mot_canonique = (TABLE_LEMMATISATION[new_mot] || new_mot).downcase
-    if canonique != new_mot_canonique
-      tableau = project.tableau_proximites
-      # Retirer le mot de :
-      # tableau[:mots][canonique][:items]
-      # … et le mettre dans
-      # tableau[:mots][new_mot_canonique][:items]
-      # En vérifiant dans les deux cas comment ça modifie les proximités
-      # des anciens mots avant/après s'ils existent et les nouveaux mots
-      # avant/après s'ils existent
-      old_index = tableau[:mots][canonique][:items].index(self)
-      old_mot_avant = tableau[:mots][canonique][:items][old_index - 1]
-      old_mot_apres = tableau[:mots][canonique][:items][old_index + 1]
-      # Rien à faire si un des deux n'existe pas
-      if old_mot_avant.nil? && old_mot_apres.nil?
-        # Rien à faire, normalement, ça ne devrait pas pouvoir arriver
-      elsif !old_mot_avant.nil? && !old_mot_apres.nil?
-        # <= Les deux existent
-        # => Il faut vérifier leur proximité
-        # Noter que deux proximités existent, celle du mot avant et le
-        # mot courant et celle du mot courant et du mot après.
-        # Dans tous les cas, une des proximités doit être détruite (la seconde).
-        # Les deux sont détruites si le mot avant et le mot après ne sont
-        # pas en proximité, sinon, on garde la première en moditifant le
-        # mot après.
-        prox_apres_mot_avant = old_mot_avant.proximite_apres
-        prox_avant_mot_apres = old_mot_apres.proximite_avant
-        prox_avant_mot_apres.destroy # supprime la donnée proximite_apre|avant
-        # des deux mots concernés
-        if old_mot_avant.trop_proche_de?(old_mot_apres)
-          old_mot_apres.proximite_avant   = prox_apres_mot_avant
-          prox_apres_mot_avant.mot_apres  = old_mot_apres
-          project.tableau_proximites[:nombre_proximites_added] += 1
-        end
-      elsif old_mot_avant
-        # => Il faut supprimer la proximité
-        # Supprimer le proximite_avant de old_mot_avant
-        old_mot_avant.proximite_apres.destroy
-      elsif old_mot_apres
-        # => Il faut supprimer la proximité
-        # Supprimer la proximite_apres de old_mot_apres
-        old_mot_apres.proximite_avant.destroy
-      end
-    else
-      @canonique = nil
-    end
-    # Pour forcer l'initialisation
-    @length             = nil
-    @downcase           = nil
-    @is_treatable       = nil
-    @distance_minimale  = nil
-
-    # On l'ajoute dans sa nouvelle liste de canonique
-    
-
-    return true # si la proximité a été fixée (TODO C'est encore à étudier)
-  end
 
   # Retourne true si le mot est traitable
   # Pour le moment, pour qu'un mot soit traitable, il faut :

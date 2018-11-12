@@ -1,0 +1,24 @@
+--- [12 11 2018 - 19:42:14] = Changement du mot APRÈS ("Phil")
+--- [12 11 2018 - 19:42:14] old_canonique de Marion : marion
+--- [12 11 2018 - 19:42:14] = Index de l’ancien mot dans la liste des items du canonique : 1
+--- [12 11 2018 - 19:42:14] = Mot qui précède : <<ProxMot(mon inspect) @offset=23 @real=Marion @binder_item_uuid=0F81282D-A49B-43E4-8EDB-31E192CBF90A, @proximite_avant_id=nil @proximite_apres_id=1 @length=6>>
+--- [12 11 2018 - 19:42:14] = Mot qui suit : <<ProxMot(mon inspect) @offset=57 @real=Marion @binder_item_uuid=0F81282D-A49B-43E4-8EDB-31E192CBF90A, @proximite_avant_id=2 @proximite_apres_id=3 @length=6>>
+--- [12 11 2018 - 19:42:14] * Destruction de la proximité \#1
+--- [12 11 2018 - 19:42:14] * Retrait de la prox d’ID #1 pour le mot canonique «marion»
+--- [12 11 2018 - 19:42:14]   = Liste project.tableau_proximites[:mots][canon] : {:items=>[<<ProxMot(mon inspect) @offset=23 @real=Marion @binder_item_uuid=0F81282D-A49B-43E4-8EDB-31E192CBF90A, @proximite_avant_id=nil @proximite_apres_id=nil @length=6>>, <<ProxMot(mon inspect) @offset=50 @real=Marion @binder_item_uuid=0F81282D-A49B-43E4-8EDB-31E192CBF90A, @proximite_avant_id=nil @proximite_apres_id=2 @length=6>>, <<ProxMot(mon inspect) @offset=57 @real=Marion @binder_item_uuid=0F81282D-A49B-43E4-8EDB-31E192CBF90A, @proximite_avant_id=2 @proximite_apres_id=3 @length=6>>, <<ProxMot(mon inspect) @offset=116 @real=Marion @binder_item_uuid=76E56CA6-F25A-41E6-A513-44309432382F, @proximite_avant_id=3 @proximite_apres_id=4 @length=6>>, <<ProxMot(mon inspect) @offset=140 @real=Marion @binder_item_uuid=8A0B3C46-465A-452B-992E-FF90FC4267F9, @proximite_avant_id=4 @proximite_apres_id=nil @length=6>>], :proximites=>[1, 2, 3, 4]}
+--- [12 11 2018 - 19:42:14] Liste des IDs de proximité du mot «marion» avant suppression : [1, 2, 3, 4]
+--- [12 11 2018 - 19:42:14] Liste des IDs de proximité du mot «marion» APRÈS suppression : [2, 3, 4]
+--- [12 11 2018 - 19:42:14] = Proximité #1 détruite avec succès
+--- [12 11 2018 - 19:42:14] * Destruction de la proximité \#2
+--- [12 11 2018 - 19:42:14] * Retrait de la prox d’ID #2 pour le mot canonique «marion»
+--- [12 11 2018 - 19:42:14]   = Liste project.tableau_proximites[:mots][canon] : {:items=>[<<ProxMot(mon inspect) @offset=23 @real=Marion @binder_item_uuid=0F81282D-A49B-43E4-8EDB-31E192CBF90A, @proximite_avant_id=nil @proximite_apres_id=nil @length=6>>, <<ProxMot(mon inspect) @offset=50 @real=Marion @binder_item_uuid=0F81282D-A49B-43E4-8EDB-31E192CBF90A, @proximite_avant_id=nil @proximite_apres_id=nil @length=6>>, <<ProxMot(mon inspect) @offset=57 @real=Marion @binder_item_uuid=0F81282D-A49B-43E4-8EDB-31E192CBF90A, @proximite_avant_id=nil @proximite_apres_id=3 @length=6>>, <<ProxMot(mon inspect) @offset=116 @real=Marion @binder_item_uuid=76E56CA6-F25A-41E6-A513-44309432382F, @proximite_avant_id=3 @proximite_apres_id=4 @length=6>>, <<ProxMot(mon inspect) @offset=140 @real=Marion @binder_item_uuid=8A0B3C46-465A-452B-992E-FF90FC4267F9, @proximite_avant_id=4 @proximite_apres_id=nil @length=6>>], :proximites=>[2, 3, 4]}
+--- [12 11 2018 - 19:42:14] Liste des IDs de proximité du mot «marion» avant suppression : [2, 3, 4]
+--- [12 11 2018 - 19:42:14] Liste des IDs de proximité du mot «marion» APRÈS suppression : [3, 4]
+--- [12 11 2018 - 19:42:14] = Proximité #2 détruite avec succès
+--- [12 11 2018 - 19:42:14] New canonique de Phil : phil
+--- [12 11 2018 - 19:42:14] old_canonique : marion
+--- [12 11 2018 - 19:42:14] = Mots canoniques différents (marion ≠ phil)
+--- [12 11 2018 - 19:42:14] * Vérification de la proximité entre le mot précédent et le mot suivant…
+--- [12 11 2018 - 19:42:14] = Les deux mots autour sont trop proches. => Il faut créer une nouvelle proximité
+--- [12 11 2018 - 19:42:14] = Le mot canonique «phil» n’existe pas. => il faut le créer
+--- [12 11 2018 - 19:42:14] = Pas d’autres mots dans la table canonique => aucune proximité à checker

@@ -11,6 +11,8 @@ class Scrivener
     def exec_proximites
       CLI.dbg("-> Scrivener::Project#exec_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
 
+      Debug.init
+
       if CLI.options[:data]
         output_data_proximites
       else
@@ -27,6 +29,7 @@ class Scrivener
         binder_items:   Hash.new, # tous les binder-items
         project_path:   self.path,
         # Nombres
+        last_id_proximite:            0,
         nombre_proximites_erased:     0,
         nombre_proximites_fixed:      0,
         nombre_proximites_ignored:    0,
@@ -91,6 +94,9 @@ class Scrivener
     end
     #/check_proximites
 
+    def set_modified
+      self.tableau_proximites[:modified_at] = Time.now
+    end
     def modified?
       tb = self.tableau_proximites
       tb[:modified_at] && tb[:last_saved_at] < tb[:modified_at]

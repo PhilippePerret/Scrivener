@@ -62,6 +62,9 @@ class << self
   def confirmation? msg, expected_key = nil, only_keys = nil
     expected_key ||= ['o', 'y', 10] # touche entrée par défaut
     expected_key.is_a?(Array) || expected_key = [expected_key]
+    if only_keys
+      msg << " (#{only_keys.join('/')})"
+    end
     begin
       msg(msg, :action)
       k = wait_for_commande

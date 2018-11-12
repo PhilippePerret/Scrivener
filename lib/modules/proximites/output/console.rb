@@ -69,6 +69,7 @@ class << self
     rescue Exception => e
       winup.affiche(e.message)
       winup.affiche(String::RC + e.backtrace.first)
+      debug(e)
       sleep 4
     end
 
@@ -100,7 +101,7 @@ class << self
         # Si on arrive au bout de la liste, on s'arrête.
         # Sinon, on prend le mot suivant.
         if pointeur_mot == nombre_mots
-          if confirmation?('Fin de la liste. Voulez-vous reprendre au début ? (o/n)', ['o', 'y'], ['o', 'y', 'n'])
+          if confirmation?('Fin de la liste. Voulez-vous reprendre au début ?', ['o', 'y'], ['o', 'y', 'n'])
             pointeur_mot  = 0
             pointeur_prox = 0
           else
@@ -125,7 +126,13 @@ class << self
         prox_id || break # la dernière est atteinte
 
         # La proximité courante
+        # TODO Vérifier que ce soit bon (depuis que je supprime des proximités
+        # dans la liste)
         iprox = tableau[:proximites][prox_id]
+        if iprox.nil? || iprox.erased?
+          pointeur_prox += 1
+          next
+        end
 
         begin
 
@@ -151,6 +158,7 @@ class << self
         rescue Exception => e
           winup.affiche('%{rc}PROBLÈME : %{err_msg}%{rc}%{btrace}' %
             {rc: "\n", err_msg: e.message, btrace: e.backtrace[0..2].join("\n")})
+          debug(e)
           sleep 4
         end
 
@@ -176,7 +184,7 @@ class << self
     # TODO : lorsqu'on pourra régler la sauvegarde automatique, on pourra
     # le faire sans demander
     if project.modified?
-      if confirmation?('Le projet a été modifié. Dois-je le sauver ?')
+      if confirmation?('Le projet a été modifié. Dois-je le sauver ?', ['o','y'], ['o','y', 'n'])
         project.save_proximites
       end
     end
@@ -185,6 +193,7 @@ class << self
     winup.affiche(e.message)
     winup.affiche(String::RC + e.backtrace[0..1].join(String::RC))
     sleep 4
+    debug(e)
   ensure
     winheader && winheader.close
     winup     && winup.close

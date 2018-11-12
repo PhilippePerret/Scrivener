@@ -19,7 +19,7 @@ class Scrivener
           begin
             traite_texte(tableau)
           rescue Exception => e
-            puts "Problème avec le fichier « #{title} » : #{e.message}".rouge
+            debug(e)
           end
         end
         tableau[:binder_items][uuid][:offset_end] = tableau[:current_offset]
@@ -49,9 +49,7 @@ class Scrivener
 
           # On n'ajoute le mot au tableau que si c'est un vrai mot
           if mot.treatable?
-            tableau[:mots].key?(mot.canonique) ||
-              tableau[:mots].merge!(mot.canonique => {items: Array.new, proximites: Array.new})
-            tableau[:mots][mot.canonique][:items] << mot
+            tableau = project.add_mot(mot)
           end
 
           # Dans tous les cas on tient compte du décalage
@@ -67,5 +65,42 @@ class Scrivener
       # /traite_texte
 
     end #/BinderItem
+
+
+    # ---------------------------------------------------------------------
+    # Scrivener::Project
+
+    # Ajoute le mot +imot+ au projet, en créant le record canonique au
+    # besoin (s'il n'existe pas)
+    # Attention : il ne suffit pas d'ajouter le mot, il faut aussi le placer
+    # au bon endroit par rapport à son offset.
+    def add_mot imot
+      tb = self.tableau_proximites
+      canon = imot.canonique
+      tb[:mots].key?(canon) || begin
+        tb[:mots].merge!(canon => {
+          items:      Array.new,
+          proximites: Array.new
+        })
+      end
+
+      if tb[:mots][canon][:items].empty? || tb[:mots][canon][:items].last.offset < imot.offset
+        # Si le nouveau mot est après le dernier, on l'ajoute
+        # simplement au bout de la liste
+        tb[:mots][canon][:items] << imot
+      else
+        # Il faut placer le mot au bon endroit
+        index_insertion = -1
+        tb[:mots][canon][:items].each_with_index do |mot, index_mot|
+          if mot.offset > imot.offset
+            index_insertion = index_mot
+            break
+          end
+        end
+        tb[:mots][canon][:items].insert(index_insertion, imot)
+      end
+      return tb
+    end
+
   end #/Project
 end #/Scrivener
