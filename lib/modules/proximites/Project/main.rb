@@ -18,6 +18,27 @@ class Scrivener
       end
     end
 
+    # Initialisation de la table géante des proximités
+    def init_tableau_proximites
+      self.tableau_proximites = Hash.new
+      self.tableau_proximites.merge!(
+        current_offset: 0,
+        mots:           Hash.new, # tous les mots
+        binder_items:   Hash.new, # tous les binder-items
+        project_path:   self.path,
+        # Nombres
+        nombre_proximites_erased:     0,
+        nombre_proximites_fixed:      0,
+        nombre_proximites_ignored:    0,
+        nombre_proximites_added:      0,
+        # Dates
+        modified_at:    nil, # ou date de dernière modification
+        created_at:     Time.now,
+        last_saved_at:  nil
+      )
+    end
+    # /init_tableau_proximites
+
     # Méthode principale qui checke les proximités
     #
     def output_proximites
@@ -56,30 +77,30 @@ class Scrivener
 
       # --- Initialisation des valeurs ---
       Proximites.traite_listes_rectifiees
-      
-      tableau = Hash.new
-      tableau.merge!(
-        current_offset: 0,
-        mots:           Hash.new, # tous les mots
-        binder_items:   Hash.new, # tous les binder-items
-        created_at:     Time.now,
-        project_path:   self.path
-      )
+
+      init_tableau_proximites
+
       binder_items.each do |bitem|
-        bitem.treate_proximite(tableau)
+        bitem.treate_proximite(self.tableau_proximites)
       end
 
       # On traite les proximités
-      calcul_proximites(tableau)
+      calcul_proximites(self.tableau_proximites)
 
       return true
     end
     #/check_proximites
 
+    def modified?
+      tb = self.tableau_proximites
+      tb[:modified_at] && tb[:last_saved_at] < tb[:modified_at]
+    end
 
     def save_proximites
       CLI.dbg("-> Scrivener::Project#save_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
       File.exists?(path_proximites) && File.unlink(path_proximites)
+      self.tableau_proximites[:last_saved_at] = Time.now
+      self.tableau_proximites[:modified_at]   = nil
       File.open(path_proximites,'wb'){|f| Marshal.dump(self.tableau_proximites,f)}
     end
     # Retourne la table des proximités

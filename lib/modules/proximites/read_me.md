@@ -4,6 +4,7 @@ Ce module permet de faire l'analyse de proximité du texte du projet.
 
 ## TODO
 
+* Pouvoir ne recalculer qu'une seule page
 * Pouvoir ajouter des proximités rectifiées (dans PROXIMITES_MAX[:mots])
 * Pouvoir afficher les informations
   - les proximités rectifiées propres (mot => distance minimale)

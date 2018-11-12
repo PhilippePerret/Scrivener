@@ -8,13 +8,11 @@ class Project
 class Console
 class << self
 
-  def attendre_decision_user_et_traiter(windown, poursuivre, pointeur_mot, pointeur_prox)
+  def attendre_decision_user_et_traiter(win, iprox, poursuivre, pointeur_mot, pointeur_prox)
     prox_suivante = true # par défaut
-    case wait_for_commande(windown)
+    case wait_for_commande(win)
     when 'c'
-      if confirmation?('Pour confirmer la correction, presser la touche ENTRÉE')
-        msg('Il faut implémenter la correction', {type: :warning, sleep: 4})
-      end
+      iprox.cli_correction_proximite(self)
     when 'j'
       # On revient à la proximité précédente, sauf si on est sur la
       # première, dans lequel cas il faut revenir au mot précédent et sa
@@ -43,7 +41,8 @@ class << self
       # Supprimer correction courant
       #
       if confirmation?('Confirmer la suppression de la proximité courante en jouant ENTRÉE')
-        msg('TODO: Implémenter la procédure de suppression de la proximité', :info)
+        iprox.fix(ignore: true)
+        msg('Cette proximité sera ignorée.', :info)
       end
     when 'X'
       # Supprimer tout le mot
@@ -57,10 +56,20 @@ class << self
     return [prox_suivante, poursuivre, pointeur_mot, pointeur_prox]
   end
 
-  def confirmation? msg, expected_key = nil
-    expected_key ||= 10 # touche entrée par défaut
-    msg(msg, :action)
-    return wait_for_commande == expected_key
+  # @param msg  String  Le message (question) envoyé
+  # @param expected_key String|Array  La touche ou les touches pour confirmer
+  # @param only_keys    Array         Les seules touches autorisées.
+  def confirmation? msg, expected_key = nil, only_keys = nil
+    expected_key ||= ['o', 'y', 10] # touche entrée par défaut
+    expected_key.is_a?(Array) || expected_key = [expected_key]
+    begin
+      msg(msg, :action)
+      k = wait_for_commande
+      if only_keys.nil? || only_keys.include?(k)
+        break
+      end
+    end while true
+    return expected_key.include?(k)
   end
 
   def wait_for_commande(win = nil)

@@ -1,5 +1,12 @@
 class Proximites
 
+  # Dans ce tableau de remplacement, on peut imaginer aussi avoir les mots
+  # similaires comme "peut-être" et "sans doute"
+  # TODO Avec une option, ces mots ne seront pas traités
+  TABLEAU_SIMILAIRES = {
+    'peut-être' => 'sans doute'
+  }
+  
   PROXIMITES_MAX = {
     # Liste des mots dont on supporte une proximité de 10 lettre ou plus
     10 => [

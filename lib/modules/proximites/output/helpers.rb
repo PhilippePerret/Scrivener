@@ -3,8 +3,6 @@ class Project
 class Console
 class << self
 
-  attr_accessor :nombre_proximites_corriged
-
   # L'entête de la fenêtre, contenant l'ID de la proximité courante,
   # le nombre total, etc.
   def header_with_data iprox, indice_proximite, nombre_proximites
@@ -38,6 +36,15 @@ class << self
     end
   end
 
+  def nombre_proximites_corriged
+    @nombre_proximites_corriged ||= begin
+      tb = tableau # protect.tableau_proximites
+      tb[:nombre_proximites_erased]   +
+      tb[:nombre_proximites_fixed]    +
+      tb[:nombre_proximites_ignored]  -
+      tb[:nombre_proximites_added]
+    end
+  end
   def nombre_proximites_corriged_formated
     @nombre_proximites_corriged_formated ||= nombre_proximites_corriged.to_s.rjust(7)
   end
@@ -47,6 +54,7 @@ class << self
     Espace (ou toute autre touche non fonctionnelle) : proximité suivante
     j : proximité précédente          l/n  : mot suivant      p : mot précédent
     x : supprimer proximité courante        X : supprimer le mot courant
+    c : corriger la proximité courante
     q : finir
     EOT
   end

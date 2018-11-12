@@ -38,6 +38,10 @@ class Scrivener
             # On crée une instance proximité
             last_proximite_id += 1
             iproximite = Proximite.new(last_proximite_id, previous_imot, imot)
+            # On associe les mots à leur proximité
+            previous_imot.proximite_apres= iproximite
+            imot.proximite_avant= iproximite
+            # On met dans les listes
             tableau[:proximites].merge!(last_proximite_id => iproximite)
             data_mot[:proximites] << last_proximite_id
           end

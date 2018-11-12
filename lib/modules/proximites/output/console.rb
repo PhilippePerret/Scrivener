@@ -81,6 +81,7 @@ class << self
     mots_canoniques = liste_mots.keys
     nombre_mots     = mots_canoniques.count
     pointeur_mot    = 0
+    pointeur_prox   = nil
 
     # liste_mots.each do |mot_canonique, data_mot|
     while # tans qu'on ne procède pas à la fin
@@ -92,16 +93,30 @@ class << self
       mot_canonique = mots_canoniques[pointeur_mot]
       data_mot      = liste_mots[mot_canonique]
 
+      # S'il n'y a pas de proximité avec le mot courant, on passe
+      # au mot suivant
       data_mot[:proximites].empty? && begin
         pointeur_mot += 1
-        next
+        # Si on arrive au bout de la liste, on s'arrête.
+        # Sinon, on prend le mot suivant.
+        if pointeur_mot == nombre_mots
+          if confirmation?('Fin de la liste. Voulez-vous reprendre au début ? (o/n)', ['o', 'y'], ['o', 'y', 'n'])
+            pointeur_mot  = 0
+            pointeur_prox = 0
+          else
+            break
+          end
+        else
+          next
+        end
       end
 
       nombre_proximites = data_mot[:proximites].count
       # Le pointeur pour parcourir toutes les proximités
-      pointeur_prox  ||= 0
       if pointeur_prox == -1
         pointeur_prox = nombre_proximites - 1
+      else
+        pointeur_prox = 0
       end
 
 
@@ -109,6 +124,7 @@ class << self
         prox_id = data_mot[:proximites][pointeur_prox]
         prox_id || break # la dernière est atteinte
 
+        # La proximité courante
         iprox = tableau[:proximites][prox_id]
 
         begin
@@ -122,7 +138,7 @@ class << self
             imot.binder_item.offset_start || imot.set_offsets_bitem(tableau[:binder_items])
           end
 
-          # ==== AFFICHAGE DU BLOC DE PROXIMITÉ =====
+          # ==== AFFICHAGE DU BLOC DE PROXIMITÉ (extrait) =====
           winup.clear
           winup.sput(iprox.line_with_words_and_distance, style: :rouge)
           # winup.affiche(SEPARATEURS[:guils], line: indice_line)
@@ -139,12 +155,10 @@ class << self
         end
 
 
-
-
         # Demande sur la suite à faire
         # poursuivre, pointeur_mot, pointeur_prox
         prox_suivante, poursuivre, pointeur_mot, pointeur_prox =
-          attendre_decision_user_et_traiter(windown, poursuivre, pointeur_mot, pointeur_prox)
+          attendre_decision_user_et_traiter(windown, iprox, poursuivre, pointeur_mot, pointeur_prox)
 
         prox_suivante || break
         poursuivre    || break
@@ -157,12 +171,24 @@ class << self
     end
     # /fin de boucle sur tous les mots à proximité
 
-  # rescue Exception => e
-  #   puts "ERROR : #{e.message}"
-  #   raise e
+
+    # Il faut voir s'il faut sauver
+    # TODO : lorsqu'on pourra régler la sauvegarde automatique, on pourra
+    # le faire sans demander
+    if project.modified?
+      if confirmation?('Le projet a été modifié. Dois-je le sauver ?')
+        project.save_proximites
+      end
+    end
+
+  rescue Exception => e
+    winup.affiche(e.message)
+    winup.affiche(String::RC + e.backtrace[0..1].join(String::RC))
+    sleep 4
   ensure
-    winup   && winup.close
-    windown && windown.close
+    winheader && winheader.close
+    winup     && winup.close
+    windown   && windown.close
     Curses.close_screen
   end
   # /output
