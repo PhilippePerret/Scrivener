@@ -4,6 +4,7 @@ class ProxMot
   attr_accessor :real
   attr_accessor :offset
   attr_accessor :binder_item_uuid # UUID du binder-item contenant le mot
+  attr_accessor :index # index dans le texte total (aka dans project.segments)
 
   # Identifiant de la proximité du mot avec un mot avant ou après
   # La propriété volatile `proximite_avant|apres` permet de la retrouver
@@ -16,8 +17,9 @@ class ProxMot
   # On conserve toujours le mot initial
   attr_accessor :init_real
 
-  def initialize real_mot, offset, binder_item_uuid
+  def initialize real_mot, offset, index, binder_item_uuid
     self.offset     = offset
+    self.index      = index
     self.real       = real_mot
     self.init_real  = real_mot.freeze
     self.binder_item_uuid = binder_item_uuid
@@ -25,8 +27,8 @@ class ProxMot
 
   # Redéfinition
   def inspect
-    return '<<ProxMot(mon inspect) @offset=%i @real=%s @binder_item_uuid=%s, @proximite_avant_id=%s @proximite_apres_id=%s @length=%i>>' %
-      [self.offset, self.real, self.binder_item_uuid,
+    return '<<ProxMot(mon inspect) @index=%i @offset=%i @real=%s @binder_item_uuid=%s, @proximite_avant_id=%s @proximite_apres_id=%s @length=%i>>' %
+      [self.index, self.offset, self.real, self.binder_item_uuid,
       self.proximite_avant_id.inspect, self.proximite_apres_id.inspect, self.length]
   end
 

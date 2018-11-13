@@ -10,29 +10,91 @@ class Proximite
 
   LENGTH_AUDELA_EXTRAIT = 80
 
-  # Extrait affiché dans la fenêtre
-  # L'extrait est composé de :
-  #   - Ligne contenant le nom du document du mot avant
+  # Nouvel façon de rendre l'extrait, à partir des segments du projet
   def extrait options = nil
     options ||= Hash.new
     arr = Array.new
     arr << ["--- Document : #{mot_avant.binder_item.title} [#{mot_avant.offset_in_document}]", {style: :gris, col: 6}]
-    arr << [truncate(extrait_before_mot_avant(LENGTH_AUDELA_EXTRAIT))]
-    arr << [mot_avant.real, {style: :bleu}]
-    arr << [truncate(extrait_after_mot_avant(1500))]
+
+    # On remonte autant de segments qu'il faut pour obtenir la longueur voulue
+    len = 0
+    ipr = mot_avant.index - 0
+    avant_mot_avant = Array.new
+    begin
+      ipr -= 1
+      seg = project.segments[ipr][:seg]
+      avant_mot_avant  << seg
+      len += seg.length
+    end while ipr > 0 && len < LENGTH_AUDELA_EXTRAIT
+
+    avant_mot_avant.reverse!
+    avant_mot_avant.empty? || arr << [truncate(avant_mot_avant.join(''))]
+
+    # On doit prendre le texte entre les deux mots
+    # Pour le moment, je prends tout, on découpera ensuite si c'est trop long
+    texte_between = Array.new
+    index_current = mot_avant.index + 0
+    begin
+      index_current += 1
+      texte_between << project.segments[index_current][:seg]
+    end while index_current + 1 < mot_apres.index
+
+    # On peut afficher le mot avant
+    arr << [mot_avant.real, {style: :exergue_vert, norc: true}]
+
+
+    texte_between.empty? || arr << [truncate(texte_between.join('')), {norc: true}]
+
+    norc = true
     unless in_same_file?
       arr << [ "--- document : #{mot_apres.binder_item.title} [#{mot_apres.offset_in_document}]\n", {style: :gris, col: 6}]
-      arr << [truncate(extrait_before_mot_apres(3000))]
+      # arr << [truncate(extrait_before_mot_apres(3000))]
+      norc = false
     end
-    arr << [mot_apres.real, {style: :rouge}]
-    arr << [truncate(extrait_after_mot_apres(LENGTH_AUDELA_EXTRAIT))]
+
+    # Et enfin le texte après
+    ipr = mot_apres.index + 0
+    fin_extrait = Array.new
+    len = 0
+    begin
+      dsegment = project.segments[ipr += 1]
+      dsegment || break
+      fin_extrait << dsegment[:seg]
+      len += dsegment[:seg].length
+      # ipr += 1
+    end while len < LENGTH_AUDELA_EXTRAIT
+
+    # On peut afficher le mot après
+    arr << [mot_apres.real, {style: :exergue_rouge, norc: norc}]
+    fin_extrait.empty? || arr << [truncate(fin_extrait.join('')), {norc: true}]
+
     return arr
   end
+
+  # # Extrait affiché dans la fenêtre
+  # # L'extrait est composé de :
+  # #   - Ligne contenant le nom du document du mot avant
+  # def extrait options = nil
+  #   options ||= Hash.new
+  #   arr = Array.new
+  #   arr << ["--- Document : #{mot_avant.binder_item.title} [#{mot_avant.offset_in_document}]", {style: :gris, col: 6}]
+  #   arr << [truncate(extrait_before_mot_avant(LENGTH_AUDELA_EXTRAIT))]
+  #   arr << [mot_avant.real, {style: :bleu}]
+  #   arr << [truncate(extrait_after_mot_avant(1500))]
+  #   unless in_same_file?
+  #     arr << [ "--- document : #{mot_apres.binder_item.title} [#{mot_apres.offset_in_document}]\n", {style: :gris, col: 6}]
+  #     arr << [truncate(extrait_before_mot_apres(3000))]
+  #   end
+  #   arr << [mot_apres.real, {style: :rouge}]
+  #   arr << [truncate(extrait_after_mot_apres(LENGTH_AUDELA_EXTRAIT))]
+  #   return arr
+  # end
 
 
   # Ma propre méthode
   def truncate str
-    String.send(METHOD_TRUNCATE, str, 80).join(String::RC)
+    @max_len ||= Curses.cols > 90 ? 80 : (Curses.cols - 10)
+    String.send(METHOD_TRUNCATE, str, @max_len).join(String::RC)
   end
 
   def line_with_words_and_distance

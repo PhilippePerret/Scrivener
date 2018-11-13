@@ -12,19 +12,12 @@ Ce module permet de faire l'analyse de proximité du texte du projet.
 * Données sur les corrections des proximités (le nombre corrigé, etc.)
   Le faire de façon générale et pour chaque mot.
 * Pouvoir sortir des graphiques avec les mots.
-* Procédure de remplacement
-  * avec test des nouvelles proximités :
-    * celle du nouveau mot (avant remplacement)
-    * celle des mots autour du nouveau mot
-  * ajouter une propriété "new_mot" qui contiendra le mot remplacé (mais comment l'utiliser quand c'est un autre mot qui est testé/affiché) ?
 * Sortir des statistiques sur la proximité, à commencer par le nombre de proximités relevées
   * le nombre de mots en proximité
   * le nombre de proximités
   * si possible un test de densité en fonction de l'endroit (par tranche de 1000 mots ? Pouvoir régler la largeur de la tranche ?)
-* Développer la question (ask) pour passer d'une proximité à l'autre, avec la possibilité de passer au mot suivant (et autres ? peut-être un moyen de basculer dans une entrée plus interactive qui permet de régler certaines préférences)
-  * pouvoir revenir en arrière
-* Définir la liste des mots de plus de 2 lettres à passer ('des', 'les', etc.).
 * Possibilité de définir une liste de mots à passer, dans le projet lui-même. Ce serait un document, en dehors du manuscrit, qui définirait les paramètres à utiliser pour le traitement des proximités.
+  => Cette liste est à donner dans les informations du projet
 * Pouvoir donner le nom d'un document (--binder-item ou --doc) et afficher la proximité de ses mots.
 * Pouvoir donner un mot et afficher ses proximités (--mot="<le mot>")
 * Pouvoir changer la distance min avec les options (--distance=<nombre>)
@@ -42,8 +35,9 @@ Pour le moment, et ça fonctionne assez bien même sur un gros fichier (le premi
       }
     }
 
-Ce tableau est enregistré dans le fichier `.proximites` qui se trouve au même niveau que le projet Scrivener lui-même, pour rechargement éventuel.
+Ce tableau est enregistré dans le fichier `data_proximites.msh` qui se trouve dans un dossier caché `.ScrivCmd` qui se situe au même niveau que le projet Scrivener lui-même, pour rechargement éventuel.
 
+Voir le détail dans le fichier `table_proximites.md` qui lui est consacré.
 
 
 ## Information

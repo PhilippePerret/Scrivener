@@ -74,6 +74,8 @@ class << self
     end
 
 
+    # Début de boucle sur toutes les proximités
+
     begin
       # Initialisation des pointeurs
       # ----------------------------
@@ -140,6 +142,9 @@ class << self
         end
         winup.sput(SEPARATEURS[:plats], style: :rouge)
 
+        #
+        # Curses.choose_background(21, windown, {among: [2, 22, 28, 35], foreground: 15})
+
         # Demande sur la suite à faire
         # Soit la méthode retourne TRUE et on poursuit, soit elle retourne
         # FALSE et on s'arrête là.
@@ -147,7 +152,7 @@ class << self
 
       end
       # /fin de boucle sur tous les mots à proximité et leurs proximités
-      
+
     rescue Exception => e
       debug(e)
       winup.affiche(e.message)
@@ -161,7 +166,7 @@ class << self
     # le faire sans demander
     if project.modified?
       if confirmation?('Le projet a été modifié. Dois-je le sauver ?', ['o','y'], ['o','y', 'n'])
-        project.save_proximites
+        project.save
       end
     end
 

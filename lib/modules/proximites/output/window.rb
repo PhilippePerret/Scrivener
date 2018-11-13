@@ -29,7 +29,7 @@ class Window
   end
   # Écrit en ajoutant un retour chariot devant
   def sput str, options = nil
-    affiche(String::RC + str, options)
+    affiche((options && options[:norc] ? '' : String::RC) + str, options)
   end
   # Affiche le texte +str+ dans la fenêtre.
   # Options peut contenir :

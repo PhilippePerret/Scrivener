@@ -91,10 +91,6 @@ class ProxMot
   #   * retirer de la liste du mot
   #   * ajouter dans la liste du nouveau mot
   #
-  # Question : faut-il voir si ça supprime une proximité, ou alors est-ce
-  # qu'on change forcément par le biais des proximités.
-  # Cf. N0001 et oui, on ne procède que par proximités, donc il est inutile,
-  # ici, de voir si ça corrigera une proximité.
   def remplace_par new_mot
 
     old_canonique = "#{canonique}".freeze
@@ -152,6 +148,8 @@ class ProxMot
 
     self.reset
     self.real = new_mot
+    project.segments[self.index][:seg] = new_mot
+    project.set_modified
     debug "= New canonique de #{real} : #{canonique}"
     debug "= old_canonique : #{old_canonique}"
 

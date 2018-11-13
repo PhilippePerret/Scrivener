@@ -126,7 +126,9 @@ module Curses
     init_pair(11, 48,   COLOR_BLACK) # vert sur blanc
     init_pair(12, 210,  COLOR_BLACK) # gris sur blanc
     init_pair(13, 196,  COLOR_BLACK) # rouge sur blanc
-    init_pair(15, 15,   COLOR_BLACK) # blanc sur blanc
+    init_pair(15, 15,   COLOR_BLACK) # blanc sur noir
+    init_pair(20, 15,   160) # blanc sur rouge # aussi 196
+    init_pair(21, 15,   28) # blanc sur vert
     CUSTOM_COLORS.merge!(
       noir_sur_blanc:             color_pair(9),
       rouge_sur_blanc:            color_pair(1),
@@ -135,7 +137,9 @@ module Curses
       vert_sur_noir:              color_pair(11),
       blanc_sur_noir:             color_pair(15),
       gris_tres_clair_sur_noir:   color_pair(12),
-      rouge_sur_noir:             color_pair(13)
+      rouge_sur_noir:             color_pair(13),
+      exergue_rouge:              color_pair(20),
+      exergue_vert:               color_pair(21)
     )
   end
 
@@ -178,6 +182,9 @@ module Curses
   def self.choose_color indice_color, win, options = nil
     options ||= Hash.new
     options.key?(:background) || options.merge!(background: 15)
+    if win.respond_to?(:cwindow)
+      win = win.cwindow
+    end
     begin
       icolor =
         if options.key?(:start_color)
@@ -208,6 +215,60 @@ module Curses
             icolor + 1
             icolor < 257 || icolor = 1
           end
+      end while true
+    rescue Exception => e
+      win.addstr("ERROR: #{e.message}")
+      sleep 4
+    end
+  end
+  # Permet de choisir une couleur DE FOND en les passant en revue
+  #
+  # Placer cet appel à un endroit du programme où la couleur
+  # a déjà été utilisée, puis envoyer l'indice couleur (premier chiffre
+  # de `init_pair`).
+  # @param color    Indice couleur
+  # @param win      Curses::Window pour pouvoir écrire l'indice
+  # @param options  Hash
+  #   :foreground     Couleur de police à utiliser (noir par défaut)
+  #   :start_color    Indice de départ (1 par défaut)
+  #   :among          Une liste d'indices parmi lesquels choisir (on les
+  #                   passe en revue en boucle)
+  def self.choose_background indice_color, win, options = nil
+    options ||= Hash.new
+    options.key?(:foreground) || options.merge!(foreground: COLOR_BLACK)
+    if win.respond_to?(:cwindow)
+      win = win.cwindow
+    end
+    begin
+      icolor =
+        if options.key?(:start_color)
+          options[:start_color]
+        elsif options.key?(:among)
+          @iamong ||= 0
+          options[:among][0]
+        else
+          1
+        end
+      begin
+        init_pair(indice_color, options[:foreground], icolor)
+        win.setpos(0,0)
+        win.addstr("Indice couleur : #{icolor} (touche => suivant, 'q' => arrêter)")
+        win.refresh
+        # choix = wait_for_commande(win)
+        choix = win.getch
+        if choix == 'q'
+          win.setpos(0,0)
+          win.deleteln
+          return
+        end
+        if options.key?(:among)
+          @iamong += 1
+          @iamong < options[:among].count || @iamong = 0
+          icolor = options[:among][@iamong]
+        else
+          icolor += 1
+          icolor < 257 || icolor = 1
+        end
       end while true
     rescue Exception => e
       win.addstr("ERROR: #{e.message}")
