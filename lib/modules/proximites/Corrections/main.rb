@@ -16,9 +16,9 @@ class Proximite
     case touche
     when 'q' then return
     when 'n', 'p'
-      change_next_mot = touche == 'n'
+      change_next_mot = (touche == 'n')
       old_mot = change_next_mot ? self.mot_apres.real : self.mot_avant.real
-      incipit = 'Par quoi remplacer le mot « %s » : ' % [old_mot]
+      incipit = 'Par quoi remplacer le %s mot « %s » : ' % [(change_next_mot ? 'second' : 'premier'), old_mot]
       new_mot = ''
       begin
         console.msg(incipit + new_mot)

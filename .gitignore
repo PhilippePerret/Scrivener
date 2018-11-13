@@ -2,3 +2,5 @@
 
 test/
 *.msh
+
+debug.log

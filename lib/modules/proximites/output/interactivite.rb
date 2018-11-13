@@ -60,7 +60,8 @@ class << self
         # => On peut passer à la proximité suivante pour le mot courant
         POINTEURS[:prox] += 1
       else
-        # => On doit passer au mot suivant
+        # => On doit passer au mot suivant (ou proposer de revenir au début
+        #    s'il n'y a plus de mots après avec des proximités)
         unless cherche_mot_suivant_avec_proximites
           if confirmation?('Reprendre au début ?', ['o', 'y'], ['o','y', 'n'])
             pointe_premier_mot_avec_proximites
