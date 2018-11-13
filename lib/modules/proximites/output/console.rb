@@ -74,111 +74,87 @@ class << self
     end
 
 
+    begin
+      # Initialisation des pointeurs
+      # ----------------------------
+      # Rappel : ils sont tous consignés dans la constante POINTEURS. Cf. le
+      # module de même nom.
+      debug('* Initialisation des pointeurs…')
+      init_pointeurs
 
-    liste_mots = tableau[:mots]
 
-    poursuivre = true
+      # TODO Comment afficher un texte qui tient compte des changements de mots
+      # opérés ? En mémorisant tout et en reconstruisant le texte à partir de
+      # tous les mots/ponctuations ?
 
-    mots_canoniques = liste_mots.keys
-    nombre_mots     = mots_canoniques.count
-    pointeur_mot    = 0
-    pointeur_prox   = nil
+      # On prend le tout premier mot
+      debug('* Récupération du tout premier mot avec proximités…')
+      pointe_premier_mot_avec_proximites
+      debug('= POINTEURS = %s' % POINTEURS.inspect)
 
-    # liste_mots.each do |mot_canonique, data_mot|
-    while # tans qu'on ne procède pas à la fin
+      while # tant qu'on ne procède pas à la fin
 
-      mots_canoniques[pointeur_mot] || begin
-        pointeur_mot = 0
-        # Note: ruby râle si on met sur une ligne
-      end
-      mot_canonique = mots_canoniques[pointeur_mot]
-      data_mot      = liste_mots[mot_canonique]
+        # On passe ici soit pour prendre une proximité suivante ou précédente
+        # du mot courant, soit pour passer à un mot suivant ou précédant
 
-      # S'il n'y a pas de proximité avec le mot courant, on passe
-      # au mot suivant
-      data_mot[:proximites].empty? && begin
-        pointeur_mot += 1
-        # Si on arrive au bout de la liste, on s'arrête.
-        # Sinon, on prend le mot suivant.
-        if pointeur_mot == nombre_mots
-          if confirmation?('Fin de la liste. Voulez-vous reprendre au début ?', ['o', 'y'], ['o', 'y', 'n'])
-            pointeur_mot  = 0
-            pointeur_prox = 0
+
+        # POINTEURS[:mot] et POINTEURS[:prox] déterminent la proximité à voir.
+
+        # S'il n'y a pas de proximité avec le mot courant, on passe
+        # au mot suivant
+        POINTEURS[:nombre_proximites_mot] > 0 || begin
+          if cherche_mot_suivant_avec_proximites
+            # <= Un mot suivant a pu être trouvé
+            # => il a été mis en pointeur, on l'affiche
           else
-            break
+            # <= Il n'y a pas de mot suivant avec des proximités
+            # => On propose soit de s'arrêter, soit de passer à la suite
+            if confirmation?('Nous avons atteint la fin de la liste. Reprendre au début ?', ['o', 'y'], ['o', 'y', 'n'])
+              reset_pointeurs_pour_mot_at(0)
+            else
+              break
+            end
           end
-        else
-          next
-        end
-      end
-
-      nombre_proximites = data_mot[:proximites].count
-      # Le pointeur pour parcourir toutes les proximités
-      if pointeur_prox == -1
-        pointeur_prox = nombre_proximites - 1
-      else
-        pointeur_prox = 0
-      end
-
-
-      while
-        prox_id = data_mot[:proximites][pointeur_prox]
-        prox_id || break # la dernière est atteinte
-
-        # La proximité courante
-        # TODO Vérifier que ce soit bon (depuis que je supprime des proximités
-        # dans la liste)
-        iprox = tableau[:proximites][prox_id]
-        if iprox.nil? || iprox.erased?
-          pointeur_prox += 1
-          next
         end
 
-        begin
+        # --- Proximité à afficher ---
+        # Note : normalement, ici, son existence doit avoir été vérifiée.
+        iprox = get_proximite_courante
 
-          # ==== AFFICHAGE LIGNE D'ENTÊTE ====
-          winheader.affiche(header_with_data(iprox, pointeur_prox + 1, nombre_proximites), line: 1, style: [:bleu, :gras])
+        # ==== AFFICHAGE LIGNE D'ENTÊTE ====
+        winheader.affiche(header_with_data(iprox, POINTEURS), line: 1, style: [:bleu, :gras])
 
-          # On règle les décalages de départ et de fin du binder-item contenant
-          # le/les mots
-          [iprox.mot_avant, iprox.mot_apres].each do |imot|
-            imot.binder_item.offset_start || imot.set_offsets_bitem(tableau[:binder_items])
-          end
-
-          # ==== AFFICHAGE DU BLOC DE PROXIMITÉ (extrait) =====
-          winup.clear
-          winup.sput(iprox.line_with_words_and_distance, style: :rouge)
-          # winup.affiche(SEPARATEURS[:guils], line: indice_line)
-          winup.sput(SEPARATEURS[:plats], style: :rouge)
-          iprox.extrait.each_with_index do |data_line, index_extrait|
-            winup.sput(data_line[0], data_line[1])
-          end
-          winup.sput(SEPARATEURS[:plats], style: :rouge)
-
-        rescue Exception => e
-          winup.affiche('%{rc}PROBLÈME : %{err_msg}%{rc}%{btrace}' %
-            {rc: "\n", err_msg: e.message, btrace: e.backtrace[0..2].join("\n")})
-          debug(e)
-          sleep 4
+        # On règle les décalages de départ et de fin du binder-item contenant
+        # le/les mots
+        [iprox.mot_avant, iprox.mot_apres].each do |imot|
+          imot.binder_item.offset_start || imot.set_offsets_bitem(tableau[:binder_items])
         end
 
+        # ==== AFFICHAGE DU BLOC DE PROXIMITÉ (extrait) =====
+        winup.clear
+        winup.sput(iprox.line_with_words_and_distance, style: :rouge)
+        # winup.affiche(SEPARATEURS[:guils], line: indice_line)
+        winup.sput(SEPARATEURS[:plats], style: :rouge)
+        iprox.extrait.each_with_index do |data_line, index_extrait|
+          winup.sput(data_line[0], data_line[1])
+        end
+        winup.sput(SEPARATEURS[:plats], style: :rouge)
 
         # Demande sur la suite à faire
-        # poursuivre, pointeur_mot, pointeur_prox
-        prox_suivante, poursuivre, pointeur_mot, pointeur_prox =
-          attendre_decision_user_et_traiter(windown, iprox, poursuivre, pointeur_mot, pointeur_prox)
-
-        prox_suivante || break
-        poursuivre    || break
+        # Soit la méthode retourne TRUE et on poursuit, soit elle retourne
+        # FALSE et on s'arrête là.
+        attendre_decision_user_et_traiter(windown, iprox) || break
 
       end
-
-      poursuivre || break
-      pointeur_mot += 1
-
+      # /fin de boucle sur tous les mots à proximité et leurs proximités
+      
+    rescue Exception => e
+      debug(e)
+      winup.affiche(e.message)
+      winup.affiche(String::RC + e.backtrace[0..1].join(String::RC))
+      winup.affiche(String::RC + 'Voir la suite dans le log de débug', :rouge)
+      sleep 4
     end
-    # /fin de boucle sur tous les mots à proximité
-
 
     # Il faut voir s'il faut sauver
     # TODO : lorsqu'on pourra régler la sauvegarde automatique, on pourra
@@ -190,10 +166,10 @@ class << self
     end
 
   rescue Exception => e
+    debug(e)
     winup.affiche(e.message)
     winup.affiche(String::RC + e.backtrace[0..1].join(String::RC))
     sleep 4
-    debug(e)
   ensure
     winheader && winheader.close
     winup     && winup.close

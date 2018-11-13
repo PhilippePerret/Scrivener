@@ -8,52 +8,69 @@ class Project
 class Console
 class << self
 
-  def attendre_decision_user_et_traiter(win, iprox, poursuivre, pointeur_mot, pointeur_prox)
-    prox_suivante = true # par défaut
+  def attendre_decision_user_et_traiter(win, iprox)
     case wait_for_commande(win)
     when 'c'
       iprox.cli_correction_proximite(self)
+      # TODO Normalement, on ne peut pas rester sur la même proximité, qui
+      # a disparu
     when 'j'
       # On revient à la proximité précédente, sauf si on est sur la
       # première, dans lequel cas il faut revenir au mot précédent et sa
       # dernière proximité
-      if pointeur_prox == 0
-        if pointeur_mot > 0
-          pointeur_mot -= 2   # pour revenir au mot précédent
-          pointeur_prox = -1  # le dernier mot (sera calculé)
-        else
-          # On ne fait rien
+      if POINTEURS[:prox] > 0
+        # <= L'index n'est pas le premier
+        # => On peut prendre la proximité précédente
+        POINTEURS[:prox] -= 1
+      elsif POINTEURS[:mot] > 0
+        # <= C'est la première proximité du mot courant, mais il y a des
+        #    mots avant.
+        # => On peut remonter au mot précédent
+        unless cherche_mot_precedent_avec_proximites(start_at_fin = true)
+          msg('C’est la toute première proximité. Il n’y en a pas avant.', :warning)
         end
-        prox_suivante = false
-      else
-        pointeur_prox -= 1
       end
     when 'p'
       # On doit revenir au mot précédent
-      pointeur_mot -= 2
-      prox_suivante = false
+      reset_pointeurs_pour_mot_at(POINTEURS[:mot] - 1)
     when 'l', 'n'
       # On doit passer au mot suivant
-      prox_suivante = false
+      reset_pointeurs_pour_mot_at(POINTEURS[:mot] + 1)
     when 'q'
-      poursuivre = false
+      return false
     when 'x'
       # Supprimer correction courant
       #
       if confirmation?('Confirmer la suppression de la proximité courante en jouant ENTRÉE')
         iprox.fix(ignore: true)
         msg('Cette proximité sera ignorée.', :info)
+        reset_pointeurs_pour_mot_at(POINTEURS[:mot] + 1)
       end
     when 'X'
       # Supprimer tout le mot
-      if confirmation?('Confirmer la supprimer de TOUTES les occurences du mot courant en jouant ENTRÉE')
+      if confirmation?('Confirmer la suppression de TOUTES les occurences du mot courant en jouant ENTRÉE')
         msg('TODO: Implémenter la procédure de suppression de tout un mot', :info)
       end
     else
       # Dans tous les autres cas, on passe à la proximité suivante
-      pointeur_prox += 1
+      # Si l'indice est supérieur au nombre de proximité du mot
+      # courant (dans POINTEURS), on passe au mot suivant :
+
+      if POINTEURS[:prox] + 1 < POINTEURS[:nombre_proximites_mot]
+        # => On peut passer à la proximité suivante pour le mot courant
+        POINTEURS[:prox] += 1
+      else
+        # => On doit passer au mot suivant
+        unless cherche_mot_suivant_avec_proximites
+          if confirmation?('Reprendre au début ?', ['o', 'y'], ['o','y', 'n'])
+            pointe_premier_mot_avec_proximites
+          else
+            return false # s'arrêter là
+          end
+        end
+      end
     end
-    return [prox_suivante, poursuivre, pointeur_mot, pointeur_prox]
+    return true
   end
 
   # @param msg  String  Le message (question) envoyé

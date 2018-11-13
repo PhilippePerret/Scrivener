@@ -5,7 +5,10 @@ class << self
 
   # L'entête de la fenêtre, contenant l'ID de la proximité courante,
   # le nombre total, etc.
-  def header_with_data iprox, indice_proximite_mot, nombre_proximites_mot
+  def header_with_data iprox, pointeurs
+    indice_proximite_mot  = pointeurs[:mot] + 1
+    nombre_proximites_mot = pointeurs[:nombre_proximites_mot]
+
     human_id = "##{iprox.id}".rjust(9)
     mot_canon     = iprox.mot_avant.canonique.ljust(15)
 

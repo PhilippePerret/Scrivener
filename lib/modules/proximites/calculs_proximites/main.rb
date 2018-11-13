@@ -35,11 +35,7 @@ class Scrivener
 
           # Une occurence trop rapprochée trouvée
           if imot.trop_proche_de?(previous_imot)
-            # On crée une instance proximité
             iproximite = Proximite.create(self, previous_imot, imot)
-            # On met dans la liste des proximités du mots (le reste est
-            # fait dans la méthode Proximite::create)
-            data_mot[:proximites] << iproximite.id
           end
 
         end
