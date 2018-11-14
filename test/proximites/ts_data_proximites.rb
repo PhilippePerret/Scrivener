@@ -7,7 +7,7 @@ class TestDataProximite < Test::Unit::TestCase
     Scrivener.require_module('proximites')
     @projet_folder = File.join('.','test','assets','marion')
     @scriv_file    = File.join(@projet_folder, 'marion.scriv')
-    @hidden_folder = File.join(@projet_folder, '.ScrivCmd')
+    @hidden_folder = File.join(@projet_folder, '.scriv')
     @proximites_file = File.join(@hidden_folder, 'tableau_proximites.msh')
   end
 

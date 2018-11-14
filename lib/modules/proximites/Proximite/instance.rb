@@ -31,6 +31,9 @@ class Proximite
   def erased?
     self.erased == true
   end
+  def ignored?
+    self.ignored == true
+  end
 
   def destroy
     debug('* Destruction de la proximité \#%i' % self.id)

@@ -2,8 +2,38 @@
 
 Ce module permet de faire l'analyse de proximité du texte du projet.
 
+##
+
+Un mot coloré, dans RTF, se présente de cette manière :
+
+
+        \cf2•MOT\cf0•
+
+(note : le « • » remplace une espace).
+
+Ces valeurs correspondent à la ligne définissant les couleurs dans le document RTF en entête :
+
+```rtf
+{\colortbl;\red255\green255\blue255;\red251\green0\blue23;\red17\green128\blue64;\red16\green128\blue214;
+}
+```
+
+* Chaque valeur est séparée par un point-virgule
+* Chaque valeur définit une couleur RGB
+* La première (cf1•) correspond au blanc (`\red255\green255\blue255`)
+* Les couleurs customisées commencent avec la seconde : `\red251\green0\blue23`
+
+Donc, pour reconstituer le texte, on va :
+
+* entourer les mots proches avec ces balises :
+* utiliser `textutil -convert rtf <fichier>` pour transformer en RTF le fichier, après avoir colorisé les mots avec ces balises.
+* Les `\cfX ` ont été remplacés par des `\\cfX `, il faut donc lire le code brut du fichier RTF et le corriger en conséquence (note : ne pas changer les `\\` en `\`, ça pourrait être trop dangereux.),
+* modifier l'entête du fichier RTF pour qu'il définisse toutes les couleurs dont on a besoin.
+
 ## TODO
 
+* Pouvoir montrer tous les mots changés
+  = Ne serait-il pas possible, dans segments, d'enregistrer que le mot a été modifié, pour pouvoir le mettre dans un autre style (l'affichage des extraits serait plus compliqué, mais plus parlant — qui favorise-t-on ? l'utilisateur ou le programmeur ?)
 * Pouvoir ne recalculer qu'une seule page
 * Pouvoir ajouter des proximités rectifiées (dans PROXIMITES_MAX[:mots])
 * Pouvoir afficher les informations
@@ -35,7 +65,7 @@ Pour le moment, et ça fonctionne assez bien même sur un gros fichier (le premi
       }
     }
 
-Ce tableau est enregistré dans le fichier `data_proximites.msh` qui se trouve dans un dossier caché `.ScrivCmd` qui se situe au même niveau que le projet Scrivener lui-même, pour rechargement éventuel.
+Ce tableau est enregistré dans le fichier `data_proximites.msh` qui se trouve dans un dossier caché `.scriv` qui se situe au même niveau que le projet Scrivener lui-même, pour rechargement éventuel.
 
 Voir le détail dans le fichier `table_proximites.md` qui lui est consacré.
 

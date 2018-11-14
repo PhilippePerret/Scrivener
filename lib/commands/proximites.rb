@@ -43,6 +43,19 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <options>]'.jaune}
           Pour justifier l'affichage des extraits à l'écran. Plus
           propre, mais pose un problème si on veut faire des copiés-
           collés pour rechercher le segment.
+
+    --in_file
+          Pour créer le fichier qui montrera les proximités au lieu
+          de les afficher avec le terminal.
+
+    DÉVELOPPEMENT
+    -------------
+
+    --only_calculs
+          Pour ne faire qu'afficher les calculs (les listes) dans le
+          terminal. Il faut alors préciser :
+          --segments    Pour afficher la table des segments
+          --proximites  Pour afficher la table des proximités
   EOT
 
   Scrivener::help(aide)

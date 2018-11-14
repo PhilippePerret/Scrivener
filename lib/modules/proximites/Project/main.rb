@@ -67,6 +67,8 @@ class Scrivener
           something_is_displayed = true
         end
         something_is_displayed || puts("Avec --only_calculs, il faut ajouter une option pour voir une liste (--segments, --proximites, etc.)".rouge)
+      elsif CLI.options[:in_file]
+        build_proximites_scrivener_file
       else
         Console.output(tableau_proximites)
       end
