@@ -55,7 +55,7 @@ class Scrivener
     # Méthode principale qui crée un nouveau document pour le
     # projet. Avec éventuellement les données +data+
     #
-    # #return Le nouveau document créé
+    # @return Le nouveau document créé {Scrivener::Project::BinderItem}
     def create_binder_item attrs = nil, data = nil
       data  ||= Hash.new
       attrs ||= Hash.new
@@ -66,12 +66,18 @@ class Scrivener
       attrs.key?(:type)       || attrs.merge!(:type      => 'Text')
 
       # On doit définir le conteneur
-      conteneur = if data[:container]
-        container = data.delete(:container)
-        xfile.draftfolder.elements["*/BinderItem[@UUID=\"#{container}\"]"]
-      else
-        xfile.draftfolder
-      end
+      conteneur =
+        case data[:container]
+        when String
+          container = data.delete(:container)
+          # xfile.draftfolder.elements["*/BinderItem[@UUID=\"#{container}\"]"]
+          xfile.node.elements["*/BinderItem[@UUID=\"#{container}\"]"]
+        when Scrivener::Project::BinderItem
+          raise 'Je ne sais pas traiter les BinderItem'
+        else
+          # Sinon, on prend le dossier manuscrit
+          xfile.draftfolder
+        end
 
       docs = conteneur.elements['Children'] || conteneur.add_element('Children')
 
@@ -107,7 +113,13 @@ class Scrivener
         end
       end
 
-      return newdoc
+      bitem_newdoc = Scrivener::Project::BinderItem.new(self, newdoc)
+
+      # Pour finir, il faut créer le dossier dans Data/Files, portant comme nom
+      # le UUID du fichier
+      bitem_newdoc.build_data_file_folder
+
+      return bitem_newdoc
     end
     #/create_binder_item
 

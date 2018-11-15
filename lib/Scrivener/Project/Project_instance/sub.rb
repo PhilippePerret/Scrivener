@@ -7,6 +7,12 @@ class Scrivener
       @xfile ||= XFile.new(self)
     end
 
+    # Pour créer un dossier principal, au niveau supérieur (comme le
+    # dossier Manuscrit ou la poubelle)
+    def create_main_folder data
+      xfile.create_main_folder(data)
+    end
+
     # Pour vider le manuscrit de tous ses documents
     # Attention, l'opération peut être dangereuse, donc on met tous
     # les éléments dans un dossier proche

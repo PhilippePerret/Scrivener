@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
 #
-# CLI 1.2.0
+# CLI 1.2.1
 #
 # Note : l'application doit définir :
 #   class CLI
@@ -24,6 +24,10 @@
 #     ...
 #     CLI.benchmark(:stop[, <autre titre>])
 #
+# Note 1.2.1
+#   Les '-' dans le nom des options sont remplacés par des traits plats.
+#   'in-file' => 'in_file'
+# 
 class CLI
 
   BENCHMARK = Hash.new
@@ -164,6 +168,7 @@ class CLI
     def traite_arg_as_option arg
       if arg.start_with?('--')
         opt, val = arg[2..-1].strip.split('=')
+        opt.gsub!(/-/,'_')
       else # is start_with? '-'
         # <= diminutif
         opt_dim, val = arg[1..-1].strip.split('=')

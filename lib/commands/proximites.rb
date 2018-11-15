@@ -44,7 +44,7 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <options>]'.jaune}
           propre, mais pose un problème si on veut faire des copiés-
           collés pour rechercher le segment.
 
-    --in_file
+    --in_file/--in-file
           Pour créer le fichier qui montrera les proximités au lieu
           de les afficher avec le terminal.
 

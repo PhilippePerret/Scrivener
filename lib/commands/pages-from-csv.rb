@@ -157,8 +157,8 @@ project.empty_draft_folder
 
 # On crée un nouveau document
 def ajoute_document datanewdoc
-  newdoc = project.create_binder_item(nil, datanewdoc)
-  VERBOSE && puts("Nouveau document #%s créé avec succès" % newdoc.attributes['UUID'].strip)
+  bi_newdoc = project.create_binder_item(nil, datanewdoc)
+  VERBOSE && puts("Nouveau document #%s créé avec succès" % bi_newdoc.attributes['UUID'].strip)
 end
 
 

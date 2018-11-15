@@ -16,6 +16,7 @@ class Scrivener
       def root
         @root ||= xmldoc.root
       end
+      alias :node :root
 
       # {XML Node} Le classeur dans le document XML
       def binder

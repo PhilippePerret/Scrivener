@@ -1,19 +1,28 @@
 # encoding: utf-8
 #
 # ask
-# v. 1.2.2
+# v. 1.2.3
 #
 # Voir aussi le module ask_for_test.rb qui fonctionne en parallèle de celui-ci
 #
 require 'io/console'
-def getc message
-  if CLI.mode_interactif?
-    print "#{message} : "
-    touche = get_full_caractere
-  else
-    touche  = CLI.next_key_mode_test
+def getc message, options = nil
+  options ||= Hash.new
+  expected_keys = options[:expected_keys]
+  message2 = options[:invite] || 'Votre choix'
+  puts "\n\n"
+  print ('  %s'+String::RC+String::RC+String::RC+'  %s : ') % [message, message2]
+  while
+    if CLI.mode_interactif?
+      touche = get_full_caractere
+    else
+      touche  = CLI.next_key_mode_test
+    end
+    if expected_keys.nil? || expected_keys.include?(touche)
+      puts ''
+      return touche
+    end
   end
-  return touche
 end
 
 TABLE_GETCH = {
@@ -53,16 +62,14 @@ end
 # Attention, en mode test, ces méthodes sont surclassées par les méthodes
 # de test
 #
-def yesOrNo question
+def yesOrNo question, options = nil
+  options ||= Hash.new
+  options.merge!(expected_keys: ['y','o','n'])
   question = '%s (y/o = oui / n/rien = non)' % [question]
   # print "#{question} : "
   # r = STDIN.gets.strip
-  r = getc(question)
-  r == '' && r == nil
-  case r.upcase
-  when 'N', nil, NilClass then return false
-  else return true
-  end
+  r = getc(question, options)
+  return r.upcase != 'N'
 end
 
 # Pose la +question+ qui attend forcément une valeur non nulle et raise

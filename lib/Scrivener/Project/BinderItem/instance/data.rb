@@ -39,6 +39,15 @@ class Scrivener
 
       # Les attributes du nœud
       def attrs ; @attrs ||= node.attributes end
+      alias :attributes :attrs
+        # Pour permettre d'atteindre les propriétés du nœud XML par le biais
+        # de l'instance directement, en raccourci :
+        #   binder_item.attributes => binder_item.node.attributes
+        # Idem pour `elements` ci-dessous
+
+      def elements
+        @elements ||= node.elements
+      end
 
       def title
         @title ||= node.elements['Title'].text

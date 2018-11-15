@@ -1,3 +1,10 @@
+=begin
+
+  Colors for colors
+  Version: 1.0.0
+  Author:  philippe.perret@yahoo.fr
+  
+=end
 module Colors
 
   COLORS = {

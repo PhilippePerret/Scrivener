@@ -12,7 +12,21 @@ class Project
 
   # = main =
   #
+  # Cette méthode est appelée quand on joue la commande `scriv prox` avec
+  # l'option `--in_file`
   def build_proximites_scrivener_file
+
+    # Dans un premier temps, il faut s'assurer que le projet ne soit pas
+    # ouvert dans Scrivener. On pourrait le faire par AppleScrit, mais je
+    # préfère demander à l'utilisateur.
+    yesOrNo('Le projet est-il bien fermé dans Scrivener ? C’est indispensable.', {invite: 'Projet fermé'}) || return
+
+    # # Pour faire des essais
+    # puts (project.folders.title).inspect
+    # puts project.folders.exist?(title: 'Recherche')
+    # puts project.folders.exist?(title: 'Ébauche')
+    # puts "\n\nJe retourne tout de suite"
+    # return
 
     erase_files_proximites_if_exists
 
@@ -24,11 +38,39 @@ class Project
 
     add_colors_definition_in_header
 
-    # File.unlink(file_txt_with_colortags_path)
+    File.unlink(file_txt_with_colortags_path)
 
-    CLI.options[:open] && `open "#{file_final_rtf_with_colortags_path}"`
+    folder_bitem = project.folders.find(title: 'Proximités')
+    folder_bitem ||= build_folder_proximites_in_scrivener
+
+    file_bitem = build_file_proximites_in_scrivener(folder_bitem)
+    # =>  Le binder-item du fichier, qui contient notamment le UUID qui
+    #     va permettre de créer le fichier dans le dossier Data/Files pour
+    #     mettre le fichier content.rtf
+
+    # On sauvegarde le fichier scrivx
+    project.xfile.save
+
+    # On crée le fichier
+    FileUtils.cp file_final_rtf_with_colortags_path, file_bitem.rtf_text_path
+
+    # CLI.options[:open] && `open "#{file_final_rtf_with_colortags_path}"`
 
   end
+
+  def build_folder_proximites_in_scrivener
+    project.create_main_folder({title: 'Proximités', after: :draft_folder})
+  end
+  # /build_folder_proximites_in_scrivener
+
+  def build_file_proximites_in_scrivener(folder_bitem)
+    project.create_binder_item(nil, {
+      title: 'Check du %s' % [Time.now.strftime('%d %m %Y - %H:%M')],
+      container: folder_bitem.node.attributes['UUID']
+    })
+  end
+  # /build_file_proximites_in_scrivener
+
 
   # Pour coloriser les mots
   FULL_MOT_EXERGUE = '\cf1 \cb%{color} %{mot}\cb1 \cf0 '
