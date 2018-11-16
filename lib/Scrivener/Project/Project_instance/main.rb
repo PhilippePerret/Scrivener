@@ -18,6 +18,5 @@ class Scrivener
       `mkdir -p "#{hidden_files_folder}"`
     end
 
-
   end #/Project
 end #/Scrivener

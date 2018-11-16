@@ -9,7 +9,8 @@
 class CLI
   # Raccourcis pour les commandes
   DIM_CMD_TO_REAL_CMD = {
-    'prox'    => 'proximites'
+    'prox'        => 'proximites',
+    'watch-prox'  => 'watch-proximites'
   }
   DIM_OPT_TO_REAL_OPT = {
     'bm'              => 'benchmark',

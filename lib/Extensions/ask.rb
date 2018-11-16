@@ -1,17 +1,25 @@
 # encoding: utf-8
 #
 # ask
-# v. 1.2.3
+# v. 1.3.0
 #
 # Voir aussi le module ask_for_test.rb qui fonctionne en parallèle de celui-ci
 #
 require 'io/console'
+
+ASK_ON_ONE_LINE   = '  %s %s'
+ASK_ON_TWO_LINES  = '  %s'+String::RC+String::RC+String::RC+'  %s %s'
 def getc message, options = nil
   options ||= Hash.new
   expected_keys = options[:expected_keys]
-  message2 = options[:invite] || 'Votre choix'
   puts "\n\n"
-  print ('  %s'+String::RC+String::RC+String::RC+'  %s : ') % [message, message2]
+  if options[:invite]
+    deux_points = [':','?'].include?(options[:invite].strip[-1]) ? '' : ': '
+    print ASK_ON_TWO_LINES % [message, options[:invite], deux_points]
+  else
+    deux_points = [':','?'].include?(message.strip[-1]) ? '' : ': '
+    print ASK_ON_ONE_LINE % [message, deux_points]
+  end
   while
     if CLI.mode_interactif?
       touche = get_full_caractere

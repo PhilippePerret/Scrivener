@@ -15,9 +15,9 @@ class Scrivener
             offset_end:   nil
           }
         )
-        has_text? && begin
+        if has_text?
           begin
-            traite_texte(tableau)
+            releve_mots_in_texte(tableau)
           rescue Exception => e
             debug(e)
           end
@@ -32,7 +32,7 @@ class Scrivener
 
 
       # Méthode qui traite le texte du binderitem
-      def traite_texte tableau
+      def releve_mots_in_texte tableau
 
 #         texte = <<-EOT
 # Un nouveau chapitre.
@@ -52,6 +52,10 @@ class Scrivener
         cur_offset = tableau[:current_offset]
         bdi_offset = 0 # l'offset dans ce document (pour segment)
         cur_index  = tableau[:current_index_mot] # commence à -1
+
+        # Pour savoir dans quel segement on doit consigner le titre
+        # du document courant.
+        new_document_title_registered = false
 
         # On peut scanner le texte
         t.scan(/\b(.+?)\b/).each do |found|
@@ -81,10 +85,14 @@ class Scrivener
             type_seg = :mot
           end
 
+          data_seg = {id: cur_index, seg: seg, type: type_seg}
+          unless new_document_title_registered
+            data_seg.merge!(new_document_title: self.title)
+            new_document_title_registered = true
+          end
           # Dans tous les cas, on ajoute le segment à la liste de tous
           # les mots du projet
-          project.segments << {id: cur_index, seg: seg, type: type_seg}
-
+          project.segments << data_seg
 
           # Dans tous les cas on tient compte du décalage
           cur_offset += mot.length
@@ -100,7 +108,7 @@ class Scrivener
         tableau[:current_index_mot] = cur_index
 
       end
-      # /traite_texte
+      # /releve_mots_in_texte
 
     end #/BinderItem
 

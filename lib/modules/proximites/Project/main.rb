@@ -11,14 +11,8 @@ class Scrivener
     #
     def exec_proximites
       CLI.dbg("-> Scrivener::Project#exec_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
-
       Debug.init
-
-      if CLI.options[:data]
-        output_data_proximites
-      else
-        output_proximites
-      end
+      output_proximites
     end
 
     # Initialisation de la table géante des proximités
@@ -48,27 +42,39 @@ class Scrivener
       self.segments = Array.new
     end
 
+    # Appelle la méthode pour traiter les proximités de mots
+    # +tableau+ Tableau de résultats ou se trouve déjà les mots, et peut-être
+    # aussi les proximites
+    def calcul_proximites(tableau)
+      CLI.dbg("-> Scrivener::Project#calcul_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+      self.tableau_proximites = Proximite.calcule_proximites_in(tableau)
+      # On enregistre les résultats dans un fichier
+      save_proximites
+    end
+
     # Méthode principale qui checke les proximités
     #
     def output_proximites
       CLI.dbg("-> Scrivener::Project#output_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
       get_data_proximites || return
       # Sortie en console
-      # TODO Plus tard, il faudra pouvoir choisir entre différents types de
-      # sorties
-      if CLI.options[:only_calculs]
+      if CLI.options[:in_file]
+        build_proximites_scrivener_file
+      elsif CLI.options[:data]
+        build_tableau_resultat_proximites
+      elsif CLI.options[:only_calculs]
         something_is_displayed = false
         if CLI.options[:segments]
+          # LAISSER CES puts ! Ils font partie du programme
           puts "\n\n\n---- SEGMENTS: \n#{segments.inspect}"
           something_is_displayed = true
         end
         if CLI.options[:proximites]
+          # LAISSER CES puts ! Ils font partie du programme
           puts "\n\n\n---- PROXIMITÉS: "
           something_is_displayed = true
         end
         something_is_displayed || puts("Avec --only_calculs, il faut ajouter une option pour voir une liste (--segments, --proximites, etc.)".rouge)
-      elsif CLI.options[:in_file]
-        build_proximites_scrivener_file
       else
         Console.output(tableau_proximites)
       end
@@ -94,15 +100,20 @@ class Scrivener
       end
     end
 
+    def init_proximites
+      # --- Initialisation des valeurs ---
+      # Prépare les listes constantes du programme aussi bien que les
+      # listes propres au projet.
+      Proximite.init
+      init_tableau_proximites
+      init_tableau_segments
+    end
 
     def check_proximites
       CLI.dbg("-> Scrivener::Project#check_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
 
-      # --- Initialisation des valeurs ---
-      Proximites.traite_listes_rectifiees
-
-      init_tableau_proximites
-      init_tableau_segments
+      # Initialisation, des listes principalement
+      init_proximites
 
       # On procède à la relève
       binder_items.each do |bitem|

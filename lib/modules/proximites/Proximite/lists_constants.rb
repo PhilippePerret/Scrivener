@@ -1,4 +1,8 @@
-class Proximites
+class Proximite
+
+  # Distance minimale pour ne pas être en proximité, pour
+  # des mots quelconques
+  DISTANCE_MINIMALE = String::PAGE_WIDTH
 
   # Dans ce tableau de remplacement, on peut imaginer aussi avoir les mots
   # similaires comme "peut-être" et "sans doute"
@@ -6,34 +10,36 @@ class Proximites
   TABLEAU_SIMILAIRES = {
     'peut-être' => 'sans doute'
   }
-  
+
   PROXIMITES_MAX = {
     # Liste des mots dont on supporte une proximité de 10 lettre ou plus
     10 => [
       'avoir',
       'être'
     ],
+    # Liste des mots dont on supporte une proximité de plus de 50 signes
+    50 => [
+      'dans',
+      'elle',
+      'il',
+      'nous',
+      'pas',
+      'plus',
+      'sur',
+      'vous'
+    ],
     # Liste des mots dont on supporte une proximité de plus de 100 signes
     100 => [
       'lui',
       'par',
-      'que'
+      'pour',
+      'que',
+      'qui',
+      'son'
     ],
     # Liste construite à l'initiation, qui va comporter en clé le mot
-    # canonique et en valeur la distance de proximité
+    # canonique et en valeur la distance de proximité maximale
     mots: Hash.new
   }
-
-
-  def self.traite_listes_rectifiees
-    h = PROXIMITES_MAX
-    hash_mots = Hash.new
-    h.each do |k_distance, liste_mots|
-      liste_mots.each {|mot| hash_mots.merge!(mot => k_distance)}
-    end
-    PROXIMITES_MAX[:mots] = hash_mots
-    #/fin de boucle sur toutes les distances rectifiées
-  end
-
 
 end

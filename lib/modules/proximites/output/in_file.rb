@@ -16,11 +16,6 @@ class Project
   # l'option `--in_file`
   def build_proximites_scrivener_file
 
-    # Dans un premier temps, il faut s'assurer que le projet ne soit pas
-    # ouvert dans Scrivener. On pourrait le faire par AppleScrit, mais je
-    # préfère demander à l'utilisateur.
-    yesOrNo('Le projet est-il bien fermé dans Scrivener ? C’est indispensable.', {invite: 'Projet fermé'}) || return
-
     # # Pour faire des essais
     # puts (project.folders.title).inspect
     # puts project.folders.exist?(title: 'Recherche')
@@ -28,13 +23,13 @@ class Project
     # puts "\n\nJe retourne tout de suite"
     # return
 
-    erase_files_proximites_if_exists
+    erase_temporary_files_if_exists
 
     build_simple_texte_file_with_color_tags
 
     convert_simple_texte_file
 
-    corrige_color_tags_in_rtf_file
+    corrige_custom_tags_in_rtf_file
 
     add_colors_definition_in_header
 
@@ -54,7 +49,14 @@ class Project
     # On crée le fichier
     FileUtils.cp file_final_rtf_with_colortags_path, file_bitem.rtf_text_path
 
-    # CLI.options[:open] && `open "#{file_final_rtf_with_colortags_path}"`
+    if File.exists?(file_bitem.rtf_text_path)
+      erase_temporary_files_if_exists
+      puts ('Le fichier « %s » a été créé dans le projet, dans le dossier « Proximités ».' % file_bitem.title).bleu
+      yesOrNo('Voulez-vous ouvrir votre projet ?') && project.open
+    else
+      raise('Malheureusement, le fichier des proximités ne semble pas avoir pu être créé dans le projet…')
+    end
+
 
   end
 
@@ -73,8 +75,14 @@ class Project
 
 
   # Pour coloriser les mots
-  FULL_MOT_EXERGUE = '\cf1 \cb%{color} %{mot}\cb1 \cf0 '
+  FULL_MOT_EXERGUE  = '\cf1 \cb%{color} %{mot}\cb1 \cf0 '
   SPLIT_MOT_EXERGUE = '\cf1 \cb%{prev_col} %{prev_moitie}\cb%{next_col} %{next_moitie}\cb1 \cf0 '
+  # Dans MOT_TWIN_EXERGUE, le mot est doublé pour afficher les deux couleurs,
+  # celle indiquant sa proximité avec un mot précédent et celle indiquant sa
+  # proximité avec un mot suivant.
+  MOT_TWIN_EXERGUE  = '\cf1 \cb%{prev_col} %{mot}\cb1 \cf0 |\cf1 \cb%{next_col} %{mot}\cb1 \cf0 '
+  DOCUMENT_LINE     = [String::RC, '– ' * 30, '\cf3 OPENED_CROCHET\fs18 MARQUE_ITALIC -- Document « %s »CLOSED_CROCHET\cf0 ', String::RC].join(String::RC)
+  I_COLOR_START = 4
 
   # On construit un fichier texte avec chaque proximité colorisé
   def build_simple_texte_file_with_color_tags
@@ -91,7 +99,8 @@ class Project
     # Note : on regarde l'offset du mot après pour savoir si un indice de
     # couleur peut à nouveau être utilisé
     #
-    i_color = 2
+    i_color       = I_COLOR_START - 1
+    current_bitem = nil
     tableau_proximites[:proximites].each do |prox_id, iprox|
 
       iprox.erased? || iprox.ignored? || iprox.fixed? && next
@@ -101,7 +110,7 @@ class Project
 
       i_color += 1
       if i_color > nombre_couleurs
-        i_color = 3
+        i_color = I_COLOR_START
       end
 
       segments[mavant.index].merge!(next_color: i_color, has_color: true)
@@ -112,12 +121,20 @@ class Project
     arr_colors = Array.new
     arr_colors << '\red255\green255\blue255'
     arr_colors << '\red0\green0\blue0'
+    arr_colors << '\red50\green50\blue50' # gris pour les documents
     nombre_couleurs.times { arr_colors << color_cycle.next }
     self.array_colors_rtf = arr_colors
 
     rf = File.open(file_txt_with_colortags_path, 'ab')
     portion = String.new
     segments.each do |dsegment|
+
+      # Si le mot appartient à un document différent, il faut mettre une ligne
+      # contenant le nom du document, de la couleur de document
+      if dsegment[:new_document_title]
+        portion << DOCUMENT_LINE % [dsegment[:new_document_title]]
+      end
+
       segment_str =
       if dsegment.delete(:has_color)
         # <=  Une (ou 2) couleur est définie dans le segment, c'est donc qu'un
@@ -134,18 +151,30 @@ class Project
           # Rien après, merci
         else
           # <= Les deux couleurs sont définies
-          # => il faut coloriser de deux couleurs le mot
-          seglen = dsegment[:seg].length
-          moitie = seglen / 2
-          prev_moitie = dsegment[:seg][0...moitie]
-          next_moitie = dsegment[:seg][moitie..-1]
-          SPLIT_MOT_EXERGUE % {
-            prev_col:     dsegment[:prev_color],
-            prev_moitie:  prev_moitie,
-            next_col:     dsegment[:next_color],
-            next_moitie:  next_moitie
-          }
-          # Rien après, merci
+          if CLI.options[:strict]
+            # => il faut coloriser de deux couleurs le mot
+            seglen = dsegment[:seg].length
+            moitie = seglen / 2
+            prev_moitie = dsegment[:seg][0...moitie]
+            next_moitie = dsegment[:seg][moitie..-1]
+            SPLIT_MOT_EXERGUE % {
+              prev_col:     dsegment[:prev_color],
+              prev_moitie:  prev_moitie,
+              next_col:     dsegment[:next_color],
+              next_moitie:  next_moitie
+            }
+            # Rien après, merci
+          else
+            # <= Le mode n'est pas strict
+            # => On peut ajouter un mot dans une couleur et le redoubler
+            #    dans l'autre.
+            MOT_TWIN_EXERGUE % {
+              mot:          dsegment[:seg],
+              prev_col:     dsegment[:prev_color],
+              next_col:     dsegment[:next_color]
+            }
+            # Rien après, merci
+          end
         end
       else
         # <= Pas de couleur défini
@@ -153,6 +182,7 @@ class Project
         dsegment[:seg]
         # Rien après, merci
       end
+
       portion << segment_str
       portion.length < 1000 || begin
         rf.write(portion)
@@ -170,11 +200,17 @@ class Project
     `textutil -convert rtf "#{file_txt_with_colortags_path}"`
   end
 
-  def corrige_color_tags_in_rtf_file
+  # TODO Peut-être mettre cette méthode ailleurs pour qu'elle puisse être
+  # utilisée par d'autres commandes Scrivener
+  def corrige_custom_tags_in_rtf_file
     # TODO Traiter différemment si le fichier est trop volumineux
     # (utiliser File.open(...).each et enregistrer au fur et à mesure)
     code = File.read(file_rtf_with_colortags_path)
-    code.gsub!(/\\(\\c[fb][0-9]+ )/, '\1')
+    code = code.
+      gsub(/\\(\\c[fb][0-9]+ )/, '\1').
+      gsub(/\\(\\fs[0-9]+ )/, '\1').
+      gsub(/OPENED_CROCHET/, '{').gsub(/CLOSED_CROCHET/,'}').
+      gsub(/MARQUE_ITALIC/, '\i')
     File.open(file_rtf_with_colortags_path,'wb'){|f|f.write code}
   end
 
@@ -202,11 +238,19 @@ class Project
   end
 
 
-  def erase_files_proximites_if_exists
-    File.unlink(file_txt_with_colortags_path) if File.exists?(file_txt_with_colortags_path)
-    File.unlink(file_rtf_with_colortags_path) if File.exists?(file_rtf_with_colortags_path)
-    File.unlink(file_final_rtf_with_colortags_path) if File.exists?(file_final_rtf_with_colortags_path)
+  # On détruit les fichiers provisoires s'ils existent
+  # Noter qu'on le fait aussi bien au tout début de l'opération qu'à la
+  # fin, lorsque tout a bien fonctionné.
+  def erase_temporary_files_if_exists
+    [
+      file_txt_with_colortags_path,
+      file_final_rtf_with_colortags_path,
+      file_rtf_with_colortags_path
+    ].each do |file|
+      File.exists?(file) && File.unlink(file)
+    end
   end
+
 
   def file_txt_with_colortags_path
     @file_txt_with_colortags_path ||= File.join(project.folder, 'with_color_tags.txt')

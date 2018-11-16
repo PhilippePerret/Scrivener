@@ -103,10 +103,10 @@ class ProxMot
 
   def distance_minimale
     @distance_minimale ||= begin
-      if Proximites::PROXIMITES_MAX[:mots].key?(canonique)
-        Proximites::PROXIMITES_MAX[:mots][canonique]
+      if Proximite::PROXIMITES_MAX[:mots].key?(canonique)
+        Proximite::PROXIMITES_MAX[:mots][canonique]
       else
-        DISTANCE_MINIMALE
+        Proximite::DISTANCE_MINIMALE
       end
     end
   end
