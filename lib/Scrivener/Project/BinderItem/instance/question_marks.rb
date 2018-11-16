@@ -3,6 +3,7 @@ class Scrivener
   class Project
     class BinderItem
 
+      attr_accessor :last_mtime
 
       # Retourne true si c'est un texte
       def text? ; type == 'Text' end
@@ -26,6 +27,14 @@ class Scrivener
           node.elements['MetaData/IncludeInCompile'] &&
           node.elements['MetaData/IncludeInCompile'].text == 'Yes'
         end
+      end
+
+      # Retourne TRUE si le document a été modifié depuis l'enregistrement
+      # de son dernier test (dernier mtime enregistré)
+      def has_changed?
+        oui = self.last_mtime.nil? || last_mtime < current_mtime
+        set_current_mtime
+        return oui
       end
 
     end #/BinderItem

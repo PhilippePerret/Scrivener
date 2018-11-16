@@ -33,39 +33,13 @@ class Scrivener
 
       # Ensuite, il faut prendre ce texte et en tirer les données de
       # lemmatisation complètes, qui seront mises dans .scriv/lemmatisation_data
-      CLI.benchmark(:start, 'Lemmatisation du texte')
-      `tree-tagger-french < #{whole_text_path} > #{lemma_data_path}`
-      CLI.benchmark(:stop)
+      lemmatize(whole_text_path, lemma_data_path)
 
-      # À présent, on peut récupérer les données de lemmatisation et en faire
-      # une table qui sera utilisée avec la relève des mots.
-      CLI.benchmark(:start, 'Définition de la table de lemmatisation')
-      File.open(lemma_data_path).each_with_index do |line, index_line|
-        original, nature, canon = line.strip.split("\t")
-        original.length > 2   || next
-        canon != '<unknown>'  || next
-        if canon.nil?
-          puts "--- CANON EST NUL DANS (ligne #{index_line}) : #{line}".red
-          next
-        end
-        original = original.downcase
-        if original != canon
-          # Rien à faire si le mot est déjà connu
-          TABLE_LEMMATISATION.key?(original) && next
-          # canon peut avoir la forme 'essayer|essayer'
-          canon.index('|') && begin
-            rien, canon = canon.split('|')
-            original != canon || next
-          end
-          # On prend ce mot
-          TABLE_LEMMATISATION.merge!(original => canon)
-          CLI.dbg("    ---- #{original.downcase} -> #{canon}")
-        end
-      end
-      CLI.benchmark(:stop)
+      peuple_table_lemmatisation_from(lemma_data_path)
 
-      # On sauve la table pour utilisation ultérieure
+      # On sauve la table de lemmatisation pour utilisation ultérieure
       save_table_lemmatisation
+
     end
     # /prepare_lemmatisation
 

@@ -62,6 +62,15 @@ class Scrivener
         @target ||= Target.new(self)
       end
 
+      # Date de dernière modification du document content.rtf
+      def current_mtime
+        File.stat(rtf_text_path).mtime
+      end
+
+      def set_current_mtime
+        self.last_mtime = current_mtime
+      end
+
     end #/BinderItem
   end #/Project
 end #/Scrivener

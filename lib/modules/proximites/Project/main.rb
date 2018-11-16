@@ -1,11 +1,7 @@
-
-TABLE_LEMMATISATION = Hash.new
-
 class Scrivener
   class Project
 
     attr_accessor :tableau_proximites
-    attr_accessor :segments # tous les segments de texte, même les ponctuations
 
     # = main =
     #
@@ -17,24 +13,7 @@ class Scrivener
 
     # Initialisation de la table géante des proximités
     def init_tableau_proximites
-      self.tableau_proximites = Hash.new
-      self.tableau_proximites.merge!(
-        current_offset:     0,
-        current_index_mot:  -1,
-        mots:               Hash.new, # tous les mots traités
-        binder_items:       Hash.new, # tous les binder-items
-        project_path:       self.path,
-        # Nombres
-        last_id_proximite:            0,
-        nombre_proximites_erased:     0,
-        nombre_proximites_fixed:      0,
-        nombre_proximites_ignored:    0,
-        nombre_proximites_added:      0,
-        # Dates
-        modified_at:    nil, # ou date de dernière modification
-        created_at:     Time.now,
-        last_saved_at:  nil
-      )
+      self.tableau_proximites = Proximite.init_table_proximites
     end
     # /init_tableau_proximites
 

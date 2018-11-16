@@ -23,12 +23,37 @@ class Scrivener
     # de premier niveau, pas leur sous-élément.
     # CONTRAIREMENT à la méthode binder_item ci-dessous qui elle contient tous
     # les binder-items, même ceux imbriqués
+    #
+    # Pour les obtenir tous, il faut boucler sur leur children et les children
+    # de leur children
     def binder_items
       @binder_items ||= begin
         xfile.draftfolder.elements.collect('Children/BinderItem') do |data_node|
           Scrivener::Project::BinderItem.new(self, data_node)
         end
       end
+    end
+
+    # +options+
+    #   :only_text    Seulement les textes
+    def all_binder_items_of dossier, options = nil
+      options ||= Hash.new
+      arr = Array.new
+      dossier.elements.each('Children/BinderItem') do |data_node|
+        bitem = Scrivener::Project::BinderItem.new(self, data_node)
+        add_binder_item_in(arr, bitem, options)
+      end
+      return arr
+    end
+    def add_binder_item_in arr, bitem, options
+      unless options[:only_text] && !bitem.text?
+        arr << bitem
+      end
+      bitem.children || return
+      bitem.children.each do |child|
+        add_binder_item_in arr, child, options
+      end
+      return arr
     end
 
     # Pour composer la tablea @hash_binder_items du projet qui contient en

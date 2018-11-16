@@ -215,7 +215,7 @@ class ProxMot
     end
 
     # On ajoute le mot au projet en créant la table canonique si besoin
-    project.add_mot(self)
+    project.add_mot_in(self, project.tableau_proximites)
 
     if le_mot_canonique_existe_deja
       # <= La table canonique existait déjà

@@ -14,6 +14,7 @@ class CLI
   }
   DIM_OPT_TO_REAL_OPT = {
     'bm'              => 'benchmark',
+    'doc'             => 'document',
     'f'               => 'force',
     'fc'              => 'force_calcul',
     'fdc'             => 'final-draft-coefficient',

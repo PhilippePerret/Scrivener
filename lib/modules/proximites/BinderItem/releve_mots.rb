@@ -1,43 +1,13 @@
 
 class Scrivener
   class Project
+
+    attr_accessor :segments # tous les segments de texte, même les ponctuations
+
     class BinderItem
-
-      def treate_proximite tableau
-
-        # On crée un enregistrement dans le tableau des données du binder-item
-        # avec notamment son UUID et ses offsets de départ et de fin
-        tableau[:binder_items].merge!(
-          self.uuid => {
-            uuid:         self.uuid,
-            title:        self.title,
-            offset_start: tableau[:current_offset],
-            offset_end:   nil
-          }
-        )
-        if has_text?
-          begin
-            releve_mots_in_texte(tableau)
-          rescue Exception => e
-            debug(e)
-          end
-        end
-        tableau[:binder_items][uuid][:offset_end] = tableau[:current_offset]
-        parent? && traite_children(tableau)
-      end
-
-      def traite_children tableau
-        children.each { |child| child.treate_proximite(tableau)}
-      end
-
 
       # Méthode qui traite le texte du binderitem
       def releve_mots_in_texte tableau
-
-#         texte = <<-EOT
-# Un nouveau chapitre.
-# Un autre !
-#         EOT
 
         # pour les ponctuations finales, qui ne seraient pas traitées
         # sans ça.
@@ -80,7 +50,7 @@ class Scrivener
             mot = ProxMot.new(seg, cur_offset, cur_index, self.uuid)
             # On n'ajoute le mot au tableau que si c'est un vrai mot
             if mot.treatable?
-              tableau = project.add_mot(mot)
+              tableau = project.add_mot_in(mot, tableau)
             end
             type_seg = :mot
           end
@@ -90,8 +60,10 @@ class Scrivener
             data_seg.merge!(new_document_title: self.title)
             new_document_title_registered = true
           end
+
           # Dans tous les cas, on ajoute le segment à la liste de tous
-          # les mots du projet
+          # les mots du projet (même si ça ne sert pas, comme dans la
+          # méthode qui surveille la correction des proximités)
           project.segments << data_seg
 
           # Dans tous les cas on tient compte du décalage
@@ -120,32 +92,31 @@ class Scrivener
     # besoin (s'il n'existe pas)
     # Attention : il ne suffit pas d'ajouter le mot, il faut aussi le placer
     # au bon endroit par rapport à son offset.
-    def add_mot imot
-      tb = self.tableau_proximites
+    def add_mot_in imot, tableau
       canon = imot.canonique
-      tb[:mots].key?(canon) || begin
-        tb[:mots].merge!(canon => {
+      tableau[:mots].key?(canon) || begin
+        tableau[:mots].merge!(canon => {
           items:      Array.new,
           proximites: Array.new
         })
       end
 
-      if tb[:mots][canon][:items].empty? || tb[:mots][canon][:items].last.offset < imot.offset
+      if tableau[:mots][canon][:items].empty? || tableau[:mots][canon][:items].last.offset < imot.offset
         # Si le nouveau mot est après le dernier, on l'ajoute
         # simplement au bout de la liste
-        tb[:mots][canon][:items] << imot
+        tableau[:mots][canon][:items] << imot
       else
         # Il faut placer le mot au bon endroit
         index_insertion = -1
-        tb[:mots][canon][:items].each_with_index do |mot, index_mot|
+        tableau[:mots][canon][:items].each_with_index do |mot, index_mot|
           if mot.offset > imot.offset
             index_insertion = index_mot
             break
           end
         end
-        tb[:mots][canon][:items].insert(index_insertion, imot)
+        tableau[:mots][canon][:items].insert(index_insertion, imot)
       end
-      return tb
+      return tableau
     end
 
   end #/Project
