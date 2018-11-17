@@ -6,6 +6,7 @@ APPFOLDER = File.expand_path(File.dirname(__dir__))
 
 Dir["#{APPFOLDER}/lib/Extensions/**/*.rb"].each{|m|require m}
 Dir["#{APPFOLDER}/lib/Scrivener/**/*.rb"].each{|m|require m}
+Dir["#{APPFOLDER}/config/**/*.rb"].each{|m|require m}
 
 class Scrivener
   class Project

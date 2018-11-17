@@ -16,6 +16,7 @@ class << self
       current_offset:     0,
       current_index_mot:  -1,
       mots:               Hash.new, # tous les mots traités
+      proximites:         Hash.new,
       binder_items:       Hash.new, # tous les binder-items
       project_path:       iprojet.path,
       # Nombres
@@ -29,6 +30,7 @@ class << self
       created_at:     Time.now,
       last_saved_at:  nil
     )
+    return tableau
   end
   # /init_table_proximites
 

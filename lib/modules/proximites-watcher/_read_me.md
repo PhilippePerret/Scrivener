@@ -3,6 +3,11 @@ Ce module permet de gérer le watcher qui surveille en direct le travail de corr
 
 Il s'utilise quand on active la commande `scriv watch-prox[ path/to/projet.scriv][ options]`
 
+# Todo
+
+* Faire la fenêtre principale avec Curses, en indiquant le nombre de proxmités de la région.
+* il ne faudrait pas se limiter à 3 binder-items, mais les prendre avant et après pour être en mesure de tester la proximité. Donc prendre autant de binder-items que nécessaire.
+
 # Synopsis
 (du plus général au plus détaillé)
 
