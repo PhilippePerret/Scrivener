@@ -96,15 +96,18 @@ class Scrivener
           len_before < Proximite::DISTANCE_MINIMALE || break
         end
       end
-      if this_binder_index + 1 < all_binders.count
-        # S'il y a des binder-items après
-        len_after = 0
-        all_binders[this_binder_index..-1].each do |bitem|
-          self.watched_binder_items << bitem
-          len_after += bitem.texte.length
-          len_after < Proximite::DISTANCE_MINIMALE || break
-        end
+
+      # On prend le binder-item surveillé et ceux après
+      # jusqu'à une distance de surveillance adéquate
+      len_after = 0
+      all_binders[this_binder_index..-1].each_with_index do |bitem, bitem_index|
+        self.watched_binder_items << bitem
+        bitem_index > 0 || next
+        len_after += bitem.texte.length
+        len_after < Proximite::DISTANCE_MINIMALE || break
       end
+
+      debug('Binder-item surveillé : « %s »' % watched_document_title)
       debug("Binder-items retenus : #{self.watched_binder_items.collect{|bi|bi.title}}")
       CLI.dbg("<--- Scrivener::Project#get_binder_items_required (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
     end
