@@ -5,6 +5,115 @@
 =end
 module Curses
 
+
+  def self.init options = nil
+    options = default_options(options)
+    self.init_screen
+    self.curs_set(options[:cursor])  # Curseur invisible (par défaut : 0)
+    self.start_color
+    self.send(options[:echo] ? :echo : :noecho)
+    self.init_custom_color # une de mes méthodes (cf. plus bas)
+  end
+
+  def self.default_options options
+    options ||= Hash.new
+    options.key?(:cursor) || options.merge!(cursor: 0)
+    options.key?(:echo)   || options.merge!(echo: false)
+    return options
+  end
+
+  # la class Curses::Console::Window permet de gérer plus facilement les
+  # fenêtre.
+  #
+  # Pour initialiser une fenêtre Console::Window, NE PAS UTILISER Curses::Window
+  # qui est une classe propre à Curses (et qu'on ne doit pas toucher ici)
+  # Utiliser plutôt : Curses::Console::Window.new
+  class Console
+    class Window
+
+
+      # ---------------------------------------------------------------------
+
+      # La fenêtre Curses
+      attr_accessor :cwindow
+      attr_accessor :nombre_lignes
+
+      def initialize nombre_lignes, options = nil
+        options ||= Hash.new
+        top   = options[:top] || 0
+        left  = options[:left] || options[:col] || 0
+        self.nombre_lignes = nombre_lignes
+        self.cwindow = Curses::Window.new(nombre_lignes, Curses.cols - left, top, left)
+        options[:background] && self.cwindow.bkgdset(options[:background])
+        self.cwindow.clear
+        self.cwindow.refresh
+      end
+
+      def clear_line num_line
+        num_line >= 0 || num_line = nombre_lignes - num_line
+        self.cwindow.setpos(num_line, 0)
+        self.cwindow.deleteln
+      end
+
+      def puts str, options = nil
+        affiche(str + String::RC, options)
+      end
+      # Écrit en ajoutant un retour chariot devant
+      def sput str, options = nil
+        affiche((options && options[:norc] ? '' : String::RC) + str, options)
+      end
+      # Affiche le texte +str+ dans la fenêtre.
+      # Options peut contenir :
+      #   :line   Numéro de la ligne
+      #   :col    Colonne
+      #   :style    Le style ou les styles (par exemple :rouge, :gras, etc.)
+      def affiche str, options = nil
+        options ||= Hash.new
+        line = options[:line]
+        if line && line < 0
+          line = self.nombre_lignes + line
+        end
+        col  = options[:col]
+        if options[:position]
+          line, col = options[:position]
+        end
+
+        col ||= 2
+        line && self.cwindow.setpos(line, col)
+        if options.key?(:style)
+          str = str.to_s
+          self.cwindow.attron(Curses.disp_attributes(options[:style])) do
+            ecrire_lignes(str, col)
+          end
+        else
+          ecrire_lignes(str, col)
+        end
+
+        self.cwindow.refresh
+      end
+      # /affiche
+
+      def ecrire_lignes(str, col)
+        if str.index("\n")
+          arr = str.split("\n")
+          str = arr.first
+          arr[1..-1].nil? || str += "\n" + arr[1..-1].collect{|s| "#{' '*col}#{s}"}.join("\n")
+        end
+        self.cwindow.addstr(str)
+      end
+
+      def clear
+        cwindow.clear
+      end
+
+      def close
+        cwindow.close
+      end
+
+    end #/Window
+  end #/Console
+
+
   # Pour les couleurs, en deuxième chiffre
   # En deuxième chiffre:
   # 3: cacad'oie, 4: bleu
@@ -122,22 +231,30 @@ module Curses
     init_pair(2, COLOR_BLUE,   15)
     init_pair(4, COLOR_GREEN,  15) # 2
     init_pair(5, 146,   15) # gris sur blanc
-    init_pair(10, 39,   COLOR_BLACK) # bleu sur blanc
-    init_pair(11, 48,   COLOR_BLACK) # vert sur blanc
+    init_pair(10, 39,   COLOR_BLACK) # bleu sur noir
+    init_pair(11, 48,   COLOR_BLACK) # vert sur noir
     init_pair(12, 210,  COLOR_BLACK) # gris sur blanc
-    init_pair(13, 196,  COLOR_BLACK) # rouge sur blanc
+    init_pair(13, 196,  COLOR_BLACK) # rouge sur noir
     init_pair(15, 15,   COLOR_BLACK) # blanc sur noir
     init_pair(20, 15,   160) # blanc sur rouge # aussi 196
     init_pair(21, 15,   28) # blanc sur vert
+
+    init_pair(30, 196, COLOR_BLACK)
     CUSTOM_COLORS.merge!(
       noir_sur_blanc:             color_pair(9),
+      gris_sur_blanc:             color_pair(5),
       rouge_sur_blanc:            color_pair(1),
       vert_sur_blanc:             color_pair(4),
       bleu_sur_noir:              color_pair(10),
+      bleu:                       color_pair(10),
       vert_sur_noir:              color_pair(11),
+      vert:                       color_pair(11),
       blanc_sur_noir:             color_pair(15),
+      blanc:                      color_pair(15),
       gris_tres_clair_sur_noir:   color_pair(12),
+      gris_clair:                 color_pair(12),
       rouge_sur_noir:             color_pair(13),
+      rouge:                      color_pair(13),
       exergue_rouge:              color_pair(20),
       exergue_vert:               color_pair(21)
     )
@@ -151,9 +268,9 @@ module Curses
       curses_attrs =
         case attr
         when :defaut, :default  then curses_attrs | color_pair(9)
-        when :rouge, :red       then curses_attrs | color_pair(1)
-        when :bleu, :blue       then curses_attrs | color_pair(2)
-        when :vert, :green      then curses_attrs | color_pair(4)
+        when :red               then curses_attrs | color_pair(1)
+        when :blue              then curses_attrs | color_pair(2)
+        when :green             then curses_attrs | color_pair(4)
         when :gris, :grey       then curses_attrs | color_pair(5)
         when :gras, :bold       then curses_attrs | A_BOLD
         else

@@ -20,7 +20,7 @@ class Scrivener
 
     class BinderItem
       def add_in_file fdescriptor
-        self.has_text? && fdescriptor.write(self.texte  + String::RC)
+        self.has_text? && fdescriptor.write(self.texte.gsub(/’/,'\'') + String::RC)
         self.parent? || return
         self.children.each { |child| child.add_in_file(fdescriptor) }
       end

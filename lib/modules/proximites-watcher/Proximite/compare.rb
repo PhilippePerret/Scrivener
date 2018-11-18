@@ -1,7 +1,9 @@
 class Proximite
 
-  TEMP_PROX_FIXED = 'Fixé : proximité entre « %s » et « %s »'.vert
-  TEMP_PROX_ADDED = 'Trop grande proximité entre « %s » et « %s » (%s)'.rouge
+  # TEMP_PROX_FIXED = 'Fixée : proximité entre « %s » et « %s »'.vert
+  TEMP_PROX_FIXED = 'Fixée : proximité entre « %s » et « %s »'
+  # TEMP_PROX_ADDED = 'Trop grande proximité entre « %s » et « %s » (%s)'.rouge
+  TEMP_PROX_ADDED = 'Trop grande proximité entre « %s » et « %s » (%s)'
 
   class << self
 
@@ -9,6 +11,7 @@ class Proximite
     #
     # Méthode de classe qui compare deux tables de proximité
     def compare_tables new_table, old_table
+      CLI.dbg("-> Scrivener::Project#compare_tables (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
       old_table.nil? && return
 
       new_proximites = Array.new
@@ -93,20 +96,24 @@ class Proximite
         end
       end
 
+      # On peut s'arrêter là si aucune proximité n'a changé
+      old_proximites.empty? && new_proximites.empty? && return
 
-      # puts "-- new_proximites: #{new_proximites.inspect}"
-      # puts "-- old_proximites: #{old_proximites.inspect}"
+      msgs_output = Array.new
 
       old_proximites.each do |iprox|
-        puts TEMP_PROX_FIXED % [iprox.mot_avant.real, iprox.mot_apres.real]
+        msgs_output << [TEMP_PROX_FIXED % [iprox.mot_avant.real, iprox.mot_apres.real], :vert]
       end
       new_proximites.each do |iprox|
-        distance = iprox.mot_apres.offset - iprox.mot_avant.offset
+        distance = (iprox.mot_apres.offset - iprox.mot_avant.offset) - iprox.mot_avant.real.length
         distance = "#{distance} / ~ #{distance / 6} mots"
-        puts TEMP_PROX_ADDED % [iprox.mot_avant.real, iprox.mot_apres.real, distance]
+        msgs_output << [TEMP_PROX_ADDED % [iprox.mot_avant.real, iprox.mot_apres.real, distance], :rouge]
       end
 
+      # Retourner les messages de modifications
+      return msgs_output
 
+      CLI.dbg("<--- Scrivener::Project#compare_tables (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
     rescue Exception => e
       raise_by_mode(e, Scrivener.mode)
     end

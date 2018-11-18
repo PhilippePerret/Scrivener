@@ -102,13 +102,20 @@ class ProxMot
   end
 
   def distance_minimale
-    @distance_minimale ||= begin
-      if Proximite::PROXIMITES_MAX[:mots].key?(canonique)
-        Proximite::PROXIMITES_MAX[:mots][canonique]
+    @distance_minimale ||= self.class.distance_minimale(canonique)
+  end
+
+  # Méthode de classe pour ne pas avoir à chercher à chaque fois
+  def self.distance_minimale(canon)
+    @distances_minimales ||= Hash.new
+    @distances_minimales[canon] ||= begin
+      if Proximite::PROXIMITES_MAX[:mots].key?(canon)
+        Proximite::PROXIMITES_MAX[:mots][canon]
       else
         Proximite::DISTANCE_MINIMALE
       end
     end
   end
+  # /self.distance_minimale
 
 end

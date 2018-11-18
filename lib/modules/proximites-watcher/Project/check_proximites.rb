@@ -4,7 +4,9 @@ class Scrivener
     attr_accessor :last_tableau
 
     def check_etat_proximites_et_affiche_differences
-      puts "* check proximités…" # pour le moment, pour voir la boucle
+      CLI.dbg("-> Scrivener::Project#check_etat_proximites_et_affiche_differences (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+      # puts "* check proximités…" # pour le moment, pour voir la boucle
+      write_log('* check proximités…', :gris_clair, init = true)
 
       # On initialise un nouveau tableau de proximités
       new_tableau = Proximite.init_table_proximites
@@ -27,9 +29,16 @@ class Scrivener
       Proximite.calcule_proximites_in(new_tableau)
 
       # On peut procéder à la comparaison (si un ancien tableau existe)
-      Proximite.compare_tables(new_tableau, load_last_tableau)
+      msgs_modification = Proximite.compare_tables(new_tableau, load_last_tableau)
+      # On actualise le tableau
+      self.tableau_proximites = new_tableau
+      output_tableau_etat(msgs_modification)
 
       save_new_tableau(new_tableau)
+
+      CLI.dbg("<--- Scrivener::Project#check_etat_proximites_et_affiche_differences (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+    rescue Exception => e
+      raise_by_mode(e, Scrivener.mode)
     end
     # /check_etat_proximites_et_affiche_differences
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
 #
-# CLI 1.2.1
+# CLI 1.2.2
 #
 # Note : l'application doit définir :
 #   class CLI
@@ -17,6 +17,12 @@
 #   Pour afficher un message de debug si l'option -vb/--verbose est
 #   utilisée :
 #     CLI.dbg
+#   On peut diriger la sortie des débugs vers une autre sortie à l'aide de
+#     CLI.debug_output
+#   … qui peut avoir la valeur :
+#     nil         Les messages sont écrits en console
+#     :log        Les messages sont écrits dans le fichier debug.log
+#     'path/file' Les messages sont écrits dans le fichier spécifié
 #
 #   Pour benchmarker l'application :
 #   --------------------------------
@@ -27,7 +33,7 @@
 # Note 1.2.1
 #   Les '-' dans le nom des options sont remplacés par des traits plats.
 #   'in-file' => 'in_file'
-# 
+#
 class CLI
 
   BENCHMARK = Hash.new
@@ -37,6 +43,9 @@ class CLI
     attr_accessor :command, :params, :options
 
     attr_accessor :last_command # sans l'application
+
+    # Sortie de CLI.dbg
+    attr_accessor :debug_output
 
     # Historique des commandes
     attr_reader :historique, :i_histo
@@ -50,7 +59,7 @@ class CLI
       when :stop
         BENCHMARK.merge!(stop_time: Time.now.to_f)
         titre.nil? || BENCHMARK.merge!(title: titre)
-        puts "    #{BENCHMARK[:title]} *** #{(BENCHMARK[:stop_time] - BENCHMARK[:start_time]).round(4)} secs".gris
+        dbg "    #{BENCHMARK[:title]} *** #{(BENCHMARK[:stop_time] - BENCHMARK[:start_time]).round(4)} secs".gris
       end
     end
 
@@ -84,7 +93,13 @@ class CLI
 
     def dbg msg
       VERBOSE || return
-      puts msg
+      case self.debug_output
+      when nil  then puts msg
+      when :log then Debug.write(msg)
+      when String then File.open(debug_output,'a'){|f|f.write msg}
+      else
+        raise 'Impossible de trouver la sortie de CLI.dbg'
+      end
     end
 
     def add_historique cmd

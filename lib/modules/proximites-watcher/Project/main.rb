@@ -11,13 +11,19 @@ class Scrivener
     # Le titre (complet) du document actuellement surveillé
     attr_accessor :watched_document_title
 
+    attr_accessor :tableau_proximites
+
     # = main =
     #
     # Lancement de la surveillance des proximités
     #
     def exec_watch_proximites
-      options_conformes
+      Debug.init
       prepare_surveillance
+      options_conformes
+      Proximite.init
+      output_tableau_etat # pour le mettre en place
+      check_etat_proximites_et_affiche_differences
       exec_boucle_surveillance
     rescue Exception => e
       raise_by_mode(e, Scrivener.mode)
@@ -30,88 +36,100 @@ class Scrivener
       self.watched_document_title = CLI.options[:document]
       # Le document doit avoir été précisé dans les options
       watched_document_title || begin
-        raise 'Il faut indiquer le nom (ou le début du nom du document) à l’aide de l’option `-doc/--document="<nom>"`.'
+        raise_exception_no_document('Il faut indiquer le nom (ou le début du nom du document) à l’aide de l’option `-doc/--document="<nom>"`.')
       end
       # Le document précisé dans les options (partiellement ou entièrement)
       # doit vraiment exister
       # Cela consiste à rechercher en même temps les trois binder-items qui
       # devront être considérés.
-      definir_trois_binder_items
+      get_binder_items_required
     end
     # /options_conformes
 
     def prepare_surveillance
-      Debug.init
+      CLI.dbg("-> Scrivener::Project#prepare_surveillance (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
       init_watch_proximites
+      CLI.dbg("<--- Scrivener::Project#prepare_surveillance (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
     end
-
-    def exec_boucle_surveillance
-      fin = false
-      begin
-        # On attend une modification du fichier
-        sleep 1 # voir si c'est pas mieux d'utiliser un thread
-        # Quand le document a changé, il faut analyser l'état actuel et
-        # le comparer à l'état précédent.
-        if changement_has_occured?
-          check_etat_proximites_et_affiche_differences
-        end
-      end while !fin
-      # Note : mais en fait, c'est CTRL-C qui interrompt le programme.
-    end
-    # /exec_boucle_surveillance
 
     # Méthode qui définit les trois binder-items à prendre en compte
     # Noter que le titre du document a pu être donné partiellement
-    def definir_trois_binder_items
-      # puts "--> definir_trois_binder_items"
+    def get_binder_items_required
+      CLI.dbg("-> Scrivener::Project#get_binder_items_required (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
       self.watched_binder_items = Array.new
+
+
+      @all_titles = Array.new
+
+      # On doit d'abord trouver le binder-item courant
+      this_binder_item  = nil
+      this_binder_index = nil
       # On boucle dans les binder-items du projet jusqu'à trouver
       # le bon.
-      all_binders = all_binder_items_of(xfile.draftfolder, only_text: true)
-
-      titles = Array.new
       all_binders.each_with_index do |bitem, index_bitem|
         # puts "-- title: #{bitem.title}"
-        titles << bitem.title
+        @all_titles << bitem.title
         if bitem.title.start_with?(watched_document_title)
-          # On a trouvé le document
+          # On l'a trouvé !
           self.watched_document_title = bitem.title
-          self.watched_binder_items << all_binders[index_bitem - 1]
-          self.watched_binder_items << all_binders[index_bitem]
-          self.watched_binder_items << all_binders[index_bitem + 1]
-          self.watched_binder_items.compact!
-          break
+          this_binder_item  = bitem
+          this_binder_index = index_bitem
+          # break # non, on poursuit pour récupérer tous les titres
         end
       end
 
-      if self.watched_binder_items.count < 1
-        msg = ['Aucun document dont le nom est ou commence par « %s » n’a été trouvé parmi les documents :' % [watched_document_title]]
-        titles.each do |tit|
-          msg << '  - %s' % tit
-        end
-        msg << 'Rappel : vous pouvez indiquer seulement le début du titre du document.'
-        raise msg.join(String::RC)
+      # Si le binder-item n'a pas été trouvé, on lève une
+      # exception
+      this_binder_item || begin
+        raise_exception_no_document('Aucun document dont le nom est ou commence par « %s » n’a été trouvé parmi les documents :' % [watched_document_title])
       end
+
+      # Sinon, on poursuit
+      # On doit prendre les binders avant pour obtenir le bon nombre
+      # de caractères à comparer
+
+      if this_binder_index > 0
+        len_before = 0
+        all_binders[0...this_binder_index].reverse.each do |bitem|
+          self.watched_binder_items << bitem
+          len_before += bitem.texte.length
+          len_before < Proximite::DISTANCE_MINIMALE || break
+        end
+      end
+      if this_binder_index + 1 < all_binders.count
+        # S'il y a des binder-items après
+        len_after = 0
+        all_binders[this_binder_index..-1].each do |bitem|
+          self.watched_binder_items << bitem
+          len_after += bitem.texte.length
+          len_after < Proximite::DISTANCE_MINIMALE || break
+        end
+      end
+      debug("Binder-items retenus : #{self.watched_binder_items.collect{|bi|bi.title}}")
+      CLI.dbg("<--- Scrivener::Project#get_binder_items_required (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+    end
+    # /get_binder_items_required
+
+    def raise_exception_no_document msg
+      msg = [msg]
+      all_titles.each do |tit|
+        msg << '  - %s' % tit
+      end
+      msg << 'Rappel : vous pouvez indiquer seulement le début du titre du document.'
+      raise msg.join(String::RC)
+    end
+    # /raise_exception_no_document
+
+    # Retourne tous les binder-items textuels du manuscrit du projet
+    def all_binders
+      @all_binders ||= all_binder_items_of(xfile.draftfolder, only_text: true)
     end
 
-    # Retourne true si un changement est survenu dans les binder-item,
-    # c'est-à-dire si leur mtime a changé depuis la dernière vérification
-    def changement_has_occured?
-      watched_binder_items.each do |bitem|
-        if bitem.has_changed? then
-          # Comme on va procéder à la vérification, on doit marquer la nouvelle
-          # date pour les trois fichiers, pour ne pas faire trois fois
-          # l'opération.
-          watched_binder_items.each do |bitem|
-            bitem.set_current_mtime
-            # On en profite pour initialiser des valeurs importantes
-            bitem.instance_variable_set('@texte', nil)
-            # puts "--- Texte de #{bitem.uuid} : #{bitem.texte}"
-          end
-          return true
-        end
+    # Le titre de tous les documents du projet spécifié (dans le manuscrit)
+    def all_titles
+      @all_titles ||= begin
+        all_binders.collect { |bitem| bitem.title }
       end
-      return false
     end
 
   end #/Project

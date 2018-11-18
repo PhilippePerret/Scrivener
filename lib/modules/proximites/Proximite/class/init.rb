@@ -3,6 +3,7 @@ class << self
 
   # = Initialisation de l'application =
   def init
+    # On initialise les listes de proximité
     prepare_liste_rectifiees
     prepare_liste_proximites_projet
   end
@@ -48,7 +49,10 @@ class << self
 
 
   def prepare_liste_proximites_projet
-    File.exists?(project.proximites_file_path) || return
+    File.exists?(project.proximites_file_path) || begin
+      debug 'Pas de liste proximités propre au projet (le fichier %s n’existe pas)' % project.proximites_file_path
+      return
+    end
 
     proximite_maximale = -1
     File.open(project.proximites_file_path,'rb').each do |line|
@@ -56,7 +60,9 @@ class << self
       if line =~ /[0-9]+/
         proximite_maximale = line.to_i
       else
-        PROXIMITES_MAX[:mots].merge!(line => proximite_maximale)
+        mot = line.strip.downcase
+        debug 'Ajout du mot %s à la distance %i' % [mot.inspect, proximite_maximale]
+        PROXIMITES_MAX[:mots].merge!(mot => proximite_maximale)
       end
     end
   end
