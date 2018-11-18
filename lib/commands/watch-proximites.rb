@@ -19,11 +19,11 @@ Usage :    #{'scriv watch-prox[imites][ vers/mon/projet.scriv][ <options>]'.jaun
     Concrètement : on ouvre un projet Scrivener pour corriger les
     proximités de mots (par exemple en s'appuyant sur le document
     'proximités' produit par `scriv prox --in-file`).
-    On lance cette commande sur le projet.
+    On lance cette commande `watch-prox` sur le projet.
     On corrige les proximités dans le projet.
-    Chaque fois qu'on enregistre le projet, la commande regarde les
-    proximités corrigée ou ajoutées et les signale.
-
+    Chaque fois que le projet est enregistré (de façon volontaire ou
+    par sauvegarde automatique), la commande fait l'état des proximi-
+    tés et signale celles qui ont été corrigées ou ajoutées.
 
 #{'Utilisation'.underlined}
 
@@ -54,6 +54,20 @@ Usage :    #{'scriv watch-prox[imites][ vers/mon/projet.scriv][ <options>]'.jaun
     -doc/--document="<titre du document">
           Permet de ne surveiller que les proximités dans le document
           précisément.
+
+#{'Affichage du suivi'.underlined}
+
+    La fenêtre de résultat (Terminal) peut être placée en bas de l'écran,
+    pour pouvoir être visible tout en travaillant son texte.
+
+    Elle affiche une première ligne :
+      * le titre du document surveillé,
+      * le nombre de proximités provoquées par ce document,
+
+    Sur la ligne suivante se trouve la liste de tous les mots canoniques
+    en trop grande proximité avec, entre parenthèses, la distance en
+    signes entre les mots (et donc, implicitement, le nombre de proximités
+    sur le même mot).
 
 
     DÉVELOPPEMENT

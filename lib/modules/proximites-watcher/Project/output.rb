@@ -42,7 +42,15 @@ class Scrivener
       if tbl
         nombre_proximites = tbl[:proximites].count
         if nombre_proximites > 0
-          liste_mots = tbl[:proximites].collect{|id,pro|pro.mot_avant.real}.pretty_join(before_each: '« ', after_each: ' »')
+          liste_mots = Hash.new
+          tbl[:proximites].each do |prox_id, iprox|
+            canon = iprox.mot_avant.canonique
+            liste_mots.key?(canon) || liste_mots.merge!(canon => Array.new)
+            liste_mots[canon] << iprox.distance
+          end
+          liste_mots = liste_mots.collect do |canon, distances|
+            '"%s"%s' % [canon, " (#{distances.join(', ')})"]
+          end.pretty_join
         end
       else
         nombre_proximites = '---'

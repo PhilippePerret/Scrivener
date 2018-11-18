@@ -47,13 +47,14 @@ class << self
   end
   # /prepare_liste_rectifiees
 
-
+  # Préparation de la liste des mots propre au projet, à distance particulière
   def prepare_liste_proximites_projet
     File.exists?(project.proximites_file_path) || begin
       debug 'Pas de liste proximités propre au projet (le fichier %s n’existe pas)' % project.proximites_file_path
       return
     end
 
+    debug '* Ajout des mots à proximité propre au projet…'
     proximite_maximale = -1
     File.open(project.proximites_file_path,'rb').each do |line|
       line.start_with?('#') && next
@@ -61,7 +62,7 @@ class << self
         proximite_maximale = line.to_i
       else
         mot = line.strip.downcase
-        debug 'Ajout du mot %s à la distance %i' % [mot.inspect, proximite_maximale]
+        debug '   = Ajout du mot %s à la distance %i' % [mot.inspect, proximite_maximale]
         PROXIMITES_MAX[:mots].merge!(mot => proximite_maximale)
       end
     end
