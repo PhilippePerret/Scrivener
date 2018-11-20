@@ -124,7 +124,7 @@ class << self
         iprox = get_proximite_courante
 
         # ==== AFFICHAGE LIGNE D'ENTÊTE ====
-        winheader.affiche(header_with_data(iprox, POINTEURS), line: 1, style: [:bleu, :gras])
+        winheader.affiche(header_with_data(iprox, POINTEURS), line: 1, style: [:bleu_sur_blanc, :gras])
 
         # On règle les décalages de départ et de fin du binder-item contenant
         # le/les mots
@@ -134,13 +134,13 @@ class << self
 
         # ==== AFFICHAGE DU BLOC DE PROXIMITÉ (extrait) =====
         winup.clear
-        winup.sput(iprox.line_with_words_and_distance, style: :rouge)
+        winup.sput(iprox.line_with_words_and_distance, style: :rouge_sur_blanc)
         # winup.affiche(SEPARATEURS[:guils], line: indice_line)
-        winup.sput(SEPARATEURS[:plats], style: :rouge)
+        winup.sput(SEPARATEURS[:plats], style: :rouge_sur_blanc)
         iprox.extrait.each_with_index do |data_line, index_extrait|
           winup.sput(data_line[0], data_line[1])
         end
-        winup.sput(SEPARATEURS[:plats], style: :rouge)
+        winup.sput(SEPARATEURS[:plats], style: :rouge_sur_blanc)
 
         #
         # Curses.choose_background(21, windown, {among: [2, 22, 28, 35], foreground: 15})
@@ -157,7 +157,7 @@ class << self
       debug(e)
       winup.affiche(e.message)
       winup.affiche(String::RC + e.backtrace[0..1].join(String::RC))
-      winup.affiche(String::RC + 'Voir la suite dans le log de débug', :rouge)
+      winup.affiche(String::RC + 'Voir la suite dans le log de débug', :rouge_sur_blanc)
       sleep 4
     end
 

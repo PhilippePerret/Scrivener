@@ -19,6 +19,7 @@ class Scrivener
     #
     def exec_watch_proximites
       Debug.init
+      ask_for_ouverture
       prepare_surveillance
       options_conformes
       Proximite.init

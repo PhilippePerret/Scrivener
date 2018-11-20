@@ -9,6 +9,10 @@ class Scrivener
       yesOrNo('Le projet est-il bien fermé dans Scrivener ? C’est indispensable.', {invite: 'Projet fermé ?'})
     end
 
+    def ask_for_ouverture
+      yesOrNo('Faut-il ouvrir le projet dans Scrivener ?') && open
+    end
+
 
     # Pour ouvrir le projet (dans Scrivener)
     def open

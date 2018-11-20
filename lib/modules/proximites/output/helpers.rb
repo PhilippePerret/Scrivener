@@ -28,9 +28,9 @@ class << self
     win.clear # pour passer en fond blanc
     # entete_label = "PROXIMITÉ | NB TOTAL | CORRIGÉ |  RESTE  | TERME CANONIQUE | INDICE P. | NB P. DU MOT |"
     entete_label = "PROXIMITÉ | TERME CANONIQUE | INDICE PROX | NB PROX DU MOT |  | TOTAL PROX | CORRIGÉES |  RESTE  |"
-    win.affiche(entete_label, line: 0, style: :bleu)
+    win.affiche(entete_label, line: 0, style: :bleu_sur_blanc)
     @ligne_sous_header_infos = '–'*entete_label.length
-    win.affiche(@ligne_sous_header_infos, line: 2, style: :bleu)
+    win.affiche(@ligne_sous_header_infos, line: 2, style: :bleu_sur_blanc)
   rescue Exception => e
     win.addstr(e.message)
   end

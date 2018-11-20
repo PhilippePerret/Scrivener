@@ -17,25 +17,41 @@ class Proximite
       'avoir',
       'être'
     ],
-    # Liste des mots dont on supporte une proximité de plus de 50 signes
-    50 => [
-      'dans',
+    20 => [
       'elle',
       'il',
       'nous',
+      'vous'
+    ],
+    # Liste des mots dont on supporte une proximité de plus de 50 signes
+    50 => [
+      'dans',
       'pas',
       'plus',
-      'sur',
-      'vous'
+      'sur'
     ],
     # Liste des mots dont on supporte une proximité de plus de 100 signes
     100 => [
       'lui',
+      'mais',
       'par',
       'pour',
       'que',
       'qui',
       'son'
+    ],
+    200 => [
+      'cinq',
+      'deux',
+      'dix',
+      'douze',
+      'huit',
+      'neuf',
+      'onze',
+      'quatre',
+      'sept',
+      'six',
+      'trois'
     ],
     # Liste construite à l'initiation, qui va comporter en clé le mot
     # canonique et en valeur la distance de proximité maximale

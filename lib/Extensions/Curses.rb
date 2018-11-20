@@ -244,6 +244,7 @@ module Curses
       noir_sur_blanc:             color_pair(9),
       gris_sur_blanc:             color_pair(5),
       rouge_sur_blanc:            color_pair(1),
+      bleu_sur_blanc:             color_pair(2),
       vert_sur_blanc:             color_pair(4),
       bleu_sur_noir:              color_pair(10),
       bleu:                       color_pair(10),
