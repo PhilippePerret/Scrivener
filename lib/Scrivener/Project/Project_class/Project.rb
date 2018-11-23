@@ -19,7 +19,7 @@ class Scrivener
 
       # Retourne le path du dernier projet scrivener
       def last_project_path
-        puts "--- dernier path : #{last_project_data[:path].inspect}"
+        # puts "--- dernier path : #{last_project_data[:path].inspect}"
         last_project_data[:path]
       end
       def save_project_data data

@@ -13,7 +13,7 @@ if CLI.options[:help]
 
   #{'Usage'.underlined('-', '  ')}
 
-      #{'scriv pages-from-csv <path/to/projet.scriv> <vers/feuille.csv>'.jaune}
+      #{'scriv pages-from-csv[ <path/to/projet.scriv>][ <vers/feuille.csv>]'.jaune}
 
   #{'Description'.underlined('-', '  ')}
 

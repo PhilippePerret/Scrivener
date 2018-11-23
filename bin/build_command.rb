@@ -10,19 +10,19 @@
 require 'fileutils'
 
 THISFOLDER = File.expand_path(__dir__)
+APPNAME = 'scriv'
 
-bin_local_folder    = File.join('/','usr','local','bin')
-scriv_command_path  = File.join(bin_local_folder, 'scriv')
-script_path         = File.join(THISFOLDER,'scriv.rb')
+bin_local_folder  = File.join('/','usr','local','bin')
+app_command_path  = File.join(bin_local_folder, APPNAME)
+script_path       = File.join(THISFOLDER,"#{APPNAME}.rb")
 
 existe_deja = true # File.exist? est inopérant
 
-File.unlink(scriv_command_path) if existe_deja
 # Par lien symbolique
 `chmod a+x "#{script_path}"`
-`ln -sf "#{script_path}" #{scriv_command_path}`
+`ln -sf "#{script_path}" #{app_command_path}`
 # -s => lien symbolique
 # -f => détruit le lien s'il existe
 
 
-puts "Commande `scriv' #{existe_deja ? 'actualisée' : 'installée'}."
+puts "Commande `#{APPNAME}' #{existe_deja ? 'actualisée' : 'installée'}."
