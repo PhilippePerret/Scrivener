@@ -32,6 +32,7 @@ class Proximite
     ],
     # Liste des mots dont on supporte une proximité de plus de 100 signes
     100 => [
+      'avec',
       'lui',
       'mais',
       'par',

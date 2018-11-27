@@ -2,10 +2,12 @@ class Scrivener
   class Project
 
     attr_accessor :last_tableau
+    attr_accessor :tables_comparaison
 
     def check_etat_proximites_et_affiche_differences
       CLI.dbg("-> Scrivener::Project#check_etat_proximites_et_affiche_differences (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
-      # puts "* check proximités…" # pour le moment, pour voir la boucle
+
+      # Écrit un message d'attente à l'écran
       write_log('* check proximités…', :gris_clair, init = true)
 
       # On initialise un nouveau tableau de proximités
@@ -29,12 +31,15 @@ class Scrivener
       Proximite.calcule_proximites_in(new_tableau)
 
       # On peut procéder à la comparaison (si un ancien tableau existe)
-      msgs_modification = Proximite.compare_tables(new_tableau, load_last_tableau)
-      # On actualise le tableau
-      self.tableau_proximites = new_tableau
-      output_tableau_etat(msgs_modification)
+      Proximite.compare_tables(new_tableau, load_last_tableau_or_default)
 
-      save_new_tableau(new_tableau)
+      # On sauve la nouvelle table des proximités
+      self.tableau_proximites = new_tableau
+      save_new_tableau(self.tableau_proximites.merge!(watched_document_title: self.watched_document_title))
+
+      # Affichage à l'écran de l'état des proximités
+      output_tableau_etat()
+      tables_comparaison.display_changes_in(winlog)
 
       CLI.dbg("<--- Scrivener::Project#check_etat_proximites_et_affiche_differences (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
     rescue Exception => e
@@ -46,8 +51,21 @@ class Scrivener
     def save_new_tableau tableau
       File.open(last_tableau_path,'wb'){|f| Marshal.dump(tableau, f)}
     end
+    # Retourne soit le dernier tableau d'analyse des proximités s'il existe
+    # et s'il correspond au document analysés, ou un tableau par défaut, vide
+    def load_last_tableau_or_default
+      if File.exists?(last_tableau_path)
+        tbl = load_last_tableau
+        if tbl && tbl[:watched_document_title] == self.watched_document_title
+          return tbl
+        end
+      end
+      return table_par_default
+    end
+    def table_par_default
+      @table_par_default ||= {mots: Hash.new, proximites: Hash.new}
+    end
     def load_last_tableau
-      File.exists?(last_tableau_path) || return
       File.open(last_tableau_path,'rb'){|f| Marshal.load(f)}
     end
     def last_tableau_path

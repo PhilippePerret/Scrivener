@@ -48,6 +48,7 @@ On peut obtenir un nuancier plus ou moins précis à l'aide de ce code qui const
         :background_color   
                   Couleur à donner au fond quand la couleur fait
                   varier `color`. `white` par défaut.
+
         :foreground_color
                   Couleur à donner au texte quand la couleur fait varier de
                   `background-color`. `white` par défaut.
@@ -57,8 +58,11 @@ On peut obtenir un nuancier plus ou moins précis à l'aide de ce code qui const
 
 Pour voir les nuances de fond :
 
+(par exemple en copiant le path du fichier dans l'ardoise ruby de Textmate pour `require`)
+
 ```ruby
 
+require '/Users/philippeperret/Programmation/Scrivener/lib/Extensions/Colors.rb'
 Colors::Nuancier.new(background: true, foreground_color: 'white').build
 
 ```
@@ -67,6 +71,7 @@ Pour voir les nuances de texte sur fond noir :
 
 ```ruby
 
+require '/Users/philippeperret/Programmation/Scrivener/lib/Extensions/Colors.rb'
 Colors::Nuancier.new(background_color: 'black').build
 
 ```

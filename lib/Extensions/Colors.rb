@@ -3,7 +3,7 @@
   Colors for colors
   Version: 1.0.0
   Author:  philippe.perret@yahoo.fr
-  
+
 =end
 module Colors
 
@@ -225,7 +225,6 @@ module Colors
     # On écrit le code du nuancier au fur et à mesure
     def flush_code_nuancier_if_needed
       code_nuancier.length > 40000 || return
-      puts "flush dans le fichier"
       ref_desktop_file.write(code_nuancier)
       @code_nuancier = ''
     end
@@ -236,7 +235,7 @@ module Colors
     end
 
     def code_cell
-      @code_cell ||= '<div class="cellc'+(options[:background] ? ' bg' : 'fg')+'" style="'+key_color+':%s;">TEXTE - Texte - %s - %s</div>'
+      @code_cell ||= '<div class="cellc '+(options[:background] ? 'bg' : 'fg')+'" style="'+key_color+':%s;">TEXTE - Texte - %s - %s</div>'
     end
 
     def key_color

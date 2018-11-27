@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
 #
-# CLI 1.2.2
+# CLI
+#
+# VERSION: 1.3.1
 #
 # Note : l'application doit définir :
 #   class CLI
@@ -16,13 +18,17 @@
 #
 #   Pour afficher un message de debug si l'option -vb/--verbose est
 #   utilisée :
-#     CLI.dbg
+#     CLI.dbg <error|message>[, __FILE__][, __LINE__]
 #   On peut diriger la sortie des débugs vers une autre sortie à l'aide de
 #     CLI.debug_output
 #   … qui peut avoir la valeur :
 #     nil         Les messages sont écrits en console
 #     :log        Les messages sont écrits dans le fichier debug.log
 #     'path/file' Les messages sont écrits dans le fichier spécifié
+#
+#   Pour mettre la verbosité en route seulement sur un passage, mettre
+#   CLI.verbose # à l'endroit où doit commencer la verbosité
+#   CLI.verbose(false) # à l'endroit où doit s'arrêter la verbosité
 #
 #   Pour benchmarker l'application :
 #   --------------------------------
@@ -91,8 +97,12 @@ class CLI
       true
     end
 
-    def dbg msg
-      VERBOSE || return
+    def dbg msg, file = nil, line = nil
+      verbose? || return
+      if file || line
+        relative_file = file.sub(/#{APPFOLDER}\//, '')
+        msg << ' (%s%s)' % [relative_file, line ? ":#{line}" : '']
+      end
       case self.debug_output
       when nil  then puts msg
       when :log then Debug.write(msg)
@@ -136,10 +146,13 @@ class CLI
     # Utiliser l'option --verbose ou -vb mais définir alors dans le
     # DIM_OPT_TO_REAL_OPT de l'application : 'vb' => 'verbose'
     def verbose?
-      self.options && self.options[:verbose]
+      self.options[:verbose] === true
+    end
+    def verbose set_on = true
+      self.options.merge!(verbose: set_on)
     end
     def quiet?
-      self.options && self.options[:quiet]
+      self.options[:quiet]
     end
 
     # Initialisation de CLI
@@ -148,7 +161,8 @@ class CLI
       self.command= nil
       # log "Commande : #{CLI.command.inspect}"
       self.options  = Hash.new
-      self.params   = (a = Array.new ; a << nil ; a)
+      # self.params   = (a = Array.new ; a << nil ; a)
+      self.params   = Array.new(1, nil)
     end
 
     # Analyse de la ligne de commande
@@ -186,11 +200,17 @@ class CLI
         opt.gsub!(/-/,'_')
       else # is start_with? '-'
         # <= diminutif
-        opt_dim, val = arg[1..-1].strip.split('=')
-        opt = DIM_OPT_TO_REAL_OPT[opt_dim]
-        opt != nil || begin
-          error "L'option #{opt_dim.inspect} est inconnue…"
+        #    (ou cas spécial de '-' tout seul)
+        if arg == '-'
+          traite_arg_as_param(arg)
           return
+        else
+          opt_dim, val = arg[1..-1].strip.split('=')
+          opt = DIM_OPT_TO_REAL_OPT[opt_dim]
+          opt != nil || begin
+            error "L'option #{opt_dim.inspect} est inconnue de CLI… Il faut la définir dans cli_app.rb."
+            return
+          end
         end
       end
       self.options.merge!(opt.to_sym => real_val_of(val))

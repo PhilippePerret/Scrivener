@@ -65,11 +65,28 @@ class Scrivener
       # On doit d'abord trouver le binder-item courant
       this_binder_item  = nil
       this_binder_index = nil
+
+      # Pour connaitre l'offset courant
+      cur_binder_offset = 0
+
       # On boucle dans les binder-items du projet jusqu'à trouver
       # le bon.
       all_binders.each_with_index do |bitem, index_bitem|
         # puts "-- title: #{bitem.title}"
+        # On conserve tous les titres, dans le cas par exemple où il faudrait
+        # les proposer à l'utilisateur.
         @all_titles << bitem.title
+        # On profite de cette boucle pour récupérer tous les offsets start
+        # des binder-items, afin de pouvoir calculer l'offset relatif des
+        # mots en proximité.
+        bitem.offset_start = cur_binder_offset
+        # J'essaie comme ça, en utilisant l'instance qui devra être utilisé
+        # plus tard par le mot
+        project.binder_item(bitem.uuid).offset_start = cur_binder_offset
+
+        # On définit le prochain offset
+        cur_binder_offset += bitem.texte.length
+
         if bitem.title.start_with?(watched_document_title)
           # On l'a trouvé !
           self.watched_document_title = bitem.title
@@ -108,8 +125,8 @@ class Scrivener
         len_after < Proximite::DISTANCE_MINIMALE || break
       end
 
-      debug('Binder-item surveillé : « %s »' % watched_document_title)
-      debug("Binder-items retenus : #{self.watched_binder_items.collect{|bi|bi.title}}")
+      # debug('Binder-item surveillé : « %s »' % watched_document_title)
+      # debug("Binder-items retenus : #{self.watched_binder_items.collect{|bi|bi.title}}")
       CLI.dbg("<--- Scrivener::Project#get_binder_items_required (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
     end
     # /get_binder_items_required

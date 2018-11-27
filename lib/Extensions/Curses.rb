@@ -1,6 +1,7 @@
 =begin
 
   Extension de la classe Curses
+  VERSION: 1.1
 
 =end
 module Curses
@@ -104,6 +105,10 @@ module Curses
 
       def clear
         cwindow.clear
+      end
+
+      def refresh
+        cwindow.refresh
       end
 
       def close
@@ -221,9 +226,12 @@ module Curses
     @default_message_window
   end
 
+  GRIS = 150
   def self.init_custom_color
     # On prépare les couleurs
     init_color(COLOR_BLACK, 0, 0, 0)
+
+    init_color(GRIS, 0, 933, 933)
 
     # sleep 2
     init_pair(9, COLOR_BLACK,  15)
@@ -235,6 +243,7 @@ module Curses
     init_pair(11, 48,   COLOR_BLACK) # vert sur noir
     init_pair(12, 210,  COLOR_BLACK) # gris sur blanc
     init_pair(13, 196,  COLOR_BLACK) # rouge sur noir
+    init_pair(14, GRIS,  COLOR_BLACK) # gris sur noir
     init_pair(15, 15,   COLOR_BLACK) # blanc sur noir
     init_pair(20, 15,   160) # blanc sur rouge # aussi 196
     init_pair(21, 15,   28) # blanc sur vert
@@ -252,10 +261,10 @@ module Curses
       vert:                       color_pair(11),
       blanc_sur_noir:             color_pair(15),
       blanc:                      color_pair(15),
-      gris_tres_clair_sur_noir:   color_pair(12),
-      gris_clair:                 color_pair(12),
       rouge_sur_noir:             color_pair(13),
       rouge:                      color_pair(13),
+      gris_tres_clair_sur_noir:   color_pair(14),
+      gris_clair:                 color_pair(14),
       exergue_rouge:              color_pair(20),
       exergue_vert:               color_pair(21)
     )
@@ -280,6 +289,7 @@ module Curses
           end
         end
     end
+    # debug('-- curses_attrs : %s' % curses_attrs.inspect)
     return curses_attrs
   end
   # /disp_attributes
