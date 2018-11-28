@@ -1,10 +1,12 @@
 # encoding: UTF-8
 #
-# version 1.3.0
+# version 1.3.1
 #
+# Note version 1.3.1
+#   Ajout de la couleur noir sur blanc (noirsurblanc)
 # Note version 1.3.0
 #   Méthode String.rgb pour mettre n'importe quelle couleur en console.
-# 
+#
 
 class String
 
@@ -122,6 +124,19 @@ class String
     return heading + li.join("\n#{heading}")
   end
 
+  # Un brun italique sur blanc
+  def gitalsurblanc
+    "\033[3;7;43m#{self}\033[0m"
+  end
+
+  # Gris (très clair) italique sur blanc
+  def grisitalsurblanc
+    "\033[3;7;47m#{self}\033[0m"
+  end
+
+  def noirsurblanc
+    "\033[0;7m#{self}\033[0m"
+  end
   # Le texte en bleu gras pour le terminal
   def bleu_gras
     "\033[1;96m#{self}\033[0m"

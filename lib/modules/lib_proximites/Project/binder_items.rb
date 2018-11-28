@@ -75,7 +75,7 @@ class Scrivener
         # On en profite pour définir l'offset start de chaque binder-item
         self.binder_item(bitem.uuid).offset_start = cur_binder_offset
         # On définit le prochain offset
-        cur_binder_offset += bitem.texte.length
+        cur_binder_offset += (bitem.texte||'').length
 
         if bitem.title.start_with?(titre_partiel)
           # On l'a trouvé !
@@ -101,7 +101,7 @@ class Scrivener
         len_before = 0
         all_binders[0...this_binder_index].reverse.each do |bitem|
           arr_binder_items << bitem
-          len_before += bitem.texte.length
+          len_before += (bitem.texte||'').length
           len_before < Proximite::DISTANCE_MINIMALE || break
         end
       end

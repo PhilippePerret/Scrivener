@@ -9,6 +9,8 @@ class Scrivener
       # Méthode qui traite le texte du binderitem
       def releve_mots_in_texte tableau
 
+        texte || @texte = ''
+
         # pour les ponctuations finales, qui ne seraient pas traitées
         # sans ça.
         texte << ' EOT'

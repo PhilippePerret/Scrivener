@@ -1,7 +1,7 @@
 =begin
 
   Extension de la classe Curses
-  VERSION: 1.1
+  VERSION: 1.2
 
 =end
 module Curses
@@ -14,6 +14,8 @@ module Curses
     self.start_color
     self.send(options[:echo] ? :echo : :noecho)
     self.init_custom_color # une de mes méthodes (cf. plus bas)
+  rescue Exception => e
+    raise e
   end
 
   def self.default_options options
@@ -43,8 +45,9 @@ module Curses
         options ||= Hash.new
         top   = options[:top] || 0
         left  = options[:left] || options[:col] || 0
+        width = options[:width] || (Curses.cols - left)
         self.nombre_lignes = nombre_lignes
-        self.cwindow = Curses::Window.new(nombre_lignes, Curses.cols - left, top, left)
+        self.cwindow = Curses::Window.new(nombre_lignes, width, top, left)
         options[:background] && self.cwindow.bkgdset(options[:background])
         self.cwindow.clear
         self.cwindow.refresh

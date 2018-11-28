@@ -68,8 +68,11 @@ class Scrivener
 
         c = color_cycle.next
 
-        segments[mavant.index].merge!(next_color: c, has_color: true)
-        segments[mapres.index].merge!(prev_color: c, has_color: true)
+        # :has_color va être mis à 2 si le mot a deux couleurs
+        mhascolor = segments[mavant.index][:has_color] == 1 ? 2 : 1
+        segments[mavant.index].merge!(next_color: c, has_color: mhascolor)
+        phascolor = segments[mapres.index][:has_color] == 1 ? 2 : 1
+        segments[mapres.index].merge!(prev_color: c, has_color: phascolor)
 
       end
     end
