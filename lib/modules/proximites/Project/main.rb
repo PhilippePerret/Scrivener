@@ -8,7 +8,18 @@ class Scrivener
     def exec_proximites
       CLI.dbg("-> Scrivener::Project#exec_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
       Debug.init
-      output_proximites
+      if CLI.params.key?(:mot)
+        # => Il faut n'afficher que la proximité d'un mot
+        Scrivener.require_module('proximites_one_word')
+        exec_proximites_one_word
+      else
+        # Sinon, c'est l'affichage de toutes les proximités
+        if CLI.options[:data] || self.ask_for_fermeture
+          output_proximites
+        else
+          puts ' Abandon…'
+        end
+      end
     end
 
     # Initialisation de la table géante des proximités

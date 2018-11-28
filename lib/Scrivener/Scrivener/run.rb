@@ -30,8 +30,9 @@ class Scrivener
     # -------------------
     def run
 
-      puts '-- CLI.params: %s' % CLI.params.inspect
-      return
+      # # Pour faire des tests sans lancer l'application
+      # puts '-- CLI.params: %s' % CLI.params.inspect
+      # return
 
       if real_command?(self.command)
         # On n'est pas forcément dans le dossier du projet, comme par exemple

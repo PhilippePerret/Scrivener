@@ -9,14 +9,14 @@ if CLI.options[:help]
   aide = <<-EOT
 #{' Aide à la commande `proximites` (ou `prox`) '.underlined.gras}
 
-Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <options>]'.jaune}
+Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <parametres>][ <options>]'.jaune}
 
 #{'Description'.underlined}
 
     Permet d'afficher la proximités des mots identiques et de four-
     nir un rapport détaillé de ces proximités.
 
-    Deux modes sont possibles :
+    Plusieurs modes d'utilisation sont possibles :
 
       * Les proximités sont affichées les unes à la suite des autres
         dans le Terminal. C'est le mode par défaut.
@@ -25,13 +25,32 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <options>]'.jaune}
         les proximités en colorisant les mots.
         Ajouter l'option `--in-file` pour créer ce fichier.
 
+      * Un mot est donné, dans un document (ou non) et la commande
+        affiche ses proximités dans le texte.
+        Ajouter le paramètre `mot=LeMotAVoir` à la commande pour passer
+        dans ce mode. Par exemple, si un projet a déjà été analysé,
+        on peut faire directement :
+
+          #{'scriv prox mot="peut-être"'.jaune}
+
+        … qui va afficher les proximités du mot "peut-être".
+
+      * Un titre de document est donné, le programme affiche seulement
+        les proximités de ce document, en les indiquant en couleur.
+
+          #{'scriv prox doc="Titre du document dans Scrivener"'.jaune}
+
+        Note : la commande ci-dessus ne peut fonctionner que si le
+        projet a été précédemment utilisé (car la commande `scriv`
+        utilise toujours par défaut le dernier projet utilisé).
+
 #{'Utilisation'.underlined}
 
     Quand on se trouve dans le dossier contenant le projet Scrivener,
     on n'a pas besoin de préciser son path (sauf s'il y a plusieurs
     projets Scrivener). On peut donc utiliser simplement :
 
-        `scriv prox`
+        #{'scriv prox'.jaune}
 
     Donc, le plus simple :
 
@@ -49,7 +68,7 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <options>]'.jaune}
     Donc, par exemple, lorsque l'on veut relancer un check après avoir
     corriger le texte au niveau des proximités, on peut faire :
 
-        `scriv prox -f --in-file`
+        #{'scriv prox -f --in-file'.jaune}
 
     Cela produit un nouveau fichier (dans le dossier « Proximités » du
     projet), portant la date et l'heure courante, avec les proximités
@@ -63,11 +82,28 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <options>]'.jaune}
     qu'on peut tirer sur les proximités, à commencer par leur
     nombre dans le texte.
 
-        `scriv prox -f --data`
+        #{'scriv prox -f --data'.jaune}
         # => force le calcul est affiche les données
 
-    AJOUT DE MOTS
-    -------------
+    AFFICHAGE DES PROXIMITÉS D'UN DOCUMENT
+    --------------------------------------
+
+        #{'scriv prox[ path/to/projet.scriv] doc="Titre du document"'.jaune}
+
+    Cette commande ne va afficher que les proximités du document de
+    titre donné. En mettant chaque proximité en couleur.
+
+    AFFICHAGE DES PROXIMITÉS D'UN MOT
+    ---------------------------------
+
+        #{'scriv prox[ path/to/proj.scriv] mot="LeMotCherché"[ doc="Titre document"]'.jaune}
+
+    Cette commande n'affiche que les proximités du mot spécifié dans
+    le document spécifié.
+    Si le document n'est pas spécifié, il est demandé à l'utilisateur.
+
+    TRAITEMENT PROPRE DE MOTS
+    -------------------------
 
     On peut, dans un fichier `proximites.txt` se trouvant au même
     niveau que le projet Scrivener, définir des listes propres de
@@ -127,14 +163,6 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <options>]'.jaune}
           couleurs différentes. Le mot est splité en deux, chaque
           moitié prenant la couleur du mot précédent et suivant.
 
-    --mot="<le mot>" TODO
-          Permet de ne checker que la proximité du mot fourni.
-          Sortie en console uniquement.
-
-    -doc/--document="<titre du document"> TODO
-          Permet de ne checker que les proximités dans le document
-          fourni.
-
     --justify
           Pour justifier l'affichage des extraits à l'écran. Plus
           propre, mais pose un problème si on veut faire des copiés-
@@ -151,12 +179,8 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <options>]'.jaune}
   EOT
 
   Scrivener::help(aide)
-  exit 0
-end
 
-Scrivener.require_module('proximites')
-if CLI.options[:data] || project.ask_for_fermeture
-  project.exec_proximites
 else
-  puts "  Je renonce."
+  Scrivener.require_module('proximites')
+  project.exec_proximites
 end

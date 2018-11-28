@@ -4,7 +4,11 @@ class ProxMot
   attr_accessor :real
   attr_accessor :offset
   attr_accessor :binder_item_uuid # UUID du binder-item contenant le mot
-  attr_accessor :index # index dans le texte total (aka dans project.segments)
+
+  # index dans le texte total (aka dans project.segments)
+  # Cet index (unique) a aussi valeur d'identifiant. Il permet de récupérer
+  # le mot avec `ProxMot.get(<index>)`
+  attr_accessor :index
 
   # Identifiant de la proximité du mot avec un mot avant ou après
   # La propriété volatile `proximite_avant|apres` permet de la retrouver
@@ -17,7 +21,11 @@ class ProxMot
   # On conserve toujours le mot initial
   attr_accessor :init_real
 
-  def initialize real_mot, offset, index, binder_item_uuid
+  # Note : les arguments sont devenus facultatifs (sauf le premier) pour
+  # pouvoir instancier un mot quelconque et obtenir sa valeur canonique, comme
+  # c'est le cas par exemple lorsque l'on veut voir les proximités d'un unique
+  # mot.
+  def initialize real_mot, offset = nil, index = nil, binder_item_uuid = nil
     self.offset     = offset
     self.index      = index
     self.real       = real_mot
@@ -49,6 +57,7 @@ class ProxMot
   def canonique
     @canonique ||= (TABLE_LEMMATISATION[downcase] || real).downcase
   end
+  alias :canon :canonique
 
   # ---------------------------------------------------------------------
 
