@@ -49,33 +49,37 @@ class Output
     #   Cas 3     Le texte est très long, plus long que les deux colonnes.
     #             => On affiche la partie visible et on attend une touche
     #             pour passer à la suite.
+    HAUTEUR_PAGE = 20 # lignes
     def display_lines_of_texte
       finalise_lines_of_pages
       ligne_blanche = TAB * 2 + (' ' * largeur_colonne).grisitalsurblanc
+      ligne_blanche = TABV + ligne_blanche
+      dbl_whiteline = ligne_blanche * 2
       puts String::RC * 10
-      puts TABV + ligne_blanche
-      reste_lignes = 3
+      puts dbl_whiteline
 
       # Pour le moment, on affiche tout
-      puts page_lines.join(String::RC)
+      # puts page_lines.join(String::RC)
 
-      # if page_lines.count < nombre_lignes
-      #   # Cas 1
-      #   puts page_lines.join(String::RC)
-      #   reste_lignes = nombre_lignes - page_lines.count
-      # else
-      #   # Cas 2 et 3 maintenant qu'on n'affiche que sur une seule
-      #   # colonne
-      #   page_lines[0...(nombre_lignes - 10)].each do |line|
-      #     puts line
-      #   end
-      #   reste_lignes = 4
-      # end
-
-      puts TABV + ligne_blanche
-      if reste_lignes > 0
-        puts String::RC * reste_lignes
+      # On va réessayer de tout afficher sur deux colonnes
+      # On fonctionne par petites pages de 15 lignes qu'on affiche
+      # toutes en même temps
+      iline = 0
+      while line = page_lines[iline]
+        left_line = page_lines[iline]
+        right_line = page_lines[iline + HAUTEUR_PAGE]
+        puts left_line + (right_line || ligne_blanche)
+        iline += 1
+        if (iline % HAUTEUR_PAGE) == 0
+          puts dbl_whiteline
+          puts String::RC
+          puts dbl_whiteline
+          iline += HAUTEUR_PAGE
+        end
       end
+
+      puts dbl_whiteline
+      puts String::RC * 3
     end
     # /display_lines_of_texte
 
@@ -122,8 +126,12 @@ class Output
       self.nombre_lignes = nombre_lines
       hauteur_footer  = 5 # lignes
       hauteur_page    = nombre_lines - hauteur_footer
-      # self.largeur_colonne = (nombre_cols / 2) - 8 # 8 pour une gouttière de 4 et des marges de 2
-      self.largeur_colonne = nombre_cols - 16 # affichage en une seule colonne
+
+      # Pour afficher sur deux colonnes :
+      self.largeur_colonne = (nombre_cols / 2) - 8 # 8 pour une gouttière de 4 et des marges de 2
+
+      # # Pour afficher sur une seule colonne :
+      # self.largeur_colonne = nombre_cols - 16 # affichage en une seule colonne
 
       data_mot = table[:mots][proxmot.canon]
 

@@ -94,6 +94,7 @@ class Scrivener
       end
 
       # Sinon, on poursuit
+      #
       # On doit prendre les binders avant pour obtenir le bon nombre
       # de caractères à comparer
 
@@ -105,6 +106,10 @@ class Scrivener
           len_before < Proximite::DISTANCE_MINIMALE || break
         end
       end
+
+      # Il faut retourner la liste des binder-items pour qu'ils soient
+      # dans le bon ordre
+      arr_binder_items.reverse!
 
       # On prend le binder-item surveillé et ceux après
       # jusqu'à une distance de surveillance adéquate
