@@ -1,7 +1,7 @@
 =begin
 
   Colors for colors
-  Version: 1.0.0
+  Version: 1.2.0
   Author:  philippe.perret@yahoo.fr
 
 =end
@@ -87,9 +87,10 @@ module Colors
   #         # Les options définissent le type du retour, la liste de départ,
   #         # etc.
   #         :format   Le format de retour.
-  #                     :rtf    Code pour définition des couleurs RTF
-  #                     :hexa   En code héxadécimal (p.e. 'FF0012')
-  #                     :html   En code HTML (p.e. '#FF0012')
+  #                     :rtf      Code pour définition des couleurs RTF
+  #                     :hexa     En code héxadécimal (p.e. 'FF0012')
+  #                     :html     En code HTML (p.e. '#FF0012')
+  #                     :console  Pour la ligne de commande
   #         :in     La liste des couleurs à utiliser
   #                 • par défaut, les valeurs de la table Colors::COLORS
   #                 Sinon,
@@ -116,6 +117,7 @@ module Colors
       when :rtf         then Colors.color_as_rtf(next_item)
       when :hexa        then Colors.color_as_hexa(next_item)
       when :html, nil   then Colors.color_as_hexa(next_item, '#')
+      when :console     then Colors.color_for_console(next_item)
       end
     end
     def next_item
@@ -299,4 +301,38 @@ module Colors
     '\red%i\green%i\blue%i' % vcolors
   end
 
+  # Note : penser à ajouter "\x1B[0m" à la fin (avec guillemets doubles)
+  def self.color_for_console(vcolors)
+    "\033[38;5;%im" % [convert_to_ansi(vcolors)]
+  end
+
+
+  # Convertit un trio [R, G, B] en valeur ANSI utilisable dans un
+  # code comme :
+  # ansi = Colors.convert_to_ansi([255, 40, 0])
+  # puts `echo "\033[38;5;#{ansi}mMON TEXTE EN COULEUR\033[0m"`
+  def self.convert_to_ansi vcolors
+    r, g, b = vcolors
+
+    # we use the extended greyscale palette here, with the exception of
+    # black and white. normal palette only has 4 greyscale shades.
+    if r === g && g === b
+      if r < 8
+        return 16
+      end
+
+      if r > 248
+        return 231
+      end
+
+      return (((r - 8).to_f / 247) * 24).round + 232
+    end
+
+    ansi = 16 +
+      (36 * (r.to_f / 255 * 5).round) +
+      (6 * (g.to_f / 255 * 5).round) +
+      (b.to_f / 255 * 5).round
+
+    return ansi
+  end
 end

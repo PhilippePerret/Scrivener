@@ -1,7 +1,10 @@
 # encoding: UTF-8
 #
-# version 1.2.2
+# version 1.3.0
 #
+# Note version 1.3.0
+#   Méthode String.rgb pour mettre n'importe quelle couleur en console.
+# 
 
 class String
 
@@ -131,6 +134,13 @@ class String
 
   def mauve
     "\033[1;94m#{self}\033[0m"
+  end
+
+  # Pour obtenir un texte de n'importe quelle couleur, à utiliser en
+  # console, à partir d'un trio [R, G, B]
+  # Par exemple 'Mon texte rouge pâle'.rgb([255, 40, 40])
+  def rgb( vcolors )
+    "%s%s\033[0m" % [Colors.color_for_console(vcolors), self]
   end
 
   def fond1
