@@ -1,14 +1,16 @@
 # encoding: utf-8
 #
 # ask
-# v. 1.3.0
+# v. 1.3.2
 #
 # Voir aussi le module ask_for_test.rb qui fonctionne en parallèle de celui-ci
 #
 require 'io/console'
 
-ASK_ON_ONE_LINE   = '  %s %s'
-ASK_ON_TWO_LINES  = '  %s'+String::RC+String::RC+String::RC+'  %s %s'
+ASK_TABULATION = ' '
+
+ASK_ON_ONE_LINE   = ASK_TABULATION+'%s %s'
+ASK_ON_TWO_LINES  = ASK_TABULATION+'%s'+(String::RC*2)+ASK_TABULATION+'%s %s'
 def getc message, options = nil
   options ||= Hash.new
   expected_keys = options[:expected_keys]
@@ -73,9 +75,11 @@ end
 def yesOrNo question, options = nil
   options ||= Hash.new
   options.merge!(expected_keys: ['y','o','n'])
-  question = '%s (y/o = oui / n/rien = non)' % [question]
-  # print "#{question} : "
-  # r = STDIN.gets.strip
+  if options.key?(:invite)
+    options[:invite]
+  else
+    question
+  end  << ' (y/o = oui / n = non)'
   r = getc(question, options)
   return r.upcase != 'N'
 end
@@ -109,26 +113,26 @@ def askForText params = Hash.new
   end
 
   params[:message] && (puts params[:message])
-  q = "Êtes-vous prêt ?"
+  q = 'Êtes-vous prêt ?'
   q << (params[:required] ? ' (donnée requise)' : " (choisissez `n` ou `Entrée` pour passer cette propriété)")
   if yesOrNo(q)
     fp = './.te.txt'
     File.unlink(fp) if File.exist?(fp)
     File.open(fp,'wb'){|f| f.write "#{params[:default]}\n"}
     `mate "#{File.expand_path(fp)}"`
-    if yesOrNo "Puis-je prendre le contenu du fichier ?"
+    if yesOrNo 'Puis-je prendre le contenu du fichier ?'
       begin
-        yesOrNo("Le fichier est-il bien enregistré et fermé ?") || raise
+        yesOrNo('Le fichier est-il bien enregistré et fermé ?') || raise
       rescue
         retry
       end
       contenu = File.read(fp).force_encoding('utf-8').nil_if_empty
-      contenu.nil? && params[:required] && raise("Cette donnée est obligatoire. Je dois m'arrêter là.")
+      contenu.nil? && params[:required] && raise('Cette donnée est obligatoire. Je dois m’arrêter là.')
       #File.exist?(fp) && File.unlink(fp)
       puts "CONTENU :\n#{contenu}"
       return contenu
     end#/Si ruby peut prendre le code de la signature
   end#/En attendant que l'utilisateur soit prêt
-  params[:required] &&  raise("Cette donnée est obligatoire. Je dois m'arrêter là.")
+  params[:required] &&  raise('Cette donnée est obligatoire. Je dois m’arrêter là.')
   return nil
 end

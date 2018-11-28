@@ -58,7 +58,7 @@ class CLI
 
     # Pour benchmarker l'application
     def benchmark ope, titre = nil
-      VERBOSE || BENCHMARK[:oui] || return
+      verbose? || BENCHMARK[:oui] || return
       case ope
       when :start
         BENCHMARK.merge!(start_time: Time.now.to_f, title: titre || 'Départ benchmark')
@@ -183,7 +183,8 @@ class CLI
           if argv.start_with?('-')
             traite_arg_as_option argv
           elsif self.command.nil?
-            self.command = (DIM_OPT_TO_REAL_OPT[argv] || argv).gsub(/\-/,'_')
+            defined?(DIM_CMD_TO_REAL_CMD) || raise('La constante CLI::DIM_CMD_TO_REAL_CMD doit être définie pour l’application courante.')
+            self.command = (DIM_OPT_TO_REAL_OPT[argv] ||DIM_CMD_TO_REAL_CMD[argv] || argv).gsub(/\-/,'_')
           else
             traite_arg_as_param argv
           end

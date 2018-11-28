@@ -2,9 +2,17 @@ class Scrivener
   class Project
     class << self
 
+      # Vérifie que le path +path+ définit bien un projet scrivener valide
+      # Dans le cas contraire, raise une erreur
+      # Cette méthode est appelée à l'initialisation de la commande.
+      def must_exist ppath
+        ppath || raise('Il faut définir le projet Scrivener à traiter, en indiquant le chemin depuis votre dossier utilisateur (%s).' % [Dir.home])
+        File.extname(ppath) == '.scriv'  || raise('L’extension du projet devrait être «.scriv» (c’est «%s»)' % File.extname(ppath))
+        File.exist?(ppath) || raise('Le projet «%s» est introuvable. Merci de vérifier le chemin.' % ppath)
+      end
+
       # Définit la path du projet courant en fonction de la commande
       # et/ou des dernières données enregistrées
-      # C'est cette méthode qui déteminer le PROJECT_PATH
       def define_project_path_from_command
         if CLI.params[1] && File.directory?(CLI.params[1])
           dossier = CLI.params[1]

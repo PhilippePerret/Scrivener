@@ -27,21 +27,102 @@ class Scrivener
     #     | (winstate)
     #     |---------------------------------------------------------
     #     | Dernières modifications (proximités corrigées ou
-    #     | ajoutées)
+    #     | ajoutées). Géré par les Proximite::Table et Proximite::TableComparaison
     #     | (winlog)
     #     ------------------------------------------------------------
     #
     def output_tableau_etat
       CLI.dbg("-> Scrivener::Project#output_tableau_etat (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
       display_inited || init_display
-      set_header_infos
+      # Entête du bas (sic) avec notamment le nom du document et le nombre
+      # de proximités courant.
+      display_header_infos
+      # Affichage, dans la partie supérieure, de toutes les proximités courantes
+      display_proximites_courantes
+
       CLI.dbg("<- Scrivener::Project#output_tableau_etat (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
     rescue Exception => e
+      raise_by_mode(e, Scrivener.mode)
       winproxi  && winproxi.close
       winstate  && winstate.close
       winlog    && winlog.close
+    end
+
+    TEMP_PROX_AFF = '%{pmot} [%{offset} in « %{doc} »] <- %{dist_cars}|%{dist_mots} mots -> %{mark_nmot}'
+
+    def compose_proxi_display_for iprox
+      pmot = iprox.mot_avant.real
+      nmot = iprox.mot_apres.real
+      same_mot = nmot.downcase == pmot.downcase
+      str = TEMP_PROX_AFF % {
+        pmot:       pmot,
+        mark_nmot:  same_mot ? 'id.' : nmot,
+        offset:     iprox.mot_avant.relative_offset,
+        doc:        iprox.mot_avant.binder_item.title,
+        dist_cars:  iprox.distance,
+        dist_mots:  iprox.distance / 6
+      }
+      return str.ljust(largeur_colonne_proxi)
+    end
+    # /compose_proxi_display_for
+
+    # Affiche dans winproxi les proximités courantes. Elles sont réparties
+    # dans trois colonnes.
+    def display_proximites_courantes
+      winproxi.clear
+
+      # Pour construire l'affichage, on fonctionne en deux colonnes. On définit
+      # l'élément gauche (left_prox) et l'élément droite (right_prox). S'ils ne
+      # dépassent pas la largeur de l'écran (Curses.cols - 1), on les affiche
+      # côte à côté. Sinon, on n'affiche que l'élément gauche et on garde
+      # l'élément droite pour le tester avec la suite.
+      iterator = 0
+      right_proxi = nil # on peut reprendre le dernier
+      all_proxs = self.tableau_proximites[:proximites].values
+      while iprox = all_proxs[iterator]
+
+        # Soit il faut reprendre la proximité de droite pour la mettre à
+        # gauche quand on n'a pas pu l'écrire sur la ligne, soit il faut en
+        # prendre une nouvelle.
+        left_proxi  = right_proxi || begin
+          compose_proxi_display_for(iprox)
+        end
+        iterator += 1
+        # Dans tous les cas on prend la proximité de droite
+        right_proxi = compose_proxi_display_for(all_proxs[iterator])
+        iterator += 1
+
+        if left_proxi.length + right_proxi.length < Curses.cols
+          line = left_proxi + right_proxi
+          left_proxi = right_proxi = nil
+        else
+          line = left_proxi
+          left_proxi = nil
+        end
+        winproxi.affiche(line + String::RC)
+      end
+      # /fin de boucle sur toutes les proximités
+
+      # S'il reste à afficher la droite
+      right_proxi && winproxi.affiche(right_proxi)
+
+      winproxi.refresh
+    rescue Exception => e
       raise_by_mode(e, Scrivener.mode)
     end
+    # /display_proximites_courantes
+
+
+    # Règle les infos supérieures (nombre de proxmités et liste de mots)
+    def display_header_infos
+      if self.tableau_proximites
+        nombre_proximites = self.tableau_proximites[:proximites].count
+      else
+        nombre_proximites = '---'
+      end
+      write_state('Nombre de proximités : %s' % [nombre_proximites.to_s])
+    end
+    # /display_header_infos
 
     def write_proxi str, style = nil
       data_proxi = Hash.new
@@ -51,19 +132,9 @@ class Scrivener
 
     # Largeur d'une colonne dans la colonne proxi qui doit en comporter 4
     def largeur_colonne_proxi
-      @largeur_colonne_proxi ||= (Curses.cols / 3) - 1
+      @largeur_colonne_proxi ||= (Curses.cols / 2) - 1
     end
 
-    # Règle les infos supérieures (nombre de proxmités et liste de mots)
-    def set_header_infos
-      if self.tableau_proximites
-        nombre_proximites = self.tableau_proximites[:proximites].count
-      else
-        nombre_proximites = '---'
-      end
-      write_state('Nombre de proximités : %s' % [nombre_proximites.to_s])
-      # sleep 2
-    end
 
     def write_state str
       # winstate.affiche(str + String::RC, {line: 0, style: :bleu})
