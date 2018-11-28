@@ -3,7 +3,7 @@
 #
 # CLI
 #
-# VERSION: 1.3.1
+# VERSION: 1.4.0
 #
 # Note : l'application doit définir :
 #   class CLI
@@ -35,10 +35,6 @@
 #     CLI.benchmark(:start, '<nom >')
 #     ...
 #     CLI.benchmark(:stop[, <autre titre>])
-#
-# Note 1.2.1
-#   Les '-' dans le nom des options sont remplacés par des traits plats.
-#   'in-file' => 'in_file'
 #
 class CLI
 
@@ -162,7 +158,9 @@ class CLI
       # log "Commande : #{CLI.command.inspect}"
       self.options  = Hash.new
       # self.params   = (a = Array.new ; a << nil ; a)
-      self.params   = Array.new(1, nil)
+      # self.params   = Array.new(1, nil)
+      self.params   = Hash.new()
+      self.params.merge!(0 => nil)
     end
 
     # Analyse de la ligne de commande
@@ -234,7 +232,14 @@ class CLI
     end
 
     def traite_arg_as_param arg
-      self.params << arg
+      if arg.index('=')
+        key, val = arg.split('=')
+        key = key.to_sym
+      else
+        key = self.params.count
+        val = arg
+      end
+      self.params.merge!(key => val)
     end
 
     # Messagerie

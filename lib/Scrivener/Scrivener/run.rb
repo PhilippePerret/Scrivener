@@ -29,6 +29,10 @@ class Scrivener
     # (dans le contexte du dossier où on se trouve)
     # -------------------
     def run
+
+      puts '-- CLI.params: %s' % CLI.params.inspect
+      return
+
       if real_command?(self.command)
         # On n'est pas forcément dans le dossier du projet, comme par exemple
         # lorsqu'on réutilise la dernière path utilisée.

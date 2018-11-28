@@ -18,7 +18,7 @@ class Scrivener
           dossier = CLI.params[1]
           dossier = dossier[0...-1] if dossier.end_with?('/')
           Dir['%s/*.scriv' % dossier].first
-        elsif CLI.params[1]
+        elsif CLI.params[1] && !CLI.params[1].index('=')
           CLI.params[1]
         else
           Dir['./*.scriv'].first || self.last_project_path
