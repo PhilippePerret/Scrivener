@@ -12,6 +12,9 @@ class Scrivener
         # => Il faut n'afficher que la proximité d'un mot
         Scrivener.require_module('proximites_one_word')
         exec_proximites_one_word
+      elsif CLI.params.key?(:doc)
+        Scrivener.require_module('proximites_one_doc')
+        exec_proximites_one_doc
       else
         # Sinon, c'est l'affichage de toutes les proximités
         if CLI.options[:data] || self.ask_for_fermeture

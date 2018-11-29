@@ -9,6 +9,10 @@
 class Scrivener
   class Project
 
+    MSGS = {
+      no_document: 'Aucun document dont le nom est ou commence par « %s » n’a été trouvé parmi les documents :'
+    }
+
     # Grande table contenant les proximités
     # Noter que pour le moment, lorsque l'on demande le module 'proximites' (qui
     # ne charge pas ce module), il définit lui-même cette propriété.
@@ -25,7 +29,8 @@ class Scrivener
     # Titre du document spécifiquement surveillé. Il peut être défini en
     # appelant la méthode `get_binder_items_around("<début de titre>")`
     attr_accessor :watched_document_title
-
+    # Le binder-item concerné
+    attr_accessor :watched_binder_item
 
 
     # Retourne tous les binder-items textuels du manuscrit du projet
@@ -56,7 +61,7 @@ class Scrivener
       arr_binder_items = Array.new # à la place de self.watched_binder_items = Array.new
       @all_titles = Array.new
       # On doit d'abord trouver le binder-item courant
-      this_binder_item  = nil
+      self.watched_binder_item  = nil
       this_binder_index = nil
       # Pour suivre l'offset courant de chaque binder-item
       cur_binder_offset = 0
@@ -81,7 +86,7 @@ class Scrivener
           # On l'a trouvé !
           # On modifie le titre du document surveillé
           self.watched_document_title = bitem.title
-          this_binder_item  = bitem
+          self.watched_binder_item    = bitem
           this_binder_index = index_bitem
           # break # non, on poursuit pour récupérer tous les titres
         end
@@ -89,9 +94,7 @@ class Scrivener
 
       # Si le binder-item n'a pas été trouvé, on lève une
       # exception
-      this_binder_item || begin
-        raise_unfound_binder_item('Aucun document dont le nom est ou commence par « %s » n’a été trouvé parmi les documents :' % [watched_document_title])
-      end
+      self.watched_binder_item || raise_unfound_binder_item(MSGS[:no_document] % [watched_document_title])
 
       # Sinon, on poursuit
       #

@@ -22,7 +22,7 @@ class Scrivener
       self.tableau_proximites || return
       self.proxmot = ProxMot.new(mot)
       if self.tableau_proximites[:mots].key?(proxmot.canon)
-        Output.affiche_en_deux_page(self, proxmot)
+        Scrivener::Console::Output.affiche_en_deux_pages(self, proxmot)
       else
         puts "Impossible de trouver le mot #{mot} (#{proxmot.canon})"
       end
@@ -36,7 +36,8 @@ class Scrivener
 
     # Initialisation de la commande
     def init_prox_one_word
-      Scrivener.require_module('lib_proximites')
+      Scrivener.require_module('lib/proximites/common')
+      Scrivener.require_module('lib/output')
       Debug.init
     end
 

@@ -7,35 +7,95 @@
 
 =end
 class Scrivener
-class Project
+class Console
 class Output
 
-  TABV = '  ' # Pour "TABulation Vierge"
-  TAB = '  '.noirsurblanc
+  MSGS = {
+    unproximable_objet: 'Je ne sais pas afficher en deux pages les proximités d’un élément :%s'
+  }
+  TABV          = '  ' # Pour "TABulation Vierge"
+  TAB           = '  '.noirsurblanc
+  ENDCOLOR      = "\033[0m"
+  # Hauteur d'une page artificielle à l'écran
+  HAUTEUR_PAGE  = 20 # lignes
+
+  # Les éléments graphiques qui seront calculés en fonction de l'écran et
+  # autre.
+  GRAPH = {
+    white_line:     nil,
+    dbl_white_line: nil
+  }
 
   class << self
 
     attr_accessor :projet
     attr_accessor :table # correspond à project.tableau_proximites
-    # Instance ProxMot du mot dont il faut voir les proximités
-    attr_accessor :proxmot
 
-    # Dimension de l'écran courant
-    attr_accessor :nombre_colonnes, :nombre_lignes
+    # Instance (quelconque) de l'objet dont il faut afficher les proximités.
+    # Ce peut être un mot (ProxMot) ou un Binder-item
+    # (Scrivener::Project::BinderItem)
+    attr_accessor :objet
+
+    # Instance ProxMot du mot dont il faut voir les proximités (if any)
+    attr_accessor :proxmot
+    attr_accessor :binder_item
+
+    # Instance BinderItem du binder-item dont il faut voir les proximités
+    # (if any)
+    attr_accessor :binder_item
+
     # Largeur d'une colonne de texte (avec une gouttière de 4 et des
     # marges de 2 — ou des marges de 2 à droite et à gauche)
     attr_accessor :largeur_colonne
 
-    def affiche_en_deux_page iprojet, proxmot
+    # Liste des lignes à afficher.
+    # Calculées pour faire une largeur maximale de :largeur_colonne, avec
+    # des mots qui peuvent être doublés et colorés.
+    attr_accessor :page_lines
+
+    # = main =
+    # Appelé par Scrivener::Console::Output.affiche_en_deux_pages pour
+    # afficher les proximités d'un élément sur deux pages artificielles en
+    # console.
+    #
+    # +iprojet+   Instance {Scrivener::Project} du projet scrivener concerné
+    # +objet+     Objet dont on veut voir la ou les proximités. Ça peut être :
+    #               - un ProxMot : un mot dont on veut voir la proximité
+    #               - un BinderItem : un document dont on veut afficher toutes
+    #                 les proximités.
+    #
+    # Note que le "filtrage" se fait avant, en fait. Ici, la valeur de
+    # 'iprojet.tableau_proximites' ne doit contenir que les proximités qui
+    # intéressent l'affichage et aucune autre.
+    #
+    def affiche_en_deux_pages iprojet, objet
       self.projet   = iprojet
       self.table    = iprojet.tableau_proximites
-      self.proxmot  = proxmot
+      self.objet    = objet
+
+      case objet
+      when ProxMot
+        self.proxmot = objet
+      when Scrivener::Project::BinderItem
+        self.binder_item = objet
+      else
+        raise MSGS[:unproximable_objet] % objet.class.inspect
+      end
+
+      return
+
+      init_graph
       define_lines_of_texte
+      finalise_lines_of_pages
       display_lines_of_texte
+
     end
 
-    attr_accessor :page_lines   # Liste des lignes à afficher.
 
+    def init_graph
+      GRAPH[:white_line] = TABV + TAB * 2 + (' ' * largeur_colonne).grisitalsurblanc
+      GRAPH[:dbl_white_line] = GRAPH[:white_line] * 2
+    end
 
     # Maintenant que les lignes de texte ont été établies, on peut les
     # afficher dans la fenêtre, sous forme de deux colonnes. De x lignes
@@ -49,36 +109,21 @@ class Output
     #   Cas 3     Le texte est très long, plus long que les deux colonnes.
     #             => On affiche la partie visible et on attend une touche
     #             pour passer à la suite.
-    HAUTEUR_PAGE = 20 # lignes
     def display_lines_of_texte
-      finalise_lines_of_pages
-      ligne_blanche = TAB * 2 + (' ' * largeur_colonne).grisitalsurblanc
-      ligne_blanche = TABV + ligne_blanche
-      dbl_whiteline = ligne_blanche * 2
       puts String::RC * 10
-      puts dbl_whiteline
 
-      # Pour le moment, on affiche tout
-      # puts page_lines.join(String::RC)
-
-      # On va réessayer de tout afficher sur deux colonnes
-      # On fonctionne par petites pages de 15 lignes qu'on affiche
-      # toutes en même temps
-      iline = 0
-      while line = page_lines[iline]
-        left_line = page_lines[iline]
-        right_line = page_lines[iline + HAUTEUR_PAGE]
-        puts left_line + (right_line || ligne_blanche)
-        iline += 1
-        if (iline % HAUTEUR_PAGE) == 0
-          puts dbl_whiteline
-          puts String::RC
-          puts dbl_whiteline
-          iline += HAUTEUR_PAGE
+      # On affiche tout par petite pages virtuelles de HAUTEUR_PAGE hauteur
+      until page_lines.empty?
+        left_lines  = page_lines.slice!(0, HAUTEUR_PAGE)
+        right_lines = page_lines.slice!(0, HAUTEUR_PAGE)
+        puts GRAPH[:dbl_white_line]
+        while left_line = left_lines.shift
+          right_line = right_lines.shift || GRAPH[:white_line]
+          puts left_line + right_line
         end
+        puts GRAPH[:dbl_white_line]
       end
 
-      puts dbl_whiteline
       puts String::RC * 3
     end
     # /display_lines_of_texte
@@ -91,9 +136,12 @@ class Output
     # /finalise_lines_of_pages
 
 
-    # Méthode qui affiche le texte avec les proximités dans la fenêtre
     attr_accessor :cur_line     # ligne de texte courante (en traitement)
     attr_accessor :len_cur_line # longeur de la ligne courante
+
+    # Méthode qui définit les lignes de texte en fonction des proximités, en
+    # les calculant pour qu'elles tiennent dans des colonnes de largeur
+    # `largeur_colonne`
     def define_lines_of_texte
 
       # Les trois parties de fenêtre à simuler, ici sans passer par
@@ -120,19 +168,8 @@ class Output
       self.page_lines = Array.new
 
 
-      nombre_cols     = `tput cols`.to_i
-      nombre_lines    = `tput lines`.to_i
-      self.nombre_colonnes = nombre_cols
-      self.nombre_lignes = nombre_lines
-      hauteur_footer  = 5 # lignes
-      hauteur_page    = nombre_lines - hauteur_footer
-
-      # Pour afficher sur deux colonnes :
-      self.largeur_colonne = (nombre_cols / 2) - 8 # 8 pour une gouttière de 4 et des marges de 2
-
-      # # Pour afficher sur une seule colonne :
-      # self.largeur_colonne = nombre_cols - 16 # affichage en une seule colonne
-
+      # ICI, C'EST LA FORMULE POUR LA PROXIMITÉ D'UN MOT
+      # TODO Il faut pouvoir le faire pour un document entier
       data_mot = table[:mots][proxmot.canon]
 
       # Si aucune proximité n'a été trouvée, on peut s'en retourner
@@ -142,6 +179,12 @@ class Output
       end
 
       # On ajoute les couleurs aux segments
+      # Avec le format de couleur :console, il sera ajouté au segment d'un
+      # mot en proximité la propriété :prev_color et/ou :next_color qui sera
+      # l'amorce d'une marque de couleur dans la console, c'est-à-dire
+      # quelque chose comme `\033[38;5;34m`.
+      # Il faudra donc ajouter `\033[0m` après le mot, ce dont s'occupe
+      # la méthode `displayed_code_segment` ci-dessous.
       projet.define_word_colors_in_segments(data_mot[:proximites], {color_format: :console})
 
 
@@ -203,7 +246,6 @@ class Output
           pseg, nseg = seg.split(/[\n\r]/)
           pseg = nil if pseg == ''
           nseg = nil if nseg == ''
-          puts "pseg: #{pseg.inspect} / nseg: #{nseg.inspect}"
           cur_line << pseg.noirsurblanc
           self.len_cur_line += pseg.length
           add_cur_line_and_reset
@@ -237,15 +279,10 @@ class Output
         # On ajoute toujours la longueur de ce segement qui va être ajouté
         self.len_cur_line += data_segment[:length]
 
-        # On écrit le segment, en le traitant si c'est le mot qu'on
-        # veut voir.
-        self.cur_line <<
-          case data_segment[:type]
-          when :inter
-            data_segment[:seg].noirsurblanc
-          when :mot
-            code_pour_mot_segment(data_segment)
-          end
+        # On écrit le segment, en le traitant si c'est un mot en
+        # proximité
+        self.cur_line << displayed_code_segment(data_segment)
+
       end
       # Fin de boucle sur tous les mots
 
@@ -259,7 +296,11 @@ class Output
     end
     # /define_lines_of_texte
 
-
+    # Ajoute la ligne courante à la liste des lignes et ré-initialise
+    # une nouvelle ligne.
+    #
+    # Note : des espaces blancs sont ajoutés en fin de ligne pour qu'elle
+    # aille jusqu'au bout de la colonne.
     def add_cur_line_and_reset
       # Il faut ajouter les espaces au bout de la ligne pour
       # que la page apparaisse bien. Mais pour ça, on ne peut pas
@@ -272,34 +313,63 @@ class Output
     end
     # /add_cur_line_and_reset
 
-
     # SI +strict+ est vrai, on ne double pas le mot lorsqu'il a une
     # proximité avant et arrière. Pas utilisé pour le moment.
-    def code_pour_mot_segment dsegment, strict = false
+    #
+    # Noter qu'ici passent aussi bien les segments de type :mot que les
+    # autres (type :inter)
+    def displayed_code_segment dsegment, strict = false
       dsegment[:has_color] || (return dsegment[:seg].noirsurblanc)
       seg = dsegment[:seg]
-      ecol = "\033[0m"
       pcolor = dsegment[:prev_color]
       ncolor = dsegment[:next_color]
       if pcolor && ncolor
         # Avec une proximité avant et une après
+        # EN mode 'strict', on ne double pas le mot (mot|mot), on le coupe
+        # en deux pour donner à chaque moitié une couleur.
         if strict
           seg_moit = seg.length / 2
           pmoit = seg[0...seg_moit]
           nmoit = seg[seg_moit..-1]
-          '%s%s%s%s%s%s' % [pcolor, pmoit, ecol, ncolor, nmoit, ecol]
+          '%s%s%s%s%s%s' % [pcolor, pmoit, ENDCOLOR, ncolor, nmoit, ENDCOLOR]
         else
-          '%s%s%s|%s%s%s' % [pcolor, seg, ecol, ncolor, seg, ecol]
+          '%s%s%s|%s%s%s' % [pcolor, seg, ENDCOLOR, ncolor, seg, ENDCOLOR]
         end
       elsif pcolor
-        '%s%s%s' % [pcolor, seg, ecol]
+        '%s%s%s' % [pcolor, seg, ENDCOLOR]
       else
-        '%s%s%s' % [ncolor, seg, ecol]
+        '%s%s%s' % [ncolor, seg, ENDCOLOR]
       end
     end
     # /code_pour_mot_segment
 
+
+    # ---------------------------------------------------------------------
+    #   MÉTHODES DE DIMENSION
+
+    def nombre_colonnes
+      @nombre_colonnes ||= `tput cols`.to_i
+    end
+    def nombre_lignes
+      @nombre_lignes ||= `tput lines`.to_i
+    end
+
+    # Largeur de la colonne
+    def largeur_colonne
+      @largeur_colonne ||= (nombre_colonnes / 2) - 8
+      # 8 pour une gouttière de 4 et des marges de 2
+    end
+
+    def hauteur_page
+      @hauteur_page ||= nombre_lignes - hauteur_footer
+    end
+
+    def hauteur_footer
+      @hauteur_footer ||= 5
+    end
+
+
   end#/<< self
 end#/Output
-end #/Project
+end #/Console
 end #/Scrivener

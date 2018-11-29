@@ -5,8 +5,7 @@ class Scrivener
   class Project
 
     # Méthode qui va définir la couleur des mots dans les segments, pour
-    # la liste des proximites données +proximites+ (par défaut, toutes les
-    # proximités)
+    # la liste des proximites données +proximites+.
     #
     # Définit dans chaque élément de self.segments les propriétés :
     #   :has_color    True si le mot doit être colorisé
@@ -17,12 +16,13 @@ class Scrivener
     # Il suffit ensuite de boucler dans segment pour afficher le texte avec
     # les proximités mises en couleur.
     #
-    # +param proximites+  Liste d'instance {Proximite}
+    # +param proximites+  Liste d'instance {Proximite} ou d'identifiant
+    #
     # +param options+     Hash des options :
-    #   :color_format     Le format de couleur (RTF par défaut)
-    #                     Mettre :console pour la console.
-    #   :in_color_list    La liste dans laquelle prendre les couleurs.
-    #                     :dark_colors par défaut.
+    #     :color_format     Le format de couleur (RTF par défaut)
+    #                       Mettre :console pour la console.
+    #     :in_color_list    La liste dans laquelle prendre les couleurs.
+    #                       :dark_colors par défaut.
     #
     def define_word_colors_in_segments proximites = nil, options = nil
 

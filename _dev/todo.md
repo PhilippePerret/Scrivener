@@ -1,4 +1,4 @@
-* Trouver un affichage qui permette de voir les proximités courantes dans le texte, comme dans une page, pour un mot donné. Cf. scénario ci-dessous
+* Affichage des proximités d'un document, comme pour un mot
 * Pouvoir récupérer le titre du projet dans le fichier xml du projet
 * Relever dans le texte long de PSS les mots qui peuvent avoir un niveau de proximité plus petit ('son', 'pour', etc.) et les ajouter aux listes.
 
