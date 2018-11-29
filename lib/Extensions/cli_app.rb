@@ -19,7 +19,9 @@ class CLI
     'fc'              => 'force_calcul',
     'fdc'             => 'final-draft-coefficient',
     'h'               => 'help',
+    'i'               => 'initial',
     'k'               => 'keys_mode_test',
+    'l'               => 'local',
     'o'               => 'output',
     'vb'              => 'verbose',
 

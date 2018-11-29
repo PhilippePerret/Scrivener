@@ -11,6 +11,7 @@ class Console
 class Output
 
   MSGS = {
+    no_proximites:      'Aucune proximité n’est à afficher.',
     unproximable_objet: 'Je ne sais pas afficher en deux pages les proximités d’un élément :%s'
   }
   TABV          = '  ' # Pour "TABulation Vierge"
@@ -82,8 +83,6 @@ class Output
         raise MSGS[:unproximable_objet] % objet.class.inspect
       end
 
-      return
-
       init_graph
       define_lines_of_texte
       finalise_lines_of_pages
@@ -122,6 +121,7 @@ class Output
           puts left_line + right_line
         end
         puts GRAPH[:dbl_white_line]
+        puts String::RC
       end
 
       puts String::RC * 3
@@ -135,6 +135,26 @@ class Output
     end
     # /finalise_lines_of_pages
 
+    # Retourne la liste des proximités à traiter en fonction
+    # du type de l'objet transmis à la méthode
+    def proximites
+      @proximites ||= begin
+        case objet
+        when ProxMot
+          data_mot = table[:mots][proxmot.canon]
+          data_mot[:proximites]
+        when Scrivener::Project::BinderItem
+          # table[:proximites].values
+          # Ici, plutôt que d'envoyer la liste des proximités, on va envoyer
+          # la liste des listes de proximités regroupés par mot canonique. De
+          # cette manière, les mêmes mots seront colorisés de la même couleur
+          table[:mots].collect do |canon, data_canon|
+            data_canon[:proximites].empty? && next
+            data_canon[:proximites]
+          end.compact
+        end
+      end
+    end
 
     attr_accessor :cur_line     # ligne de texte courante (en traitement)
     attr_accessor :len_cur_line # longeur de la ligne courante
@@ -168,15 +188,13 @@ class Output
       self.page_lines = Array.new
 
 
-      # ICI, C'EST LA FORMULE POUR LA PROXIMITÉ D'UN MOT
-      # TODO Il faut pouvoir le faire pour un document entier
-      data_mot = table[:mots][proxmot.canon]
 
       # Si aucune proximité n'a été trouvée, on peut s'en retourner
-      data_mot[:proximites].count > 0 || begin
-        puts "Ce mot ne possède aucune proximité.".bleu
+      proximites.count > 0 || begin
+        puts MSGS[:no_proximites].bleu
         return nil
       end
+
 
       # On ajoute les couleurs aux segments
       # Avec le format de couleur :console, il sera ajouté au segment d'un
@@ -185,7 +203,7 @@ class Output
       # quelque chose comme `\033[38;5;34m`.
       # Il faudra donc ajouter `\033[0m` après le mot, ce dont s'occupe
       # la méthode `displayed_code_segment` ci-dessous.
-      projet.define_word_colors_in_segments(data_mot[:proximites], {color_format: :console})
+      projet.define_word_colors_in_segments(proximites, {color_format: :console})
 
 
       # On commence par calculer la longueur réelle de chaque segment, en

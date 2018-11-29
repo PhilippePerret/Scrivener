@@ -6,8 +6,43 @@ class Scrivener
 
     class BinderItem
 
+      BEFORE_TIRET_BADS_ARR = [
+        'mi'
+      ]
+      BEFORE_TIRET_BADS = Hash.new
+
+      AFTER_TIRET_BADS_ARR = [
+        'ce', 'je', 'tu', 'il','on',
+        'ils',
+        'nous', 'vous', 'elle',
+        'elles'
+        ]
+      AFTER_TIRET_BADS = Hash.new
+
+
+      class << self
+
+        attr_accessor :inited
+
+
+        def prepare_listes_tirets
+          BEFORE_TIRET_BADS_ARR.each do |item|
+            BEFORE_TIRET_BADS.merge!(item => true)
+          end
+          AFTER_TIRET_BADS_ARR.each do |item|
+            AFTER_TIRET_BADS.merge!(item => true)
+          end
+          self.inited = true
+        end
+
+      end #/<< self
+
+
+
       # Méthode qui traite le texte du binderitem
       def releve_mots_in_texte tableau
+
+        self.class.prepare_listes_tirets unless self.class.inited
 
         texte || @texte = ''
 
@@ -21,6 +56,12 @@ class Scrivener
         t = texte.gsub(/\r/,'').gsub(/[\n\.\!\?\;\… ]/, ' ')
         # NE SURTOUT PAS METTRE '_' qui sert pour les tags retirés
 
+        # # Remplacer les '-' (tirets) entre deux lettres par la marque
+        # # XTIRETX pour pouvoir garder les mots entier, sauf si c'est la
+        # # forme verbale 'y a-t-il ?'. Il faut qu'il y ait au moins 2
+        # # lettre pour qu'on le garde
+        # t = t.gsub(/([a-z]{2})\-([a-zêèîàç]{2})/, '\1XTIRETX\2')
+
         cur_offset = tableau[:current_offset]
         bdi_offset = 0 # l'offset dans ce document (pour segment)
         cur_index  = tableau[:current_index_mot] # commence à -1
@@ -30,12 +71,72 @@ class Scrivener
         new_document_title_registered = false
 
         # On peut scanner le texte
-        t.scan(/\b(.+?)\b/).each do |found|
+        all_separated_words = t.scan(/\b(.+?)\b/)
+        last_index_found = all_separated_words.count - 1
 
-          seg = found[0]
+        # On en aura besoin pour traiter les mots avec tirets
+        mot = nil
 
-          # Est-ce le dernier mot ?
+        index_found = -1 # pour commencer à 0 et avoir index_found += 1 au-dessus
+
+        # all_separated_words.each_with_index do |found, index_found|
+        while index_found < last_index_found
+          index_found += 1
+
+          found = all_separated_words[index_found]
+          seg   = found[0]
+
+          # Si c'est le dernier mot, on s'arrête
           seg != 'EOT' || break
+
+          # Pour la gestion des tirets
+          next_found = all_separated_words[index_found + 1] # peut être nil
+
+          # Puisqu'on peut prendre le found suivant, on va vérifier si
+          # le mot courant doit être lié au(x) suivant(s) par des tirets,
+          # plutôt que de le contrôler quand le mot est déjà rentré. De
+          # cette manière, l'ajout du mot canonique sera efficient.
+          # Sinon: on ajoute par exemple 'contre' à la liste des mots
+          # canoniques et ensuite on découvre que c'est 'contre-exemple'
+          # et qu'il faut le traiter comme tel.
+
+          while next_found && next_found[0] == '-'
+            # Cas spécial du tiret. Comme il est difficile de faire
+            # une distinction entre les tirets qui doivent être supprimés
+            # par exemple dans les formes verbales "vois-tu ?" des tirets
+            # (mauvais) qui débutent les phrases "-", des tirets qui sont
+            # utilisés à tort à la place des tirets longs et des vrais
+            # tirets entre deux mots, on fait le traitement ici.
+            # Fonctionnement :
+            #   On cherche si le tiret est valide en testant le segment
+            #   précédent et le segment suivant.
+            #   Si on trouve un tiret qui en est vraiment un, on ajoute
+            #   le tiret et le mot suivant au mot courant.
+            atiret = all_separated_words[index_found + 2][0] # pour Before-tiret
+            if atiret.nil?
+              # Pas de mot après => On doit poursuivre
+              break
+            elsif seg.length < 2 || atiret.length < 2
+              # Un des deux mots trop court => On doit poursuivre
+              break
+            elsif BEFORE_TIRET_BADS[seg]
+              # Le premier n'est pas valide => On doit poursuivre
+              break
+            elsif AFTER_TIRET_BADS[atiret]
+              # Le second n'est pas valide => On doit poursuivre
+              break
+            else
+              # puts "\n\nJe dois traiter le tiret entre #{seg.inspect} et #{atiret.inspect}."
+              seg += '-' + atiret
+              # puts "   seg actuel : #{seg.inspect}"
+              index_found += 2 # pour sauter le tiret prochain et le mot prochain
+              # Il faut faire une boucle pour voir s'il n'y a pas
+              # encore de tiret comme dans "arrière-grand-mère"
+              next_found = all_separated_words[index_found + 1]
+            end
+          end
+          # /boucle tant qu'on trouve des tirets valides
+
 
           # L'index courant
           # Noter qu'il sert aussi d'ID au mot

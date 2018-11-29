@@ -19,7 +19,7 @@ class ProxMot
 
   # Lorsqu'il est corrigé, le mot est remplacé par son nouveau mot, dans `real`
   # On conserve toujours le mot initial
-  attr_accessor :init_real
+  attr_accessor :real_init
 
   # Note : les arguments sont devenus facultatifs (sauf le premier) pour
   # pouvoir instancier un mot quelconque et obtenir sa valeur canonique, comme
@@ -29,7 +29,7 @@ class ProxMot
     self.offset     = offset
     self.index      = index
     self.real       = real_mot
-    self.init_real  = real_mot.freeze
+    self.real_init  = real_mot.freeze
     self.binder_item_uuid = binder_item_uuid
   end
 
@@ -40,6 +40,14 @@ class ProxMot
       self.proximite_avant_id.inspect, self.proximite_apres_id.inspect, self.length]
   end
 
+  # Pour redéfinir le mot réel, notamment avec le traitement des
+  # tirets
+  def redefine_real new_real
+    self.reset
+    self.real       = new_real
+    self.real_init  = new_real.freeze
+  end
+  
   def reset
     self.real   = nil
     [:downcase, :canonique, :length, :is_treatable, :is_real_mot, :distance_minimale

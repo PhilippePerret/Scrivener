@@ -44,6 +44,13 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <parametres>][ <option
         projet a été précédemment utilisé (car la commande `scriv`
         utilise toujours par défaut le dernier projet utilisé).
 
+      * Un indice de document est donné, le programme affiche seulement
+        les proximités de ce document, comme ci-dessu.
+
+          #{'scriv prox[ path/to/proj.scriv] idoc=3'.jaune}
+
+        La commande ci-dessus affiche les proximités du 3ème document.
+
 #{'Utilisation'.underlined}
 
     Quand on se trouve dans le dossier contenant le projet Scrivener,
@@ -74,6 +81,13 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <parametres>][ <option
     projet), portant la date et l'heure courante, avec les proximités
     restantes.
 
+    Noter qu'une fois qu'on a utilisé la commande `scriv` sur un
+    projet, c'est ce projet qui sera utilisé par défaut. Sauf si
+    le projet est défini autrement et, notamment, qu'on se trouve
+    dans un dossier contenant un projet .scriv.
+    Note : c’est toujours en dernier recours que le dernier projet
+    est utilisé.
+
     AFFICHAGE DES RÉSULTATS SEULEMENT
     ---------------------------------
 
@@ -81,6 +95,8 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <parametres>][ <option
     proximités. C'est un tableau affichant toutes les informations
     qu'on peut tirer sur les proximités, à commencer par leur
     nombre dans le texte.
+    Si le path du projet n'est pas fourni, c'est le dernier qui est
+    utilisé.
 
         #{'scriv prox -f --data'.jaune}
         # => force le calcul est affiche les données
@@ -88,10 +104,17 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <parametres>][ <option
     AFFICHAGE DES PROXIMITÉS D'UN DOCUMENT
     --------------------------------------
 
-        #{'scriv prox[ path/to/projet.scriv] doc="Titre du document"'.jaune}
+        #{'scriv prox[ path/to/proj.scriv] doc="Titre du document"'.jaune}
 
     Cette commande ne va afficher que les proximités du document de
     titre donné. En mettant chaque proximité en couleur.
+    Si le path du projet n'est pas fourni, c'est le dernier qui est utilisé.
+
+        #{'scriv prox[ path/to/proj.scriv] idoc=3'.jaune}
+
+    Affiche en console les proximités du 3ème document en les mettant
+    en couleur.
+    Si le path du projet n'est pas fourni, c'est le dernier qui est utilisé.
 
     AFFICHAGE DES PROXIMITÉS D'UN MOT
     ---------------------------------

@@ -11,6 +11,8 @@ class Proximite
     'peut-être' => 'sans doute'
   }
 
+  # Pour construire la liste des proximités spécifiques, il faut appeler
+  # la méthode  `Proximite.init`
   PROXIMITES_MAX = {
     # Liste des mots dont on supporte une proximité de 10 lettre ou plus
     10 => [
@@ -21,6 +23,7 @@ class Proximite
       'elle',
       'il',
       'nous',
+      'son',
       'vous'
     ],
     # Liste des mots dont on supporte une proximité de plus de 50 signes
@@ -39,7 +42,7 @@ class Proximite
       'pour',
       'que',
       'qui',
-      'son'
+
     ],
     200 => [
       'cinq',

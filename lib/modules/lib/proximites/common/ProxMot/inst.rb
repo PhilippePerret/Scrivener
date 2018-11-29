@@ -10,7 +10,7 @@ class ProxMot
     self.offset     = offset
     self.index      = index
     self.real       = real_mot
-    self.init_real  = real_mot.freeze
+    self.real_init  = real_mot.freeze
     self.binder_item_uuid = binder_item_uuid
     self.class.add(self) # il faut charger le module 'lib_proximites'
   end

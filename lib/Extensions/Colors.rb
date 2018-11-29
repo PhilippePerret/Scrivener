@@ -1,8 +1,12 @@
 =begin
 
   Colors for colors
-  Version: 1.2.0
+  Version: 1.2.1
   Author:  philippe.perret@yahoo.fr
+
+  # Note sur version 1.2.1
+    Définition de la liste LIGHT_COLORS des couleurs claires (à utiliser sur
+    fond sombre/noir).
 
 =end
 module Colors
@@ -75,9 +79,18 @@ module Colors
   ]
 
   LIGHT_COLORS = [
-    :white,
+    # Les couleurs qui ne vont pas :
+    # :pretty_blue
+    :blue_grey,
+    :green,
+    :orange,
     :yellow,
-    :very_light_grey
+    :blue,
+    :light_red,
+    :cacadoie,
+    :white,
+    :very_light_grey,
+    :pale_dark_green
   ]
 
   # Une méthode pour créer un cycle de couleurs
@@ -110,6 +123,7 @@ module Colors
       options || raise('Colors::Cycle.new attend la définition du cycle de couleurs.')
       self.format = options[:format]
       define_liste_couleurs(options[:in])
+      @icolor = -1 # pour commencer à 0
     end
     # Retourne la couleur suivante
     def next
@@ -121,10 +135,14 @@ module Colors
       end
     end
     def next_item
-      liste_couleurs[next_icolor]
+      nitem = liste_couleurs[next_icolor]
+      # puts "- next-item couleur (@icolor = #{@icolor}) : #{nitem.inspect}"
+      # return nitem
     end
     def next_icolor
-      @icolor = @icolor.nil? || (@icolor+1) >= nombre_couleurs ? 0 : @icolor + 1
+      @icolor += 1
+      @icolor < nombre_couleurs || @icolor = 0
+      @icolor
     end
     def liste_couleurs
       @liste_couleurs ||= Colors::COLORS.values
@@ -144,8 +162,8 @@ module Colors
       when Symbol
         color_keys =
           case value
-          when :dark_colors  then DARK_COLORS
-          when :light_colors then LIGTH_COLORS
+          when :dark_colors  then Colors::DARK_COLORS
+          when :light_colors then Colors::LIGHT_COLORS
           end
       else
         return # => liste par défaut
