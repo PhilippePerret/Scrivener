@@ -3,7 +3,12 @@
 #
 # CLI
 #
-# VERSION: 1.4.0
+# VERSION: 1.5.0
+# (Penser à prendre tout le dossier, pas seulement ce module)
+#
+# MODE D'EMPLOI
+# -------------
+#   Voir le manuel dans le dossier.
 #
 # Note : l'application doit définir :
 #   class CLI
@@ -42,7 +47,7 @@ class CLI
 
   class << self
 
-    attr_accessor :command, :params, :options
+    attr_accessor :app_name, :command, :params, :options
 
     attr_accessor :last_command # sans l'application
 
@@ -51,6 +56,70 @@ class CLI
 
     # Historique des commandes
     attr_reader :historique, :i_histo
+
+
+
+    # Initialisation de CLI
+    def init
+      # L'application
+      # puts "constantes : #{File.constants}"
+      self.app_name = ENV['_'].split(File::SEPARATOR).last
+      # La commande = le premier mot (pas forcément)
+      self.command= nil
+      # log "Commande : #{CLI.command.inspect}"
+      self.options  = Hash.new
+      # self.params   = (a = Array.new ; a << nil ; a)
+      # self.params   = Array.new(1, nil)
+      self.params   = Hash.new()
+      self.params.merge!(0 => nil)
+    end
+    # /init
+
+    # = main =
+    #
+    # Analyse de la ligne de commande
+    #
+    # C'est la première méthode que doit appelée l'application.
+    #
+    def analyse_command_line arguments_v = nil
+      arguments_v ||= ARGV
+
+      init
+
+      # On mémorise la dernière commande, c'est-à-dire la ligne complète fournie
+      # à cette méthode.
+      self.last_command = (arguments_v||[]).join(' ')
+      # On ajoute cette commande à l'historique courant
+      add_historique(self.last_command)
+
+      # Ensuite, on peut trouver des paramètres ou des options. Les options
+      # se reconnaissent au fait qu'elles commencent toujours par "-" ou "--"
+      # puts "ARGV : #{ARGV.inspect}"
+      arguments_v.empty? || begin
+        arguments_v.each do |argv|
+          if argv.start_with?('-')
+            traite_arg_as_option argv
+          elsif self.command.nil?
+            defined?(DIM_CMD_TO_REAL_CMD) || raise('La constante CLI::DIM_CMD_TO_REAL_CMD doit être définie pour l’application courante.')
+            self.command = (DIM_OPT_TO_REAL_OPT[argv] ||DIM_CMD_TO_REAL_CMD[argv] || argv).gsub(/\-/,'_')
+          else
+            traite_arg_as_param argv
+          end
+        end
+      end
+
+      BENCHMARK.merge!(oui: options[:benchmark])
+
+      # Traitement spécial de la commande universelle `todo`
+      if self.command == 'todo'
+        CLI::Todo.run
+        return false
+      end
+
+      return true
+    end
+    # /analyse_command_line
+
 
     # Pour benchmarker l'application
     def benchmark ope, titre = nil
@@ -151,48 +220,6 @@ class CLI
       self.options[:quiet]
     end
 
-    # Initialisation de CLI
-    def init
-      # La commande = le premier mot (pas forcément)
-      self.command= nil
-      # log "Commande : #{CLI.command.inspect}"
-      self.options  = Hash.new
-      # self.params   = (a = Array.new ; a << nil ; a)
-      # self.params   = Array.new(1, nil)
-      self.params   = Hash.new()
-      self.params.merge!(0 => nil)
-    end
-
-    # Analyse de la ligne de commande
-    def analyse_command_line arguments_v = nil
-      arguments_v ||= ARGV
-      init
-      # On mémorise la dernière commande, c'est-à-dire la ligne complète fournie
-      # à cette méthode.
-      self.last_command = (arguments_v||[]).join(' ')
-      # On ajoute cette commande à l'historique courant
-      add_historique(self.last_command)
-
-      # Ensuite, on peut trouver des paramètres ou des options. Les options
-      # se reconnaissent au fait qu'elles commencent toujours par "-" ou "--"
-      # puts "ARGV : #{ARGV.inspect}"
-      arguments_v.empty? || begin
-        arguments_v.each do |argv|
-          if argv.start_with?('-')
-            traite_arg_as_option argv
-          elsif self.command.nil?
-            defined?(DIM_CMD_TO_REAL_CMD) || raise('La constante CLI::DIM_CMD_TO_REAL_CMD doit être définie pour l’application courante.')
-            self.command = (DIM_OPT_TO_REAL_OPT[argv] ||DIM_CMD_TO_REAL_CMD[argv] || argv).gsub(/\-/,'_')
-          else
-            traite_arg_as_param argv
-          end
-        end
-      end
-
-      BENCHMARK.merge!(oui: options[:benchmark])
-      return true
-    end
-
     def traite_arg_as_option arg
       if arg.start_with?('--')
         opt, val = arg[2..-1].strip.split('=')
@@ -250,6 +277,18 @@ class CLI
       puts "\033[1;31m#{err_mess}\033[0m"
       return false
     end
+
+    # Dossier général de la commande CLI pour l'utilisateur courant
+    # Initié pour conserver les todolists des applications dans un lieu
+    # unique.
+    def cli_home_folder
+      @cli_home_folder ||= begin
+        d = File.expand_path(File.join(Dir.home,'.cli'))
+        `mkdir -p "#{d}"`
+        d
+      end
+    end
+
 
   end #/<< self
 end #/CLI

@@ -81,6 +81,7 @@ module Colors
   LIGHT_COLORS = [
     # Les couleurs qui ne vont pas :
     # :pretty_blue
+    :red,
     :blue_grey,
     :green,
     :orange,
