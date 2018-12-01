@@ -230,9 +230,55 @@ commande CLI.
 
       Obtenir cette aide.
 
-  #{'<app> todo'.jaune}
+  #{'<app> todo[ list]'.jaune}
 
       Liste des choses à faire.
+
+  #{'<app> todo + "Nouvelle tâche"'.jaune}
+
+      Pour ajouter une nouvelle tâche.
+
+  #{'<app> todo - "Début de la tâche"'.jaune}
+
+      Pour supprimer une tâche par le début de son texte.
+
+  #{'<app> todo - 6'.jaune}
+
+      Pour supprimer une tâche par son numéro (le numéro qui
+      est affiché quand on demande la liste des tâches).
+
+  #{'<app> todo up|down "Début de la tâche"'.jaune}
+
+      Pour remonter (up) ou descendre (down) une tâche désignée
+      par le début de son texte.
+
+  #{'<app> todo up|down 4'.jaune}
+
+      Pour remonter (up) ou descendre (down) une tâche désignée
+      par son numéro dans la liste.
+
+  #{'<app> todo top|bottom "Début de la tâche"'.jaune}
+
+      Pour mettre en haut (top) ou mettre en bas (bottom) une
+      tâche désignée par le début de son texte.
+
+  #{'<app> todo top|bottom 4'.jaune}
+
+      Pour mettre en haut (top) ou mettre en bas (bottom) une
+      tâche désignée par son numéro dans la liste.
+
+  #{'<app> todo after|before "Début de la tâche" "Autre tâche"'.jaune}
+
+      Pour placer la tâche désignée par son début de texte
+      après (after) ou avant (before) la tâche désignée par
+      le début de son texte.
+
+  #{'<app> todo after|before 5 "Autre tâche"'.jaune}
+
+      Pour placer la tâche désignée par son numéro dans la
+      liste après (after) ou avant (before) la tâche désignée
+      par le début de son texte (ou son numéro dans la liste).
+
 
     EOT
   end
