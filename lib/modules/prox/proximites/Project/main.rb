@@ -19,8 +19,9 @@ class Scrivener
         # => Il ne faut afficher que la proximité d'un document
         Scrivener.require_module('prox/one_doc')
         exec_proximites_one_doc
-      elsif CLI.options[:maxtomin]
-        puts "Il faut afficher les proximités de la page la plus dense à la moins dense."
+      elsif CLI.options[:maxtomin] || CLI.options[:mintomax]
+        Scrivener.require_module('prox/max_to_min')
+        exec_max_to_min
       else
         # Sinon, c'est l'affichage de toutes les proximités
         if CLI.options[:data] || self.ask_for_fermeture
@@ -29,6 +30,15 @@ class Scrivener
           puts ' Abandon…'.rouge
         end
       end
+    end
+
+    def init_proximites
+      # --- Initialisation des valeurs ---
+      # Prépare les listes constantes du programme aussi bien que les
+      # listes propres au projet.
+      Proximite.init
+      init_tableau_proximites
+      init_tableau_segments
     end
 
     # Initialisation de la table géante des proximités
@@ -79,14 +89,6 @@ class Scrivener
       end
     end
 
-    def init_proximites
-      # --- Initialisation des valeurs ---
-      # Prépare les listes constantes du programme aussi bien que les
-      # listes propres au projet.
-      Proximite.init
-      init_tableau_proximites
-      init_tableau_segments
-    end
 
     def check_proximites
       CLI.dbg("-> Scrivener::Project#check_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")

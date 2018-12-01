@@ -180,6 +180,19 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <parametres>][ <option
           l'ordre de densité, c'est-à-dire que sont d'abord af-
           fichés les documents les plus denses en nombre de
           proximités.
+          Ne pas oublier l'option `-f/--force` pour actualiser
+          complètement les données si nécessaire.
+
+          Ajouter l'option `-t/--tableau` pour voir la liste des
+          documents classés, avec les informations de leurs
+          proximités (et autres).
+
+    --mintomax
+          Options inverse de la précédente : affiche les proximités
+          du document le moins dense.
+          L'option `-t/--tableau` affiche également la liste
+          de tous les documents, mais dans l'ordre inverse à
+          maxtomin, donc du moins dense au plus dense.
 
     --data
           Affichage seulement des données du dernier calcul de
