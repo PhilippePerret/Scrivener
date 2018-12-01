@@ -79,5 +79,5 @@ Usage :    #{'scriv watch-prox[imites][ vers/mon/projet.scriv][ <options>]'.jaun
   exit 0
 end
 
-Scrivener.require_module('proximites-watcher')
+Scrivener.require_module('prox/watcher')
 project.exec_watch_proximites

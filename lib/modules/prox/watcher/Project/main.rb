@@ -11,7 +11,7 @@ class Scrivener
       Scrivener.require_module('lib_proximites')
       Debug.init
       ask_for_ouverture
-      init_watch_proximites
+      load_modules_proximites
       options_conformes
       Proximite.init
       output_tableau_etat # pour le mettre en place

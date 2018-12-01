@@ -22,6 +22,7 @@ class CLI
     'i'               => 'initial',
     'k'               => 'keys_mode_test',
     'l'               => 'local',
+    'm2m'             => 'maxtomin',
     'o'               => 'output',
     'vb'              => 'verbose',
 

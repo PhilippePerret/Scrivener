@@ -175,6 +175,12 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <parametres>][ <option
           Pour créer le fichier qui montrera les proximités au lieu
           de les afficher avec le terminal.
 
+    -m2m/--maxtomin
+          Pour afficher les binder-items (les documents) dans
+          l'ordre de densité, c'est-à-dire que sont d'abord af-
+          fichés les documents les plus denses en nombre de
+          proximités.
+
     --data
           Affichage seulement des données du dernier calcul de
           proximités.
@@ -204,6 +210,6 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <parametres>][ <option
   Scrivener::help(aide)
 
 else
-  Scrivener.require_module('proximites')
+  Scrivener.require_module('prox/proximites')
   project.exec_proximites
 end

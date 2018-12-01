@@ -13,11 +13,14 @@ class Scrivener
         Proximite.open_file_abbreviations
       elsif CLI.params.key?(:mot)
         # => Il faut n'afficher que la proximité d'un mot
-        Scrivener.require_module('proximites_one_word')
+        Scrivener.require_module('prox/one_word')
         exec_proximites_one_word
       elsif CLI.params.key?(:doc) || CLI.params.key?(:idoc)
-        Scrivener.require_module('proximites_one_doc')
+        # => Il ne faut afficher que la proximité d'un document
+        Scrivener.require_module('prox/one_doc')
         exec_proximites_one_doc
+      elsif CLI.options[:maxtomin]
+        puts "Il faut afficher les proximités de la page la plus dense à la moins dense."
       else
         # Sinon, c'est l'affichage de toutes les proximités
         if CLI.options[:data] || self.ask_for_fermeture
