@@ -1,23 +1,31 @@
 class Proximite
 class << self
 
+  # Pour mettre toutes les proximités.
+  # Elles se trouveront à deux endroits dans la table :
+  #   - dans cette table
+  #   - dans la propriété :proximites du mot (mais seulement sous forme
+  #     d'identifiant)
+  # On boucle sur chaque mot différent du tableau
+  #
+  # Si project.watched_binder_item_uuid est défini, on ne doit vraiment checker
+  # que les mots de ce binder-item.
+  #
   def calcule_proximites_in tableau
-    # Pour mettre toutes les proximités. Donc elles se trouveront
-    # à deux endroits, dans cette table et dans les données du mot (mais
-    # seulement sous forme d'identifiant)
-    # On boucle sur chaque mot différent du tableau
     tableau[:mots].each do |mot_canonique, data_mot|
       data_mot[:proximites] = Array.new
       # puts "--- data_mot[:items] = #{data_mot[:items].inspect}"
       # Boucle sur chaque occurence du mot (instance {ProxMot})
       data_mot[:items].each_with_index do |imot, index_imot|
         index_imot > 0 || next
+        if project.watched_binder_item_uuid && imot.binder_item_uuid != project.watched_binder_item_uuid
+          # Il y a un binder-item surveillé et le mot courant n'appartient pas
+          # à ce document. Donc on ne le considère pas.
+          next
+        end
         previous_imot = data_mot[:items][index_imot - 1]
-        debug "---- imot : #{imot.real} (offset: #{imot.offset}, index: #{imot.index})"
-        debug "     previous : #{previous_imot.inspect}"
         # Une occurence trop rapprochée trouvée
         if imot.trop_proche_de?(previous_imot)
-          debug "     => trop proche => création d'une proximité"
           iproximite = Proximite.create(tableau, previous_imot, imot)
         end
       end

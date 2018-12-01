@@ -1,6 +1,8 @@
 class Scrivener
   class Project
 
+    attr_accessor :watched_binder_item_uuid
+
     attr_accessor :tableau_proximites
 
     # = main =

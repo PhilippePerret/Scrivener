@@ -8,7 +8,7 @@ class Scrivener
     # Lancement de la surveillance des proximités
     #
     def exec_watch_proximites
-      Scrivener.require_module('lib_proximites')
+      Scrivener.require_module('lib/proximites')
       Debug.init
       ask_for_ouverture
       load_modules_proximites

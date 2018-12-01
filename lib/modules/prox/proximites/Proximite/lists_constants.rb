@@ -22,6 +22,7 @@ class Proximite
     20 => [
       'elle',
       'il',
+      'lui',
       'nous',
       'son',
       'vous'
@@ -36,7 +37,6 @@ class Proximite
     # Liste des mots dont on supporte une proximité de plus de 100 signes
     100 => [
       'avec',
-      'lui',
       'mais',
       'par',
       'pour',

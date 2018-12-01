@@ -17,7 +17,13 @@ class Proximite
       @data = data
     end
     def compare_with_table table_comp
+      CLI.dbg("-> Proximite::Table#compare_with_table (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
       @table_comparaison = table_comp
+
+      CLI.verbose(true)
+      debug "--- self table : #{self.inspect}"
+      debug "--- @table_comparaison = #{@table_comparaison.inspect}"
+      CLI.verbose(false)
 
       # Mots qui n'appartiennent qu'à la table courante
       self.mots_propres = Array.new
@@ -33,6 +39,7 @@ class Proximite
           add_canon_and_proximites_propres(canon)
         end
       end
+      CLI.dbg("<- Proximite::Table#compare_with_table (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
     end
     # ---------------------------------------------------------------------
     #   Méthodes utiles

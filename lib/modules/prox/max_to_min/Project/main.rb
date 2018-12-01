@@ -12,6 +12,7 @@ class Project
   # Méthode principale appelée par `scriv prox --maxtomin`
   #
   def exec_max_to_min
+    Scrivener.require_module('lib/proximites')
     # Faire la liste de toutes les proximités
     get_data_proximites || return
     # Définir densités de chaque binder-items
@@ -22,10 +23,10 @@ class Project
     if CLI.options[:tableau]
       display_binder_items_by_densites
     else
-      # Afficher les proximités du binder-item le plus dense (ou le moins dense)
-      bi_uuid = self.tableau_proximites[:sorted_binder_items].send(CLI.options[:mintomax] ? :last : :first)
+      # # Afficher les proximités du binder-item le plus dense (ou le moins dense)
+      # bi_uuid = self.tableau_proximites[:sorted_binder_items].send(CLI.options[:mintomax] ? :last : :first)
       Scrivener.require_module('prox/one_doc')
-      exec_proximites_one_doc(self.tableau_proximites[:binder_items][bi_uuid][:title])
+      # exec_proximites_one_doc(self.tableau_proximites[:binder_items][bi_uuid][:title])
     end
   end
 

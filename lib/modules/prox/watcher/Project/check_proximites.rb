@@ -9,7 +9,7 @@ class Scrivener
 
       # Écrit un message d'attente à l'écran
       write_log('* check proximités…', :gris_clair, init = true)
-      check_proximites_in_watched_binder_items
+      new_tableau = check_proximites_in_watched_binder_items
 
       # On peut procéder à la comparaison (si un ancien tableau existe)
       Proximite.compare_tables(new_tableau, load_last_tableau_or_default)

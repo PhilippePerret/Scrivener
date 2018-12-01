@@ -24,8 +24,6 @@ class Scrivener
     # En général, on met dans cette propriété la valeur retournée par
     # `get_binder_items_around` (cf. ci-dessous)
     attr_accessor :watched_binder_items
-
-
     # Titre du document spécifiquement surveillé. Il peut être défini en
     # appelant la méthode `get_binder_items_around("<début de titre>")`
     attr_accessor :watched_document_title
@@ -85,8 +83,9 @@ class Scrivener
         if bitem.title.start_with?(titre_partiel)
           # On l'a trouvé !
           # On modifie le titre du document surveillé
-          self.watched_document_title = bitem.title
-          self.watched_binder_item    = bitem
+          self.watched_document_title   = bitem.title
+          self.watched_binder_item      = bitem
+          self.watched_binder_item_uuid = bitem.uuid
           this_binder_index = index_bitem
           # break # non, on poursuit pour récupérer tous les titres
         end
