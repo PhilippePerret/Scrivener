@@ -21,6 +21,7 @@ class Project
     puts 'Titre complet : %s' % self.title
     puts 'Titre court   : %s' % self.title_abbreviated
     puts '(note : les titres se règlent dans la fenêtre de compilation)'
+    puts 'Auteurs       : %s' % ['TODO Liste des auteurs ']
   end
 
 end #/Project

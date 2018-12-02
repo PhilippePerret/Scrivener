@@ -15,9 +15,17 @@ class Scrivener
       # et/ou des dernières données enregistrées
       def define_project_path_from_command
         if CLI.params[1] && File.directory?(CLI.params[1])
-          dossier = CLI.params[1]
-          dossier = dossier[0...-1] if dossier.end_with?('/')
-          Dir['%s/*.scriv' % dossier].first
+          # Attention ! Une projet scrivener (.scriv) est considéré comme un
+          # dossier. Donc, ici, il faut vérifier qu'il s'agisse bien d'un
+          # vrai dossier.
+          if CLI.params[1].end_with?('.scriv')
+            # C'est le projet scrivener
+            CLI.params[1]
+          else
+            dossier = CLI.params[1]
+            dossier = dossier[0...-1] if dossier.end_with?('/')
+            Dir['%s/*.scriv' % dossier].first
+          end
         elsif CLI.params[1] && !CLI.params[1].index('=')
           CLI.params[1]
         else
