@@ -21,7 +21,6 @@ class Scrivener
       self.command = CLI.command || 'help'
       command_exist?(self.command) || raise("La commande `#{self.command}` est inconnue (utilisez la commande `commands' pour obtenir la liste de toutes les commandes).")
       self.project_path = Project.define_project_path_from_command
-      puts "-- self.project_path: #{self.project_path.inspect}"
       test_project_if_command_on_project
       # On sauvegarde ces informations pour une utilisation ultérieure
       save_current_informations

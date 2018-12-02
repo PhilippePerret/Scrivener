@@ -4,7 +4,10 @@
   du texte.
 
 =end
+
 TABLE_LEMMATISATION = Hash.new
+
+
 class Scrivener
   class Project
 
@@ -30,6 +33,8 @@ class Scrivener
         end
         original = original.downcase
         if original != canon
+          # Rectifications nécessaire
+          canon = LEMMA_AJUSTEMENT_CANON[original] || canon
           # Rien à faire si le mot est déjà connu
           TABLE_LEMMATISATION.key?(original) && next
           # canon peut avoir la forme 'essayer|essayer'
