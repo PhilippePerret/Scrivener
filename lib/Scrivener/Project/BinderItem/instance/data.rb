@@ -13,29 +13,30 @@ class Scrivener
       def created_at ; @created_at ||= Date.parse(attrs['Created']) end
       def updated_at ; @updated_at ||= Date.parse(attrs['Modified']) end
 
-      # Le texte du fichier (au format txt simple)
-      # ------------------------------------------
-      # Il peut être pris de trois endroits différents :
-      #   - soit de la variable @texte déjà initialisée
-      #   - soit du fichier portant l'UUID dans .scriv/files/
-      #     (ce fichier correspond au fichier texte dans scrivener, mais
-      #     sans aucun balisage)
-      #   - soit du fichier dans Scrivener, qu'il faut traiter pour obtenir
-      #     le fichier ci-dessus
-      def texte
-        @texte ||= begin
-          if text? && File.exist?(rtf_text_path)
-            # -stdout ci-dessous permet de retourner le texte transformé
-            # Noter qu'on supprime toutes les balises qui se trouvent
-            # éventuellement dans le fichier, comme des variables Scrivener
-            # Le problème, c'est qu'on perdrait la correspondance au niveau des
-            # offset des mots, donc on les remplaces par des 'SCRVTAGS'
-            `textutil -format rtf -convert txt -stdout "#{rtf_text_path}"`.gsub(/<(.*?)>/) do |found|
-              ' T' + '_'*(found.length - 2) + 'T '
-            end
-          end
-        end
-      end
+      # Cf. le module texte.rb
+      # # Le texte du fichier (au format txt simple)
+      # # ------------------------------------------
+      # # Il peut être pris de trois endroits différents :
+      # #   - soit de la variable @texte déjà initialisée
+      # #   - soit du fichier portant l'UUID dans .scriv/files/
+      # #     (ce fichier correspond au fichier texte dans scrivener, mais
+      # #     sans aucun balisage)
+      # #   - soit du fichier dans Scrivener, qu'il faut traiter pour obtenir
+      # #     le fichier ci-dessus
+      # def texte
+      #   @texte ||= begin
+      #     if text? && File.exist?(rtf_text_path)
+      #       # -stdout ci-dessous permet de retourner le texte transformé
+      #       # Noter qu'on supprime toutes les balises qui se trouvent
+      #       # éventuellement dans le fichier, comme des variables Scrivener
+      #       # Le problème, c'est qu'on perdrait la correspondance au niveau des
+      #       # offset des mots, donc on les remplaces par des 'SCRVTAGS'
+      #       `textutil -format rtf -convert txt -stdout "#{rtf_text_path}"`.gsub(/<(.*?)>/) do |found|
+      #         ' T' + '_'*(found.length - 2) + 'T '
+      #       end
+      #     end
+      #   end
+      # end
 
       # Les attributes du nœud
       def attrs ; @attrs ||= node.attributes end
@@ -49,8 +50,33 @@ class Scrivener
         @elements ||= node.elements
       end
 
+      # Le titre du document
+      # Mais ce titre peut ne pas être explicitement défini. Dans ce cas,
+      # on prend le début du texte et si ce début du texte n'est pas défini,
+      # on prend l'UUID
       def title
-        @title ||= node.elements['Title'].text
+        @title ||= define_title
+      end
+
+      # On définit le titre, soit en prenant celui défini, soit en prenant
+      # le début du texte, soit en prenant l'UUID du document.
+      def define_title
+        tit = nil
+        if node.elements['Title']
+          tit = node.elements['Title'].text.strip
+        end
+        tit ||= begin
+          if texte.nil?
+            self.uuid
+          else
+            # On fait un titre de moins de 30 lettres
+            words = texte[0..50].split(' ')
+            while words.join(' ').length > 30
+              words.pop
+            end
+            words.join(' ')
+          end
+        end
       end
 
       def objectif

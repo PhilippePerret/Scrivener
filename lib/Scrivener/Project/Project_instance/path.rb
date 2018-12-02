@@ -10,6 +10,10 @@ class Scrivener
       @xfile_path ||= File.join(path,'%s.scrivx' % affixe)
     end
 
+    def compile_file_path
+      @compile_file_path ||= File.join(settings_folder_path,'compile.xml')
+    end
+
     def files_folder_path
       @files_folder_path ||= File.join(path, 'Files')
     end
