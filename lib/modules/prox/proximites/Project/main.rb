@@ -72,7 +72,7 @@ class Scrivener
       if CLI.options[:in_file]
         build_proximites_scrivener_file
       elsif CLI.options[:data]
-        build_tableau_resultat_proximites
+        build_and_display_tableau_resultat_proximites
       elsif CLI.options[:only_calculs]
         something_is_displayed = false
         if CLI.options[:segments]

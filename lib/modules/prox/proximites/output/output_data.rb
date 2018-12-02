@@ -22,8 +22,39 @@ class Project
 
   attr_accessor :tableau_resultat
 
+  # = main =
+  #
+  # Méthode appelée par `scrip prox --data[ --all]`
+  #
+  # Soit elle construit le tableau de toute pièce (s'il n'existe pas encore
+  # ou si --force ou --force_calcul a été demandé).
+  #
+  def build_and_display_tableau_resultat_proximites
+    if !File.exists?(tbl_proximites_path) || CLI.options[:force] || CLI.options[:force_calcul]
+      build_tableau_resultat_proximites
+    else
+      self.tableau_resultat = File.read(tbl_proximites_path)
+    end
+    display_tableau_resultat_proximites
+  end
+
+  def display_tableau_resultat_proximites
+    unless CLI.options[:all]
+      self.tableau_resultat = tableau_resultat.split(RC)
+      # Pour afficher le tableau, on le met 20 lignes par 20 lignes
+      until (portion = tableau_resultat.shift(5)).empty?
+        puts portion.join(RC)
+        sleep 0.2
+      end
+    else
+      # Si on doit tout afficher, on va plus vite
+      puts tableau_resultat
+    end
+  end
+  # /display_tableau_resultat_proximites
+
   def build_tableau_resultat_proximites
-    # On récupère les données de proximité, ou on les calcul.
+    # On récupère les données de proximité, ou on les calcule.
     get_data_proximites
     tableau = self.tableau_proximites
 
@@ -51,23 +82,38 @@ class Project
         - dcanon[:proximites].count
       end
 
+    nombre_total_mots   = segments.count / 2
+    nombre_total_canons = tableau[:mots].count
     line_title = "TITRE : #{File.basename(self.path)}"
     tableau_resultat << TAB + line_title
     tableau_resultat << TAB + ('-' * line_title.length) + (RC * 2)
     plinetbl('Longueur du texte (signes)', longueur_whole_texte)
     plinetbl('      => Nombre pages', (longueur_whole_texte / String::PAGE_WIDTH).round + 1)
-    plinetbl('Nombre total de mots', segments.count / 2)
+    plinetbl('Nombre total de mots', nombre_total_mots)
     plinetbl('      => Nombre pages', ((segments.count / 2) / String::NOMBRE_MOTS_PAGE).round + 1)
-    plinetbl('Nombre de mots canoniques', tableau[:mots].count)
+    plinetbl('Nombre de mots canoniques', nombre_total_canons)
     nombre_mots_avec_proximites = mots_with_proximites.count
-    plinetbl('Nombre de mots avec proximités', nombre_mots_avec_proximites)
-    plinetbl('Nombre de mots sans proximités', mots_sans_proximites.count)
-    plinetbl('Nombre de proximités', tableau[:proximites].count)
+    nombre_mots_sans_proximites = mots_sans_proximites.count
+    plinetbl('Nombre de proximités                    ', tableau[:proximites].count.to_s.rouge)
+    plinetbl('Nombre de mots avec proximités          ', nombre_mots_avec_proximites.to_s.rouge)
+    plinetbl('Nombre de mots sans proximités          ', nombre_mots_sans_proximites)
+    plinetbl('Pourcentage de proximités               ', ((100 * (nombre_mots_avec_proximites.to_f / nombre_total_canons)).round(1).to_s + '%').rouge )
+    plinetbl('Rapport nombre mots avec/sans proximités', (nombre_mots_avec_proximites.to_f/nombre_mots_sans_proximites).round(2))
     if nombre_mots_avec_proximites > 0
-      max = nombre_mots_avec_proximites > 10 ? 10 : nombre_mots_avec_proximites
+      max = nombre_mots_avec_proximites > 10 && !CLI.options[:all] ? 10 : nombre_mots_avec_proximites
       tableau_resultat << TAB+"Les #{max} mots à plus forte proximité"
       mots_sorted_by_prox[0...max].each do |canon, dcanon|
-        plinetbl('        - %s' % canon, dcanon[:proximites].count)
+        nombre_occurences = dcanon[:items].count
+        nombre_proximites = dcanon[:proximites].count
+        fcanon      = canon.inspect.ljust(20)
+        foccurences = nombre_occurences.to_s.ljust(5)
+        fproximites = nombre_proximites.to_s.rjust(5)
+        densite     = (100 * nombre_proximites.to_f / nombre_occurences).round(1)
+        # plinetbl('        - %s %s' % [fcanon, foccurences], '')
+        tableau_resultat << '        - %s | x %s | %s px | %s%' % [fcanon, foccurences, fproximites, densite]
+      end
+      unless CLI.options[:all]
+        tableau_resultat << TAB + '(pour voir toutes les proximités, ajouter l’option --all)'
       end
     else
       tableau_resultat << TAB+'Formidable ! Ce texte ne comporte aucune proximité.'
@@ -79,14 +125,10 @@ class Project
     tableau_resultat << separation
     tableau_resultat << RC*3
 
-    # Pour afficher le tableau, on le met 20 lignes par 20 lignes
-    until (portion = tableau_resultat.shift(5)).empty?
-      puts portion.join(RC)
-      sleep 0.2
-    end
-    # puts tableau_resultat.join(RC)
-
+    self.tableau_resultat = tableau_resultat.join(RC)
+    File.open(tbl_proximites_path,'wb'){|f| f.write tableau_resultat}
   end
+  # /build_tableau_resultat_proximites
 
   def longueur_whole_texte
     @longueur_whole_texte ||= File.stat(whole_text_path).size

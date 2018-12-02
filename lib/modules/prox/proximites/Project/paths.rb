@@ -9,5 +9,10 @@ class Scrivener
       @path_proximites ||= File.join(project.hidden_folder, 'tableau_proximites.msh')
     end
 
+    # Fichier dans lequel enregistrer le tableau des résultats des proximités
+    def tbl_proximites_path
+      @tbl_proximites_path ||= File.join(project.hidden_folder, 'tableau_affichage_%{all}proximites.txt' % {all: (CLI.options[:all] ? 'all_' : '')})
+    end
+
   end #/Project
 end #/Scrivener
