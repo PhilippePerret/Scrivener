@@ -14,11 +14,6 @@ class Scrivener
       File.open(path_table_lemmatisation,'wb'){|f| Marshal.dump(TABLE_LEMMATISATION,f)}
     end
 
-    # Rechargement de la table TABLE_LEMMATISATION
-    def reload_table_lemmatisation
-      CLI.dbg("-> Scrivener::Project#reload_table_lemmatisation (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
-      File.open(path_table_lemmatisation,'rb'){|f| Marshal.load(f)}
-    end
 
   end #/Project
 end #/Scrivener

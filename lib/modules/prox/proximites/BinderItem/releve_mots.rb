@@ -2,8 +2,6 @@
 class Scrivener
   class Project
 
-    attr_accessor :segments # tous les segments de texte, même les ponctuations
-
     class BinderItem
 
       BEFORE_TIRET_BADS_ARR = [

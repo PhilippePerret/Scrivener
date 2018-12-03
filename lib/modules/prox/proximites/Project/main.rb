@@ -67,6 +67,7 @@ class Scrivener
     #
     def output_proximites
       CLI.dbg("-> Scrivener::Project#output_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+      Scrivener.require_module('lib/proximites/common')
       get_data_proximites || return
       # Sortie en console
       if CLI.options[:in_file]

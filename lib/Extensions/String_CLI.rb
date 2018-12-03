@@ -1,7 +1,11 @@
 # encoding: UTF-8
 #
-# version 1.3.1
+# version 1.3.2
 #
+# Note version 1.3.2
+#   Ajout du calcul du nombre de lignes et de colonnes de l'écran et
+#   de la méthode `console_delimitor` qui permet de tracer une ligne
+#   sur presque tout l'écran.
 # Note version 1.3.1
 #   Ajout de la couleur noir sur blanc (noirsurblanc)
 # Note version 1.3.0
@@ -10,6 +14,17 @@
 
 class String
 
+
+  def self.console_delimitor(char = '-')
+    char * (screen_columns - 4)
+  end
+  # Retourne le nombre de colonnes actuelles sur l'écran
+  def self.screen_columns
+    `tput cols`.to_i
+  end
+  def self.screen_lines
+    `tput lines`.to_i
+  end
 
   # Attention : retourne un Array des lignes ajustées
   def self.truncate str, line_len, options = nil

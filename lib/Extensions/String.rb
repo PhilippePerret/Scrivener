@@ -1,7 +1,9 @@
 # encoding: UTF-8
 #
-# version 1.3.1
+# version 1.3.2
 #
+# Note version 1.3.2
+#   Ajout méthode `relative_path`
 # Note version 1.3.1
 #   Ajout de la couleur noir sur blanc (noirsurblanc)
 # Note version 1.3.0
@@ -42,6 +44,12 @@ class String
     8 => '₈',
     9 => '₉'
   }
+
+  # Retourne le chemin d'accès self comme chemin relatif par rapport
+  # au dossier HOME.
+  def relative_path
+    self.sub(/#{Dir.home}/,'.')
+  end
 
   def as_human_date(options = nil)
     Time.at(self).to_i.as_human_date(options)

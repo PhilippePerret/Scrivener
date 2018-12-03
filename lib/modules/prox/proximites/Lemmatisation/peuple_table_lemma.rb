@@ -5,7 +5,6 @@
 
 =end
 
-TABLE_LEMMATISATION = Hash.new
 
 
 class Scrivener
