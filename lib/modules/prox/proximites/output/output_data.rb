@@ -83,20 +83,22 @@ class Project
       end
 
     nombre_total_mots   = segments.count / 2
-    nombre_total_canons = tableau[:mots].count
+    nombre_total_canons     = tableau[:mots].count
+    nombre_total_real_mots  = tableau[:real_mots].count
     line_title = "TITRE : #{File.basename(self.path)}"
     tableau_resultat << TAB + line_title
     tableau_resultat << TAB + ('-' * line_title.length) + (RC * 2)
-    plinetbl('Longueur du texte (signes)', longueur_whole_texte)
-    plinetbl('      => Nombre pages', (longueur_whole_texte / String::PAGE_WIDTH).round + 1)
-    plinetbl('Nombre total de mots', nombre_total_mots)
-    plinetbl('      => Nombre pages', ((segments.count / 2) / String::NOMBRE_MOTS_PAGE).round + 1)
-    plinetbl('Nombre de mots canoniques', nombre_total_canons)
+    plinetbl('Longueur du texte %s' % [1.to_expo], longueur_whole_texte)
+    plinetbl('      => Nombre pages %s' % [2.to_expo], (longueur_whole_texte / String::PAGE_WIDTH).round + 1)
+    plinetbl('(3) Nombre total de mots', nombre_total_mots)
+    plinetbl('(4)      => Nombre pages', ((segments.count / 2) / String::NOMBRE_MOTS_PAGE).round + 1)
+    plinetbl('(5) Nombre de mots canoniques', nombre_total_canons)
+    plinetbl('(6) Nombre de mots différents', nombre_total_real_mots)
     nombre_mots_avec_proximites = mots_with_proximites.count
     nombre_mots_sans_proximites = mots_sans_proximites.count
-    plinetbl('Nombre de proximités                    ', tableau[:proximites].count.to_s.rouge)
-    plinetbl('Nombre de mots avec proximités          ', nombre_mots_avec_proximites.to_s.rouge)
-    plinetbl('Nombre de mots sans proximités          ', nombre_mots_sans_proximites)
+    plinetbl('(7) Nombre de proximités                    ', tableau[:proximites].count.to_s.rouge)
+    plinetbl('(8) Nombre de mots avec proximités          ', nombre_mots_avec_proximites.to_s.rouge)
+    plinetbl('(9) Nombre de mots sans proximités          ', nombre_mots_sans_proximites)
     plinetbl('Pourcentage de proximités               ', ((100 * (nombre_mots_avec_proximites.to_f / nombre_total_canons)).round(1).to_s + '%').rouge )
     plinetbl('Rapport nombre mots avec/sans proximités', (nombre_mots_avec_proximites.to_f/nombre_mots_sans_proximites).round(2))
     if nombre_mots_avec_proximites > 0

@@ -39,7 +39,9 @@ class Scrivener
 
 
 
-      # Méthode qui traite le texte du binderitem
+      # Méthode qui traite le texte du binderitem et récupère tous
+      # ses mots.
+      #
       def releve_mots_in_texte tableau
 
         self.class.prepare_listes_tirets unless self.class.inited
@@ -146,16 +148,20 @@ class Scrivener
           # "inter-mot", qui peut être constitué de plusieurs espaces et
           # ponctuation, retour chariot et consorts.
           # La première chose à faire est de récupérer les signes originaux
-          if seg[0] == ' '
+          type_seg = seg[0] == ' ' ? :inter : :mot
+
+          if type_seg == :inter
             seg = mot = texte[bdi_offset...(bdi_offset + seg.length)]
-            type_seg = :inter
-          else
+          else # if type_seg == :mot
             mot = ProxMot.new(seg, cur_offset, cur_index, self.uuid)
             # On n'ajoute le mot au tableau que si c'est un vrai mot
             if mot.treatable?
               tableau = project.add_mot_in(mot, tableau)
             end
-            type_seg = :mot
+            # Dans tous les cas, on ajoute le mot aux 'real_mots' où la
+            # clé est vraiment le mot lui-même, pas son canon. Par exemple,
+            # dans ce Hash, 'prends' et 'pris' feront deux entrées différentes
+            tableau = project.add_real_mot_in(mot, tableau)
           end
 
           data_seg = {id: cur_index, seg: seg, type: type_seg}
@@ -221,6 +227,18 @@ class Scrivener
       end
       return tableau
     end
+    # /add_mot_in
+
+    # Ajoute le mot à la real-list, où les clés vont vraiment les mots tels
+    # qu'ils apparaissent dans le texte, pas leur forme canonique.
+    def add_real_mot_in imot, tableau
+      tableau[:real_mots].key?(imot.real) || begin
+        tableau[:real_mots].merge!(imot.real => Array.new)
+      end
+      tableau[:real_mots][imot.real] << imot.index
+      return tableau
+    end
+    # /add_real_mot_in
 
   end #/Project
 end #/Scrivener

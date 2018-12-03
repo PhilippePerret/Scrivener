@@ -7,10 +7,10 @@ class CLI
 class Todo
 
   MSGS = {
-    unknown_task:     'Impossible de trouver la tâche désignée par %s.'.rouge,
-    confirm_save:     'Tâche enregistrée avec succès.'.bleu,
-    confirm_destroy:  'Tâche supprimée avec succès.'.bleu,
-    moveup_unenable:  'Impossible de remonter la tâche "%s".'.rouge,
+    unknown_task:     'Impossible de trouver la tâche désignée par %s.',
+    confirm_save:     'Tâche enregistrée avec succès.',
+    confirm_destroy:  'Tâche supprimée avec succès.',
+    moveup_unenable:  'Impossible de remonter la tâche "%s".',
     ask_for_destroy:  'Voulez-vous supprimer la tâche "%s" ?'
   }
 
@@ -42,7 +42,7 @@ class << self
       end
     end
   rescue Exception => e
-    puts e.message
+    puts e.message.rouge
     if CLI.verbose?
       puts e.backtrace[0..3].join(String::RC)
     end
@@ -54,7 +54,7 @@ class << self
   def add_new_task(task)
     tasks << task
     save
-    puts MSGS[:confirm_save]
+    puts MSGS[:confirm_save].bleu
   end
 
 
@@ -109,7 +109,7 @@ class << self
     confirm_destroy_task?(task(index_task)) || return
     tasks.delete_at(index_task)
     save
-    puts MSGS[:confirm_destroy]
+    puts MSGS[:confirm_destroy].bleu
   end
   # /remove_task
 

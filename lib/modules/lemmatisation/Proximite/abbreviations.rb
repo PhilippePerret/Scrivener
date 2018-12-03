@@ -3,7 +3,7 @@ class << self
 
   def open_file_abbreviations
     if File.exist?(TREE_TAGGER_ABBREVIATES)
-      puts 'Taper la commande `vim "%s"` éditer le fichier dans Vim.' % TREE_TAGGER_ABBREVIATES
+      puts 'Taper la commande `vim "%s"` pour éditer le fichier dans Vim.' % TREE_TAGGER_ABBREVIATES
       backup_original_abbreviations unless backup_abbreviations_exist?
       puts '
       Attention, il s’agit du fichier de la commande Tree-Tagger
