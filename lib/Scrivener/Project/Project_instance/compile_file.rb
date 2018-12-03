@@ -11,12 +11,19 @@ class Scrivener
       @compile_file ||= XML.new(compile_file_path)
     end
 
+    # ---------------------------------------------------------------------
+    # Méthodes pour obtenir les infos
+
     def get_long_title
       compile_xml.metadata.elements['ProjectTitle'].text
     end
 
     def get_abbreviate_title
       compile_xml.metadata.elements['ProjectAbbreviatedTitle'].text
+    end
+
+    def get_authors
+      compile_xml.metadata.elements['Authors'].elements['Author'].collect {|n| n.value}
     end
 
 

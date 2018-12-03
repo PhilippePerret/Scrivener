@@ -10,6 +10,9 @@ class Scrivener
       @title_abbreviated ||= get_abbreviate_title
     end
 
+    def authors
+      @authors ||= get_authors
+    end
 
   end #/Project
 end #/Scrivener

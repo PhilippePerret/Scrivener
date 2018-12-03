@@ -10,9 +10,8 @@ class Project
     def exec_infos_last_projet
       d = last_project_data
       if d.empty?
-        puts 'Aucun projet n’a été analysé pour le moment.'
+        puts 'Aucun projet n’a été analysé pour le moment. Utilisez `scriv -h` pour obtenir de l’aide ou même `scriv` seul.'
       else
-        puts d.inspect
         project.display_infos(d)
       end
     end
@@ -26,7 +25,7 @@ class Project
   def display_infos(last_data)
     puts 'Titre complet : %s' % self.title
     puts 'Titre court   : %s' % self.title_abbreviated
-    puts 'Auteurs       : %s' % ['TODO Liste des auteurs ']
+    puts 'Auteurs       : %s' % [self.authors.pretty_join]
     puts '-'*80
     puts 'Dernière commande jouée : %s %s' % [last_data[:last_command], last_data[:options].collect{|o| "--#{o}"}.join]
     puts 'Date de création        : %s' % [last_data[:created_at].to_i.as_human_date]
