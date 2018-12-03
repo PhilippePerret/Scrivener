@@ -14,10 +14,6 @@ class Scrivener
     end
     # /assemble_textes_binder_items
 
-    def whole_text_path
-      @whole_text_path ||= File.join(self.hidden_folder,'whole_texte.txt')
-    end
-
     class BinderItem
       def add_in_file fdescriptor
         self.has_text? && fdescriptor.write(self.texte.gsub(/’/,'\'') + String::RC)

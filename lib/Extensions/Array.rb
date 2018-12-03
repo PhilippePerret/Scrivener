@@ -1,3 +1,10 @@
+=begin
+
+  Extension de la classe Array
+
+  Version 2.0.0
+
+=end
 class Array
 
 

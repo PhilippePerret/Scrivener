@@ -46,7 +46,7 @@ class Project
   # ---------------------------------------------------------------------
   #   MÉTHODES D'INSTANCE
 
-  def open what
+  def open what = nil
     opts = Hash.new
     CLI.options[:vim] && opts.merge!(vim: true)
     case what

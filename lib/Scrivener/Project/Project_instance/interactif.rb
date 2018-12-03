@@ -10,13 +10,10 @@ class Scrivener
     end
 
     def ask_for_ouverture
-      yesOrNo('Faut-il ouvrir le projet dans Scrivener ?') && open
-    end
-
-
-    # Pour ouvrir le projet (dans Scrivener)
-    def open
-      `open "#{path}"`
+      yesOrNo('Faut-il ouvrir le projet dans Scrivener ?') && begin
+        Scrivener.require_module('open')
+        self.open(nil)
+      end
     end
 
   end #/Project

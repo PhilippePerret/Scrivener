@@ -97,9 +97,7 @@ class << self
   def move_task(tindex, insertion_index)
     ta = task(tindex)
     tasks[tindex] = nil
-    puts "--- tasks: #{tasks.inspect}"
     tasks.insert(insertion_index, ta)
-    puts "--- tasks: #{tasks.inspect}"
     @tasks = tasks.compact
     save and display_list
   end

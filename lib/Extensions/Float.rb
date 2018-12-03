@@ -10,4 +10,11 @@ class Float
     d.to_i == 0 ? e : n
   end
 
+  # Retourne le floatant sous forme de pourcentage ou de pourmillage
+  # Note : la méthode existe aussi pour les flottants (plus précise)
+  # Rappel : pour obtenir le pourcentage, on fait <nombre>/<nombre total>
+  def pourcentage pour_mille = false
+    "#{(self * 100).pretty_round(1)} #{pour_mille ? '‰' : '%'}"
+  end
+
 end

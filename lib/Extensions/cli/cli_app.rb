@@ -25,6 +25,7 @@ class CLI
     'm2m'             => 'maxtomin',
     'o'               => 'output',
     't'               => 'tableau',
+    'u'               => 'update',
     'vb'              => 'verbose',
 
     'now'             => 'today'

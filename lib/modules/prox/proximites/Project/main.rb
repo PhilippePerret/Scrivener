@@ -26,8 +26,9 @@ class Scrivener
         exec_max_to_min
       else
         # Sinon, c'est l'affichage de toutes les proximités
-        if CLI.options[:data] || self.ask_for_fermeture
-          output_proximites
+        if CLI.options[:data]
+          Scrivener.require_module('data')
+          Scrivener::Project.exec_data_projet(self)
         else
           puts ' Abandon…'.rouge
         end
