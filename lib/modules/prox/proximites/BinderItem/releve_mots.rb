@@ -53,7 +53,7 @@ class Scrivener
         # On commence par remplacer tous les caractères non alphanumérique par
         # des espaces (ponctuations, retour chariot), car sinon ils ne seraient
         # pas considérés par le scan.
-        t = texte.gsub(/\r/,'').gsub(/[\n\.\!\?\;\… ]/, ' ')
+        t = texte.gsub(/\r/,'').gsub(/[\,\n\.\!\?\;\… ]/, ' ')
         # NE SURTOUT PAS METTRE '_' qui sert pour les tags retirés
 
         # # Remplacer les '-' (tirets) entre deux lettres par la marque
@@ -92,6 +92,10 @@ class Scrivener
           # Pour la gestion des tirets
           next_found = all_separated_words[index_found + 1] # peut être nil
 
+          if next_found && next_found[0] == '\''
+            seg += 'e'
+            index_found += 1
+          end
           # Puisqu'on peut prendre le found suivant, on va vérifier si
           # le mot courant doit être lié au(x) suivant(s) par des tirets,
           # plutôt que de le contrôler quand le mot est déjà rentré. De

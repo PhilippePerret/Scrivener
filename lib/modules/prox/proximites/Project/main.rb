@@ -30,7 +30,9 @@ class Scrivener
           Scrivener.require_module('data')
           Scrivener::Project.exec_data_projet(self)
         else
-          puts ' Abandon…'.rouge
+          unless output_proximites
+            puts ' Abandon…'.rouge
+          end
         end
       end
     end
