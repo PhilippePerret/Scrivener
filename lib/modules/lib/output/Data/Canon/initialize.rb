@@ -31,11 +31,26 @@ class Canon
     @nombre_occurences ||= items.count
   end
 
+  def distance_minimale
+    @distance_minimale ||= begin
+      ProxMot.distance_minimale(canon)
+    end
+  end
   def proximites
     @proximites ||= data[:proximites]
   end
   def nombre_proximites
     @nombre_proximites ||= proximites.count
+  end
+
+  def moyenne_distances
+    @moyenne_distances ||= begin
+      total_distances = 0
+      proximites.each do |prox_id|
+        total_distances += Proximite.get(prox_id).distance
+      end
+      total_distances / nombre_proximites
+    end
   end
 
 end #/Canon

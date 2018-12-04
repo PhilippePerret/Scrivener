@@ -48,6 +48,13 @@ class Project
   def canons_sorted_by_proximites
     @canons_sorted_by_proximites ||= define_canons_sans_avec_proxs(:sorted)
   end
+  def canons_sorted_by_occurences
+    @canons_sorted_by_occurences ||= begin
+      self.tableau_proximites[:mots].sort_by do |canon, dcanon|
+        - dcanon[:items].count
+      end
+    end
+  end
   # Le +from+ sert juste à savoir quelle liste doit être
   # retournée, pour simplifier l'écriture des listes ci-dessus
   def define_canons_sans_avec_proxs(from)
@@ -99,21 +106,21 @@ class Project
 
   def sorted_real_mots_by_occurences
     @sorted_real_mots_by_occurences ||= begin
-      puts "--- segments: #{segments.inspect}"
+      # puts "--- segments: #{segments.inspect}"
       tableau_proximites[:real_mots].collect do |m, arr|
-        # On prend le premier pour voir ce que c'est
+        # On prend le premier terme pour voir ce que c'est, et notamment
+        # pour s'assurer que c'est un mot, et pas un intermot
         dmot = segments[arr.first]
-        puts "mot: #{m.inspect} / segment : #{dmot.inspect}"
+        # puts "mot: #{m.inspect} / segment : #{dmot.inspect}"
         if dmot[:type] == :mot && !dmot[:new_document_title]
-          puts "==> On traite #{m.inspect}"
+          [m, arr]
         else
-          puts "==> On ne traite pas #{m.inspect}"
+          # puts "==> On ne traite pas #{m.inspect}"
+          nil
         end
-        m.length != 3 || break
-      end.compact
-      # tableau_proximites[:real_mots].sort_by do |m, arr|
-      #   - arr.count
-      # end
+      end.compact.sort_by do |m, arr|
+        - arr.count
+      end
     end
   end
   # Calcul du taux de différence qui correspond au nombre de mots différents
@@ -124,13 +131,47 @@ class Project
   # le taux de différence et de 0%
   def taux_difference_mots
     @taux_difference_mots ||= begin
-      (nombre_total_real_mots.to_f / nombre_total_mots).pourcentage
+      (100 * (nombre_total_real_mots.to_f / nombre_total_mots)).pretty_round
     end
   end
   def longueur_whole_texte
     @longueur_whole_texte ||= File.stat(whole_text_path).size
   end
 
+  # Méthode qui calcule la moyenne d'éloignement, c'est-à-dire la distance
+  # moyenne entre les mots lorsqu'ils sont en proximité (et seulement lorsqu'ils
+  # sont en proximité).
+  #
+  # Note : cette méthode permet
+  def moyenne_eloignements
+    @moyenne_eloignements || calcule_proximites_variable_et_moyenne_distance
+    @moyenne_eloignements
+  end
+
+  def proximites_par_tranche
+    @proximites_par_tranche || calcule_proximites_variable_et_moyenne_distance
+    @proximites_par_tranche
+  end
+
+  # Méthode qui calcule la moyenne d'éloignement, mais aussi le nombre
+  # de proximités suivant les tranches (à 250 mots, 500 mots, 750 mots, etc.)
+  def calcule_proximites_variable_et_moyenne_distance
+    total_distances = 0
+    @proximites_par_tranche = {
+      250   => 0,
+      500   => 0,
+      750   => 0,
+      1000  => 0,
+      1250  => 0,
+      1500  => 0
+    }
+    tableau_proximites[:proximites].each do |prox_id, iprox|
+      total_distances += iprox.distance
+      tranche = ((iprox.distance / 250) + 1) * 250
+      @proximites_par_tranche[tranche] += 1
+    end
+    @moyenne_eloignements = (total_distances / nombre_total_proximites)
+  end
 
   # ---------------------------------------------------------------------
   # Classe pour construire le tableau
@@ -170,13 +211,14 @@ class Project
     # Noter que pour être uptodate?, le tableau doit exister.
     #
     def build_and_display
-      uptodate? && !CLI.options[:update] ? load : build_and_save
+      (uptodate? && !CLI.options[:update]) ? load : build_and_save
       display
     end
 
     # Méthode principale qui construit le tableau des résultats et les
     # affiche.
     def build_and_save
+      Proximite.init # initialiser les listes
       build
       save
     end
@@ -187,7 +229,7 @@ class Project
     # etc, toutes données tirées du tableau_proximites)
     #
     def build
-      puts "--> build"
+      puts "--> Construction de la vue des données…"
       self.tableau_resultat = Array.new
       self.tableau_aide     = Array.new
       tableau_resultat << SEP
@@ -202,9 +244,13 @@ class Project
     end
 
     def save
-      File.join(path,'wb'){ |f| f.write self.tableau_resultat}
+      # puts "--> save (in #{path})"
+      File.unlink(path) if File.exist?(path)
+      File.open(path,'wb'){ |f| f.write(self.tableau_resultat)}
     end
     def load
+      puts '--> Je recharge le dernier tableau enregistré (pour l’actualiser, ajouter l’option --update)'.bleu
+      sleep 2
       self.tableau_resultat = File.read(path)
     end
 
@@ -227,11 +273,12 @@ class Project
     end
 
     # Méthode pour ajouter un titre au tableau
-    def titre str, options = nil
+    def titre str, sous_str = nil, options = nil
       tableau_resultat << RC*2
       tableau_resultat << SEP
       tableau_resultat << TAB + str
       tableau_resultat << TAB + ('–' * str.length)
+      sous_str && tableau_resultat << TAB + sous_str
       tableau_resultat << RC
     end
 
@@ -247,16 +294,21 @@ class Project
       line('Nombre pages estimé %s' % [5.to_expo], projet.nombre_pages(:moyen), {after_value: ' pages', color: :bleu})
       tableau_aide << '(5) Nombre estimé en fonction du nombre de pages suivant les signes et du nombre de pages suivant les mots.'
       line('Nombre de mots différents %s' % [7.to_expo], projet.nombre_total_real_mots, {color: :bleu})
+      line('Nombre de mots canoniques %s' % [6.to_expo], projet.nombre_total_canons)
+      tableau_aide << '(6) Les mots canoniques sont les formes de base d’un mot. Par exemple, le mot au singulier quand c’est un pluriel (« yeux » -> « œil ») ou l’infinitif quand c’est un verbe (« pris » -> « prendre »).'
       tableau_aide << '(7) Dans ce compte, deux mots identiques valent 1 occurence (contrairement à %s), mais deux mots de même forme canonique (« pris » et « prenais ») valent deux occurences, contrairement à %s.' % [3.to_expo, 6.to_expo]
-      line(' => Taux de différence %s' % [8.to_expo], projet.taux_difference_mots)
+      line(' => Taux de différence %s' % [8.to_expo], projet.taux_difference_mots, {after_value: ' %'})
       tableau_aide << ('(8) Nombre de mots différents en fonction du nombre de mots total. Plus ce taux est élevé, plus le texte présente de variété de mots.')
-      long_label = 40
-      line('NOMBRE TOTAL DE PROXIMITES %s' % [9.to_expo], projet.nombre_total_proximites, {color: :rouge, llength: long_label})
+      line('NOMBRE TOTAL DE PROXIMITES %s' % [9.to_expo], projet.nombre_total_proximites, {color: :rouge})
       tableau_aide << '(9) C’est le nombre absolu dans le texte.'
-      line('Nombre de mots canoniques %s' % [6.to_expo], projet.nombre_total_canons, {llength: long_label})
+        projet.proximites_par_tranche.each do |tranche, nombre|
+          line('    Nombre proximités <= %i signes' % tranche, nombre, {llength: 44})
+        end
+      long_label = 40
       # TODO Rapport entre le nombre de canons et le nombre de mot différent
       # plus ce nombre est grand, plus les mots sont différents
-      tableau_aide << '(6) Les mots canoniques sont les formes de base d’un mot. Par exemple, le mot au singulier quand c’est un pluriel (« yeux » -> « œil ») ou l’infinitif quand c’est un verbe (« pris » -> « prendre »).'
+      line('Moyenne éloignement %s' % [14.to_expo], projet.moyenne_eloignements, {llength: long_label, after_value: ' signes'})
+      tableau_aide << '(14) C’est l’éloignement moyen entre deux mots lorsqu’ils sont en proximité (et seulement lorsqu’ils sont en proximité).'
       line('Nombre de canons avec proximités %s' % [10.to_expo], projet.nombre_canons_avec_proximites, {color: :rouge, llength: long_label})
       line('Nombre de canons sans proximités %s' % [11.to_expo], projet.nombre_canons_sans_proximites, {color: :bleu, llength: long_label})
       line('Pourcentage de canons en proximité %s' % [12.to_expo], (100 * projet.pourcentage_proximites_canons).pretty_round(1), {llength: long_label, after_value: ' % des canons sont en proximité', color: (projet.pourcentage_proximites_canons > 0.5 ? :rouge : :bleu)} )
@@ -269,7 +321,7 @@ class Project
       # Liste des canons les plus en proximité
       build_liste_canons
       # Liste des canons les plus fréquents
-      # TODO
+      build_liste_canons_les_plus_utilised
       # Liste des mots les plus fréquents
       build_liste_real_mots
     end
@@ -279,7 +331,9 @@ class Project
     # Le nombre est 50 par défaut, affichés sur deux colonnes grâce à la
     # méthode Array#face_a_face({:width, :gutter})
     def build_liste_canons
-      titre('Liste des 50 premiers mots les plus en proximité')
+      sous_titre = '(canon | occurences | nb proximités | % de proximités | moyenne d’éloignement ||)'
+      titre('Liste des 50 mots les plus en proximité', sous_titre)
+
       left_canons   = projet.canons_sorted_by_proximites[0...25]
       right_canons  = projet.canons_sorted_by_proximites[25...50]
       left_canons.each_with_index do |dlcanon, indexcanon|
@@ -291,17 +345,48 @@ class Project
       tableau_resultat << RC
     end
 
-    def build_liste_real_mots
-      titre('Liste des 50 mots les plus fréquents')
-      # puts projet.real_mots[0..10].inspect
-      # puts "--- nombre_total_real_mots: #{projet.nombre_total_real_mots.inspect}"
-      # (0...10).each do |i|
-      #   puts "#{i} : " + tableau[:real_mots].shift.inspect
-      # end
-      projet.sorted_real_mots_by_occurences[0...10].each do |mot, arr_indexes|
-        puts "-- #{mot.inspect} (#{arr_indexes.count})"
+    def build_liste_canons_les_plus_utilised
+      titre('Liste des 50 mots canoniques les plus fréquents')
+      left_canons   = projet.canons_sorted_by_occurences[0...25]
+      right_canons  = projet.canons_sorted_by_occurences[25...50]
+      left_canons.each_with_index do |dlcanon, indexcanon|
+        ilcanon = Canon.new(self, dlcanon.first, dlcanon[1])
+        drcanon = right_canons[indexcanon]
+        rdemiline = nil
+        if drcanon
+          ircanon = Canon.new(self, drcanon.first, drcanon[1])
+          rdemiline = ircanon.line_demi_colonne
+        else
+          rdemiline = ''
+        end
+        tableau_resultat << [ilcanon.line_demi_colonne, rdemiline].face_to_face
       end
+      tableau_resultat << RC
     end
+
+    def build_liste_real_mots
+      titre('Liste des 50 mots de plus de trois lettres les plus fréquents')
+      nombre_mots = 0
+      array_mots  = Array.new
+      projet.sorted_real_mots_by_occurences.each do |mot, indexes|
+        mot.length > 3 || next
+        array_mots << '%s. %s %s' % [(nombre_mots + 1).to_s.rjust(2), mot.ljust(20), indexes.count.to_s.rjust(6)]
+        nombre_mots += 1
+        break if nombre_mots >= 50
+      end
+      left_list   = array_mots[0...25]
+      right_list  = array_mots[25...50]
+
+      left_list.each_with_index do |ldmot, indexmot|
+        rdmot = right_list[indexmot] || ['', '']
+        tableau_resultat << [ldmot, rdmot].face_to_face
+      end
+
+      tableau_resultat << RC
+
+    end
+    # /build_liste_real_mots
+
     # ---------------------------------------------------------------------
     #   Méthodes pratiques
 
@@ -316,6 +401,8 @@ class Project
     # moment, on ne connait pas le path des données qu'on prend et c'est
     # ça qu'il faudrait transmettre à l'instanciation (TODO)
     def uptodate?
+      # puts "== vue_exist? est #{vue_exist?.inspect}"
+      # puts "== File.stat(path).mtime (#{File.stat(path).mtime}) > File.stat(projet.path_proximites).mtime (#{File.stat(projet.path_proximites).mtime}) est #{(File.stat(path).mtime > File.stat(projet.path_proximites).mtime).inspect}"
       vue_exist? && File.stat(path).mtime > File.stat(projet.path_proximites).mtime
     end
 

@@ -6,6 +6,23 @@
 class ProxMot
   class << self
 
+
+    # Méthode de classe pour ne pas avoir à chercher à chaque fois
+    #
+    # Note : pour préparer les listes utiles, il faut invoquer
+    #   
+    def distance_minimale(canon)
+      @distances_minimales ||= Hash.new
+      @distances_minimales[canon] ||= begin
+        if Proximite::PROXIMITES_MAX[:mots].key?(canon)
+          Proximite::PROXIMITES_MAX[:mots][canon]
+        else
+          Proximite::DISTANCE_MINIMALE
+        end
+      end
+    end
+    # /distance_minimale
+
     # Retourne le mot d'identifiant +mot_id+ dans le projet courant.
     #
     # Noter que pour pouvoir l'obtenir, il faut obligatoirement qu'une

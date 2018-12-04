@@ -8,16 +8,19 @@ class Scrivener
 class Project
 class Canon
 
-  DEMI_COLONNE_CANON = '%{fcanon} | x %{focc} | %{fprox} px | %{fdensite} |'
+  DEMI_COLONNE_CANON = '%{fcanon} | x %{focc} |%{aster} %{fprox} p. | %{fdensite} | %{fmoydist} s.'
 
   # Méthode principale qui retourne le canon formaté sur une demi colonne
   # grâce au template DEMI_COLONNE_CANON
   def line_demi_colonne
+    puts "= canon: #{canon.inspect} / distance_minimale (#{distance_minimale}) != Proximite::DISTANCE_MINIMALE (#{Proximite::DISTANCE_MINIMALE}) ? #{(distance_minimale != Proximite::DISTANCE_MINIMALE).inspect}"
     DEMI_COLONNE_CANON % {
       fcanon:     formated_canon,
       focc:       formated_occurences,
       fprox:      formated_proximites,
-      fdensite:   formated_densite
+      aster:      (distance_minimale != Proximite::DISTANCE_MINIMALE ? '*' : ' '),
+      fdensite:   formated_densite,
+      fmoydist:   formated_moyenne_distance
     }
   end
 
@@ -35,6 +38,9 @@ class Canon
   end
   def pourcentage_densite
     @pourcentage_densite ||= (nombre_proximites.to_f / nombre_occurences).pourcentage
+  end
+  def formated_moyenne_distance
+    @formated_moyenne_distance ||= moyenne_distances.to_s.rjust(5)
   end
 end #/Canon
 end #/Project
