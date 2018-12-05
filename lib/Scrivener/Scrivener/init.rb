@@ -11,6 +11,7 @@ class Scrivener
     'commands',         # => affichage de la liste des commandes
     'lemma',            # => Définition des abbréviations
                         #  Peut quand même nécessiter parfois un projet
+    'run',              # Pour jouer du code
   ]
 
   class << self

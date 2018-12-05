@@ -10,7 +10,7 @@ class ProxMot
     # Méthode de classe pour ne pas avoir à chercher à chaque fois
     #
     # Note : pour préparer les listes utiles, il faut invoquer
-    #   
+    #   Proximite.init
     def distance_minimale(canon)
       @distances_minimales ||= Hash.new
       @distances_minimales[canon] ||= begin

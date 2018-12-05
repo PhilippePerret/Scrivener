@@ -1,5 +1,6 @@
 # encoding: UTF-8
 require 'yaml'
+require 'plist'
 
 # APPFOLDER = File.expand_path(File.dirname(File.dirname(__FILE__)))
 APPFOLDER = File.expand_path(File.dirname(__dir__))
