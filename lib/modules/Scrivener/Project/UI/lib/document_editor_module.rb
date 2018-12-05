@@ -10,7 +10,7 @@ module DocumentEditorModule
   #
   # Note : utiliser scrollRect.to_plist pour l'enregistrer
   def scrollRect
-    @scrollRect ||= Surface.new(ui_plist['supportingDocumentEditor.scrollRect'])
+    @scrollRect ||= Surface.new(ui_plist['%sDocumentEditor.scrollRect' % document_editor_name])
   end
 
   # {Float} Factoreur de grossissement dans l'éditeur principal
@@ -18,16 +18,17 @@ module DocumentEditorModule
     @text_scale_factor ||= state['textScaleFactor']
   end
   def text_scale_factor= value
-    text_scale_factor = value.to_f
-    projet.ui.save_ui_plist
+    state['textScaleFactor'] = value.to_f
+    ui_plist.save
   end
 
   def state
-    @state ||= ui_plist['mainDocumentEditor.textEditorState']
+    @state ||= ui_plist['%sDocumentEditor.textEditorState' % document_editor_name]
   end
 
   # Raccourcis
   def ui_plist
     @ui_plist ||= projet.ui.ui_plist
   end
+
 end

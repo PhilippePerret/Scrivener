@@ -1,7 +1,12 @@
 # Notes sur les versions de CLI
 
-**Version courante : 1.5.0**
+**Version courante : 1.5.1**
 
+## Version 1.5.1
+
+  Ne pas considérer les "=" dans les paramètres, quand ils sont donnés
+  entre des guillemets.
+  
 ## Version 1.5.0
 
   Introduction de la gestion de la commande `todo` qui permet de gérer les

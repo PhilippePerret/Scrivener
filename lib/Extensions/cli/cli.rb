@@ -3,7 +3,7 @@
 #
 # CLI
 #
-# VERSION: 1.5.0
+# VERSION: 1.5.1
 # (Penser à prendre tout le dossier, pas seulement ce module)
 #
 # MODE D'EMPLOI
@@ -259,7 +259,7 @@ class CLI
     end
 
     def traite_arg_as_param arg
-      if arg.index('=')
+      if arg.index(/[^ ]=[^ ]/)
         key, val = arg.split('=')
         key = key.to_sym
       else

@@ -67,6 +67,8 @@ En revanche, si on a des signes `=`, ils sont enregistrés comme des clés :
 
 Note (2) : noter que même le paramètre avec `=` est compté dans l'indiçage des paramètres.
 
+Note : quand on veut considérer un `=` comme un signe et non pas comme la délimitation d'une paire clé-valeur, il faut s'arranger pour mettre une espace avant ou après. Par exemple, si une application en ligne de commande évalue du code et qu'on veut faire `x=2`, il suffit d'utiliser : `monrun "x = 2"`.
+
 ## Commande spéciale `todo`
 
 La commande spéciale `todo` permet de gérer une liste des todos pour chaque application en ligne de commande. On l'invoque avec :

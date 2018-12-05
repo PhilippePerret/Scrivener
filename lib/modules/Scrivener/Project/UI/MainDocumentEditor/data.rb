@@ -5,7 +5,23 @@ class Project
 class UI
 class MainDocumentEditor
 
+  #
+  # NOTE : bizarrement, il semble que cette "supporting" vue soit la
+  #        vue principale et "main" la vue secondaire.
+  #
+
   include DocumentEditorModule
+
+  # Pour composer les noms, comme par exemple 'mainDocumentEditor'
+  def document_editor_name
+    @document_editor_name ||= 'main'
+  end
+
+  # Pour mettre cette vue en vue courante. En fait, ça revient à
+  # ne plus mettre la vue supporting en vue courante
+  def set_current
+    projet.ui.supporting_document_editor.unset_current
+  end
 
 end #/mainDocumentEditor
 end #/UI

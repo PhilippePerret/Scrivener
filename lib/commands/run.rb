@@ -20,7 +20,6 @@ if CLI.options[:help]
 else
 
   begin
-    puts "-- code: #{CLI.params[1].inspect}"
     code = CLI.params[1].strip
     eval (code)
   rescue Exception => e
