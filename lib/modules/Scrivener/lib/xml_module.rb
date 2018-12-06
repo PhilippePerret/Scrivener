@@ -70,6 +70,11 @@ module XMLModule
         REXML::XPath.first(docxml, '//MetaData')
       end
     end
+
+    # Les options, if any
+    def options
+      @options ||= REXML::XPath.first(docxml, '//Options')
+    end
   end
 
 end

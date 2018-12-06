@@ -39,7 +39,16 @@ class Scrivener
 
     end
 
+    def remove_comment?
+      compile_xml.options.elements['RemoveComments'].text == 'Yes'
+    end
+    def remove_annotations?
+      compile_xml.options.elements['RemoveAnnotations'].text == 'Yes'
+    end
 
+    def options
+      @get_options ||= compile_xml.options
+    end
 
   end #/Project
 end #/Scrivener

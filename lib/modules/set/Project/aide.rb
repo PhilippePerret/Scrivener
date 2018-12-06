@@ -18,12 +18,19 @@ class << self
     MODIFIABLE_PROPERTIES.collect do |property, dproperty|
       dproperty.key?(:variante) && dproperty[:variante] || dproperty.merge!(variante: '---')
       dproperty.merge!(description: String.truncate(dproperty[:description], 60, {indent: ' '*15}).join(String::RC))
+      dproperty.merge!(:valeurs_possibles => if dproperty.key?(:values)
+        String::RC + '    Valeurs  :' + String::RC +
+          dproperty[:values].collect do |val, facons|
+            '        Pour %s : %s' % [val, facons.pretty_join]
+          end.join(String::RC)
+        else '' end
+      )
       puts '
   %{property}
 
     Fonction : %{description}
     Exemple  : %{exemple}
-    Variante : %{variante}
+    Variante : %{variante}%{valeurs_possibles}
       ' % dproperty.merge(property: property.to_s.jaune, exemple: ('scriv set "~/projets/pj.scriv" %s=%s' % [property, dproperty[:exemple]]).jaune)
     end.join(String::RC)
   end
