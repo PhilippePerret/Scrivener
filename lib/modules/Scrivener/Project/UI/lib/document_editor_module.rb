@@ -19,7 +19,7 @@ module DocumentEditorModule
   end
   def text_scale_factor= value
     state['textScaleFactor'] = value.to_f
-    ui_plist.save
+    ui_plist.set_modified
   end
 
   def state

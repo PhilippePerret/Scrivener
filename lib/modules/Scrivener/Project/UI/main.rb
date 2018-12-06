@@ -19,7 +19,7 @@ class Project
     end
     def notes_scale_factor= value
       ui_plist['NotesScaleFactor'] = value.to_f
-      ui_plist.save
+      ui_plist.set_modified
     end
 
     # Découpage du classeur

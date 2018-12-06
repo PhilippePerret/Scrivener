@@ -1,55 +1,66 @@
 # encoding: UTF-8
 class Scrivener
 class Project
-class UI
+  # Raccourci
+  def ui_plist ; ui.ui_plist end
+  class UI
 
-  # Pour gérer le fichier ui.plist
-  #
-  # Utiliser : project.ui.ui_plist...
-  # Par exemple :
-  #   puts project.ui.ui_plist['maClé']
-  #   project.ui.ui_plist['maClé'] = 'nouvelle valeur' # n'enregistre pas
-  #   project.ui.ui_plist.set('maClé', 'nouvelle valeur') # enregistre
-  #   project.ui.ui_plist.save
-  # 
-  def ui_plist
-    @ui_plist ||= UIPlist.new(self.projet)
-  end
-
-  # Class UIPlist pour la gestion facile du fichier ui.plist
-  class UIPlist
-
-    attr_accessor :projet
-
-    def initialize iprojet
-      self.projet = iprojet
+    # Pour gérer le fichier ui.plist
+    #
+    # Utiliser : project.ui.ui_plist...
+    # Par exemple :
+    #   puts project.ui.ui_plist['maClé']
+    #   project.ui.ui_plist['maClé'] = 'nouvelle valeur' # n'enregistre pas
+    #   project.ui.ui_plist.set('maClé', 'nouvelle valeur') # enregistre
+    #   project.ui.ui_plist.save
+    #
+    def ui_plist
+      @ui_plist ||= UIPlist.new(self.projet)
     end
 
-    # Pour compatibilité
-    def [] key
-      self.xml[key]
-    end
-    def []= key, value
-      self.xml[key] = value
-    end
+    # Class UIPlist pour la gestion facile du fichier ui.plist
+    class UIPlist
 
-    # Définit la valeur et l'enregistre (contrairement à `[]=`)
-    def set
-      self.xml[key] = value
-      save
-    end
+      attr_accessor :projet
 
-    def xml
-      @xml ||= Plist.parse_xml(path)
-    end
-    def save
-      File.open(path,'wb'){|f| f.write Plist::Emit.dump(xml)}
-    end
-    def path
-      @path ||= projet.ui_plist_path
-    end
-  end #/UIPlist
+      def initialize iprojet
+        self.projet = iprojet
+      end
 
-end #/UI
+      # Pour compatibilité
+      def [] key
+        self.xml[key]
+      end
+      def []= key, value
+        self.xml[key] = value
+        set_modified
+      end
+      alias :set :[]=
+
+      # # Définit la valeur
+      # def set
+      #   self.xml[key] = value
+      #   @modified = true
+      # end
+
+      def xml
+        @xml ||= Plist.parse_xml(path)
+      end
+      def modified?
+        @modified === true
+      end
+      def set_modified
+        @modified = true
+      end
+      def save
+        File.open(path,'wb'){|f| f.write Plist::Emit.dump(xml)}
+        @modified = false
+      end
+      def path
+        @path ||= projet.ui_plist_path
+      end
+    end #/UIPlist
+
+  end #/UI
 end #/Project
 end #/Scrivener

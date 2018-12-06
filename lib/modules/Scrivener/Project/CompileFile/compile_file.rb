@@ -1,6 +1,9 @@
 # encoding: UTF-8
+require_relative '../../lib/xml_module'
 class Scrivener
   class Project
+
+    include XMLModule
 
     # Le fichier Settings/compile.xml
     #
@@ -22,27 +25,21 @@ class Scrivener
       compile_xml.metadata.elements['ProjectAbbreviatedTitle'].text
     end
 
+    # Retourne la liste des auteurs
+    # C'est un Array contenant des Hash {:firstname, :lastname, :role}
     def get_authors
-      compile_xml.metadata.elements['Authors'].elements['Author'].collect {|n| n.value}
+      # # Ne retourne pas tous les auteurs mais seulement le premier :
+      # compile_xml.metadata.elements['Authors'].elements['Author'].collect {|n| n.value}
+
+      # Retourne bien tous les auteurs
+      REXML::XPath.each(compile_xml.docxml, '//MetaData/Authors/Author').collect do |n|
+        nom, prenom = n.attributes['FileAs'].split(',')
+        {firsname: prenom.strip, lastname: nom.strip, role: n.attributes['Role']}
+      end
+
     end
 
 
-    class XML
-      attr_accessor :path
-      def initialize path
-        self.path = path
-      end
-      def docxml
-        @docxml ||= REXML::Document.new(File.new(path))
-      end
-      def root ; @root ||= docxml.root end
-      def metadata
-        @metadata ||= begin
-          # n = root.elements['CompileSettings']elements['Metadata'].first
-          REXML::XPath.first(docxml, '//MetaData')
-        end
-      end
-    end
 
   end #/Project
 end #/Scrivener

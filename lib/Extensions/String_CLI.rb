@@ -1,7 +1,10 @@
 # encoding: UTF-8
 #
-# version 1.3.2
+# version 1.3.3
 #
+# Note version 1.3.3
+#   Ajout de la propriété :indent dans les options envoyées à la
+#   méthode truncate, pour ajouter une indentation.
 # Note version 1.3.2
 #   Ajout du calcul du nombre de lignes et de colonnes de l'écran et
 #   de la méthode `console_delimitor` qui permet de tracer une ligne
@@ -27,6 +30,9 @@ class String
   end
 
   # Attention : retourne un Array des lignes ajustées
+  # +options+
+  #   :justify      True => justifier le texte
+  #   :indent       Retrait de chaque ligne.
   def self.truncate str, line_len, options = nil
     options ||= Hash.new
     truncate_and_justify(str, line_len, options.merge!(justify: false))
@@ -34,7 +40,8 @@ class String
 
   def self.truncate_and_justify str, line_len, options = nil
     options ||= Hash.new
-    options.key?(:justify) || options.merge!(justify: true)
+    options.key?(:justify)  || options.merge!(justify: true)
+    options.key?(:indent)   || options.merge!(indent: '')
     # Les lignes qui seront renvoyées
     lines = Array.new
     paragraphes = str.split(String::RC)
@@ -43,6 +50,7 @@ class String
       # Si le paragraphe est inférieur à la largeur de la ligne,
       # on peut le mettre en ligne et passer au suivant
       paragraphe.length > line_len || begin
+        lines.empty? || paragraphe.prepend(options[:indent])
         lines << paragraphe
         next
       end
@@ -58,6 +66,7 @@ class String
         end
         # puts "mots_line: #{mots_line.inspect} / len = #{mots_line.join(' ').length}"
         options[:justify] || mots_line = mots_line.join(' ')
+        paragraphe_lines.empty? || mots_line.prepend(options[:indent])
         paragraphe_lines << mots_line
       end until mots.empty?
 

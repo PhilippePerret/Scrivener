@@ -5,11 +5,6 @@ class Project
 class UI
 class SupportingDocumentEditor
 
-  #
-  # NOTE : bizarrement, il semble que cette "supporting" vue soit la
-  #        vue principale et "main" la vue secondaire.
-  #
-
   include DocumentEditorModule
 
   # Pour composer les noms, comme par exemple 'supportingDocumentEditor'

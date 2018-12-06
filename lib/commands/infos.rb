@@ -21,6 +21,7 @@ if CLI.options[:help]
   Scrivener.help(aide)
 
 else
+  Scrivener.require_module('Scrivener')
   Scrivener.require_module('infos')
   Scrivener::Project.exec_infos_last_projet
 end

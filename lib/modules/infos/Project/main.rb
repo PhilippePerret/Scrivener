@@ -27,9 +27,10 @@ class Project
     puts 'Titre court   : %s' % self.title_abbreviated
     puts 'Auteurs       : %s' % [self.authors.pretty_join]
     puts '-'*80
-    puts 'Dernière commande jouée : %s %s' % [last_data[:last_command], last_data[:options].collect{|o, v| "--#{o}[=#{v.inspect}]"}.join]
     puts 'Date de création        : %s' % [last_data[:created_at].to_i.as_human_date]
     puts 'Date d’enregistrement   : %s' % [last_data[:saved_at].to_i.as_human_date]
+    puts '-'*80
+    puts 'Dernière commande jouée : %s %s' % [last_data[:last_command], last_data[:options].collect{|o, v| "--#{o}[=#{v.inspect}]"}.join]
     puts '-'*80
   end
 

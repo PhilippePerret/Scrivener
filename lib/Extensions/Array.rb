@@ -14,11 +14,11 @@ class Array
     options.key?(:after_each)   || options.merge!(after_each:   '')
     if self.count > 1
       l = self
-      dernier = options[:before_each] + l.pop + options[:after_each]
-      l = l.collect{|i| options[:before_each] + i + options[:after_each]}.join(', ')
+      dernier = options[:before_each] + l.pop.inspect + options[:after_each]
+      l = l.collect{|i| options[:before_each] + i.inspect + options[:after_each]}.join(', ')
       return l + ' et ' + dernier
     else
-      return options[:before_each] + self.first + options[:after_each]
+      return options[:before_each] + self.first.inspect + options[:after_each]
     end
   end
 

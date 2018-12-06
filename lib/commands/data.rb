@@ -24,6 +24,7 @@ if CLI.options[:help]
   Scrivener.help(aide)
 
 else
+  Scrivener.require_module('Scrivener')
   Scrivener.require_module('data')
   Scrivener::Project.exec_data_projet(project)
 end
