@@ -72,12 +72,18 @@ class Project
     # ui_common.save
     # puts 'Je rends l’header visible ou invisible'
 
-    puts '--- second_chapitre : %s::{%s}' % [second_chapitre.title, second_chapitre.class.to_s]
-    puts '--- premier_chapitre: %s::{%s}' % [premier_chapitre.title, premier_chapitre.class.to_s]
-    ui_common.editor1.content= chapitre_trois
-    # ui_common.editor1.content= [premier_chapitre, second_chapitre]
-    # ui_common.editor2.content= dossier_a_passer
-    ui_common.editor2.content= premier_chapitre
+    # puts '--- second_chapitre : %s::{%s}' % [second_chapitre.title, second_chapitre.class.to_s]
+    # puts '--- premier_chapitre: %s::{%s}' % [premier_chapitre.title, premier_chapitre.class.to_s]
+    # ui_common.editor1.content= chapitre_trois
+    # # ui_common.editor1.content= [premier_chapitre, second_chapitre]
+    # # ui_common.editor2.content= dossier_a_passer
+    # ui_common.editor2.content= second_chapitre
+
+    # ui_common.editor1.reset_historique
+    # ui_common.editor1.add_historique([premier_chapitre, second_chapitre, chapitre_trois], {last_is_current: true})
+    ui_common.editor1.reset_historique
+    ui_common.editor1.add_historique([chapitre_trois, second_chapitre, premier_chapitre], {last_is_current: true})
+
     ui_common.save
   end
 

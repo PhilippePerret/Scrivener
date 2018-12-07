@@ -15,6 +15,8 @@ Pour profiter de ces méthodes : `Scrivener.require_module('Scrivener')`
     project.ui_common.editor2.content= <binder-item> # dossier ou texte
     project.ui_common.editor2.content= [<binder-item>, ...]
 
+Noter que lorsqu'on définit le contenu de l'éditeur secondaire, le split de l'éditeur se fait automatiquement, de façon horizontale.
+
 ### Ferme le dossier <binder-item> dans le classeur
 
     project.ui_common.binder.close_folder(<binder-item>)

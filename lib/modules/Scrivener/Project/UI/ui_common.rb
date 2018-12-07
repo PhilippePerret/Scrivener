@@ -26,6 +26,17 @@ class Project
       @ui_common ||= UICommon.new(self.projet.ui_common_path, self.projet)
     end
 
+    # @usage:  project.ui.split_editor
+    #
+    # Noter qu'il faut que le contenu de l'éditeur secondaire (editor2) soit
+    # défini pour que cette valeur soit prise en compte.
+    def split_editor sens = 'Horizontal'
+      ui_common.xpath('/UIStates/Split').text = sens
+    end
+    def unsplit_editor
+      split_editor('None')
+    end
+
     # Class UIPlist pour la gestion facile du fichier ui.plist
     class UICommon < XML
 

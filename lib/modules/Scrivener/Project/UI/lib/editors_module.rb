@@ -17,15 +17,25 @@ module EditorsModule
       @view_node ||= node.elements['View']
     end
 
-    # Pour définir le contenu de l'éditeur
+    # ---------------------------------------------------------------------
+    #   Gestion du texte
+
+
+    # Pour définir le contenu de l'éditeur (le ou les fichiers affichés)
     #
     # L'éditeur peut contenir un seul document, ou plusieurs (en mode groupe)
+    #
+    # NOTE Ne surtout pas l'inclure dans l'historique.
     def content= bitems
       bitems.is_a?(Array) || bitems = [bitems]
       bitems.first.is_a?(Scrivener::Project::BinderItem) || raise(Scrivener::ERRORS[:binder_item_required])
       if main?
         ui_common.binder.unselect_all
         bitems.each { |bitem| ui_common.binder.select(bitem, keep = true) }
+      else
+        # Si c'est le contenu de l'éditeur secondaire qui est défini,
+        # il faut le rendre visible sinon ça ne fait rien.
+        project.ui.split_editor
       end
       content_node = XML.get_or_add(view_node, 'Content')
       XML.empty(content_node)
@@ -35,6 +45,44 @@ module EditorsModule
       end
       set_modified
     end
+
+    # Retourne la sélection texte
+    def text_selection
+      node.elements['Text'].elements['Selection'].text.split(',').collect{|i|i.to_i}
+    end
+    # Pour définir la sélection du texte
+    # +paire+ [offset premier caractère, nombre de caractères]
+    def text_selection= paire
+      node.elements['Text'].elements['Selection'].text = paire.join(',')
+    end
+
+    # ---------------------------------------------------------------------
+    #   Historique
+
+    def reset_historique
+      node_histo = XML.get_or_add(view_node, 'NavigationHistory')
+      XML.empty(node_histo)
+      node_histo.attributes['CurrentIndex'] = '-1'
+    end
+    # +options+
+    #   :last_is_current      Si true, on met le contenu du dernier dans
+    #                         le contenu.
+    def add_historique bitems, options = nil
+      options ||= Hash.new
+      bitems.is_a?(Array) || bitems = [bitems]
+      node_histo = XML.get_or_add(view_node, 'NavigationHistory')
+      last_index = node_histo.attributes['CurrentIndex'].to_i
+      bitems.each do |bitem|
+        node_histo.add_element('HistoryItem', {'Type' => 'BinderItem', 'ViewMode' => 'Single'}).text = bitem.uuid
+      end
+      node_histo.attributes['CurrentIndex'] = last_index + bitems.count
+      if options[:last_is_current]
+        self.content= bitems.last
+      end
+    end
+
+    # ---------------------------------------------------------------------
+    #   Entête et pied de page
 
     # Retourne true si l'entête est visible
     def header?
