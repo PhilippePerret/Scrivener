@@ -2,9 +2,11 @@
 module XMLModule
 
   class XML
+    attr_accessor :projet
     attr_accessor :path
-    def initialize path
-      self.path = path
+    def initialize path, iprojet
+      self.path   = path
+      self.projet = iprojet
     end
 
     # Le document XML
@@ -17,6 +19,9 @@ module XMLModule
 
     def modified?
       @modified === true
+    end
+    def set_modified
+      @modified = true
     end
 
     # Retourne le nœud spécifié par le xpath +xp+

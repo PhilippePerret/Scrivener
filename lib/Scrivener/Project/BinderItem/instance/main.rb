@@ -5,7 +5,7 @@ class Scrivener
 
       attr_reader :project, :node
 
-      def initialize project, node
+      def initialize project, node = nil
         @project  = project
         @node     = node
       end

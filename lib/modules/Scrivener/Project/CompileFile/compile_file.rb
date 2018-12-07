@@ -11,7 +11,7 @@ class Scrivener
     # titres des documents ou les auteurs.
     #
     def compile_xml
-      @compile_file ||= XML.new(compile_file_path)
+      @compile_file ||= XML.new(self, compile_file_path)
     end
 
     # ---------------------------------------------------------------------

@@ -47,8 +47,9 @@ class Project
     end
     # On peut sauver tous les fichiers modifiés du projet
     # NOTE : Pour le moment, je mets tous les fichiers ici
-    compile_xml.modified? && compile_xml.save
     ui_plist.modified?    && ui_plist.save
+    compile_xml.modified? && compile_xml.save
+    ui_common.modified?   && ui_common.save
   end
 
   def keys_to_set

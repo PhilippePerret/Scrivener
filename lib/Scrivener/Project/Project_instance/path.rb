@@ -32,6 +32,10 @@ class Scrivener
       @xfile_path ||= File.join(path,'%s.scrivx' % affixe)
     end
 
+    def ui_common_path
+      @ui_common_path ||= File.join(settings_folder_path,'ui-common.xml')
+    end
+
     def compile_file_path
       @compile_file_path ||= File.join(settings_folder_path,'compile.xml')
     end

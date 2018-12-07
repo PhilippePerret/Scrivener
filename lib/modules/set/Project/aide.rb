@@ -18,11 +18,19 @@ class << self
     MODIFIABLE_PROPERTIES.collect do |property, dproperty|
       dproperty.key?(:variante) && dproperty[:variante] || dproperty.merge!(variante: '---')
       dproperty.merge!(description: String.truncate(dproperty[:description], 60, {indent: ' '*15}).join(String::RC))
-      dproperty.merge!(:valeurs_possibles => if dproperty.key?(:values)
-        String::RC + '    Valeurs  :' + String::RC +
+      values_possibles = if dproperty.key?(:values)
+        case dproperty[:values]
+        when Array
+          dproperty[:values].join(', ')
+        when Hash
+          String::RC +
           dproperty[:values].collect do |val, facons|
             '        Pour %s : %s' % [val, facons.pretty_join]
           end.join(String::RC)
+        end
+      end
+      dproperty.merge!(:valeurs_possibles => if dproperty.key?(:values)
+        String::RC + '    Valeurs  : ' + values_possibles
         else '' end
       )
       puts '

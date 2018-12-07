@@ -3,6 +3,10 @@ class Scrivener
 class Project
   # Raccourci
   def ui_plist ; ui.ui_plist end
+
+  def ui_common ;
+    ui.ui_common
+  end
   class UI
 
     # Pour gérer le fichier ui.plist
@@ -53,7 +57,7 @@ class Project
         @modified = true
       end
       def save
-        File.open(path,'wb'){|f| f.write Plist::Emit.dump(xml)}
+        File.open(path,'wb') { |f| f.write Plist::Emit.dump(xml)}
         @modified = false
       end
       def path

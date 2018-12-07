@@ -1,4 +1,9 @@
 # encoding: UTF-8
+=begin
+
+  Apparemment les éditeurs dans ui.plist
+  
+=end
 module DocumentEditorModule
 
   attr_accessor :projet
