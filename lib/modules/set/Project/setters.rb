@@ -50,10 +50,13 @@ class Project
   # POUR FAIRE DES ESSAIS AVEC LA COMMANDE `scriv set essai`
   def set_essai value = nil
     # puts "La valeur de value est #{value.inspect}"
-    # dmanuscrit = BinderItem.new(self)
-    # dmanuscrit.instance_variable_set('@uuid', '7495D5CA-657E-4997-9A5C-D248B0591A75')
-    # dprox = BinderItem.new(self)
-    # dprox.instance_variable_set('@uuid', 'B6C40A17-4527-4481-9547-64252E551B0D')
+    dmanuscrit  = project.binder_item('7495D5CA-657E-4997-9A5C-D248B0591A75')
+    dproximites = project.binder_item('B6C40A17-4527-4481-9547-64252E551B0D')
+    dossier_a_passer = project.binder_item('96607C23-C15F-46E7-823A-6512DE979A7E')
+
+    second_chapitre   = project.binder_item('76E56CA6-F25A-41E6-A513-44309432382F')
+    premier_chapitre  = project.binder_item('0F81282D-A49B-43E4-8EDB-31E192CBF90A')
+    chapitre_trois    = project.binder_item('8A0B3C46-465A-452B-992E-FF90FC4267F9')
 
     # # ui_common.binder.unselect_all
     # ui_common.binder.select(dmanuscrit)
@@ -64,10 +67,18 @@ class Project
 
     # ui_common.editor1.header_visible(false)
     # ui_common.editor2.header_visible(true)
-    ui_common.editor1.footer_visible(true)
-    ui_common.editor2.footer_visible(false)
+    # ui_common.editor1.footer_visible(true)
+    # ui_common.editor2.footer_visible(false)
+    # ui_common.save
+    # puts 'Je rends l’header visible ou invisible'
+
+    puts '--- second_chapitre : %s::{%s}' % [second_chapitre.title, second_chapitre.class.to_s]
+    puts '--- premier_chapitre: %s::{%s}' % [premier_chapitre.title, premier_chapitre.class.to_s]
+    ui_common.editor1.content= chapitre_trois
+    # ui_common.editor1.content= [premier_chapitre, second_chapitre]
+    # ui_common.editor2.content= dossier_a_passer
+    ui_common.editor2.content= premier_chapitre
     ui_common.save
-    puts 'Je rends l’header visible ou invisible'
   end
 
   def self.add_modpro h
@@ -214,7 +225,7 @@ class Project
 
   add_modpro(
     :editor1_group_view_mode => {hname: 'Mode de vue de groupe dans l’éditeur principal', variante: 'mode_vue_groupe_editeur1', description: 'Pour définir le mode d’affichage d’un groupe de documents ou de dossier dans l’éditeur principal, c’est-à-dire pour définir s’il doit afficher les textes, le tableau d’affichage ou le plan.', exemple: 'Plan',
-      values: DIVEXPLI[:modes_vues], category: [:interface, :editors], confirmation: 'Mode courant de vue de l’éditeur principal mis à %s'
+      values: DIVEXPLI[:modes_vues], category: [:interface, :editors], confirmation: 'Mode courant de vue de groupe de l’éditeur principal mis à %s'
     }
   )
   def set_editor1_group_view_mode value
@@ -224,7 +235,7 @@ class Project
   end
   add_modpro(
     :editor2_group_view_mode => {hname: 'Mode de vue de groupe dans l’éditeur secondaire', variante: 'mode_vue_groupe_editeur2', description: 'Pour définir le mode d’affichage d’un groupe de documents ou de dossier de l’éditeur secondaire, c’est-à-dire pour définir s’il doit afficher les textes, le tableau d’affichage ou le plan.', exemple: 'Corkboard',
-      values: DIVEXPLI[:modes_vues], category: [:interface, :editors], confirmation: 'Mode courant de vue de l’éditeur secondaire mis à %s'
+      values: DIVEXPLI[:modes_vues], category: [:interface, :editors], confirmation: 'Mode courant de vue de groupe de l’éditeur secondaire mis à %s'
     }
   )
   def set_editor2_group_view_mode value

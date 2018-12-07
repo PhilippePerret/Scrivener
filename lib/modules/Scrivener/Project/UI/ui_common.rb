@@ -8,6 +8,8 @@
 =end
 require_relative '../../lib/xml_module'
 require_relative 'lib/editors_module'
+include XMLModule
+
 class Scrivener
 class Project
 
@@ -18,7 +20,7 @@ class Project
   end
 
   class UI
-    include XMLModule
+    # include XMLModule
 
     def ui_common
       @ui_common ||= UICommon.new(self.projet.ui_common_path, self.projet)
@@ -91,10 +93,8 @@ class Project
         # Retire un dossier ouvert (donc le referme)
         def open_folder bitem
           bitem.is_a?(Scrivener::Project::BinderItem) || raise(ERRORS[:binder_item_required])
-          (
-            node.elements['ExpandedItems'] ?
-              node.elements['ExpandedItems'] : node.add_element('ExpandedItems')
-          ).add_element('ItemID').text = bitem.uuid
+          XML.get_or_add(node, 'ExpandedItems').
+            add_element('ItemID').text = bitem.uuid
           set_modified
         end
         # Pour sélectionner un item
@@ -103,10 +103,7 @@ class Project
         def select bitem, keep = false
           bitem.is_a?(Scrivener::Project::BinderItem) || raise(ERRORS[:binder_item_required])
           keep || unselect_all
-          (
-            node.elements['Selection'] ?
-              node.elements['Selection'] : node.add_element('Selection')
-          ).add_element('ItemID').text = bitem.uuid
+          XML.get_or_add(node,'Selection').add_element('ItemID').text=bitem.uuid
           set_modified
         end
         # Pour désélectionner un item (s'il l'était)
@@ -145,11 +142,12 @@ class Project
       #   LES DEUX ÉDITEURS
       class Editor1 < Editor
         def xpath_str ; @xpath_str ||= '/UIStates/Editors/Editor1' end
+        def main? ; true end
       end #/Editor1
 
       class Editor2 < Editor
         def xpath_str ; @xpath_str ||= '/UIStates/Editors/Editor2' end
-
+        def main? ; false end
       end #/Editor2
 
       # ---------------------------------------------------------------------

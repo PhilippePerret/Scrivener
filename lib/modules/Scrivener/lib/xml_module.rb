@@ -2,6 +2,19 @@
 module XMLModule
 
   class XML
+
+    class << self
+      # Retourne l'enfant +tag+ de +parent+ en le créant si nécessaire
+      def get_or_add(parent, tag)
+        parent.elements[tag] ? parent.elements[tag] : parent.add_element(tag)
+      end
+      # Pour vider le nœud +node+ de tout son contenu (mais en gardant
+      # la balise)
+      def empty(node)
+        node.elements.each { |n| n.parent.delete(n) }
+      end
+    end #/<< self
+
     attr_accessor :projet
     attr_accessor :path
     def initialize path, iprojet

@@ -6,6 +6,15 @@ J'essaie de tenir ici une liste des méthodes internes qui permettent de contrô
 
 Pour profiter de ces méthodes : `Scrivener.require_module('Scrivener')`
 
+### Affiche un ou plusieurs documents dans l'éditeur principal ou secondaire
+
+    # Éditeur principal
+    project.ui_common.editor1.content= <binder-item> # dossier ou texte
+    project.ui_common.editor1.content= [<binder-item>, ...]
+    # Éditeur secondaire
+    project.ui_common.editor2.content= <binder-item> # dossier ou texte
+    project.ui_common.editor2.content= [<binder-item>, ...]
+
 ### Ferme le dossier <binder-item> dans le classeur
 
     project.ui_common.binder.close_folder(<binder-item>)

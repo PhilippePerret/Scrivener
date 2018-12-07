@@ -15,6 +15,24 @@
 class Scrivener
   class Project
 
+    # Retourne l'instance {Scrivener::Project::BinderItem} du binder item du
+    # projet portant l'UUID +uuid+
+    #
+    # Note : cette méthode (contrairement aux suivante) considère vraiment
+    # TOUS les binder-items, à commencer par le dossier manuscrit principal
+    # (alors que `binder_items` ci-dessous ne recherche que les éléments du
+    # dossier manuscrit, même pas le dossier manuscrit lui-même)
+    def binder_item uuid
+      @hash_binder_items ||= begin
+        h = Hash.new
+        xfile.binder.elements.each('BinderItem') do |data_node|
+          bi = Scrivener::Project::BinderItem.new(self, data_node)
+          bi.merge_in(h)
+        end
+        h
+      end
+      @hash_binder_items[uuid]
+    end
 
     # Retourne tous les binder-items du projet (ceux du manuscrit)
     # C'est une liste d'instances de {Scrivener::Project::BinderItem}
@@ -64,17 +82,6 @@ class Scrivener
         self.parent? && self.children.each{|bic| bic.merge_in(h)}
       end
     end #/BinderItem
-
-    # Retourne l'instance {Scrivener::Project::BinderItem} du binder item du
-    # projet portant l'UUID +uuid+
-    def binder_item uuid
-      @hash_binder_items ||= begin
-        h = Hash.new
-        binder_items.each do |bi| bi.merge_in(h) end
-        h
-      end
-      @hash_binder_items[uuid]
-    end
 
 
     # Méthode principale qui crée un nouveau document pour le
