@@ -15,11 +15,17 @@ module XMLModule
       end
     end #/<< self
 
+
     attr_accessor :projet
     attr_accessor :path
-    def initialize path, iprojet
-      self.path   = path
+
+    # Instanciation
+    #
+    # +path+    {String} Chemin d'accès au fichier XML
+    # +iprojet+ {Scrivener::Project} Projet Scrivener du fichier
+    def initialize iprojet, path
       self.projet = iprojet
+      self.path   = path
     end
 
     # Le document XML

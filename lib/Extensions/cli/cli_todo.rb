@@ -53,7 +53,7 @@ class << self
 
   def add_new_task(task)
     tasks << task
-    save
+    save and display_list
     puts MSGS[:confirm_save].bleu
   end
 
@@ -106,7 +106,7 @@ class << self
     index_task || raise(MSGS[:unknown_task] % index_task.inspect)
     confirm_destroy_task?(task(index_task)) || return
     tasks.delete_at(index_task)
-    save
+    save and display_list
     puts MSGS[:confirm_destroy].bleu
   end
   # /remove_task
