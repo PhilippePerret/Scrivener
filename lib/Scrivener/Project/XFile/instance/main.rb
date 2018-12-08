@@ -1,5 +1,4 @@
 # encoding: UTF-8
-require 'fileutils'
 
 class Scrivener
   class Project
@@ -7,10 +6,10 @@ class Scrivener
 
       # Le projet Scrivener::Project auquel appartient le
       # projet.
-      attr_reader :project
+      attr_reader :projet
 
-      def initialize project
-        @project = project
+      def initialize projet
+        @projet = projet
       end
 
       # Pour enregistrer le texte modifié
@@ -19,14 +18,23 @@ class Scrivener
         FileUtils.move(path, copy_path)
         xmldoc.write(output: File.open(path, 'w'), indent: 2, transitive: true)
         File.exist?(path) && File.unlink(copy_path)
+        unset_modified
       end
 
+      def save_if_modified
+        modified? && save
+      end
+
+      def modified?       ; @modified === true  end
+      def set_modified    ; @modified = true    end
+      def unset_modified  ; @modified = false   end
+
       def path
-        @path ||= project.xfile_path
+        @path ||= projet.xfile_path
       end
 
       def copy_path
-        @copy_path ||= File.join(project.path, '%s-backup.scrivx' % project.affixe)
+        @copy_path ||= File.join(projet.path, '%s-backup.scrivx' % projet.affixe)
       end
 
     end #/XFile

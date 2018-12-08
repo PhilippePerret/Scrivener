@@ -5,7 +5,7 @@ class Scrivener
 
       # Pour créer un dossier principal, au niveau supérieur (comme le
       # dossier Manuscrit ou la poubelle)
-      # TODO Documenter cette méthode (et son raccourci project.create_main_folder)
+      # TODO Documenter cette méthode (et son raccourci projet.create_main_folder)
       # avec +data+ qui peut contenir ':title' (le titre du dossier),
       # ':after' ou ':before' (:draft_folder, :research_folder, :trash_folder)
       # pour savoir où placer le dossier
@@ -53,7 +53,7 @@ class Scrivener
         self.save
 
 
-        return Scrivener::Project::BinderItem.new(project, new_folder)
+        return Scrivener::Project::BinderItem.new(projet, new_folder)
       end
 
     end

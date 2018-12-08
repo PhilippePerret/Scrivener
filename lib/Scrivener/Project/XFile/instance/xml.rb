@@ -10,7 +10,7 @@ class Scrivener
     class XFile
 
       def xmldoc
-        @xmldoc ||= REXML::Document.new(File.new(project.xfile_path))
+        @xmldoc ||= REXML::Document.new(File.new(projet.xfile_path))
       end
 
       def root

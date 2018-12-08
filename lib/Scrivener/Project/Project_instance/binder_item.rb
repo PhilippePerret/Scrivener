@@ -17,6 +17,10 @@ class Scrivener
 
     # Retourne l'instance {Scrivener::Project::BinderItem} du binder item du
     # projet portant l'UUID +uuid+
+    # +uuid+ peut aussi avoir les valeurs :
+    #   :draft_folder     Le dossier manuscrit
+    #   :search_folder    Le dossier recherche
+    #   :trash_folder     Le dossier poubelle
     #
     # Note : cette méthode (contrairement aux suivante) considère vraiment
     # TOUS les binder-items, à commencer par le dossier manuscrit principal
@@ -27,12 +31,34 @@ class Scrivener
         h = Hash.new
         xfile.binder.elements.each('BinderItem') do |data_node|
           bi = Scrivener::Project::BinderItem.new(self, data_node)
-          bi.merge_in(h)
+          # Traitement spécial des dossiers racines
+          if ['DraftFolder','ResearchFolder','TrashFolder'].include?(data_node.attributes['Type'])
+            h.merge!(data_node.attributes['Type'].decamelize.to_sym => bi)
+          end
+          bi.merge_in(h) # Traite aussi les enfants
         end
         h
       end
       @hash_binder_items[uuid]
     end
+
+    # Retourne l'instance {Scrivener::Project::BinderItem} du
+    # dossier Manuscrit
+    def draft_folder
+      @draft_folder ||= binder_item(:draft_folder)
+    end
+    # Retourne l'instance {Scrivener::Project::BinderItem} du
+    # dossier Recherche (SearchFolder)
+    def research_folder
+      @research_folder ||= binder_item(:research_folder)
+    end
+    # Retourne l'instance {Scrivener::Project::BinderItem} du
+    # dossier Poubelle
+    def trash_folder
+      @trash_folder ||= binder_item(:trash_folder)
+    end
+
+
 
     # Retourne tous les binder-items du projet (ceux du manuscrit)
     # C'est une liste d'instances de {Scrivener::Project::BinderItem}
@@ -87,15 +113,15 @@ class Scrivener
     # Méthode principale qui crée un nouveau document pour le
     # projet. Avec éventuellement les données +data+
     #
-    # @return Le nouveau document créé {Scrivener::Project::BinderItem}
+    # RETURN Le nouveau binder-item créé {Scrivener::Project::BinderItem}
     def create_binder_item attrs = nil, data = nil
       data  ||= Hash.new
-      attrs ||= Hash.new
-      # On fournit toujours l'UUID ici
-      attrs.merge!('UUID' => `uuidgen`.strip)
-      attrs.key?(:created)    || attrs.merge!(:created   => Time.now)
-      attrs.key?(:modified)   || attrs.merge!(:modified  => Time.now)
-      attrs.key?(:type)       || attrs.merge!(:type      => 'Text')
+      # attrs ||= Hash.new
+      # # On fournit toujours l'UUID ici
+      # attrs.merge!('UUID' => `uuidgen`.strip)
+      # attrs.key?(:created)    || attrs.merge!(:created   => Time.now)
+      # attrs.key?(:modified)   || attrs.merge!(:modified  => Time.now)
+      # attrs.key?(:type)       || attrs.merge!(:type      => 'Text')
 
       # On doit définir le conteneur
       conteneur =
@@ -105,53 +131,54 @@ class Scrivener
           # xfile.draftfolder.elements["*/BinderItem[@UUID=\"#{container}\"]"]
           xfile.node.elements["*/BinderItem[@UUID=\"#{container}\"]"]
         when Scrivener::Project::BinderItem
-          raise 'Je ne sais pas traiter les BinderItem'
+          raise 'Je ne sais pas traiter les BinderItems'
         else
           # Sinon, on prend le dossier manuscrit
           xfile.draftfolder
         end
-
-      docs = conteneur.elements['Children'] || conteneur.add_element('Children')
-
-      newdoc = docs.add_element('BinderItem', attrs.symbol_to_camel)
-
-      # Le titre du document ou du dossier (if any)
-      data.key?(:title) && begin
-        newdoc.add_element('Title').text = data[:title].to_s.strip
-      end
-
-      # Les métadonnées
-      data.key?(:metadata) || data.merge!(metadata: Hash.new)
-      data[:metadata].key?(:include_in_compile) || data[:metadata].merge!(include_in_compile: {text: 'Yes'})
-      metadata = newdoc.add_element('MetaData')
-      data[:metadata].each do |key, mdata|
-        text = mdata[:text] || mdata[:value]
-        # el = metadata.add_element('IncludeInCompile')
-        el = metadata.add_element(key.camelize)
-        el.text = text unless text.nil?
-      end
-
-      # Les données du texte
-      data.key?(:text_settings) || data.merge!(text_settings: Hash.new)
-      data[:text_settings].key?(:text_selection) || data[:text_settings].merge!(text_selection: {text: '0,0'})
-      textsettings = newdoc.add_element('TextSettings')
-      data[:text_settings].each do |key, setting|
-        text = setting.delete(:text) || setting.delete(:value) || nil
-        # textsettings.add_element('TextSelection').text = text
-        el = textsettings.add_element(key.camelize)
-        el.text = text unless text.nil?
-        setting.each do |key, value|
-          el.attributes[key.camelize] = value
-        end
-      end
-
-      bitem_newdoc = Scrivener::Project::BinderItem.new(self, newdoc)
-
-      # Pour finir, il faut créer le dossier dans Data/Files, portant comme nom
-      # le UUID du fichier
-      bitem_newdoc.build_data_file_folder
-
-      return bitem_newdoc
+      return conteneur.create_binder_item(attrs, data)
+      #
+      # docs = conteneur.elements['Children'] || conteneur.add_element('Children')
+      #
+      # newdoc = docs.add_element('BinderItem', attrs.symbol_to_camel)
+      #
+      # # Le titre du document ou du dossier (if any)
+      # data.key?(:title) && begin
+      #   newdoc.add_element('Title').text = data[:title].to_s.strip
+      # end
+      #
+      # # Les métadonnées
+      # data.key?(:metadata) || data.merge!(metadata: Hash.new)
+      # data[:metadata].key?(:include_in_compile) || data[:metadata].merge!(include_in_compile: {text: 'Yes'})
+      # metadata = newdoc.add_element('MetaData')
+      # data[:metadata].each do |key, mdata|
+      #   text = mdata[:text] || mdata[:value]
+      #   # el = metadata.add_element('IncludeInCompile')
+      #   el = metadata.add_element(key.camelize)
+      #   el.text = text unless text.nil?
+      # end
+      #
+      # # Les données du texte
+      # data.key?(:text_settings) || data.merge!(text_settings: Hash.new)
+      # data[:text_settings].key?(:text_selection) || data[:text_settings].merge!(text_selection: {text: '0,0'})
+      # textsettings = newdoc.add_element('TextSettings')
+      # data[:text_settings].each do |key, setting|
+      #   text = setting.delete(:text) || setting.delete(:value) || nil
+      #   # textsettings.add_element('TextSelection').text = text
+      #   el = textsettings.add_element(key.camelize)
+      #   el.text = text unless text.nil?
+      #   setting.each do |key, value|
+      #     el.attributes[key.camelize] = value
+      #   end
+      # end
+      #
+      # bitem_newdoc = Scrivener::Project::BinderItem.new(self, newdoc)
+      #
+      # # Pour finir, il faut créer le dossier dans Data/Files, portant comme nom
+      # # le UUID du fichier
+      # bitem_newdoc.build_data_file_folder
+      #
+      # return bitem_newdoc
     end
     #/create_binder_item
 

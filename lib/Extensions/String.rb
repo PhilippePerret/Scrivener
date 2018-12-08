@@ -1,7 +1,10 @@
 # encoding: UTF-8
 #
-# version 1.3.2
+# version 1.4.0
 #
+# Note version 1.4.0
+#   Ajout des méthodes d'autres fichiers, comme my_downcase, camelize
+#   etc.
 # Note version 1.3.2
 #   Ajout méthode `relative_path`
 # Note version 1.3.1
@@ -44,6 +47,45 @@ class String
     8 => '₈',
     9 => '₉'
   }
+
+  # Pour upcaser vraiment tous les caractères, même les accents et
+  # les diacritiques
+  DATA_MIN_TO_MAJ = {
+    from: "àäéèêëîïùôöç",
+    to:   "ÀÄÉÈÊËÎÏÙÔÖÇ"
+  }
+  alias :old_upcase :upcase
+  def upcase
+    self.old_upcase.tr(DATA_MIN_TO_MAJ[:from], DATA_MIN_TO_MAJ[:to])
+  end
+
+  alias :old_downcase :downcase
+  def downcase
+    self.old_downcase.tr(DATA_MIN_TO_MAJ[:to], DATA_MIN_TO_MAJ[:from])
+  end
+
+  # Pour transformer n'importe quel caractère de majuscule vers
+  # minuscule, ou l'inverse.
+  DATA_UPCASE = {
+    :maj => "ÀÁÂÃÄÅĀĂĄÇĆĈĊČÐĎÈÉÊËĒĔĖĘĚĜĞĠĢĤĦÌÍÎÏĨĪĬĮİĴĶĸĺļľŀÑŃŅŇŊÒÓÔÕÖØŌŎŐŔŖŘŚŜŞŠÙÚÛÜŨŪŬŮŰŲŴÝŹŻŽ",
+    :min => "àáâãäåāăąçćĉċčðďèéêëēĕėęěĝğġģĥħìíîïĩīĭįıĵķĹĻĽĿŁñńņňŋòóôõöøōŏőŕŗřśŝşšùúûüũūŭůűųŵýźżž"
+  }
+  def my_upcase
+    self.tr(DATA_UPCASE[:min], DATA_UPCASE[:maj]).upcase
+  end
+  def my_downcase
+    self.tr(DATA_UPCASE[:maj], DATA_UPCASE[:min]).downcase
+  end
+
+
+  # Chamelise ('mon_nom_tiret' => 'MonNomTiret')
+  def camelize
+    self.split('_').collect{|mot| mot.capitalize}.join("")
+  end
+
+  def decamelize
+    self.gsub(/(.)([A-Z])/, '\1_\2').downcase
+  end
 
   # Retourne le chemin d'accès self comme chemin relatif par rapport
   # au dossier HOME.

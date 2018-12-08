@@ -21,7 +21,7 @@ else
   begin
     script_path = File.join(APPFOLDER,'script',CLI.params[1])
     script_path.end_with?('.rb') || script_path.concat('.rb')
-    puts '-- Jouer le script « %s »' % script_path
+    # puts '-- Jouer le script « %s »' % script_path
     File.exist?(script_path) || raise('Le fichier `%s` est introuvable.' % script_path)
     load script_path
   rescue Exception => e

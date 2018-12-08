@@ -33,7 +33,7 @@ class Scrivener
         # offset des mots, donc on les remplaces par des 'SCRVTAGS'
         str = `textutil -format rtf -convert txt -stdout "#{rtf_text_path}"`
         # On supprime toutes les balises de styles
-        str.gsub!(/<(.*?)>/,'')
+        str.gsub!(/<\!?\$(.*?)>/,'')
         File.open(simple_text_path,'wb'){|f| f.write str}
         return str
       end
