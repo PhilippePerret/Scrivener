@@ -97,24 +97,40 @@ class Project
     :author => {hname: 'auteur', variante: 'auteur', description: 'Pour définir le prénom et nom de l’auteur principal du projet.', exemple: "Alphonse Jouard".inspect,
       category: :project_infos, confirmation: 'Auteur principal mis à %s'}
   )
+  # Trois façons de le définir avec +value+ :
+  #   - "Prénom Nom"
+  #   - "Nom, Prénom"
+  #   - {firstname: "Prénom", lastname: "Nom"}
   def set_author value
-    value_init = value
-    value = value.split
-    prenom = value.shift
-    patron = value.join
+    case value
+    when String
+      if value.index(',')
+        value = value.split(',')
+        prenom = value[1].strip
+        patron = value[0].strip
+      else
+        value = value.split(' ')
+        prenom = value.shift.strip
+        patron = value.join(' ').strip
+      end
+    when Hash
+      prenom = value[:firstname]
+      patron = value[:lastname]
+    end
+    value_init = '%s %s' % [prenom, patron]
     compile_xml.set_xpath('//MetaData/Surname', patron)
     compile_xml.set_xpath('//MetaData/Forename', prenom)
     # Voir si cet auteur est déjà dans la liste
     # dans le cas contraire, l'ajouter (à la fin, pour le moment).
     author_found = false
     get_authors.each do |hau|
-      if hau[:firstname] == prenom && hau[:lastname] == nom
+      if hau[:firstname] == prenom && hau[:lastname] == patron
         author_found = true
         break
       end
     end
     author_found || add_an_author({tag: 'Author', text: value_init, attrs: {Role: 'aut', FileAs: ('%s, %s' % [patron, prenom])}})
-    confirme(author, value)
+    confirme(:author, value_init)
   end
 
   # Définir les auteurs du projet
@@ -128,7 +144,7 @@ class Project
       patro_init = patro
       patro = patro.split
       prenom = patro.shift
-      patro = patro.join
+      patro = patro.join(' ')
       add_an_author({tag: 'Author', text: patro_init, attrs: {Role: 'aut', FileAs: ('%s, %s' % [patro, prenom])}})
     end
     confirme(:authors, value)

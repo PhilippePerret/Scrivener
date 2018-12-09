@@ -13,7 +13,6 @@ class Canon
   # Méthode principale qui retourne le canon formaté sur une demi colonne
   # grâce au template DEMI_COLONNE_CANON
   def line_demi_colonne
-    puts "= canon: #{canon.inspect} / distance_minimale (#{distance_minimale}) != Proximite::DISTANCE_MINIMALE (#{Proximite::DISTANCE_MINIMALE}) ? #{(distance_minimale != Proximite::DISTANCE_MINIMALE).inspect}"
     DEMI_COLONNE_CANON % {
       fcanon:     formated_canon,
       focc:       formated_occurences,
@@ -40,7 +39,11 @@ class Canon
     @pourcentage_densite ||= (nombre_proximites.to_f / nombre_occurences).pourcentage
   end
   def formated_moyenne_distance
-    @formated_moyenne_distance ||= moyenne_distances.to_s.rjust(5)
+    @formated_moyenne_distance ||= begin
+      moyenne_distances.to_s.rjust(5)
+    rescue Exception => e
+      '[ERR. CALC: %s]' % e.message
+    end
   end
 end #/Canon
 end #/Project

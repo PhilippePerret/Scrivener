@@ -156,21 +156,31 @@ class Project
   # Méthode qui calcule la moyenne d'éloignement, mais aussi le nombre
   # de proximités suivant les tranches (à 250 mots, 500 mots, 750 mots, etc.)
   def calcule_proximites_variable_et_moyenne_distance
+    puts "--> calcule_proximites_variable_et_moyenne_distance"
     total_distances = 0
+    # Le total des distances, mais seulement pour les mots qui
+    # sont à distance normale maximale (1 page)
+    total_distances_common = 0
     @proximites_par_tranche = {
-      250   => 0,
-      500   => 0,
-      750   => 0,
-      1000  => 0,
-      1250  => 0,
-      1500  => 0
+      250   => {all: 0, common: 0},
+      500   => {all: 0, common: 0},
+      750   => {all: 0, common: 0},
+      1000  => {all: 0, common: 0},
+      1250  => {all: 0, common: 0},
+      1500  => {all: 0, common: 0}
     }
     tableau_proximites[:proximites].each do |prox_id, iprox|
+      is_distance_normale = iprox.distance_minimale == Proximite::DISTANCE_MINIMALE
       total_distances += iprox.distance
       tranche = ((iprox.distance / 250) + 1) * 250
-      @proximites_par_tranche[tranche] += 1
+      @proximites_par_tranche[tranche][:all] += 1
+      if is_distance_normale
+        total_distances_common += iprox.distance
+        @proximites_par_tranche[tranche][:common] += 1
+      end
     end
     @moyenne_eloignements = (total_distances / nombre_total_proximites)
+    @moyenne_eloignements_common = (total_distances_common / nombre_total_proximites)
   end
 
   # ---------------------------------------------------------------------
@@ -301,8 +311,8 @@ class Project
       tableau_aide << ('(8) Nombre de mots différents en fonction du nombre de mots total. Plus ce taux est élevé, plus le texte présente de variété de mots.')
       line('NOMBRE TOTAL DE PROXIMITES %s' % [9.to_expo], projet.nombre_total_proximites, {color: :rouge})
       tableau_aide << '(9) C’est le nombre absolu dans le texte.'
-        projet.proximites_par_tranche.each do |tranche, nombre|
-          line('    Nombre proximités <= %i signes' % tranche, nombre, {llength: 44})
+        projet.proximites_par_tranche.each do |tranche, dnombre|
+          line('    Nombre proximités <= %i signes' % tranche, "#{dnombre[:all]} | #{dnombre[:common]}", {llength: 44})
         end
       long_label = 40
       # TODO Rapport entre le nombre de canons et le nombre de mot différent

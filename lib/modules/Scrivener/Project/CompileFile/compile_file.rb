@@ -33,7 +33,8 @@ class Scrivener
 
       # Retourne bien tous les auteurs
       REXML::XPath.each(compile_xml.docxml, '//MetaData/Authors/Author').collect do |n|
-        nom, prenom = n.attributes['FileAs'].split(',')
+        nom, prenom =
+          n.attributes['FileAs'] ? n.attributes['FileAs'].split(',') : [n.text, '']
         {firstname: prenom.strip, lastname: nom.strip, role: n.attributes['Role']}
       end
 

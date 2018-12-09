@@ -44,9 +44,4 @@ class ProxMot
   def trop_proche_de? imot
     self.offset - imot.offset < distance_minimale
   end
-
-  def distance_minimale
-    @distance_minimale ||= self.class.distance_minimale(canonique)
-  end
-
 end

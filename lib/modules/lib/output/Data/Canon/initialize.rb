@@ -45,11 +45,15 @@ class Canon
 
   def moyenne_distances
     @moyenne_distances ||= begin
-      total_distances = 0
-      proximites.each do |prox_id|
-        total_distances += Proximite.get(prox_id).distance
+      if nombre_proximites > 0
+        total_distances = 0
+        proximites.each do |prox_id|
+          total_distances += Proximite.get(prox_id).distance
+        end
+        total_distances / nombre_proximites
+      else
+        '---'
       end
-      total_distances / nombre_proximites
     end
   end
 

@@ -58,7 +58,11 @@ class Scrivener
     # Dossier caché contenant tous les fichiers utiles aux opérations de la
     # commande `scriv` courante
     def hidden_folder
-      @hidden_folder ||= File.join(folder,'.scriv')
+      @hidden_folder ||= begin
+        d = File.join(folder,'.scriv')
+        `mkdir -p "#{d}"`
+        d
+      end
     end
     # Dossier caché contenant tous les fichiers texte simplifiés
     def hidden_files_folder

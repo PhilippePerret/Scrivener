@@ -234,10 +234,11 @@ class Scrivener
     # Ajoute le mot à la real-list, où les clés vont vraiment les mots tels
     # qu'ils apparaissent dans le texte, pas leur forme canonique.
     def add_real_mot_in imot, tableau
-      tableau[:real_mots].key?(imot.real) || begin
-        tableau[:real_mots].merge!(imot.real => Array.new)
+
+      tableau[:real_mots].key?(imot.downcase) || begin
+        tableau[:real_mots].merge!(imot.downcase => Array.new)
       end
-      tableau[:real_mots][imot.real] << imot.index
+      tableau[:real_mots][imot.downcase] << imot.index
       return tableau
     end
     # /add_real_mot_in

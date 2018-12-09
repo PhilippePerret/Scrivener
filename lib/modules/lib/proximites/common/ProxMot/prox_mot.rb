@@ -78,4 +78,8 @@ class ProxMot
     end
   end
 
+  def distance_minimale
+    @distance_minimale ||= self.class.distance_minimale(canonique)
+  end
+
 end

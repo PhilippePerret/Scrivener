@@ -27,7 +27,7 @@ class Project
     puts '-'*80
     puts 'Titre complet : %s' % self.title
     puts 'Titre court   : %s' % self.title_abbreviated
-    puts 'Auteurs       : %s' % [self.authors.collect{|d|"#{d[:firstname]} #{d[:lastname]}"}.pretty_join(inspect: false)]
+    puts 'Auteurs       : %s' % [self.authors.collect{|d|"#{d[:firstname]} #{d[:lastname]}".strip}.pretty_join(inspect: false)]
     puts 'Accès         : %s' % self.path.relative_path
     puts '-'*80
     puts 'Date de création        : %s' % [last_data[:created_at].to_i.as_human_date]

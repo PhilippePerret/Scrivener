@@ -20,6 +20,12 @@ class Proximite
     @distance ||= mot_apres.offset - mot_avant.offset
   end
 
+  # Raccourci pour obtenir la distance minimale de proximité entre
+  # deux mots.
+  def distance_minimale
+    @distance_minimale ||= mot_apres.distance_minimale
+  end
+
   # Retourne TRUE si les deux mots sont dans le même binder-item
   def in_same_file?
     @mot_are_in_same_file ||= mot_apres.binder_item == mot_avant.binder_item

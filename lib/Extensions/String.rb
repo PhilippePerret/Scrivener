@@ -1,7 +1,10 @@
 # encoding: UTF-8
 #
-# version 1.4.0
+# version 1.4.1
 #
+# Note version 1.4.1
+#   Ajout de la méthode de classe String.french_titleize(<string>) pour
+#   transformer une chaine de caractères en titre français.
 # Note version 1.4.0
 #   Ajout des méthodes d'autres fichiers, comme my_downcase, camelize
 #   etc.
@@ -47,6 +50,17 @@ class String
     8 => '₈',
     9 => '₉'
   }
+
+  class << self
+    def french_titleize titre
+      titre = titre.downcase.split
+      if ['le','la','les', 'l\'', 'l’'].include?(titre[0]) && titre[1]
+        titre[1] = titre[1].capitalize
+      end
+      titre[0] = titre[0].capitalize
+      titre.join(' ')
+    end
+  end #/<< self
 
   # Pour upcaser vraiment tous les caractères, même les accents et
   # les diacritiques
