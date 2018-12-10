@@ -8,7 +8,7 @@
 
     CMD-I s'il est est affiché dans Atom
 
-    ruby ./test/* <options> # dans la console.
+    ruby ./test/**/*.rb <options> # dans la console pour lancer tous les tests.
 
     On peut régler le niveau de verbosité avec :
     -v, --verbose=[LEVEL]            Set the output level (default is verbose).
@@ -34,11 +34,5 @@ puts "\n\n\n\n"
 # +touches+ est la liste des touches à jouer interactivement.
 def run_commande cmd, touches = nil
   cmd.start_with?('scriv ') || cmd.prepend('scriv ')
-  if touches
-    touches.is_a?(Array) || touches = [touches]
-    touches = touches.join(';;;')
-    cmd << ' -k="%s"' % touches
-  end
-  # puts "Commande jouée : #{cmd.inspect}"
-  `#{cmd}`
+  CLI::Test.run_command(cmd, touches)
 end

@@ -115,9 +115,9 @@
     <ProjectTargets Notify="No">
         <DraftTarget Type="Words" CountIncludedOnly="Yes" CurrentCompileGroupOnly="No" Deadline="2018-11-08 08:37:51 +0300" IgnoreDeadline="Yes">0</DraftTarget>
         <SessionTarget Type="Words" CountDraftOnly="Yes" AllowNegatives="Yes" ResetType="Time" ResetTime="00:00" DeterminedFromDeadline="No" WritingDays="" CanWriteOnDeadlineDate="No">0</SessionTarget>
-        <PreviousSession Words="0" Characters="0" Date="2018-11-10 14:50:04 +0300"></PreviousSession>
+        <PreviousSession Words="0" Characters="0" Date="2018-12-10 06:46:58 +0300"></PreviousSession>
     </ProjectTargets>
-    <RecentWritingHistory Date="2018-11-10 00:00:00 +0300">
+    <RecentWritingHistory Date="2018-12-10 00:00:00 +0300">
         <DraftWordCount>0</DraftWordCount>
         <DraftCharCount>0</DraftCharCount>
         <OtherWordCount>0</OtherWordCount>

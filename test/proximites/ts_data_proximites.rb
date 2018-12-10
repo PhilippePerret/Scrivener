@@ -4,25 +4,30 @@ require './test/test_helper'
 class TestDataProximite < Test::Unit::TestCase
 
   def setup
-    Scrivener.require_module('proximites')
     @projet_folder = File.join('.','test','assets','marion')
-    @scriv_file    = File.join(@projet_folder, 'marion.scriv')
-    @hidden_folder = File.join(@projet_folder, '.scriv')
-    @proximites_file = File.join(@hidden_folder, 'tableau_proximites.msh')
+    @projet = TestedProject.new(File.join(@projet_folder, 'marion.scriv'))
+    Scrivener.require_all
   end
 
   def data_proximites
     @data_proximites ||= begin
-      File.open(@proximites_file,'rb'){|f| Marshal.load(f)}
+      File.open(@projet.proximites_file,'rb'){|f| Marshal.load(f)}
     end
   end
 
   test '`scriv prox ./test/assets/marion/marion.scriv` produit des données proximités correctes' do
-    FileUtils.rm_rf(@hidden_folder) if File.exists?(@hidden_folder)
-    assert_false @hidden_folder.folder?
-    run_commande('scriv prox ./test/assets/marion/marion.scriv', 'q')
+    @projet.remove_hidden_folder_if_exist
+
+    assert_false @projet.hidden_folder.folder?
+    CLI::Test.run_command('scriv prox ./test/assets/marion/marion.scriv', 'q')
+    CLI::Test.run_command('scriv open lemma')
+    # 'q' pour jouer la touche 'q' et donc quitter la ligne de commande
+    # Le fichier proximité doit avoir été produit
+    assert @projet.proximites_file.file?
+
     # On vérifie les données proxmités
     dp = data_proximites
+    # puts "-- data_proximites : #{data_proximites.inspect}"
     assert data_proximites.key?(:mots)
     assert data_proximites.key?(:binder_items)
     assert data_proximites.key?(:current_offset)
@@ -30,7 +35,7 @@ class TestDataProximite < Test::Unit::TestCase
     assert data_proximites.key?(:proximites)
     assert data_proximites.key?(:created_at)
 
-    assert_equal File.expand_path(@scriv_file), dp[:project_path]
+    assert_equal File.expand_path(@projet.path), dp[:project_path]
 
     dm = dp[:mots]
     # puts "--- data_proximites[:mots]: #{dm.keys.inspect}"
@@ -42,7 +47,10 @@ class TestDataProximite < Test::Unit::TestCase
     assert_not_empty(dm['marion'][:proximites])
     assert dm.key?('être')
     assert dm['être'].key?(:proximites)
+
+    # puts "-- dm['être'] : #{dm['être'].inspect}"
     assert_not_empty(dm['être'][:proximites])
+
     assert dm['être'].key?(:items)
 
     items_etre = dm['être'][:items]
