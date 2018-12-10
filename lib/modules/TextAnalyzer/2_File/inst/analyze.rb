@@ -6,6 +6,10 @@ class File
   # de l'analyse contenant le fichier.
   def proceed_analyse
     puts "\n\n*** Je procède à l'analyse du fichier #{path}"
+    # TODO Il faut ajouter ce fichier (son path) à la table des
+    # résultats, pour pouvoir le récupére plus tard
+
+    # = Relève des mots dans le fichier =
     releve_mots
   end
 

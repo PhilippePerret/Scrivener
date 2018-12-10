@@ -17,12 +17,7 @@ class Text
     t = self.content.gsub(/\r/,'').gsub(/[\,\n\.\!\?\;\… ]/, ' ')
     # NE SURTOUT PAS METTRE '_' qui sert pour les tags retirés
 
-    # # Remplacer les '-' (tirets) entre deux lettres par la marque
-    # # XTIRETX pour pouvoir garder les mots entier, sauf si c'est la
-    # # forme verbale 'y a-t-il ?'. Il faut qu'il y ait au moins 2
-    # # lettre pour qu'on le garde
-    # t = t.gsub(/([a-z]{2})\-([a-zêèîàç]{2})/, '\1XTIRETX\2')
-
+    # Valeurs initiales
     cur_offset = tableres.current_offset
     rel_offset = 0 # l'offset dans ce document-ci
     cur_index  = tableres.current_index_mot # commence à -1
@@ -48,7 +43,7 @@ class Text
       seg   = found[0]
 
       # Si c'est le dernier mot, on s'arrête
-      seg != 'EOT' || break
+      seg.strip != 'EOT' || break
 
       # Pour la gestion des tirets
       next_found = all_separated_words[index_found + 1] # peut être nil
@@ -102,10 +97,8 @@ class Text
       end
       # /boucle tant qu'on trouve des tirets valides
 
-
-      # L'index courant
-      # Noter qu'il sert aussi d'ID au mot
-      cur_index += 1
+      # L'index courant (noter qu'il sert aussi d'ID au mot)
+      tableres.current_index_mot += 1
 
       # Si le mot commence par une espace, c'est qu'il s'agit d'un
       # "inter-mot", qui peut être constitué de plusieurs espaces et
@@ -116,43 +109,34 @@ class Text
       if type_seg == :inter
         seg = mot = self.content[rel_offset...(rel_offset + seg.length)]
       else # if type_seg == :mot
-        mot = Mot.new(real: seg, offset: cur_offset, relative_offset: rel_offset, index: cur_index, file_object_id: file.object_id)
-        # On n'ajoute le mot au tableau que si c'est un vrai mot
-        if mot.treatable?
-          tableau = project.add_mot_in(mot, tableau)
-        end
-        # Dans tous les cas, on ajoute le mot aux 'real_mots' où la
-        # clé est vraiment le mot lui-même, pas son canon. Par exemple,
-        # dans ce Hash, 'prends' et 'pris' feront deux entrées différentes
-        tableau = project.add_real_mot_in(mot, tableau)
+        mot = Mot.new({
+          real:             seg,
+          offset:           tableres.current_offset,
+          relative_offset:  rel_offset,
+          index:            tableres.current_index_mot,
+          file_object_id:   file.object_id
+        })
+        tableres.add_word(mot)
       end
 
-      data_seg = {id: cur_index, seg: seg, type: type_seg}
+      data_seg = {id: tableres.current_index_mot, seg: seg, type: type_seg}
       unless new_document_title_registered
-        data_seg.merge!(new_document_title: self.title)
+        data_seg.merge!(new_document_title: file.object_id)
         new_document_title_registered = true
       end
 
-      # Dans tous les cas, on ajoute le segment à la liste de tous
-      # les mots du projet (même si ça ne sert pas, comme dans la
-      # méthode qui surveille la correction des proximités)
-      project.segments << data_seg
+      # Ajout du segment
+      tableres.segments << data_seg
 
       # Dans tous les cas on tient compte du décalage
-      cur_offset += mot.length
+      tableres.current_offset += mot.length
       rel_offset += mot.length
-      # puts "--- current_offset après «#{mot.real}»:#{mot.length}:#{mot.offset}:('#{found[0]}'): #{tableau[:current_offset]}"
     end
-
     # Normalement, il faut ajouter 1 pour obtenir le vrai décalage dans
     # le fichier total, qui prend un retour de chariot en plus à la fin.
-    cur_offset += 1
-
-    tableau[:current_offset]    = cur_offset
-    tableau[:current_index_mot] = cur_index
-
+    tableres.current_offset += 1
   end
-  # /releve_mots_in_texte
+  # /releve_mots
 
 end #/Text
 end #/File

@@ -29,10 +29,11 @@ class Analyse
   #
   def analyse_paths
     (paths.nil? || paths.empty?) && raise(ERRORS[:no_files_to_analyze])
-    self.files = Array.new
-    paths.each do |path|
+    self.files = Hash.new
+    paths.each_with_index do |path, path_index|
       afile = TextAnalyzer::File.new(path, self)
-      self.files << afile
+      afile.index = path_index
+      self.files.merge!(afile.object_id => afile)
       afile.proceed_analyse
     end
   end

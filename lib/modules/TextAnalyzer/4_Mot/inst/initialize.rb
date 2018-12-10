@@ -9,8 +9,8 @@ class Mot
   #   :offset     Son décalage 0-start dans le texte (complet)
   #   :real_mot   Le mot lui-même
   def initialize data = nil
-    data.each { |k,v| self.send(k)= v }
-    self.real_init = self.real_mot.freeze
+    data.each { |k,v| self.send("#{k}=".to_sym, v) }
+    self.real_init = self.real.freeze
   end
 
 end #/Mot

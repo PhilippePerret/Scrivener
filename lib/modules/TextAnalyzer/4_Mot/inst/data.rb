@@ -21,6 +21,8 @@ class Mot
   # {Fixnum} Décalage du mot dans le texte de son fichier
   attr_accessor :relative_offset
 
+  # raccourci pour obtenir l'analyse à laquelle appartient le mot
+  def analyse ; @analyse ||= file.analyse end
   def file
     @file ||= TextAnalyzer::File.get(file_object_id)
   end
@@ -31,10 +33,10 @@ class Mot
 
   # Forme canonique du mot (lemmatisé). Par exemple, "marcherions" aura
   # comme forme canonique "marcher"
-  def canonique
+  def canon
     @canonique ||= (TABLE_LEMMATISATION[downcase] || real).downcase
   end
-  alias :canon :canonique
+  alias :canonique :canon
 
   def length
     @length ||= real.length
