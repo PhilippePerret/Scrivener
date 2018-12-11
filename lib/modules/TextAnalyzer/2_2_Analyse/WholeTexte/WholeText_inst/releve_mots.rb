@@ -1,7 +1,7 @@
 # encoding: UTF-8
 class TextAnalyzer
-class AnalyzedFile
-class Text
+class Analyse
+class WholeText
 
   # Méthode qui traite le texte courant et récupère tous
   # ses mots pour les mettre dans la table +tableau+
@@ -9,7 +9,7 @@ class Text
   # +tableres+ Instance TextAnalyzer::Analyse::TableResultats
   def releve_mots tableres
 
-    tableres.is_a?(TextAnalyzer::AnalyzedFile::TableResultats) || raise(ERRORS[:require_table_resultats])
+    tableres.is_a?(TextAnalyzer::Analyse::TableResultats) || raise(ERRORS[:require_table_resultats])
 
     # On commence par remplacer tous les caractères non alphanumérique par
     # des espaces (ponctuations, retour chariot), car sinon ils ne seraient
@@ -138,6 +138,6 @@ class Text
   end
   # /releve_mots
 
-end #/Text
-end #/AnalyzedFile
+end #/WholeText
+end #/Analyse
 end #/TextAnalyzer

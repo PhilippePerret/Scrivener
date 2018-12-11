@@ -1,6 +1,6 @@
 class TextAnalyzer
-class AnalyzedFile
-class Text
+class Analyse
+class WholeText
 class Mot
 
   # Instancier un nouveau mot
@@ -14,6 +14,6 @@ class Mot
   end
 
 end #/Mot
-end #/Text
-end #/AnalyzedFile
+end #/WholeText
+end #/Analyse
 end #/TextAnalyzer

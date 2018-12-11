@@ -1,6 +1,6 @@
 class TextAnalyzer
-class AnalyzedFile
-class AnalyzedFile
+class Analyse
+class WholeText
 class Mot
 
   # {String} Le mot fourni à l'instanciation et le mot initial gardé,
@@ -59,6 +59,6 @@ class Mot
 
 
 end #/Mot
-end #/Text
-end #/AnalyzedFile
+end #/WholeText
+end #/Analyse
 end #/TextAnalyzer

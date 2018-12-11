@@ -1,6 +1,6 @@
 class TextAnalyzer
-class AnalyzedFile
-class Text
+class Analyse
+class WholeText
 class Mot
 
   # Retourne TRUE si le mot est un vrai mot, c'est-à-dire s'il
@@ -26,6 +26,6 @@ class Mot
   end
 
 end #/Mot
-end #/Text
-end #/AnalyzedFile
+end #/WholeText
+end #/Analyse
 end #/TextAnalyzer

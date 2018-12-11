@@ -9,7 +9,7 @@ class AnalyzedFile
 
   # Instance {TextAnalyzer::File::Text} du texte du fichier
   def texte
-    @texte ||= TextAnalyzer::AnalyzedFile::Text.new(self)
+    @texte ||= File.read(path)
   end
 
 end #/AnalyzedFile
