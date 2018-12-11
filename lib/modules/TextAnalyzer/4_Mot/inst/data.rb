@@ -1,5 +1,5 @@
 class TextAnalyzer
-class File
+class AnalyzedFile
 class AnalyzedFile
 class Mot
 

@@ -16,5 +16,5 @@ class << self
   end
 
 end #/<< self
-end #/File
+end #/AnalyzedFile
 end #/TextAnalyzer
