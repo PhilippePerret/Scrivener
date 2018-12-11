@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class TextAnalyzer
-class File
+class AnalyzedFile
 class Text
 
   # Chemin d'accès au fichier contenant le texte à analyser
@@ -11,5 +11,5 @@ class Text
   end
 
 end #/Text
-end #/File
+end #/AnalyzedFile
 end #/TextAnalyzer

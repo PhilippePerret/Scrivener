@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class TextAnalyzer
-class File
+class AnalyzedFile
 class Text
 
   # Méthode qui traite le texte courant et récupère tous
@@ -9,7 +9,7 @@ class Text
   # +tableres+ Instance TextAnalyzer::Analyse::TableResultats
   def releve_mots tableres
 
-    tableres.is_a?(TextAnalyzer::Analyse::TableResultats) || raise(ERRORS[:require_table_resultats])
+    tableres.is_a?(TextAnalyzer::AnalyzedFile::TableResultats) || raise(ERRORS[:require_table_resultats])
 
     # On commence par remplacer tous les caractères non alphanumérique par
     # des espaces (ponctuations, retour chariot), car sinon ils ne seraient
@@ -49,7 +49,7 @@ class Text
       next_found = all_separated_words[index_found + 1] # peut être nil
 
       if next_found && next_found[0] == '\''
-        seg += 'e'
+        seg += next_found[0]
         index_found += 1
       end
       # Puisqu'on peut prendre le found suivant, on va vérifier si
@@ -139,5 +139,5 @@ class Text
   # /releve_mots
 
 end #/Text
-end #/File
+end #/AnalyzedFile
 end #/TextAnalyzer

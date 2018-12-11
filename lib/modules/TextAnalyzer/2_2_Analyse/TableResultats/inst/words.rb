@@ -12,14 +12,12 @@ class TableResultats
   # Ajoute l'instance +mot+ à la table des résultats
   def add_treatable_word(mot)
     canon = mot.canon
-
     # Si la liste des mots actuelle ne connait pas ce canon, il faut
     # l'ajouter
     self.canons.key?(mot.canon) || begin
       self.canons.merge!(mot.canon => {items: Array.new, proximites: Array.new})
     end
-
-    # Il faut placer l'offset au bon endroit dans la liste des items
+    # Placer le mot au bon endroit dans la liste des items
     if canon_of(mot)[:items].empty? || canon_of(mot)[:items].last.offset < mot.offset
       # S'il n'y a pas encore d'item ou que le dernier item a un offset inférieur
       # au mot courant, on met le mot courant à la fin.

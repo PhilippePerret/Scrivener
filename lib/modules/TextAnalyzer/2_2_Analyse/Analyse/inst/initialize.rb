@@ -16,29 +16,8 @@ class Analyse
     treate_data(data)
   end
 
-  # = main =
-  #
-  # Exécute l'analyse
-  def exec
-    table_resultats.init
-    analyse_paths
-  end
-
-  # = main =
-  # Analyse des paths transmises
-  #
-  def analyse_paths
-    (paths.nil? || paths.empty?) && raise(ERRORS[:no_files_to_analyze])
-    self.files = Hash.new
-    paths.each_with_index do |path, path_index|
-      afile = TextAnalyzer::File.new(path, self)
-      afile.index = path_index
-      self.files.merge!(afile.object_id => afile)
-      afile.proceed_analyse
-    end
-  end
-
-
+  # Traitement des datas qui sont fournies à l'instanciation de
+  # l'analyse
   def treate_data data
     data ||= Hash.new
     data.key?(:file) && data.merge!(path: data.delete(:file))
@@ -47,5 +26,7 @@ class Analyse
       self.paths = [ data[:path] ]
     end
   end
+
+
 end #/Analyse
 end #/TextAnalyzer

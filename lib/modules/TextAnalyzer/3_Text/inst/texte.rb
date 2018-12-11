@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class TextAnalyzer
-class File
+class AnalyzedFile
 class Text
 
   # Le contenu du fichier, donc son texte
@@ -8,10 +8,10 @@ class Text
   # traiter les dernières ponctuations)
   def content
     @content ||= begin
-      ::File.read(file.path).force_encoding('utf-8') + ' EOT'
+      File.read(file.path).force_encoding('utf-8') + ' EOT'
     end
   end
 
 end #/Text
-end #/File
+end #/AnalyzedFile
 end #/TextAnalyzer

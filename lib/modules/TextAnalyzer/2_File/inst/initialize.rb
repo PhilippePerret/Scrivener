@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class TextAnalyzer
-class File
+class AnalyzedFile
 
   # Chemin d'accès au fichier contenant le texte à analyser
   attr_accessor :path
@@ -14,5 +14,5 @@ class File
     self.analyse  = analyse
   end
 
-end #/File
+end #/AnalyzedFile
 end #/TextAnalyzer

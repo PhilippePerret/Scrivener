@@ -1,7 +1,8 @@
 # encoding: UTF-8
 class TextAnalyzer
-class AnalyzedFile
+class Analyse
 
 
-end #/AnalyzedFile
+
+end #/Analyse
 end #/TextAnalyzer

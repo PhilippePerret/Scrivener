@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class TextAnalyzer
-class File
+class AnalyzedFile
 class << self
 
   # +analyse+     Instance TextAnalyzer::Analyse de l'analyse dont il faut

@@ -11,6 +11,7 @@ class Scrivener
     # Méthode qui prépare la lémmatisation.
     # Synopsis :
     #   - reconstitution de la totalité du texte dans un fichier unique
+    #     Note : ce n'est pas à la lemmatisation de le faire
     #   - traitement des lèmmes de ce fichier pour produire un fichier data
     #     dont chaque ligne contient l'information sur les mots.
     #   - lecture de ce fichier de données pour produire une table de

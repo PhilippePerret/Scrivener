@@ -1,10 +1,10 @@
 class TextAnalyzer
-class File
+class AnalyzedFile
 class Text
 class Mot
 
 
 end #/Mot
 end #/Text
-end #/File
+end #/AnalyzedFile
 end #/TextAnalyzer

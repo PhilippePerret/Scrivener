@@ -1,6 +1,6 @@
 class TextAnalyzer
 class File
-class Text
+class AnalyzedFile
 class Mot
 
   # {String} Le mot fourni à l'instanciation et le mot initial gardé,
@@ -24,7 +24,7 @@ class Mot
   # raccourci pour obtenir l'analyse à laquelle appartient le mot
   def analyse ; @analyse ||= file.analyse end
   def file
-    @file ||= TextAnalyzer::File.get(file_object_id)
+    @file ||= TextAnalyzer::AnalyzedFile.get(file_object_id)
   end
 
   def downcase
@@ -60,5 +60,5 @@ class Mot
 
 end #/Mot
 end #/Text
-end #/File
+end #/AnalyzedFile
 end #/TextAnalyzer

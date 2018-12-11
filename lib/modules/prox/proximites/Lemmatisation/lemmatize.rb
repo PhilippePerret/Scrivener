@@ -23,13 +23,11 @@ class Scrivener
     # exemple la nature du mot.
     def lemmatize from_path, to_path
       CLI.dbg("-> Scrivener::Project#lemmatize (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
-
       # Ensuite, il faut prendre ce texte et en tirer les données de
       # lemmatisation complètes, qui seront mises dans .scriv/lemmatisation_data
       CLI.benchmark(:start, 'Lemmatisation du texte')
       `tree-tagger-french < #{from_path} > #{to_path} 2>/dev/null`
       CLI.benchmark(:stop)
-
     end
     # /prepare_lemmatisation
 

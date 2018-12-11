@@ -11,10 +11,28 @@ class Analyse
     @table_resultats ||= TextAnalyzer::Analyse::TableResultats.new(self)
   end
 
+  # Le texte entier de l'analyse
+  def texte_entier
+    @texte_entier ||= TextAnalyzer::Analyse::WholeText.new(self)
+  end
+
   # Retourne l'instance TextAnalyzer::File du fichier de l'analyse
   # courante d'identifiant +object_id+
   def get_file object_id
     files[object_id]
+  end
+
+  # Le dossier caché de l'analyse, pour mettre tous les fichiers utiles et
+  # produits.
+  # Pour le trouver, on utilise le premier path de texte à traiter. C'est
+  # par exemple le projet Scrivener.
+  # Note : on construit le dossier s'il n'existe pas (et toute sa hiérarchie).
+  def hidden_folder
+    @hidden_folder ||= begin
+      d = File.join(File.expand_path(File.dirname(paths.first)), '.textanalyzer')
+      `mkdir -p "#{d}"`
+      d
+    end
   end
 
 end #/Analyse

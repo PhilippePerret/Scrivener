@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class TextAnalyzer
-class File
+class AnalyzedFile
 class Text
   BEFORE_TIRET_BADS_ARR = [
     'mi'
@@ -32,5 +32,5 @@ class Text
 
   end #<< self
 end #/Text
-end #/File
+end #/AnalyzedFile
 end #/TextAnalyzer

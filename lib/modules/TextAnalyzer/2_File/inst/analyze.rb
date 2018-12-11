@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class TextAnalyzer
-class File
+class AnalyzedFile
 
   # Note : attention, la propriété `analyse` existe, c'est l'instance
   # de l'analyse contenant le fichier.
@@ -18,5 +18,5 @@ class File
     texte.releve_mots(analyse.table_resultats)
   end
 
-end #/File
+end #/AnalyzedFile
 end #/TextAnalyzer
