@@ -14,6 +14,12 @@ class WholeText
     @path ||= ::File.join(analyse.hidden_folder,'texte_entier.txt')
   end
 
+  # Ne pas le mettre en propriété @length, car on s'en sert pour connaitre
+  # l'offset de chaque file au moment de l'assemblage des textes.
+  def length
+    content.length
+  end
+
 end #/WholeText
 end #/Analyse
 end #/TextAnalyzer

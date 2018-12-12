@@ -3,16 +3,29 @@ class Analyse
 class WholeText
 class Mot
 
-  # Redéfinition
+  # Redéfinition pour lecture plus facile
   def inspect
-    return '<<AnalyzedFile::Text::Mot(my inspect) @index=%i @offset=%i @real=%s @object_id_file=%s, @proximite_avant_id=%s @proximite_apres_id=%s @length=%i>>' %
-      [self.index, self.offset, self.real, self.object_id_file,
-      self.proximite_avant_id.inspect, self.proximite_apres_id.inspect, self.length]
+    return '<<TextAnalyzer::Analyse::WholeText::Mot(my inspect) @index=%{index} @real=%{real}' % self.data
+  end
+
+  def data
+    @data ||= begin
+      h = Hash.new
+      properties.each { |p| h.merge!(p => instance_variable_get("@#{p}")) }
+      h
+    end
+  end
+  def properties
+    @properties ||= [:real, :index, :offset, :file_id, :length, :canon]
+  end
+
+  def volatile_properties
+    @volatile_properties ||= [:downcase, :is_treatable, :is_real_mot, :distance_minimale]
   end
 
   def reset
     self.real   = nil
-    [:downcase, :canonique, :length, :is_treatable, :is_real_mot, :distance_minimale
+    [:downcase, :canon, :length, :is_treatable, :is_real_mot, :distance_minimale
     ].each do |prop|
       self.instance_variable_set("@#{prop}", nil)
     end

@@ -11,6 +11,7 @@ class Analyse
   def exec
     table_resultats.init
     assemble_texts_of_paths
+    texte_entier.proceed_analyse
   end
 
   # = main =
@@ -21,9 +22,11 @@ class Analyse
     self.files = Hash.new
     paths.each_with_index do |path, path_index|
       afile = TextAnalyzer::AnalyzedFile.new(path, self)
-      afile.index = path_index
-      self.files.merge!(afile.object_id => afile)
-      self.texte_entier << afile.texte
+      afile.index   = path_index
+      afile.id      = path_index + 1
+      afile.offset  = self.texte_entier.length
+      self.files.merge!(afile.id => afile)
+      self.texte_entier << afile.texte + String::RC * 2
     end
   end
   # /assemble_texts_of_paths

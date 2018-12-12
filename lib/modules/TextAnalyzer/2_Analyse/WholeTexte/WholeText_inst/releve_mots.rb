@@ -6,25 +6,18 @@ class WholeText
   # Méthode qui traite le texte courant et récupère tous
   # ses mots pour les mettre dans la table +tableau+
   #
-  # +tableres+ Instance TextAnalyzer::Analyse::TableResultats
-  def releve_mots tableres
+  def releve_mots
 
-    tableres.is_a?(TextAnalyzer::Analyse::TableResultats) || raise(ERRORS[:require_table_resultats])
+    tres = analyse.table_resultats
 
     # On commence par remplacer tous les caractères non alphanumérique par
     # des espaces (ponctuations, retour chariot), car sinon ils ne seraient
     # pas considérés par le scan.
-    t = self.content.gsub(/\r/,'').gsub(/[\,\n\.\!\?\;\… ]/, ' ')
+    t = self.content.gsub(/\r/,'').gsub(/[\,\n\.\!\?\;\… ]/, ' ') + ' EOT'
     # NE SURTOUT PAS METTRE '_' qui sert pour les tags retirés
 
     # Valeurs initiales
-    cur_offset = tableres.current_offset
     rel_offset = 0 # l'offset dans ce document-ci
-    cur_index  = tableres.current_index_mot # commence à -1
-
-    # Pour savoir dans quel segement on doit consigner le titre
-    # du document courant.
-    new_document_title_registered = false
 
     # On peut scanner le texte
     all_separated_words = t.scan(/\b(.+?)\b/)
@@ -34,6 +27,10 @@ class WholeText
     mot = nil
     # pour commencer à 0 et avoir index_found += 1 au-dessus
     index_found = -1
+
+    # L'ID du fichier courant. Normalement, c'est le tout premier mot
+    # qu'on doit trouver.
+    current_file_id = nil
 
     # all_separated_words.each_with_index do |found, index_found|
     while index_found < last_index_found
@@ -98,7 +95,7 @@ class WholeText
       # /boucle tant qu'on trouve des tirets valides
 
       # L'index courant (noter qu'il sert aussi d'ID au mot)
-      tableres.current_index_mot += 1
+      tres.current_index_mot += 1
 
       # Si le mot commence par une espace, c'est qu'il s'agit d'un
       # "inter-mot", qui peut être constitué de plusieurs espaces et
@@ -111,30 +108,24 @@ class WholeText
       else # if type_seg == :mot
         mot = Mot.new({
           real:             seg,
-          offset:           tableres.current_offset,
+          offset:           tres.current_offset,
           relative_offset:  rel_offset,
-          index:            tableres.current_index_mot,
-          file_object_id:   file.object_id
+          index:            tres.current_index_mot,
+          file_id:          current_file_id
         })
-        tableres.add_word(mot)
-      end
-
-      data_seg = {id: tableres.current_index_mot, seg: seg, type: type_seg}
-      unless new_document_title_registered
-        data_seg.merge!(new_document_title: file.object_id)
-        new_document_title_registered = true
+        tres.add_word(mot)
       end
 
       # Ajout du segment
-      tableres.segments << data_seg
+      tres.segments << {id: tres.current_index_mot, seg: seg, type: type_seg}
 
       # Dans tous les cas on tient compte du décalage
-      tableres.current_offset += mot.length
+      tres.current_offset += mot.length
       rel_offset += mot.length
     end
     # Normalement, il faut ajouter 1 pour obtenir le vrai décalage dans
     # le fichier total, qui prend un retour de chariot en plus à la fin.
-    tableres.current_offset += 1
+    tres.current_offset += 1
   end
   # /releve_mots
 

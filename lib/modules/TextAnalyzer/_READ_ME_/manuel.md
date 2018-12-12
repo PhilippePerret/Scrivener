@@ -17,3 +17,9 @@ C'est la base. Le texte doit être contenu dans un fichier sur le disque dur.
 ## Instance `TextAnalyzer::File::Text`
 
 Elle contient et gère le texte du fichier.
+
+## Documents
+
+Ce n'est plus la données `segments` qui mémorise les documents. Maintenant, on mémorise simplement l'offset de départ de chaque document dans une données, tout simplement.
+
+C'est la données `files` de la table des résultats.

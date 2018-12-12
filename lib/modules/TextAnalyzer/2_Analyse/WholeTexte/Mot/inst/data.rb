@@ -9,7 +9,7 @@ class Mot
 
   # {Fixnum} ObjectID du fichier (TextAnalyzer::File) auquel appartient
   # le mot
-  attr_accessor :file_object_id
+  attr_accessor :file_id
 
   # {Fixnum} Index du mot dans le texte complet
   attr_accessor :index
@@ -24,7 +24,7 @@ class Mot
   # raccourci pour obtenir l'analyse à laquelle appartient le mot
   def analyse ; @analyse ||= file.analyse end
   def file
-    @file ||= TextAnalyzer::AnalyzedFile.get(file_object_id)
+    @file ||= TextAnalyzer::AnalyzedFile.get(file_id)
   end
 
   def downcase
@@ -34,7 +34,7 @@ class Mot
   # Forme canonique du mot (lemmatisé). Par exemple, "marcherions" aura
   # comme forme canonique "marcher"
   def canon
-    @canonique ||= (TABLE_LEMMATISATION[downcase] || real).downcase
+    @canon ||= (TABLE_LEMMATISATION[downcase] || real).downcase
   end
   alias :canonique :canon
 
