@@ -20,8 +20,14 @@ class WholeText
   end
 
   # Pour ajouter une portion de texte au texte complet
+  # Noter que pour le moment, on ne garde jamais tout le texte. C'est seulement
+  # si on utilise `content` que le contenu complet (qui peut être très long)
+  # sera chargé.
+  # On tient également à jour la longueur, pour ne pas avoir à la calculer
+  # en relevant tout.
   def << portion
-    content << portion
+    File.open(path,'ab'){|f| f.write portion}
+    @length += portion.length
   end
   alias :add :<<
 

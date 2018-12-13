@@ -6,18 +6,20 @@ class WholeText
   # Note : attention, la propriété `analyse` existe, c'est l'instance
   # de l'analyse contenant le fichier.
   def proceed_analyse
-    puts "\n\n*** Je procède à l'analyse du texte entier"
-    # TODO Il faut ajouter ce fichier (son path) à la table des
-    # résultats, pour pouvoir le récupére plus tard
+    CLI.debug_entry
+
+    # = Lemmatisation du texte =
+    lemmatize
+
+    # = Récupération des canons =
+    # TODO
 
     # = Relève des mots dans le fichier =
+    # cf. fichier 'releve_mots.rb'
     releve_mots
   end
 
-  # Raccourci
-  def releve_mots
-    texte.releve_mots(analyse.table_resultats)
-  end
+
 
 end #/WholeText
 end #/Analyse

@@ -16,6 +16,7 @@ class Test
       if touches
         touches.is_a?(Array) || touches = [touches]
         touches = touches.join(';;;')
+        # command << ' --benchmark'
         command << ' -k="%s"' % touches
       end
       # puts "Commande jouée : #{cmd.inspect}"

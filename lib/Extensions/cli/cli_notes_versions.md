@@ -1,12 +1,17 @@
 # Notes sur les versions de CLI
 
-**Version courante : 1.6.0**
+**Version courante : 1.6.1**
 
+## Version 1.6.1
+
+  Ajout de CLI.debug_entry pour noter l'entrée dans une fonction sans
+  autre précision.
+  
 ## Version 1.6.0
 
   Ajout de la classe `CLI::Test` qui permet de simuler le jeu d'une
   commande en ligne de commande et retourne le résultat.
-  
+
 ## Version 1.5.1
 
   Ne pas considérer les "=" dans les paramètres, quand ils sont donnés

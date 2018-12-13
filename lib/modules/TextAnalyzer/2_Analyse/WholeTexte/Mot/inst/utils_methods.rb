@@ -23,6 +23,8 @@ class Mot
     @volatile_properties ||= [:downcase, :is_treatable, :is_real_mot, :distance_minimale]
   end
 
+  # TODO Il faut peut-être revoir cette propriété et pouvoir de reseter que
+  # les propriétés volatiles. Normalement, les autres ne devraient pas bouger
   def reset
     self.real   = nil
     [:downcase, :canon, :length, :is_treatable, :is_real_mot, :distance_minimale

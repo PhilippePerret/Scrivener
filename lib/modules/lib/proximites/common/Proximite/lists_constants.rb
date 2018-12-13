@@ -1,13 +1,3 @@
-# Certaines valeurs sont mal corrigées par TreeTagger. Par exemple, 'lui' est
-# compris comme participe passé de 'luire', même dans la phrase "Son nom allait
-# désormais la salir comme lui." (Madame Bovary, Gustave Flaubert)
-LEMMA_AJUSTEMENT_CANON = {
-  # Il arrive, si une erreur d'OCR s'est produite, que 'dans' arrive juste
-  # avant un point ("dans.") et dans ce cas il est interprété comme le
-  # pluriel de 'dan'.
-  'dans'  => 'dans',
-  'lui'   => 'lui' # au lieu de luire
-}
 
 class Proximite
 

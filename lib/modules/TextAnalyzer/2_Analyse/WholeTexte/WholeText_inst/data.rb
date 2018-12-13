@@ -11,13 +11,18 @@ class WholeText
 
   # Chemin d'accès au fichier contenant tout le texte
   def path
-    @path ||= ::File.join(analyse.hidden_folder,'texte_entier.txt')
+    @path ||= File.join(analyse.hidden_folder,'texte_entier.txt')
+  end
+
+  # Chemin d'accès au fichier produit par tree-tagger
+  def lemma_file_path
+    @lemma_file_path ||= File.join(analyse.hidden_folder,'texte_entier_lemmatized.txt')
   end
 
   # Ne pas le mettre en propriété @length, car on s'en sert pour connaitre
   # l'offset de chaque file au moment de l'assemblage des textes.
   def length
-    content.length
+    @length ||= File.stat(path).size
   end
 
 end #/WholeText

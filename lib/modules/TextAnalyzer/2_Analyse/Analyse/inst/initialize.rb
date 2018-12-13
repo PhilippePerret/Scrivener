@@ -16,6 +16,13 @@ class Analyse
     treate_data(data)
   end
 
+  # Initialisation de l'analyse
+  def init_analyse
+    CLI.debug_entry
+    table_resultats.init
+    texte_entier.init
+  end
+
   # Traitement des datas qui sont fournies à l'instanciation de
   # l'analyse
   def treate_data data

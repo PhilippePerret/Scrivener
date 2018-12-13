@@ -22,6 +22,16 @@
 # require 'pty'
 require 'test/unit'
 
+# # Pour obtenir un backtrace complet de l'erreur
+# # Mais souvent, est-ce vraiment utile ?
+# require 'test/unit/util/backtracefilter'
+# module Test::Unit::Util::BacktraceFilter
+#   def filter_backtrace(backtrace, prefix=nil)
+#     backtrace
+#   end
+# end
+# #/filter_backtrace
+
 # Il faut requérir tous les requirements de l'application, notamment pour
 # les données enregistrées dans les fichiers Marshal
 require './lib/required'

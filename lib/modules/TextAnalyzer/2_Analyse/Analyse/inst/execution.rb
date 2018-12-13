@@ -9,7 +9,9 @@ class Analyse
   # La méthode rassemble tous les textes en un seul texte puis l'analyse.
   #
   def exec
-    table_resultats.init
+    CLI.debug_entry
+    (paths.nil? || paths.empty?) && raise(ERRORS[:no_files_to_analyze])
+    init_analyse
     assemble_texts_of_paths
     texte_entier.proceed_analyse
   end
@@ -18,7 +20,7 @@ class Analyse
   # Analyse des paths transmises
   #
   def assemble_texts_of_paths
-    (paths.nil? || paths.empty?) && raise(ERRORS[:no_files_to_analyze])
+    CLI.debug_entry
     self.files = Hash.new
     paths.each_with_index do |path, path_index|
       afile = TextAnalyzer::AnalyzedFile.new(path, self)

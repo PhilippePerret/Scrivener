@@ -3,7 +3,7 @@
 #
 # CLI
 #
-# VERSION: 1.6.0
+# VERSION: 1.6.1
 # (Penser à prendre tout le dossier, pas seulement ce module)
 #
 # MODE D'EMPLOI
@@ -51,16 +51,17 @@ class CLI
 
     attr_accessor :last_command # sans l'application
 
-    # Sortie de CLI.dbg
-    attr_accessor :debug_output
-
     # Historique des commandes
     attr_reader :historique, :i_histo
 
 
 
     # Initialisation de CLI
-    def init
+    #
+    # +options+
+    #   :output     Sortie à utiliser (un fichier par défaut)
+    def init options = nil
+      options ||= Hash.new
       # L'application
       # puts "constantes : #{File.constants}"
       self.app_name = ENV['_'].split(File::SEPARATOR).last
@@ -72,6 +73,7 @@ class CLI
       # self.params   = Array.new(1, nil)
       self.params   = Hash.new()
       self.params.merge!(0 => nil)
+      self.debug_output = options[:output] || :log # File.expand_path('./test_debug.log')
     end
     # /init
 
@@ -134,48 +136,13 @@ class CLI
       end
     end
 
-    # Si des touches ont été fournies par l'option `-k=` ou `keys_mode_test`,
-    # on envoie les touches envoyées au lieu de passer par un mode interactif
-    #
-    # Dans le programme on utilise
-    #   if CLI.mode_interactif?
-    #      # le traitement normal
-    #       return touche
-    #   else
-    #     return CLI.next_key_mode_test
-    #   end
-    #
-    def next_key_mode_test
-      @keys_mode_test ||= options[:keys_mode_test].split(';;;')
-      return @keys_mode_test.shift
-    end
-
-    def mode_interactif?
-      @is_mode_interactif === nil && begin
-        @is_mode_interactif = options[:keys_mode_test].nil?
-      end
-      @is_mode_interactif
-    end
 
     # Pour savoir si c'est la ligne de commande qui est utilisée
     def command_line?
       true
     end
 
-    def dbg msg, file = nil, line = nil
-      verbose? || return
-      if file || line
-        relative_file = file.sub(/#{APPFOLDER}\//, '')
-        msg << ' (%s%s)' % [relative_file, line ? ":#{line}" : '']
-      end
-      case self.debug_output
-      when nil  then puts msg
-      when :log then Debug.write(msg)
-      when String then File.open(debug_output,'a'){|f|f.write msg}
-      else
-        raise 'Impossible de trouver la sortie de CLI.dbg'
-      end
-    end
+
 
     def add_historique cmd
       @historique ||= Array.new

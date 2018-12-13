@@ -15,6 +15,12 @@ class WholeText
     self.analyse = instance_analyse
   end
 
+  def init
+    File.unlink(path) if File.exist?(path)
+    @content  = nil
+    @length   = 0
+  end
+
 end #/WholeText
 end #/Analyse
 end #/TextAnalyzer
