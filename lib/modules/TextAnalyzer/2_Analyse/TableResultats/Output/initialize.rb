@@ -13,9 +13,13 @@ class TableResultats
   end
 
   class Output
+
     attr_accessor :analyse
+    attr_accessor :data # table-resultats
+
     def initialize ianalyse
-      self.analyse = ianalyse
+      self.analyse  = ianalyse
+      self.data     = analyse.table_resultats
     end
 
   end #/Output

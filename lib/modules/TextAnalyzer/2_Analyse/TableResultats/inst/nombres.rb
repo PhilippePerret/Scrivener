@@ -15,7 +15,8 @@ class Analyse
   def nombre_mots       ; table_resultats.nombre_mots   end
   def nombre_canons     ; table_resultats.nombre_canons   end
   def nombre_proximites ; table_resultats.nombre_proximites   end
-  def nombre_mots_differents  ; table_resultats.nombre_mots_differents   end
+  def nombre_mots_differents  ; table_resultats.nombre_mots_differents  end
+  def nombre_mots_uniques     ; table_resultats.nombre_mots_uniques     end
 
 class TableResultats
 
@@ -28,6 +29,13 @@ class TableResultats
   def nombre_mots_differents
     @nombre_mots_differents ||= mots.keys.count
   end
+
+  # Retourne le nombre de mots uniques.
+  # Cf. liste_mots_uniques
+  def nombre_mots_uniques
+    @nombre_mots_uniques ||= liste_mots_uniques.count
+  end
+
   # Le nombre de canons, donc de clés dans la liste des canons
   def nombre_canons
     @nombre_canons ||= canons.keys.count
