@@ -7,7 +7,7 @@ class TableResultats
   def add_mot_traitable(mot)
     canons.exist?(mot) || self.canons.create(mot)
     # Placer le mot au bon endroit dans la liste des items
-    if canons.of(mot)[:items].empty? || canon.of(mot)[:items].last.offset < mot.offset
+    if canons.of(mot)[:items].empty? || canons.of(mot)[:items].last.offset < mot.offset
       # S'il n'y a pas encore d'item ou que le dernier item a un offset inférieur
       # au mot courant, on met le mot courant à la fin.
       canons.add_item(mot)
@@ -47,8 +47,14 @@ class TableResultats
     end
 
     # Pour ajouter un item
-    def add mot
+    def add_item mot
       self[mot.canon][:items] << mot
+    end
+    # /add_item
+
+    def add_proximite canon, iprox
+      canon.is_a?(String) || canon = canon.canon
+      self[canon][:proximites] << iprox.id
     end
 
     # Pour insérer le mot +mot+ à la place +index+
