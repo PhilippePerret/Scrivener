@@ -13,42 +13,26 @@ class TableResultats
   attr_accessor :current_index_mot
 
   def canons # avant, c'était tableau_proximites[:mots]
-    @canons ||= Hash.new() # peut-être, plus tard, une classe propre
+    @canons ||= Canons.new(self.analyse) # peut-être, plus tard, une classe propre
   end
 
   # La liste de tous les mots réels
   def mots # avant, c'était tableau_proximites[:real_mots]
-    @mots ||= Hash.new() # Peut-être, plus tard, une classe propre
+    @mots ||= Mots.new(self.analyse) # Peut-être, plus tard, une classe propre
   end
 
   # Liste {Segments} des segments de texte dans le texte total. Chaque segment
   # peut être un mot ou un inter-mot, comme une ponctuation. Cette liste
   # de segments permet de reconstituer tout le texte.
   def segments
-    @segments ||= Segments.new(self)
+    @segments ||= Segments.new(self.analyse)
   end
 
-  # ---------------------------------------------------------------------
-  #   CLASSE SEGMENTS
-  #   Pour la gestion des segments
-  class Segments
-    attr_accessor :table_resultats
-    attr_accessor :items
-
-    def initialize tres
-      self.table_resultats = tres
-      self.items = Array.new
-    end
-    def << seg
-      self.items << seg
-    end
-    def each
-      self.items.each { |seg| yield seg }
-    end
-    def collect
-      self.items.collect { |seg| yield seg }
-    end
-  end #/Segments
+  # La liste des proximités
+  # C'est une instance qui permet de gérer les proximités plus facilement
+  def proximites
+    @proximites ||= Proximites.new(self.analyse)
+  end
 
 end #/TableResultats
 end #/Analyse

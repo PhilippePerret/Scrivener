@@ -113,7 +113,7 @@ class WholeText
           index:            tres.current_index_mot,
           file_id:          current_file_id
         })
-        tres.add_word(mot)
+        tres.add_mot(mot)
       end
 
       # Ajout du segment

@@ -11,12 +11,14 @@ class WholeText
     # = Lemmatisation du texte =
     lemmatize
 
-    # = Récupération des canons =
-    # TODO
-
     # = Relève des mots dans le fichier =
     # cf. fichier 'releve_mots.rb'
     releve_mots
+
+    # = On recherche les proximités =
+    # cf. fichier 'proximites.rb'
+    search_proximites
+
   end
 
 
