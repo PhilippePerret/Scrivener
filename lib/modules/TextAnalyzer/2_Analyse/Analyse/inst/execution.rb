@@ -14,6 +14,7 @@ class Analyse
     init_analyse
     assemble_texts_of_paths
     texte_entier.proceed_analyse
+    table_resultats.calcule_proximites
   end
 
   # = main =

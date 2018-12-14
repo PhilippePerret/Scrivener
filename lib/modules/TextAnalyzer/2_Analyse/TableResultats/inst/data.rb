@@ -12,6 +12,9 @@ class TableResultats
   # analyse.
   attr_accessor :current_index_mot
 
+  # Le dernier index pour une proximité
+  attr_accessor :last_id_proximite
+
   def canons # avant, c'était tableau_proximites[:mots]
     @canons ||= Canons.new(self.analyse) # peut-être, plus tard, une classe propre
   end

@@ -21,6 +21,8 @@ class Mot
   # {Fixnum} Décalage du mot dans le texte de son fichier
   attr_accessor :relative_offset
 
+  attr_accessor :proximite_avant_id, :proximite_apres_id
+
   # raccourci pour obtenir l'analyse à laquelle appartient le mot
   def analyse ; @analyse ||= file.analyse end
   def file
@@ -47,14 +49,20 @@ class Mot
       analyse.table_resultats.proximites[proximite_avant_id]
     end
   end
+  def proximite_avant= iprox
+    self.proximite_avant_id = iprox.nil? ? nil : iprox.id
+  end
   def proximite_apres
     @proximite_apres ||= begin
       analyse.table_resultats.proximites[proximite_apres_id]
     end
   end
+  def proximite_apres= iprox
+    self.proximite_apres_id = iprox.nil? ? nil : iprox.id
+  end
 
   def distance_minimale
-    @distance_minimale ||= self.class.distance_minimale(canonique)
+    @distance_minimale ||= self.class.distance_minimale(canon)
   end
 
 

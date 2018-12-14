@@ -19,6 +19,7 @@ class Analyse
   # Initialisation de l'analyse
   def init_analyse
     CLI.debug_entry
+    TableResultats::Proximite.init
     table_resultats.init
     texte_entier.init
   end

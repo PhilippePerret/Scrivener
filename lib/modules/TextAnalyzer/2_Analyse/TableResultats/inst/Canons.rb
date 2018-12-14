@@ -52,9 +52,26 @@ class TableResultats
     end
     # /add_item
 
-    def add_proximite canon, iprox
-      canon.is_a?(String) || canon = canon.canon
-      self[canon][:proximites] << iprox.id
+    def add_proximite mot_avant, iprox
+      canon = mot_avant.canon
+      current_proxs = self[canon][:proximites]
+      last_prox_id  = current_proxs.last
+      last_prox     = last_prox_id ? proximites[last_prox_id] : nil
+      if last_prox.nil? || mot_avant.offset > last_prox.mot_avant.offset
+        self[canon][:proximites] << iprox.id
+      else
+        current_proxs.each_with_index do |pid, indexp|
+          if mot_avant.offset < proximites[pid].mot_avant.offset
+            self[canon][:proximites].insert(indexp, new_prox_id) and break
+          end
+        end
+      end
+    end
+    # /add_proximite
+
+    # Raccourci
+    def proximites
+      @proximites ||= self.analyse.table_resultats.proximites
     end
 
     # Pour insérer le mot +mot+ à la place +index+
