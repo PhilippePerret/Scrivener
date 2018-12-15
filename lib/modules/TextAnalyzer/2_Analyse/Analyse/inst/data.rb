@@ -11,8 +11,6 @@ class Analyse
     @table_resultats ||= TextAnalyzer::Analyse::TableResultats.new(self)
   end
 
-  # Raccourci de table_resultats.output qui gère la sortie des résultats
-  def output ; table_resultats.output end
 
   # Le texte entier de l'analyse
   def texte_entier

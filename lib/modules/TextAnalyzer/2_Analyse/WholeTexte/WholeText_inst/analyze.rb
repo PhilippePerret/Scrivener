@@ -15,10 +15,6 @@ class WholeText
     # cf. fichier 'releve_mots.rb'
     releve_mots
 
-    # = On recherche les proximités =
-    # cf. fichier 'proximites.rb'
-    search_proximites
-
   end
 
 

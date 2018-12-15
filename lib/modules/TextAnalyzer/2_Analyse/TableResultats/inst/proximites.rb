@@ -18,9 +18,9 @@ class TableResultats
   def calcule_proximites
     CLI.debug_entry
     canons.each do |canon, dcanon|
-      dcanon[:items].each_with_index do |mot_apres, index_mot|
+      dcanon.mots.each_with_index do |mot_apres, index_mot|
         index_mot > 0 || next
-        mot_avant = dcanon[:items][index_mot - 1]
+        mot_avant = dcanon.mots[index_mot - 1]
         mot_apres.trop_proche_de?(mot_avant) || next
         # Si on passe ici, c'est que le mot imot est trop du mot précédent.
         # On doit donc créer une proximité

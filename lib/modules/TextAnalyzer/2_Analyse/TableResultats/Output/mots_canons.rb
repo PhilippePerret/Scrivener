@@ -27,8 +27,8 @@ class Output
   # Affichage/sortie des canons
   def canons opts = nil
     defaultize_options(opts)
-    data.canons.keys.each_with_index do |canon, index_canon|
-      puts 'canon %i : %s (x %i)' % [index_canon, canon, data.canons[canon][:items].count]
+    data.canons.values.each_with_index do |icanon, index_canon|
+      icanon.as_line_output
     end
   end
   # /canons
