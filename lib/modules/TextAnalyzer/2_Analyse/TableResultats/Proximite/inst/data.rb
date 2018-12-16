@@ -10,7 +10,14 @@ class TableResultats
     # retourne la distance, en caractères, entre les deux mots (de la fin
     # du premier au début du deuxième)
     def distance
-      @distance ||= mot_apres.offset - (mot_avant.offset + mot_avant.length) 
+      @distance ||= mot_apres.offset - (mot_avant.offset + mot_avant.length)
+    end
+
+    # La distance minimale pour cette proximité
+    def distance_minimale
+      @distance_minimale ||= begin
+        TextAnalyzer::Analyse::WholeText::Mot.distance_minimale(mot_avant.canon)
+      end
     end
   end #/Proximite
 end #/TableResultats

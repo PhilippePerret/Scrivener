@@ -18,34 +18,23 @@ class Analyse
   def nombre_mots_differents  ; table_resultats.nombre_mots_differents  end
   def nombre_mots_uniques     ; table_resultats.nombre_mots_uniques     end
 
-class TableResultats
+  class TableResultats
 
-  # Nombre de mots total dans le texte. Ça correspond au nombre d'éléments
-  # dans segments divisés par 2
-  def nombre_mots
-    @nombre_mots ||= segments.count / 2
-  end
-  # Le nombre de mots différents donc, de clés dans la liste des mots
-  def nombre_mots_differents
-    @nombre_mots_differents ||= mots.keys.count
-  end
+    # Moyenne des éloignements des proximités
+    # cf. la méthode `calcule_proximites` qui les calcule
+    attr_accessor :moyenne_eloignements
+    attr_accessor :moyenne_eloignements_common
 
-  # Retourne le nombre de mots uniques.
-  # Cf. liste_mots_uniques
-  def nombre_mots_uniques
-    @nombre_mots_uniques ||= liste_mots_uniques.count
-  end
-
-  # Le nombre de canons, donc de clés dans la liste des canons
-  def nombre_canons
-    @nombre_canons ||= canons.keys.count
-  end
-  # Le nombre de proximités
-  def nombre_proximites
-    @nombre_proximites ||= proximites.count
-  end
+    # Le nombre de canons, donc de clés dans la liste des canons
+    def nombre_canons
+      @nombre_canons ||= canons.keys.count
+    end
+    # Le nombre de proximités
+    def nombre_proximites
+      @nombre_proximites ||= proximites.count
+    end
 
 
-end #/TableResultats
+  end #/TableResultats
 end #/Analyse
 end #/TextAnalyzer

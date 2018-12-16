@@ -15,6 +15,9 @@ class Mots
   # Cf. la méthode `create` pour voir comment ils sont créés
   attr_accessor :items
 
+  def count
+    @count ||= items.count
+  end
 end #/Mots
 end #/WholeText
 end #/Analyse

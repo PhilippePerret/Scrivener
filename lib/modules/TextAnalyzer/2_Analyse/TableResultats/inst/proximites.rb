@@ -15,8 +15,14 @@ class Analyse
 class TableResultats
 
   # Méthode principale calculant les proximités dans le texte
+  # Ainsi que les proximités par tranche et la moyenne de proximité
   def calcule_proximites
     CLI.debug_entry
+    total_distances = 0
+    # Le total des distances, mais seulement pour les mots qui
+    # sont à distance normale maximale (1 page)
+    total_distances_common = 0
+
     canons.each do |canon, dcanon|
       dcanon.mots.each_with_index do |mot_apres, index_mot|
         index_mot > 0 || next
@@ -24,11 +30,38 @@ class TableResultats
         mot_apres.trop_proche_de?(mot_avant) || next
         # Si on passe ici, c'est que le mot imot est trop du mot précédent.
         # On doit donc créer une proximité
-        Proximite.create(self, mot_avant, mot_apres)
+        iprox = Proximite.create(self, mot_avant, mot_apres)
+        # On va mettre la proximité dans sa tranche de proximité et en
+        # profiter pour calculer la moyenne d'éloignement
+        total_distances += iprox.distance
+        tranche = ((iprox.distance / 250) + 1) * 250
+        proximites_par_tranches[tranche][:all] += 1
+        if iprox.distance_minimale == TextAnalyzer::DISTANCE_MINIMALE
+          total_distances_common += iprox.distance
+          proximites_par_tranches[tranche][:common] += 1
+        end
       end
+      # /fin de boucle sur tous les mots du canon
     end
+    # /fin de boucle sur tous les canons
+    self.moyenne_eloignements         = (total_distances / self.proximites.count)
+    self.moyenne_eloignements_common  = (total_distances_common / self.proximites.count)
+
   end
   # /calcule_proximites
+
+  def proximites_par_tranches
+    @proximites_par_tranches ||= begin
+      {
+        250   => {all: 0, common: 0},
+        500   => {all: 0, common: 0},
+        750   => {all: 0, common: 0},
+        1000  => {all: 0, common: 0},
+        1250  => {all: 0, common: 0},
+        1500  => {all: 0, common: 0}
+      }
+    end
+  end
 
 
   class Proximites < Hash

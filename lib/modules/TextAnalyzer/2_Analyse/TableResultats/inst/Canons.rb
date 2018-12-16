@@ -50,6 +50,29 @@ class TableResultats
       self.key?(canon)
     end
 
+    # Retourne la liste des canons sans proximités
+    def sans_proximites
+      @sans_proximites || calcule_canons_avec_sans_proxs
+      @sans_proximites
+    end
+    # Retourne la liste des canons avec proximités
+    def avec_proximites
+      @avec_proximites || calcule_canons_avec_sans_proxs
+      @avec_proximites
+    end
+
+    def calcule_canons_avec_sans_proxs
+      @sans_proximites = Array.new
+      @avec_proximites = Array.new
+      self.each do |canon, icanon|
+        if icanon.proximites.empty?
+          @sans_proximites << icanon
+        else
+          @avec_proximites << icanon
+        end
+      end
+    end
+
   end #/Canons
 
 end #/TableResultats

@@ -13,19 +13,6 @@ class Project
   # ---------------------------------------------------------------------
   #   Méthodes utilitaire
 
-  def nombre_pages by
-    case by
-    when :mots
-      @pages_by_mots ||= ((self.segments.count / 2).to_f / String::NOMBRE_MOTS_PAGE).round + 1
-    when :chars
-      @pages_by_chars ||= (self.longueur_whole_texte / String::PAGE_WIDTH).round + 1
-    when :moyen
-      @nb_pages_moyen ||= (nombre_pages(:mots) + nombre_pages(:chars)) / 2
-    end
-  end
-  def nombre_total_proximites
-    @nombre_total_proximites ||= tableau_proximites[:proximites].count
-  end
   # Le pourcentage de proximités par rapport au nombre de canon.
   def human_pct_proximites_canons
     @human_pct_proximites_canons ||= pourcentage_proximites_canons.pourcentage
@@ -304,9 +291,9 @@ class Project
       line('Nombre pages estimé %s' % [5.to_expo], projet.nombre_pages(:moyen), {after_value: ' pages', color: :bleu})
       tableau_aide << '(5) Nombre estimé en fonction du nombre de pages suivant les signes et du nombre de pages suivant les mots.'
       line('Nombre de mots différents %s' % [7.to_expo], projet.nombre_total_real_mots, {color: :bleu})
+      tableau_aide << '(7) Dans ce compte, deux mots identiques valent 1 occurence (contrairement à %s), mais deux mots de même forme canonique (« pris » et « prenais ») valent deux occurences, contrairement à %s.' % [3.to_expo, 6.to_expo]
       line('Nombre de mots canoniques %s' % [6.to_expo], projet.nombre_total_canons)
       tableau_aide << '(6) Les mots canoniques sont les formes de base d’un mot. Par exemple, le mot au singulier quand c’est un pluriel (« yeux » -> « œil ») ou l’infinitif quand c’est un verbe (« pris » -> « prendre »).'
-      tableau_aide << '(7) Dans ce compte, deux mots identiques valent 1 occurence (contrairement à %s), mais deux mots de même forme canonique (« pris » et « prenais ») valent deux occurences, contrairement à %s.' % [3.to_expo, 6.to_expo]
       line(' => Taux de différence %s' % [8.to_expo], projet.taux_difference_mots, {after_value: ' %'})
       tableau_aide << ('(8) Nombre de mots différents en fonction du nombre de mots total. Plus ce taux est élevé, plus le texte présente de variété de mots.')
       line('NOMBRE TOTAL DE PROXIMITES %s' % [9.to_expo], projet.nombre_total_proximites, {color: :rouge})

@@ -1,6 +1,9 @@
 # encoding: UTF-8
 class TextAnalyzer
 
+  NUMBER_SIGNES_PER_PAGE  = 1500
+  NUMBER_MOTS_PER_PAGE    = 250
+
   DISTANCE_MINIMALE = 1500.0
 
   # Pour construire la liste des proximités spécifiques, il faut appeler

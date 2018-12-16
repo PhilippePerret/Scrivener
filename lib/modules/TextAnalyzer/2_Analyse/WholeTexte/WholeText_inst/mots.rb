@@ -16,7 +16,7 @@ class WholeText
   def mot index_mot
     mots[index_mot]
   end
-  
+
 end #/WholeText
 end #/Analyse
 end #/TextAnalyzer

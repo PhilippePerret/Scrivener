@@ -38,7 +38,23 @@ class TableResultats
       self[mot.downcase] << mot.index
     end
     # /create
-    
+
+    # Retourne la liste Array des mots uniques
+    def uniques
+      @mots_uniques ||= begin
+        self.select do |mot_min, arr_indexes|
+          arr_indexes.count == 1
+        end.keys
+      end
+    end
+
+    # Retourne la liste Array des mots différents
+    def differents
+      @mots_differents ||= begin
+        self.keys
+      end
+    end
+
   end #/Mots
 
 end #/TableResultats
