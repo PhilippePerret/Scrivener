@@ -9,6 +9,8 @@ class TextAnalyzer
 class Analyse
 class WholeText
 
+  attr_accessor :created_at, :updated_at
+
   # Chemin d'accès au fichier contenant tout le texte
   def path
     @path ||= File.join(analyse.hidden_folder,'texte_entier.txt')

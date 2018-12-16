@@ -8,6 +8,10 @@ class Analyse
   #
   # La méthode rassemble tous les textes en un seul texte puis l'analyse.
   # Puis elle enregistre les résultats dans un fichier caché.
+  #
+  # Noter qu'il vaut mieux utiliser la méthode `reload` si tous les calculs
+  # n'ont pas besoin d'être refaits
+  # 
   def exec
     CLI.debug_entry
     (paths.nil? || paths.empty?) && raise(ERRORS[:no_files_to_analyze])
@@ -16,6 +20,7 @@ class Analyse
     texte_entier.proceed_analyse
     table_resultats.calcule_proximites
     table_resultats.save
+    texte_entier.save
   end
 
   # = main =

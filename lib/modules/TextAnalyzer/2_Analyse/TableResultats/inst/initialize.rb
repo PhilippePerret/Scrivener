@@ -4,7 +4,7 @@ class Analyse
 class TableResultats
 
   attr_accessor :analyse
-  
+
   # Une table de résultats
   #
   # Normalement, elle ne reçoit rien à l'instanciation, elle ne doit être liée
@@ -13,8 +13,8 @@ class TableResultats
   #
   # Les intances {TextAnalyzer::File} sont des éléments de cette table de
   # résultat.
-  def initialize instance_textanalyzer_analyse
-    self.analyse = instance_textanalyzer_analyse
+  def initialize instance_analyse
+    self.analyse = instance_analyse
   end
 
 end #/TableResultats

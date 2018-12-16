@@ -9,18 +9,9 @@ class TableResultats
 
   # Méthode qui retourne la table des résultats, soit prise dans le fichier
   # s'il existe, soit calculé
-  def get
-    if exist? && !CLI.options[:force]
-      self.load
-    else
-      self.analyse.exec
-    end
-    return self #pour le chainage
-  end
-
-  # Méthode qui charge les données depuis le fichier enregistré
-  def load
-    File.open(file_path,'rb') { |f| Marshal.load(f) }
+  def self.load(analyse)
+    analyse.table_resultats.exist? || raise(ERRORS[:no_table_resultats])
+    File.open(analyse.table_resultats.file_path,'rb') { |f| Marshal.load(f) }
   end
 
   # Méthode qui sauve la table de résultats dans son fichier
