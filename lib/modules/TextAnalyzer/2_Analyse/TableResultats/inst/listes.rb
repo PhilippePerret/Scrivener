@@ -12,8 +12,8 @@ class TableResultats
   # ou "aurait" ne changer rien à son unicité
   def liste_mots_uniques
     @liste_mots_uniques ||= begin
-      mots.select do |mot, arr_offsets|
-        arr_offsets.count == 1
+      mots.select do |mot, imot|
+        imot.count == 1
       end
     end
   end

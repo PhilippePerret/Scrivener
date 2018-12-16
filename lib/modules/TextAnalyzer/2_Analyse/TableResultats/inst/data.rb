@@ -15,13 +15,16 @@ class TableResultats
   # Le dernier index pour une proximité
   attr_accessor :last_id_proximite
 
+
+  attr_accessor :created_at, :updated_at
+
   def canons # avant, c'était tableau_proximites[:mots]
-    @canons ||= Canons.new(self.analyse) # peut-être, plus tard, une classe propre
+    @canons ||= Canons.new(self.analyse)
   end
 
   # La liste de tous les mots réels
   def mots # avant, c'était tableau_proximites[:real_mots]
-    @mots ||= Mots.new(self.analyse) # Peut-être, plus tard, une classe propre
+    @mots ||= Mots.new(self.analyse)
   end
 
   # Liste {Segments} des segments de texte dans le texte total. Chaque segment

@@ -7,6 +7,8 @@ class Analyse
   attr_accessor :paths, :files
 
   # L'instance contenant tous les résultats de l'analyse
+  # Note : pour charger les données qui sont enregistrées dans le fichier,
+  # pour le moment, on doit faire `<analyse>.table_resultats.get`
   def table_resultats
     @table_resultats ||= TextAnalyzer::Analyse::TableResultats.new(self)
   end
@@ -19,6 +21,7 @@ class Analyse
 
   # Retourne l'instance TextAnalyzer::File du fichier de l'analyse
   # courante d'identifiant +object_id+
+  # Question : est-ce que ça sert encore ?
   def get_file object_id
     files[object_id]
   end

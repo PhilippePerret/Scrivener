@@ -7,7 +7,7 @@ class Analyse
   # Exécute l'analyse.
   #
   # La méthode rassemble tous les textes en un seul texte puis l'analyse.
-  #
+  # Puis elle enregistre les résultats dans un fichier caché.
   def exec
     CLI.debug_entry
     (paths.nil? || paths.empty?) && raise(ERRORS[:no_files_to_analyze])
@@ -15,6 +15,7 @@ class Analyse
     assemble_texts_of_paths
     texte_entier.proceed_analyse
     table_resultats.calcule_proximites
+    table_resultats.save
   end
 
   # = main =

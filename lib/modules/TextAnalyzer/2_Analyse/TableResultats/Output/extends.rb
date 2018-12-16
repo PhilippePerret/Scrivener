@@ -15,6 +15,7 @@ class TableResultats
     def load_output_modules
       TextAnalyzer::Analyse::TableResultats::Canon.include_output_module(options[:output_format])
       TextAnalyzer::Analyse::TableResultats::Proximite.include_output_module(options[:output_format])
+      TextAnalyzer::Analyse::TableResultats::Mot.include_output_module(options[:output_format])
     end
   end #/Output
 
@@ -33,6 +34,12 @@ class TableResultats
       include Object.const_get('TextAnalyzerOutputProximiteFormat%s' % [fmt.to_s.upcase])
     end
   end #/Proximite
+
+  class Mot
+    def self.include_output_module fmt
+      include Object.const_get('TextAnalyzerOutputMotFormat%s' % [fmt.to_s.upcase])
+    end
+  end
 end #/TableResultats
 end #/Analyse
 end #/TextAnalyzer
