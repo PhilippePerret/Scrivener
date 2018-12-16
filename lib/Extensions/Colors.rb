@@ -136,7 +136,7 @@ module Colors
       end
     end
     def next_item
-      nitem = liste_couleurs[next_icolor]
+      liste_couleurs[next_icolor]
       # puts "- next-item couleur (@icolor = #{@icolor}) : #{nitem.inspect}"
       # return nitem
     end
@@ -289,10 +289,10 @@ module Colors
   </head>
   <body>
     HTML
-  end
+    end
 
-  def code_html_fin
-    <<-HTML
+    def code_html_fin
+      <<-HTML
   </body>
 </html>
       HTML

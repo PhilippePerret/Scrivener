@@ -21,18 +21,6 @@ class ProxMot
   # On conserve toujours le mot initial
   attr_accessor :real_init
 
-  # Note : les arguments sont devenus facultatifs (sauf le premier) pour
-  # pouvoir instancier un mot quelconque et obtenir sa valeur canonique, comme
-  # c'est le cas par exemple lorsque l'on veut voir les proximités d'un unique
-  # mot.
-  def initialize real_mot, offset = nil, index = nil, binder_item_uuid = nil
-    self.offset     = offset
-    self.index      = index
-    self.real       = real_mot
-    self.real_init  = real_mot.freeze
-    self.binder_item_uuid = binder_item_uuid
-  end
-
   # Redéfinition
   def inspect
     return '<<ProxMot(mon inspect) @index=%i @offset=%i @real=%s @binder_item_uuid=%s, @proximite_avant_id=%s @proximite_apres_id=%s @length=%i>>' %

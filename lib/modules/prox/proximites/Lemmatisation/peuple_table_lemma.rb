@@ -23,7 +23,9 @@ class Scrivener
       # une table qui sera utilisée avec la relève des mots.
       CLI.benchmark(:start, 'Définition de la table de lemmatisation')
       File.open(path).each_with_index do |line, index_line|
-        original, nature, canon = line.strip.split("\t")
+        d = line.strip.split("\t")
+        original  = d.first
+        canon     = d.last
         original.length > 2   || next
         canon != '<unknown>'  || next
         if canon.nil?
@@ -38,7 +40,7 @@ class Scrivener
           TABLE_LEMMATISATION.key?(original) && next
           # canon peut avoir la forme 'essayer|essayer'
           canon.index('|') && begin
-            rien, canon = canon.split('|')
+            canon = canon.split('|').last
             original != canon || next
           end
           # On prend ce mot

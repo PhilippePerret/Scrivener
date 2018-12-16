@@ -66,7 +66,6 @@ class Proximite
     # il faut aussi que ce nombre de paires soit identique.
     def compare_proximites_of canon
       hash_proximites_par_paire_of(canon).each do |kpaire, arr_iprox|
-        curr_nombre_proxs = arr_iprox.count
         unless table_comparaison_a_autant_de_proximites(canon, kpaire)
           # Ici, il faut chercher la ou les proximités ajoutées, qui ne sont
           # pas forcément les dernières.

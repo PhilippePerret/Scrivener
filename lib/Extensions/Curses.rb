@@ -343,8 +343,11 @@ module Curses
             @iamong < options[:among].count || @iamong = 0
             options[:among][@iamong]
           else
-            icolor + 1
-            icolor < 257 || icolor = 1
+            if icolor > 254
+              1
+            else
+              icolor + 1
+            end
           end
       end while true
     rescue Exception => e

@@ -25,9 +25,7 @@ class << self
         end
         previous_imot = data_mot[:items][index_imot - 1]
         # Une occurence trop rapprochée trouvée
-        if imot.trop_proche_de?(previous_imot)
-          iproximite = Proximite.create(tableau, previous_imot, imot)
-        end
+        imot.trop_proche_de?(previous_imot) && Proximite.create(tableau, previous_imot, imot)
       end
       # /fin de boucle sur chaque occurence du mot
     end

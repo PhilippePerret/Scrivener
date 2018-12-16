@@ -72,7 +72,6 @@ class ActiveList
 
   # Retourne le premier élément de la liste correspondant aux attributs attrs.
   def find attrs
-    item_found = true
     items.each do |item|
       bad = false
       attrs.each do |k, v|
@@ -84,10 +83,6 @@ class ActiveList
       bad || (return item)
     end
     return nil
-  end
-  # Retourne tous les éléments de la liste qui répondent aux attributs attrs
-  def find_all attrs
-
   end
 
   # Retourne le premier item de la liste, s'il existe

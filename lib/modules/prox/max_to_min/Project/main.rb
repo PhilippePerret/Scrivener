@@ -116,7 +116,6 @@ class Project
     densite_max = 0
     self.tableau_proximites[:proximites].each do |prox_id, iprox|
       bmot = iprox.mot_avant
-      amot = iprox.mot_apres
       if tbl[bmot.binder_item_uuid][:proximites].nil?
         tbl[bmot.binder_item_uuid].merge!(
           proximites: Array.new,

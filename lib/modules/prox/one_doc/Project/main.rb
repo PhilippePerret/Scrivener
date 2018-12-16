@@ -33,25 +33,6 @@ class Scrivener
       Debug.init
     end
 
-    # Définition des données utiles
-    # On cherche les binder-items concernés
-    def define_self_data
-      # Quand on veut voir le document le plus dense ou le moins dense, on
-      # appelle ce module avec le titre déjà défini.
-      self.watched_document_title || begin
-        if CLI.params[:idoc] # <= indice 1-start de document fourni
-          # Il faut trouver le document
-          CLI.params[:doc] = all_binders[CLI.params[:idoc].to_i - 1].title
-        end
-        self.watched_document_title = CLI.params[:doc] || CLI.options[:document] || raise_no_document
-      end
-      self.watched_binder_items = get_binder_items_around(watched_document_title)
-    end
-
-    def raise_no_document
-      raise('Le titre du document du mot doit être donné (en paramètre : `doc="<début titre>"` ou en option : `-doc="<début titre>"`)')
-    end
-
 
   end #/Project
 end #/Scrivener

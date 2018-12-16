@@ -72,9 +72,8 @@ class String
 
       if options[:justify]
         # On justifie toutes les lignes sauf la dernière
-        paragraphe_lines[0..-2].each_with_index do |mots_line, index_line|
-          # Justifier
-          final_line = justify(mots_line, line_len)
+        paragraphe_lines[0..-2].each_with_index do |mline, index_line|
+          final_line = justify(mline, line_len)
           paragraphe_lines[index_line] = final_line
         end
         paragraphe_lines[-1] = paragraphe_lines[-1].join(' ')

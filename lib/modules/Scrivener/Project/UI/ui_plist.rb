@@ -4,9 +4,6 @@ class Project
   # Raccourci
   def ui_plist ; ui.ui_plist end
 
-  def ui_common ;
-    ui.ui_common
-  end
   class UI
 
     # Pour gérer le fichier ui.plist

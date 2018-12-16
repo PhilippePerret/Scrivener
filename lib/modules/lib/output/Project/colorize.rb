@@ -90,7 +90,6 @@ class Scrivener
       # fera pas fonctionner aussi par offset, entendu que les canons doivent
       # être mémorisés dans l'ordre du texte.
       #
-      current_bitem = nil
       proximites.each do |proxorarr|
         # On prend la couleur suivante.
         nextc = color_cycle.next

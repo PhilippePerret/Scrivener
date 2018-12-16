@@ -27,10 +27,10 @@ class Scrivener
           # Comme on va procéder à la vérification, on doit marquer la nouvelle
           # date pour les trois fichiers, pour ne pas faire trois fois
           # l'opération.
-          watched_binder_items.each do |bitem|
-            bitem.set_current_mtime
+          watched_binder_items.each do |sbitem|
+            sbitem.set_current_mtime
             # On en profite pour initialiser des valeurs importantes
-            bitem.instance_variable_set('@texte', nil)
+            sbitem.instance_variable_set('@texte', nil)
             # puts "--- Texte de #{bitem.uuid} : #{bitem.texte}"
           end
           # CLI.dbg("<- Scrivener::Project#changement_has_occured? (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")

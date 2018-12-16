@@ -220,7 +220,6 @@ class ProxMot
     if le_mot_canonique_existe_deja
       # <= La table canonique existait déjà
       # => Il faut checker la proximité
-      tb_mots = project.tableau_proximites[:mots][canonique]
       debug('= Le mot canonique existait, il faut checker la proximité du nouveau mot.')
       index_mot = project.tableau_proximites[:mots][canonique][:items].index(self)
       if index_mot > 0

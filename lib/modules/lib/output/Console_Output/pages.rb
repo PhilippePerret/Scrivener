@@ -39,15 +39,10 @@ class Output
 
     # Instance ProxMot du mot dont il faut voir les proximités (if any)
     attr_accessor :proxmot
-    attr_accessor :binder_item
 
     # Instance BinderItem du binder-item dont il faut voir les proximités
     # (if any)
     attr_accessor :binder_item
-
-    # Largeur d'une colonne de texte (avec une gouttière de 4 et des
-    # marges de 2 — ou des marges de 2 à droite et à gauche)
-    attr_accessor :largeur_colonne
 
     # Liste des lignes à afficher.
     # Calculées pour faire une largeur maximale de :largeur_colonne, avec

@@ -100,7 +100,6 @@ class Project
     # couleur peut à nouveau être utilisé
     #
     i_color       = I_COLOR_START - 1
-    current_bitem = nil
     tableau_proximites[:proximites].each do |prox_id, iprox|
 
       iprox.erased? || iprox.ignored? || iprox.fixed? && next

@@ -8,7 +8,7 @@ class Scrivener
       CLI.dbg("-> Scrivener::Project#check_etat_proximites_et_affiche_differences (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
 
       # Écrit un message d'attente à l'écran
-      write_log('* check proximités…', :gris_clair, init = true)
+      write_log('* check proximités…', :gris_clair, true)
       new_tableau = check_proximites_in_watched_binder_items
 
       # On peut procéder à la comparaison (si un ancien tableau existe)

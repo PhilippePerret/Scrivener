@@ -24,7 +24,7 @@ class TableResultats
         mot_apres.trop_proche_de?(mot_avant) || next
         # Si on passe ici, c'est que le mot imot est trop du mot précédent.
         # On doit donc créer une proximité
-        iprox = Proximite.create(self, mot_avant, mot_apres)
+        Proximite.create(self, mot_avant, mot_apres)
       end
     end
   end

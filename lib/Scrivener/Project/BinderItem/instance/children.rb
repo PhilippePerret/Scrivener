@@ -54,8 +54,8 @@ class Scrivener
           # textsettings.add_element('TextSelection').text = text
           el = textsettings.add_element(key.camelize)
           el.text = text unless text.nil?
-          setting.each do |key, value|
-            el.attributes[key.camelize] = value
+          setting.each do |k, v|
+            el.attributes[k.camelize] = v
           end
         end
 

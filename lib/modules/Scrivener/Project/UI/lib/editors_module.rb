@@ -31,7 +31,7 @@ module EditorsModule
       bitems.first.is_a?(Scrivener::Project::BinderItem) || raise(Scrivener::ERRORS[:binder_item_required])
       if main?
         ui_common.binder.unselect_all
-        bitems.each { |bitem| ui_common.binder.select(bitem, keep = true) }
+        bitems.each { |bitem| ui_common.binder.select(bitem, true) }
       else
         # Si c'est le contenu de l'éditeur secondaire qui est défini,
         # il faut le rendre visible sinon ça ne fait rien.

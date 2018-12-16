@@ -9,7 +9,6 @@ class Proximite
     def create table, mot_avant, mot_apres
       table.last_id_proximite += 1
       new_prox_id = table.last_id_proximite.to_i
-      canon       = mot_avant.canon
 
       new_prox = new(new_prox_id, mot_avant, mot_apres)
       table.proximites << new_prox

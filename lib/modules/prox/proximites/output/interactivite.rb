@@ -26,7 +26,8 @@ class << self
         # <= C'est la première proximité du mot courant, mais il y a des
         #    mots avant.
         # => On peut remonter au mot précédent
-        unless cherche_mot_precedent_avec_proximites(start_at_fin = true)
+        start_at_fin = true
+        unless cherche_mot_precedent_avec_proximites(start_at_fin)
           msg('C’est la toute première proximité. Il n’y en a pas avant.', :warning)
         end
       end

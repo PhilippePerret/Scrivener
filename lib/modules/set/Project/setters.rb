@@ -50,16 +50,13 @@ class Project
   # POUR FAIRE DES ESSAIS AVEC LA COMMANDE `scriv set essai`
   def set_essai value = nil
     # puts "La valeur de value est #{value.inspect}"
-    dmanuscrit  = project.binder_item('7495D5CA-657E-4997-9A5C-D248B0591A75')
-    dproximites = project.binder_item('B6C40A17-4527-4481-9547-64252E551B0D')
-    dossier_a_passer = project.binder_item('96607C23-C15F-46E7-823A-6512DE979A7E')
+    # dproximites = project.binder_item('B6C40A17-4527-4481-9547-64252E551B0D')
 
     second_chapitre   = project.binder_item('76E56CA6-F25A-41E6-A513-44309432382F')
     premier_chapitre  = project.binder_item('0F81282D-A49B-43E4-8EDB-31E192CBF90A')
     chapitre_trois    = project.binder_item('8A0B3C46-465A-452B-992E-FF90FC4267F9')
 
     # # ui_common.binder.unselect_all
-    # ui_common.binder.select(dmanuscrit)
     # ui_common.save
 
     # puts '--' + ui_common.editor1.view_node.count.inspect
@@ -76,7 +73,6 @@ class Project
     # puts '--- premier_chapitre: %s::{%s}' % [premier_chapitre.title, premier_chapitre.class.to_s]
     # ui_common.editor1.content= chapitre_trois
     # # ui_common.editor1.content= [premier_chapitre, second_chapitre]
-    # # ui_common.editor2.content= dossier_a_passer
     # ui_common.editor2.content= second_chapitre
 
     # ui_common.editor1.reset_historique

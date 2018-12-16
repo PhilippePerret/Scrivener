@@ -13,11 +13,6 @@ class Scrivener
       no_document: 'Aucun document dont le nom est ou commence par « %s » n’a été trouvé parmi les documents :'
     }
 
-    # Grande table contenant les proximités
-    # Noter que pour le moment, lorsque l'on demande le module 'proximites' (qui
-    # ne charge pas ce module), il définit lui-même cette propriété.
-    attr_accessor :tableau_proximites
-
     # Liste des binder_items qui gèrent les proximités, c'est-à-dire
     # le binder_item avant (s'il existe), le binder-item travaillé et le
     # binder-item suivant (s'il existe).
