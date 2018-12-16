@@ -9,16 +9,6 @@ class TextAnalyzer
 class Analyse
 class WholeText
 
-  # La classe Mot, pour pouvoir faire des choses comme :
-  #   <analyse>.texte_entier.mots[<index mot>]
-  def mots
-    @mots ||= TextAnalyzer::Analyse::WholeText::Mots.new(self)
-  end
-
-  def mot index_mot
-    mots.get_by_index(index_mot)
-  end
-
   # Chemin d'accès au fichier contenant tout le texte
   def path
     @path ||= File.join(analyse.hidden_folder,'texte_entier.txt')

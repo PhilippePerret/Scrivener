@@ -106,7 +106,8 @@ class WholeText
       if type_seg == :inter
         seg = mot = self.content[rel_offset...(rel_offset + seg.length)]
       else # if type_seg == :mot
-        mot = Mot.create({
+        mot = self.mots.create({
+          analyse:          analyse,
           real:             seg,
           offset:           tres.current_offset,
           relative_offset:  rel_offset,

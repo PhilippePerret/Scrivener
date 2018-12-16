@@ -3,6 +3,8 @@ class Analyse
 class WholeText
 class Mot
 
+  attr_accessor :analyse
+
   # {String} Le mot fourni à l'instanciation et le mot initial gardé,
   # même si :real_mot est transformé.
   attr_accessor :real, :real_init
@@ -23,8 +25,6 @@ class Mot
 
   attr_accessor :proximite_avant_id, :proximite_apres_id
 
-  # raccourci pour obtenir l'analyse à laquelle appartient le mot
-  def analyse ; @analyse ||= file.analyse end
   def file
     @file ||= TextAnalyzer::AnalyzedFile.get(file_id)
   end
@@ -42,6 +42,11 @@ class Mot
 
   def length
     @length ||= real.length
+  end
+
+  # La version du mot qui permet de faire les classements
+  def sortish
+    @sortish ||= real.downcase.normalize
   end
 
   def proximite_avant

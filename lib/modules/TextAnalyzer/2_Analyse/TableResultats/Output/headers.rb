@@ -44,7 +44,7 @@ end #/TextAnalyzer
 
 class TextAnalyzer
 class Analyse
-class TableResultats
+class WholeText
 class Mot
 
   def self.classement_name options

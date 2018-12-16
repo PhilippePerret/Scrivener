@@ -1,25 +1,22 @@
+# encoding: UTF-8
+=begin
+
+=end
 class TextAnalyzer
 class Analyse
 class WholeText
 class Mots
 
-  attr_accessor :items
-
   # Pour créer un nouveau mot
   #
   # RETURN L'instance Mot, pour ajout aux résultats
   def create data_mot
-    imot = new(data_mot)
-    @items ||= Hash.new
-    @items.merge!(imot.index => imot)
+    imot = TextAnalyzer::Analyse::WholeText::Mot.new(data_mot)
+    self.items ||= Hash.new
+    # CLI.dbg('-- Création du mot d’index %i' % [imot.index])
+    self.items.merge!(imot.index => imot)
     return imot
   end
-
-  # Pour récupérer un mot
-  def get_by_index mot_id
-    items[mot_id]
-  end
-  alias :[] :get_by_index
 
 end #/Mots
 end #/WholeText
