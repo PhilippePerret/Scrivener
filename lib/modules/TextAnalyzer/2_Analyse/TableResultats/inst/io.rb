@@ -7,8 +7,8 @@ class TextAnalyzer
 class Analyse
 class TableResultats
 
-  # Méthode qui retourne la table des résultats, soit prise dans le fichier
-  # s'il existe, soit calculé
+  # Méthode qui retourne la table des résultats prise dans le fichier marshal
+  # (rechargement)
   def self.load(analyse)
     analyse.table_resultats.exist? || raise(ERRORS[:no_table_resultats])
     File.open(analyse.table_resultats.file_path,'rb') { |f| Marshal.load(f) }
