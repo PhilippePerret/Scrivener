@@ -22,7 +22,7 @@ class Mot
   # Retourne TRUE si le mot courant est trop proche du mot +imot+ {Mot} qui
   # se trouve (toujours pour le moment) avant le mot.
   def trop_proche_de? imot
-    self.offset - imot.offset < distance_minimale
+    (self.offset - imot.offset) < distance_minimale
   end
 
 end #/Mot

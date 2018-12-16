@@ -12,7 +12,7 @@ class TextAnalyzer
       'être'
     ],
     20 => [
-      'elle',
+      'elle', # sert au test (ts_proximites.rb)
       'il',
       'lui',
       'nous',
@@ -21,7 +21,7 @@ class TextAnalyzer
     ],
     # Liste des mots dont on supporte une proximité de plus de 50 signes
     50 => [
-      'dans',
+      'dans', # sert aux tests (ts_proximites.rb)
       'pas',
       'plus',
       'sur'
@@ -53,5 +53,5 @@ class TextAnalyzer
     # canonique et en valeur la distance de proximité maximale
     mots: Hash.new
   }
-  
+
 end #/TextAnalyzer
