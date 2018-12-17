@@ -33,12 +33,30 @@ class Mot
     @downcase ||= real.downcase
   end
 
+  # Forme "lémmatisée" du mot, c'est-à-dire :
+  #   - singulier
+  #   - masculin (si féminine)
+  #   - les verbes gardent leur forme (c'est la différence avec les canons)
+  #
+  def lemma
+    @lemma ||= begin
+      data_lemma && !verbe? ? data_lemma[:canon] : downcase
+    end
+  end
+
   # Forme canonique du mot (lemmatisé). Par exemple, "marcherions" aura
   # comme forme canonique "marcher"
   def canon
-    @canon ||= (TABLE_LEMMATISATION[downcase] || real).downcase
+    @canon ||= (data_lemma ? data_lemma[:canon] : downcase)
   end
   alias :canonique :canon
+
+  # Les données de lemmatisation du mot, si elles existent.
+  # Ces données contient {:canon, :nature, :detail}
+  # Elles servent notamment à calculer la propriété lemma
+  def data_lemma
+    @data_lemma ||= TABLE_LEMMATISATION[downcase]
+  end
 
   def length
     @length ||= real.length
@@ -47,6 +65,11 @@ class Mot
   # La version du mot qui permet de faire les classements
   def sortish
     @sortish ||= real.downcase.normalize
+  end
+
+  # RETURN true si le mot est en proximité avec un autre mot
+  def en_proximite?
+    proximite_avant_id || proximite_apres_id
   end
 
   def proximite_avant

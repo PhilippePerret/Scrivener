@@ -50,27 +50,40 @@ class TableResultats
       self.key?(canon)
     end
 
-    # Retourne la liste des canons sans proximités
-    def sans_proximites
-      @sans_proximites || calcule_canons_avec_sans_proxs
-      @sans_proximites
+    # Pourcentage de canons (par rapport au nombre de mots total)
+    def pourcentage
+      @pourcentage ||= (nombre.to_f / analyse.all_mots.count).pourcentage
     end
-    # Retourne la liste des canons avec proximités
-    def avec_proximites
-      @avec_proximites || calcule_canons_avec_sans_proxs
-      @avec_proximites
+
+    # Retourne le LCP (*) des canons sans proximités
+    # (*) Liste, nombre et pourcentage
+    def hors_proximites
+      @hors_proximites || calcule_canons_avec_sans_proxs
+      @hors_proximites
+    end
+    # Retourne le LCP (*) des canons avec proximités
+    # (*) Liste, nombre et pourcentage
+    def en_proximites
+      @en_proximites || calcule_canons_avec_sans_proxs
+      @en_proximites
     end
 
     def calcule_canons_avec_sans_proxs
-      @sans_proximites = Array.new
-      @avec_proximites = Array.new
+      @hors_proximites = Array.new
+      @en_proximites = Array.new
       self.each do |canon, icanon|
         if icanon.proximites.empty?
-          @sans_proximites << icanon
+          @hors_proximites << icanon
         else
-          @avec_proximites << icanon
+          @en_proximites << icanon
         end
       end
+      @hors_proximites  = LCP.new(@hors_proximites, nombre)
+      @en_proximites    = LCP.new(@en_proximites, nombre)
+    end
+
+    def nombre
+      @nombre ||= count
     end
 
   end #/Canons

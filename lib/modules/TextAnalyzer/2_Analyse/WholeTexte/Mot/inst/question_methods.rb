@@ -25,6 +25,14 @@ class Mot
     (self.offset - imot.offset) < distance_minimale
   end
 
+  # Retourne TRUE si c'est un verbe
+  def verbe?
+    @is_verbe === nil && begin
+      @is_verbe = @data_lemma && @data_lemma[:nature] == :verbe
+    end
+    @is_verbe
+  end
+
 end #/Mot
 end #/WholeText
 end #/Analyse

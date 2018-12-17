@@ -29,19 +29,20 @@ class WholeText
   # Retourne le nombre de pages, estimées soit d'après le nombre de signes,
   # si per = :signes, soit d'après le nombre de mots si per = :mots et soit
   # d'après une moyenne des deux si per = nil
-  def pages_count per = nil
-    @pages_count ||= Hash.new
-    if (per.nil? || per == :signes) && @pages_count[:signes].nil?
-      @pages_count.merge!(signes: (length / NUMBER_SIGNES_PER_PAGE) + 1)
-    end
-    if (per.nil? || per == :mots) && @pages_count[:mots].nil?
-      @pages_count.merge!(mots: (mots.count / NUMBER_MOTS_PER_PAGE) + 1)
-    end
-    if per.nil?
-      @pages_count.merge!(moy: (@pages_count[:signes] + @pages_count[:mots]) / 2)
-      per = :moy
-    end
+  def pages_count per = :moy
+    @pages_count || calcule_nombre_pages
     return @pages_count[per]
+  end
+
+  # Calcule le nombre de pages en fonction du nombre de signe, du nombre de
+  # mots et fait une moyenne des deux.
+  def calcule_nombre_pages
+    @pages_count || Hash.new
+    @pages_count.merge!({
+      signes: (length / NUMBER_SIGNES_PER_PAGE) + 1,
+      mots:   (mots.count / NUMBER_MOTS_PER_PAGE) + 1
+    })
+    @pages_count.merge!(moy: (@pages_count[:signes] + @pages_count[:mots]) / 2)
   end
 
 end #/WholeText

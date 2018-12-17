@@ -8,6 +8,18 @@ class Analyse
     table_resultats.output
   end
 
+  def mots
+    table_resultats.mots
+  end
+
+  def all_mots
+    texte_entier.mots
+  end
+
+  def canons
+    table_resultats.canons
+  end
+
   def proximites
     table_resultats.proximites
   end

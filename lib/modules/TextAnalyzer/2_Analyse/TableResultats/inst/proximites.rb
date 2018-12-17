@@ -31,7 +31,7 @@ class TableResultats
         # Si on passe ici, c'est que le mot imot est trop du mot précédent.
         # On doit donc créer une proximité
         iprox = Proximite.create(self, mot_avant, mot_apres)
-        # On va mettre la proximité dans sa tranche de proximité et en
+        # On va mettre la PROXIMITÉ PAR TRANCHE et en
         # profiter pour calculer la moyenne d'éloignement
         total_distances += iprox.distance
         tranche = ((iprox.distance / 250) + 1) * 250
@@ -75,6 +75,15 @@ class TableResultats
     # Pour ajouter une proximité
     def << iprox
       self.merge!(iprox.id => iprox)
+    end
+
+    def pourcentage
+      @pourcentage ||= (nombre.to_f / analyse.texte_entier.mots.nombre).pourcentage
+    end
+
+    # Pour ne pas calculer chaque fois
+    def nombre
+      @nombre ||= self.count
     end
 
   end #/Proximites

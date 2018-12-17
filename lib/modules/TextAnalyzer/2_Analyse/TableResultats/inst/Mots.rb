@@ -30,17 +30,24 @@ class TableResultats
     end
 
     # Ajouter le mot quoi qu'il en soit (traitable ou pas)
+    #
+    # Ici, on ne traite comme unique que les singuliers/pluriels et les
+    # masculins/féminins. Par exemple
     def create(mot)
       # On l'ajoute à la list
-      self.key?(mot.downcase) || begin
-        self.merge!(mot.downcase => Array.new)
+      self.key?(mot.lemma) || begin
+        self.merge!(mot.lemma => Array.new)
       end
-      self[mot.downcase] << mot.index
+      self[mot.lemma] << mot.index
     end
     # /create
 
     # Retourne la liste Array des mots uniques
-    def uniques
+    # TODO Mais pour le moment, elle retourne les pluriels et les
+    # féminin ('évident' et 'évidente', 'chat' et 'chats' sont retournés
+    # comme des mots identiques)
+    # Donc il faut vérifier la forme canonique, mais ne excluant les verbes.
+    def mots_uniques
       @mots_uniques ||= begin
         self.select do |mot_min, arr_indexes|
           arr_indexes.count == 1
@@ -48,11 +55,28 @@ class TableResultats
       end
     end
 
+    # Retourne un ListCountPour des mots différents
+    # @usage:
+    #   uniques.count   => nombre
+    #   uniques.pct     => pourcentage
+    #   uniques.list    => liste
+    def uniques
+      @uniqs ||= LCP.new(mots_uniques, nombre_total_mots)
+    end
+
     # Retourne la liste Array des mots différents
     def differents
-      @mots_differents ||= begin
-        self.keys
-      end
+      @mots_differents ||= LCP.new(self.keys, nombre_total_mots)
+    end
+
+    # Nombre total de mots différents
+    def nombre
+      @nombre ||= self.count
+    end
+
+    # Raccourci
+    def nombre_total_mots
+      @nombre_total_mots ||= analyse.texte_entier.mots.count
     end
 
   end #/Mots

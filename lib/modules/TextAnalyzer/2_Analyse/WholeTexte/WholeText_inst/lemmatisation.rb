@@ -48,9 +48,8 @@ class WholeText
       # À présent, on peut récupérer les données de lemmatisation et en faire
       # une table qui sera utilisée avec la relève des mots.
       File.open(lemma_file_path).each_with_index do |line, index_line|
-        d = line.strip.split("\t")
-        original = d.first ; canon = d.last
-        original.length > 2   || next
+        original, nature, canon = line.strip.split("\t")
+        # original.length > 2   || next # on garde tous les mots maintenant
         canon != '<unknown>'  || next
         if canon.nil?
           puts "--- CANON EST NUL DANS (ligne #{index_line}) : #{line}".red
@@ -71,12 +70,28 @@ class WholeText
             original != canon || next
           end
           # On prend ce mot
-          TABLE_LEMMATISATION.merge!(original => canon)
+          TABLE_LEMMATISATION.merge!(original => data_nature_lemma_for(nature).merge(canon: canon))
           CLI.dbg("    ---- #{original.downcase} canon-> #{canon}")
         end
       end
     end
     # /peuple_table_lemma
+
+    NATURE_LEMMA_TO_SYMBOL = {
+      'VER' => :verbe, 'DET' => :determinant, 'ADJ' => :adjectif, 'NOM' => :nom,
+      'PRO' => :pronom, 'PRP' => :preposition, 'SENT' => :point, 'KON' => :kon,
+      'ADV' => :adverbe
+    }
+    # Reçoit la nature du mot telle qu'elle est définie dans le fichier
+    # lemmatisé entre le mot et le canon et retourne une version utilisable
+    # ici, en table de hashage
+    def data_nature_lemma_for nature_init
+      nature, detail = nature_init.split(':')
+      NATURE_LEMMA_TO_SYMBOL.key?(nature) || begin
+        CLI.dbg('!!! La nature lemma "%s" n’est pas définie dans NATURE_LEMMA_TO_SYMBOL' % nature)
+      end
+      {nature: NATURE_LEMMA_TO_SYMBOL[nature] || nature, detail: detail}
+    end
 
 end #/WholeText
 end #/Analyse

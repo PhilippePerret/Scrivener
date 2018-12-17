@@ -5,7 +5,7 @@ class Mot
 
   # Redéfinition pour lecture plus facile
   def inspect
-    return '<<TextAnalyzer::Analyse::WholeText::Mot(my inspect) @index=%{index} @real=%{real}' % self.data
+    return '<<TA::AN::WT::Mot(my inspect) @index=%{index} @real=%{real} @lemma=%{lemma} @canon=%{canon}>>' % self.data
   end
 
   def data
@@ -16,7 +16,7 @@ class Mot
     end
   end
   def properties
-    @properties ||= [:real, :index, :offset, :file_id, :length, :canon]
+    @properties ||= [:real, :index, :offset, :file_id, :length, :canon, :lemma]
   end
 
   def volatile_properties

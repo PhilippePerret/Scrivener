@@ -18,6 +18,37 @@ class Mots
   def count
     @count ||= items.count
   end
+  alias :nombre :count
+
+  # Liste des mots (instances)
+  def list
+    self.items.values
+  end
+
+  # Retourne le LCP des mots en proximité
+  def en_proximites
+    @en_proximites || calcule_mots_hors_et_en_proximites
+    @en_proximites
+  end
+  def hors_proximites
+    @hors_proximites || calcule_mots_hors_et_en_proximites
+    @hors_proximites
+  end
+
+  def calcule_mots_hors_et_en_proximites
+    @en_proximites = Array.new
+    @hors_proximites = Array.new
+    self.items.each do |index_mot, imot|
+      if imot.en_proximite?
+        @en_proximites << index_mot
+      else
+        @hors_proximites << index_mot
+      end
+    end
+    @en_proximites    = LCP.new(@en_proximites, nombre)
+    @hors_proximites  = LCP.new(@hors_proximites, nombre)
+  end
+
 end #/Mots
 end #/WholeText
 end #/Analyse
