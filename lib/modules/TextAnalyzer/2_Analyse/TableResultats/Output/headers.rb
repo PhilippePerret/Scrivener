@@ -30,7 +30,7 @@ class Canon
     case options[:sorted_by]
     when :mots_count
       'par nombre de mots'
-    when :proximites_count
+    when :proximites_count, :prox_count
       'par nombre de proximités'
     else # :alpha
       'alphabétiquement'
@@ -49,9 +49,9 @@ class Mot
 
   def self.classement_name options
     case options[:sorted_by]
-    when :mots_count
+    when :mots_count, :count
       'par nombre d’occurences'
-    when :proximites_count
+    when :proximites_count, :prox_count
       'par nombre de proximités'
     else # :alpha
       'alphabétiquement'

@@ -19,19 +19,22 @@ class Output
   def sorted_list_canons
     list = data.canons.values
     case options[:sorted_by]
-    when :alpha
-      list.sort_by{|icanon| icanon.canon.real[0..4].downcase.normalize}
-    when :mots_count
+    when :mots_count, :count
       list.sort_by{|icanon| - icanon.mots.count}
-    when :proximites_count
+    when :proximites_count, :prox_count
       list.reject{|c| c.proximites.empty?}.sort_by{|c| - c.proximites.count}
+    else
+      list.sort_by{|icanon| icanon.mots.first.sortish}
     end
   end
+
   def sorted_list_mots
     list = data.mots
     case options[:sorted_by]
     when :count, :occurences
-      list.sort_by { |mot_min, index_list| index_list.count }
+      list.sort_by { |mot_min, index_list| - index_list.count }
+    when :proximites_count, :prox_count
+      list.sort_by { |mot_min, index_list| - index_list.count }
     else
       list.sort_by { |mot_min, index_list| analyse.texte_entier.mot(index_list.first).sortish }
     end
@@ -44,13 +47,16 @@ class Output
   # Affichage/sortie des canons
   def canons opts = nil
     defaultize_options(opts)
+    footer_line = nil
     sorted_list_canons.each_with_index do |icanon, index|
-      index > 0 || puts(icanon.header(options))
+      index < options[:limit] || break
+      index > 0 || begin
+        ecrit(icanon.header(options))
+        footer_line = icanon.footer
+      end
       ecrit icanon.as_line_output(index)
     end
-    # data.canons.values.each_with_index do |icanon, index|
-    #   puts icanon.as_line_output(index)
-    # end
+    ecrit footer_line
   end
   # /canons
 
@@ -59,6 +65,7 @@ class Output
     defaultize_options(opts)
     footer_line = nil
     sorted_list_proximites.each_with_index do |iprox, index|
+      index < options[:limit] || break
       index > 0 || begin
         ecrit(iprox.header(options))
         footer_line = iprox.footer_line
@@ -68,13 +75,15 @@ class Output
     ecrit footer_line
   end
 
-  # Affichage/sortie des mots
+  # Affichage/sortie des mots (de tous les mots du texte, il est donc
+  # préférable d'indiquer une limite)
   def mots opts = nil
     defaultize_options(opts)
     footer_line = nil
     sorted_list_mots.each_with_index do |dmot, index|
       # ATTENTION : l'index dont il est question ici n'a rien à voir avec
-      # l'index réel du mot.
+      # l'index réel du mot dans le texte.
+      index < options[:limit] || break
       imot = analyse.texte_entier.mot(dmot[1][0])
       index > 0 || begin
         ecrit(imot.header(options))
@@ -88,8 +97,9 @@ class Output
 
   def liste_mots_uniques opts = nil
     defaultize_options(opts)
-    data.liste_mots_uniques.each_with_index do |mot, index_mot|
-      ecrit "mot unique #{index_mot.to_s.ljust(3)}: #{mot[0]}"
+    data.liste_mots_uniques.each_with_index do |mot, index|
+      index < options[:limit] || break
+      ecrit "mot unique #{index.to_s.ljust(3)}: #{mot[0]}"
     end
   end
   # /liste_mots_uniques

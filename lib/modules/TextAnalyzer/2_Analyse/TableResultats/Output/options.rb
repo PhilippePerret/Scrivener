@@ -17,6 +17,7 @@ class Output
     opts.key?(:output)        || opts.merge!(output: :cli)
     opts.key?(:output_format) || opts.merge!(output_format: :text)
     opts.key?(:sorted_by)     || opts.merge!(sorted_by: :alpha)
+    opts.key?(:limit)         || opts.merge!(limit: Float::INFINITY)
 
     self.options = opts
 

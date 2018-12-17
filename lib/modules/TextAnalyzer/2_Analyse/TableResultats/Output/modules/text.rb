@@ -2,12 +2,13 @@
 # Module des méthodes pour CANON
 module TextAnalyzerOutputCanonFormatTEXT
 
+  TITRE_LISTING = '  LISTE %{des} CANONS (classés %{type_classement})'
   LINE_CANON_ENTETE = Array.new
   LINE_CANON_ENTETE << ''
+  LINE_CANON_ENTETE << '<calculé plus tard suivant classement>'
+  LINE_CANON_ENTETE <<  '='
   LINE_CANON_ENTETE << ''
-  LINE_CANON_ENTETE << "LISTE DES CANONS (classés %{type_classement})"
-  LINE_CANON_ENTETE << "="*LINE_CANON_ENTETE[2].length
-  LINE_CANON_ENTETE << '%s |%s| %s| %s' % [
+  LINE_CANON_ENTETE << '  %s |%s| %s| %s' % [
     ' Canon '.ljust(31),
     'Nombre'. ljust(4),
     'Prox.'.ljust(4),
@@ -17,11 +18,21 @@ module TextAnalyzerOutputCanonFormatTEXT
 
 
   def header(options)
-    LINE_CANON_ENTETE.join(String::RC) % {type_classement: self.class.classement_name(options)}
+    titre_listing = TITRE_LISTING % {
+      des: options[:limit] == Float::INFINITY ? 'DE TOUS LES' : ('DES %s PREMIERS' % options[:limit]),
+      type_classement: self.class.classement_name(options)
+    }
+    LINE_CANON_ENTETE[1] = titre_listing
+    LINE_CANON_ENTETE[2] = '  ='.ljust(LINE_CANON_ENTETE[1].length, '=')
+    LINE_CANON_ENTETE.join(String::RC)
+  end
+
+  def footer(options = nil)
+    LINE_CANON_ENTETE[5]
   end
 
 
-  LINE_CANON = ' %{canon} | %{occ} | %{proxs} | %{foffsets}'
+  LINE_CANON = '   %{canon} | %{occ} | %{proxs} | %{foffsets}'
   # Ligne pour l'affichage d'un canon dans le format HTML
   def as_line_output index = nil
     LINE_CANON % {
@@ -52,9 +63,10 @@ end #/module TextAnalyzerOutputFormatTEXT
 # Méthode pour les PROXIMITÉS
 module TextAnalyzerOutputProximiteFormatTEXT
 
+  TITRE_LISTING = '  LISTE %{des} PROXIMITÉS (classés %{type_classement})'
   LINE_PROXIMITE_ENTETE = Array.new
   LINE_PROXIMITE_ENTETE << ''
-  LINE_PROXIMITE_ENTETE << '  LISTE DES PROXIMITES (classés %{type_classement})'
+  LINE_PROXIMITE_ENTETE << '<titre calculé plus tard suivant classement>'
   LINE_PROXIMITE_ENTETE << '=' # recalculé plus tard
   LINE_PROXIMITE_ENTETE << ''
   LINE_PROXIMITE_ENTETE << '%s |%s |%s |%s|%s |%s' % [
@@ -72,7 +84,10 @@ module TextAnalyzerOutputProximiteFormatTEXT
 
   # Entête de la ligne d'affichage des proximités
   def header(options)
-    LINE_PROXIMITE_ENTETE[1] = LINE_PROXIMITE_ENTETE[1] % {type_classement: self.class.classement_name(options)}
+    LINE_PROXIMITE_ENTETE[1] = TITRE_LISTING % {
+      des: options[:limit] == Float::INFINITY ? 'DE TOUS LES' : ('DES %s PREMIERS' % options[:limit]),
+      type_classement: self.class.classement_name(options)
+    }
     LINE_PROXIMITE_ENTETE[2] = '  ='.ljust(LINE_PROXIMITE_ENTETE[1].length,'=')
     LINE_PROXIMITE_ENTETE.join(String::RC)
   end
@@ -108,6 +123,7 @@ end #/module TextAnalyzerOutputProximiteFormatTEXT
 
 module TextAnalyzerOutputMotFormatTEXT
 
+  TITRE_LISTING = '  LISTE %{des} MOTS (classés %{type_classement})'
   LINE_MOT_ENTETE = Array.new
   LINE_MOT_ENTETE << ''
   LINE_MOT_ENTETE << '  LISTE DES MOTS (classés %{classement_name})'
@@ -122,11 +138,11 @@ module TextAnalyzerOutputMotFormatTEXT
   LINE_MOT_FOOTER = '-' * (LINE_MOT_ENTETE[4].length + 2)
   LINE_MOT_ENTETE << LINE_MOT_FOOTER
 
-  LINE_MOT = ' %{mot} | %{occs} | %{findex} | %{lindex}'
+  LINE_MOT = ' %{mot} | %{occs} | %{findex} | %{lindex} |'
   def as_line_output(index = nil)
     # Pour le(s) mot(s), on doit récupérer la donnée TableResultats#mots qui
     # liste le nombre d'index
-    mot_tblres = self.analyse.table_resultats.mots[self.downcase]
+    mot_tblres = self.analyse.table_resultats.mots[self.lemma]
     nb_offsets = mot_tblres.count
     LINE_MOT % {
       mot: self.real.ljust(30),
@@ -137,7 +153,10 @@ module TextAnalyzerOutputMotFormatTEXT
   end
 
   def header(options)
-    LINE_MOT_ENTETE[1] = LINE_MOT_ENTETE[1] % {classement_name: self.class.classement_name(options)}
+    LINE_MOT_ENTETE[1] = TITRE_LISTING % {
+      des: options[:limit] == Float::INFINITY ? 'DE TOUS LES' : ('DES %s PREMIERS' % options[:limit]),
+      type_classement: self.class.classement_name(options)
+    }
     LINE_MOT_ENTETE[2] = '  ='.ljust(LINE_MOT_ENTETE[1].length, '=')
     LINE_MOT_ENTETE.join(String::RC)
   end
