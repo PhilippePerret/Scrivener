@@ -9,9 +9,11 @@
 class Scrivener
   class Project
 
-    MSGS = {
-      no_document: 'Aucun document dont le nom est ou commence par « %s » n’a été trouvé parmi les documents :'
-    }
+    def create_binder_items_text_files arr_bitems
+      arr_bitems.each do |bitem|
+        File.open(<path du texte du bitem>, 'wb').write((bitem.texte||'') + String::RC)
+      end
+    end
 
     # Liste des binder_items qui gèrent les proximités, c'est-à-dire
     # le binder_item avant (s'il existe), le binder-item travaillé et le
@@ -88,7 +90,7 @@ class Scrivener
 
       # Si le binder-item n'a pas été trouvé, on lève une
       # exception
-      self.watched_binder_item || raise_unfound_binder_item(MSGS[:no_document] % [watched_document_title])
+      self.watched_binder_item || raise_unfound_binder_item(ERRORS_MSGS[:no_document] % [watched_document_title])
 
       # Sinon, on poursuit
       #
@@ -100,7 +102,7 @@ class Scrivener
         all_binders[0...this_binder_index].reverse.each do |bitem|
           arr_binder_items << bitem
           len_before += (bitem.texte||'').length
-          len_before < Proximite::DISTANCE_MINIMALE || break
+          len_before < TextAnalyzer::DISTANCE_MINIMALE || break
         end
       end
 
@@ -115,7 +117,7 @@ class Scrivener
         arr_binder_items << bitem
         bitem_index > 0 || next
         len_after += bitem.texte.length
-        len_after < Proximite::DISTANCE_MINIMALE || break
+        len_after < TextAnalyzer::DISTANCE_MINIMALE || break
       end
 
       CLI.dbg("<- Scrivener::Project#get_binder_items_around (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
@@ -133,7 +135,7 @@ class Scrivener
       all_titles.each do |tit|
         msg << '  - %s' % tit
       end
-      msg << 'Rappel : vous pouvez indiquer seulement le début du titre du document.'
+      msg << NOTICES[:maybe_only_leading_doctitle]
       raise msg.join(String::RC)
     end
     # /raise_unfound_binder_item

@@ -12,7 +12,7 @@ class Scrivener
       CLI.dbg("-> Scrivener::Project#exec_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
       Debug.init
       if CLI.params.key?(:abbreviations)
-        Proximite.open_file_abbreviations
+        TextAnalyzer.open_file_abbreviations
       elsif CLI.params.key?(:mot)
         # => Il faut n'afficher que la proximité d'un mot
         Scrivener.require_module('prox/one_word')

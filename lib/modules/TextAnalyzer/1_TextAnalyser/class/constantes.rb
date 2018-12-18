@@ -6,6 +6,13 @@ class TextAnalyzer
 
   DISTANCE_MINIMALE = 1500.0
 
+  # Dans ce tableau de remplacement, on peut imaginer aussi avoir les mots
+  # similaires comme "peut-être" et "sans doute"
+  # TODO Avec une option, ces mots ne seront pas traités
+  TABLEAU_SIMILAIRES = {
+    'peut-être' => 'sans doute'
+  }
+
   # Pour construire la liste des proximités spécifiques, il faut appeler
   # la méthode  `Proximite.init`
   PROXIMITES_MAX = {
