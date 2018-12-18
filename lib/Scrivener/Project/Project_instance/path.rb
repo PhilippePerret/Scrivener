@@ -6,28 +6,6 @@ class Scrivener
       @affixe ||= File.basename(path, File.extname(path))
     end
 
-    def path_segments
-      @path_segments ||= File.join(project.hidden_folder, 'table_segments.msh')
-    end
-
-    def path_proximites
-      @path_proximites ||= File.join(project.hidden_folder, 'tableau_proximites.msh')
-    end
-
-    def whole_text_path
-      @whole_text_path ||= File.join(self.hidden_folder,'whole_texte.txt')
-    end
-
-    # Fichier caché, au niveau du projet scrivener, contenant la table de
-    # lemmatisation propre au texte.
-    def path_table_lemmatisation
-      @path_table_lemmatisation ||= File.join(project.hidden_folder, 'table_lemmatisation.msh')
-    end
-
-    def lemma_data_path
-      @lemma_data_path ||= File.join(project.hidden_folder, 'lemmatisation_all_data')
-    end
-
     def xfile_path
       @xfile_path ||= File.join(path,'%s.scrivx' % affixe)
     end
@@ -64,6 +42,7 @@ class Scrivener
         d
       end
     end
+
     # Dossier caché contenant tous les fichiers texte simplifiés
     def hidden_files_folder
       @hidden_files_folder ||= File.join(hidden_folder,'files')

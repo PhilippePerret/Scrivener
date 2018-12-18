@@ -6,11 +6,11 @@ class Scrivener
     # bien fermé avant de procéder.
     # La méthode retourne True si on peut continuer
     def ask_for_fermeture
-      yesOrNo('Le projet est-il bien fermé dans Scrivener ? C’est indispensable.', {invite: 'Projet fermé ?'})
+      yesOrNo(QUEST[:is_project_closed], {invite: QUEST[:invite_project_close]})
     end
 
     def ask_for_ouverture
-      yesOrNo('Faut-il ouvrir le projet dans Scrivener ?') && begin
+      yesOrNo(QUEST[:open_project_in_scrivener]) && begin
         Scrivener.require_module('open')
         self.open(nil)
       end

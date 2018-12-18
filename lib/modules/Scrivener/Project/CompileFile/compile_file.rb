@@ -18,11 +18,11 @@ class Scrivener
     # Méthodes pour obtenir les infos
 
     def get_long_title
-      compile_xml.metadata.elements['ProjectTitle'].text
+      compile_xml.metadata && compile_xml.metadata.elements['ProjectTitle'].text
     end
 
     def get_abbreviate_title
-      compile_xml.metadata.elements['ProjectAbbreviatedTitle'].text
+      compile_xml.metadata && compile_xml.metadata.elements['ProjectAbbreviatedTitle'].text
     end
 
     # Retourne la liste des auteurs

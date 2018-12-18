@@ -23,7 +23,6 @@ class Scrivener
       command_exist?(self.command) || raise(ERRORS_MSGS[:unknown_command] % self.command)
       self.project_path = Project.define_project_path_from_command
       test_project_if_command_on_project
-      # On sauvegarde ces informations pour une utilisation ultérieure
       save_current_informations
       return true
     rescue Exception => e

@@ -2,6 +2,15 @@
 class Scrivener
   class Project
 
+    # Path du fichier du projet (qui sert à son instanciation)
+    attr_reader :path
+
+    # l'UUID du dossier courant dans lequel doit être placé
+    # le document courant, ou nil
+    # TODO Il faudrait se passer de cette propriété, maintenant
+    # qu'on sait créer un binder-item n'importe où.
+    attr_accessor :current_folder
+
     def title
       @title || get_long_title
     end

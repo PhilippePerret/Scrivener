@@ -6,9 +6,9 @@ class Scrivener
       # Dans le cas contraire, raise une erreur
       # Cette méthode est appelée à l'initialisation de la commande.
       def must_exist ppath
-        ppath || raise('Il faut définir le projet Scrivener à traiter, en indiquant le chemin depuis votre dossier utilisateur (%s).' % [Dir.home])
-        File.extname(ppath) == '.scriv'  || raise('L’extension du projet devrait être «.scriv» (c’est «%s»)' % File.extname(ppath))
-        File.exist?(ppath) || raise('Le projet «%s» est introuvable. Merci de vérifier le chemin.' % ppath)
+        ppath || raise(ERRORS_MSGS[:project_path_required] % [Dir.home])
+        File.extname(ppath) == '.scriv'  || raise(ERRORS_MSGS[:bad_project_extension] % File.extname(ppath))
+        File.exist?(ppath) || raise(ERRORS_MSGS[:unfound_project] % ppath)
       end
 
       # Définit la path du projet courant en fonction de la commande

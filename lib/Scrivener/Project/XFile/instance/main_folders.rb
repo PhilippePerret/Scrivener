@@ -26,7 +26,7 @@ class Scrivener
             case data[:after]
             when :draft_folder    then  draftfolder
             when :trash_folder    then  trashfolder
-            when :research_folder then researchfolder
+            when :research_folder then  researchfolder
             else nil
             end
           previous_sibling && previous_sibling.next_sibling = new_folder
@@ -42,16 +42,13 @@ class Scrivener
             else nil
             end
           next_sibling && next_sibling.previous_sibling = new_folder
-
         end
-
 
         if data.key?(:title)
           new_folder.add_element('Title').text = data[:title]
         end
 
         self.save
-
 
         return Scrivener::Project::BinderItem.new(projet, new_folder)
       end
