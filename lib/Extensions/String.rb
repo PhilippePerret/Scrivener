@@ -1,7 +1,10 @@
 # encoding: UTF-8
 #
-# version 1.4.1
+# version 1.4.2
 #
+# Note version 1.4.2
+#   Ajout de la méthode `titleize` (qui va mettre des capitales à
+#   tous les mots du titre)
 # Note version 1.4.1
 #   Ajout de la méthode de classe String.french_titleize(<string>) pour
 #   transformer une chaine de caractères en titre français.
@@ -61,6 +64,13 @@ class String
       titre.join(' ')
     end
   end #/<< self
+
+  def titleize
+    t = self.downcase
+    t[0] = t[0].upcase
+    return t
+  end
+
 
   # Pour upcaser vraiment tous les caractères, même les accents et
   # les diacritiques

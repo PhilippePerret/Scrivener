@@ -4,6 +4,7 @@ class Scrivener
   ERRORS_MSGS = {
     project_path_required:    'Il faut définir le projet Scrivener à traiter, en indiquant le chemin depuis votre dossier utilisateur (%s).',
     bad_project_extension:    'L’extension du projet devrait être «.scriv» (c’est «%s»)',
+    paths_required_for_analyse:  'Il faut impérativement communiquer les chemins d’accès aux fichiers pour procéder à l’analyse textuelle.',
     unfound_project:          'Le projet «%s» est introuvable. Merci de vérifier le chemin.',
     unknown_command:          'La commande `%s` est inconnue. Utiliser `scriv commands` pour obtenir la liste des commandes et `scriv <command> -h` pour obtenir de l’aide sur une commande particulière.',
     document_title_required:  'Le titre du document du mot doit être donné (en paramètre : `doc="<début titre>"` ou en option : `-doc="<début titre>"`)',

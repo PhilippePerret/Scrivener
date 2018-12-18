@@ -10,10 +10,12 @@ class Output
   # = main =
   # Méthode principale qui sort tous les
   def all opts = nil
+    CLI.debug_entry
     defaultize_options(opts)
-    puts "\n\nJE DOIS TOUT AFFICHER\n\n"
+    table_nombres
+    CLI.debug_exit
   end
-  
+
 end #/Output
 end #/TableResultats
 end #/Analyse

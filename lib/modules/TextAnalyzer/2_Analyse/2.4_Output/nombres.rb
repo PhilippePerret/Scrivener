@@ -8,10 +8,10 @@ class TableResultats
 class Output
 
   AIDES = {
-    proximites: 'Le premier nombre comptabilise toutes les proximités. Le second présente le pourcentage de proximités par rapport au nombre total de mots.',
+    proximites:     'Le premier nombre comptabilise toutes les proximités. Le second présente le pourcentage de proximités par rapport au nombre total de mots.',
     tranches_proxs: 'Les proximités sont présentées par tranches de nombre de signes avec deux nombres. Le premier comptabilise seulement les proximités « communes », c’est-à-dire inférieures à 1500 signes. Le second chiffre comptabilise toutes les proximités.',
-    eloignement: 'La moyenne d’éloignement entre deux mots identiques (ou similaires) ne concerne que les proximités',
-    canons: 'Les "canons" sont les formes canoniques ("prendre" est le canon de "prends" et "pris").'
+    eloignement:    'La moyenne d’éloignement entre deux mots identiques (ou similaires) ne concerne que les proximités',
+    canons:         'Les "canons" sont les formes canoniques ("prendre" est le canon de "prends" et "pris").'
   }
 
   # Construit et retourne la table de tous les nombres
@@ -21,9 +21,12 @@ class Output
   # contient les mots différents du texte.
   #
   def table_nombres opts = nil
-    wtx = analyse.texte_entier
-    tbr  = analyse.table_resultats
     defaultize_options(opts)
+
+    # Les deux données importantes
+    wtx   = analyse.texte_entier
+    tbr   = analyse.table_resultats
+
     liste_nombres = [
       ['N de caractères',         wtx.length, {u: 'signe%{s}'}],
       ['N total de mots',         wtx.mots.count, {u: 'mot%{s}'}],
@@ -47,6 +50,9 @@ class Output
       ['R1 Éloignement moyen (signes)',         tbr.moyenne_eloignements_common, {after: ' %i' % tbr.moyenne_eloignements, aide: :eloignement}],
     ]
 
+    # L'entête
+    ecrit entete_table_nombres
+    # Chaque nombre est affiché
     liste_nombres.each do |lib, nombre, opts|
       case lib[0..1]
       when 'N ' then lib = '  Nombre%s' % [lib[1..-1]]
@@ -56,11 +62,13 @@ class Output
       end
       ecrit line_nombre('  %s' % lib, nombre, opts || Hash.new)
     end
+    ecrit line_separation_table_nombres
 
     # On finit par écrire l'aide
     ecrit messages_aide
 
   end
+  # /table_nombres
 
   def messages_aide
     '
@@ -85,17 +93,8 @@ AIDE
     options.key?(:color) && valeur = valeur.send(options[:color])
     '%s : %s' % [label.ljust(40), valeur]
   end
+  # /line_nombre
 
-  # Pour sortir tous les nombres
-  def nombres opts = nil
-    defaultize_options(opts)
-    case options[:output]
-    when :cli
-      puts "Nombre de mots         : #{data.mots.count}"
-      puts "Nombre de mots uniques : #{data.nombre_mots_uniques}"
-    when :file
-    end
-  end
 
 end #/Output
 end #/TableResultats

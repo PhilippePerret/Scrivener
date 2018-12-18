@@ -14,9 +14,7 @@ class Project
   # Retourne la table des proximités, qui peut être mise par exemple dans
   # self.tableau_proximites
   def check_proximites_in_watched_binder_items
-    # Faire les fichiers texte des binder-items
     paths = create_binder_items_text_files(self.watched_binder_items)
-    # Appeler l'analyse de texte
     analyse(paths).exec
   end
   # /check_proximites_in_watched_binder_items

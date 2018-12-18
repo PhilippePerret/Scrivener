@@ -31,12 +31,26 @@ class Analyse
   # l'analyse
   def treate_data data
     data ||= Hash.new
-    data.key?(:file) && data.merge!(path: data.delete(:file))
 
-    if data[:path]
-      self.paths = [ data[:path] ]
+    # Les fichiers à traiter, s'ils sont envoyés lors de l'instanciation
+    data.key?(:file) && data.merge!(path: data.delete(:file))
+    data[:path]  && self.paths = [ data[:path] ]
+    data[:paths] && self.paths = data[:paths]
+
+    # Le dossier de l'analyse. Il doit être possible de le déterminer
+    # dès l'instanciation.
+    self.folder = data[:folder] ||
+      (
+        data[:paths].first &&
+        File.expand_path(File.dirname(data[:paths].first))
+      ) ||
+      raise(ERRORS[:one_path_required])
+
+    # D'autres informations qui ont pu être passées par les données
+    [:title].each do |prop|
+      self.instance_variable_set('@%s' % prop, data[prop])
     end
-    @folder = data[:folder]
+    
   end
 
 

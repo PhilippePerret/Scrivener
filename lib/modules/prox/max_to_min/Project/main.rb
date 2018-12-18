@@ -14,7 +14,7 @@ class Project
   def exec_max_to_min
     Scrivener.require_module('lib/proximites')
     # Faire la liste de toutes les proximités
-    get_data_proximites || return
+    get_data_analyse || return
     # Définir densités de chaque binder-items
     define_binder_items_densites
     # Classer les binder-items par densités (si nécessaire)

@@ -16,6 +16,9 @@ class Analyse
         TextAnalyzer::Analyse::TableResultats::Canon.include_output_module(options[:output_format])
         TextAnalyzer::Analyse::TableResultats::Proximite.include_output_module(options[:output_format])
         TextAnalyzer::Analyse::WholeText::Mot.include_output_module(options[:output_format])
+
+        # Les méthodes d'Helper pour Output
+        extend Object.const_get('TextAnalyzerOutputHelpersFormat%s' % [options[:output_format].to_s.upcase])
       end
     end #/Output
 

@@ -24,8 +24,13 @@ class BinderItem
   # /texte
 
   # Construit le fichier simple text du binder-item
-  # Et retourne le contenu
+  #
+  # Noter que c'est ce fichier-là qui servira pour l'analyse du texte par
+  # TextAnalyzer.
+  #
+  # RETURN true si le fichier a pu être construit, false dans le cas contraire
   def build_simple_text_file
+    File.exist?(rtf_text_path) || (return false)
     # -stdout ci-dessous permet de retourner le texte transformé
     # Noter qu'on supprime toutes les balises qui se trouvent
     # éventuellement dans le fichier, comme des variables Scrivener
@@ -35,7 +40,8 @@ class BinderItem
     # On supprime toutes les balises de styles
     str.gsub!(/<\!?\$(.*?)>/,'')
     File.open(simple_text_path,'wb'){|f| f.write str}
-    return str
+    # return str # avant
+    return simple_text_file_exists?
   end
   # /build_simple_text_file
 

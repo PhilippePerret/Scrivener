@@ -2,6 +2,10 @@
 class TextAnalyzer
 class Analyse
 
+  # {String} Le chemin d'accès au dossier qui contiendra le dossier
+  # caché de l'analyse
+  attr_accessor :folder
+
   # {Array} des paths de fichier (String) à analyser et
   # {Array} des fichiers (instances TextAnalyzer::File) à analyser
   attr_accessor :paths, :files
@@ -13,10 +17,16 @@ class Analyse
     @table_resultats ||= TextAnalyzer::Analyse::TableResultats.new(self)
   end
 
-
   # Le texte entier de l'analyse
   def texte_entier
     @texte_entier ||= TextAnalyzer::Analyse::WholeText.new(self)
+  end
+
+  # Titre du projet de l'analyse
+  # Soit on la définit explicitement lors de l'instanciation, soit on
+  # le calcul en fonction du nom du dossier
+  def title
+    @title ||= File.basename(folder)
   end
 
   def mots
@@ -52,17 +62,6 @@ class Analyse
       d = File.join(folder, '.textanalyzer')
       `mkdir -p "#{d}"`
       d
-    end
-  end
-
-  # Le dossier qui contient le texte, normalement.
-  # C'est par exemple le dossier contenant le projet <projet>.scriv pour un
-  # projet Scrivener.
-  # En général, cette donnée est envoyée à l'instanciation de l'analyse.
-  def folder
-    @folder ||= begin
-      !paths.empty? || raise(ERRORS[:one_path_required])
-      File.expand_path(File.dirname(paths.first))
     end
   end
 

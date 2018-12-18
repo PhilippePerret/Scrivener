@@ -135,7 +135,7 @@ class Project
   # /dessiner_tableau_densite
 
   def output_data_proximites
-    get_data_proximites || return
+    get_data_analyse || return
     puts "\n\n==== DATA DE PROXIMITES ==="
     # puts tableau_proximites.inspect
 

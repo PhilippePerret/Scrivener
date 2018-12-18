@@ -5,11 +5,11 @@ class Project
   #
   # Soit elle est rechargée, soit elle est (re)produite
   #
-  # Normalement, +path+ est un Array des fichiers de texte de chaque
+  # +paths+ est un Array des fichiers de texte de chaque
   # binder-item, simplifié (sans style, etc.)
   def analyse paths = nil
     @analyse ||= begin
-      TextAnalyzer::Analyse.new(folder: folder, paths: paths)
+      TextAnalyzer::Analyse.new(folder: folder, paths: paths, title: title)
     end
   end
 

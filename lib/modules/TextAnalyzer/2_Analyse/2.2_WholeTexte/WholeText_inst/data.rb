@@ -37,7 +37,7 @@ class WholeText
   # Calcule le nombre de pages en fonction du nombre de signe, du nombre de
   # mots et fait une moyenne des deux.
   def calcule_nombre_pages
-    @pages_count || Hash.new
+    @pages_count ||= Hash.new
     @pages_count.merge!({
       signes: (length / NUMBER_SIGNES_PER_PAGE) + 1,
       mots:   (mots.count / NUMBER_MOTS_PER_PAGE) + 1

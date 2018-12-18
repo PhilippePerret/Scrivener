@@ -47,8 +47,11 @@ class Scrivener
     #
     def output_proximites
       CLI.debug_entry
-      Scrivener.require_module('lib/proximites/common')
-      get_data_proximites || return
+      # Scrivener.require_module('lib/proximites/common')
+
+      # = C'EST ICI QU'ON RÉCUPÈRE LES DONNÉES D'ANALYSE =
+      get_data_analyse || return
+
       # Sortie en console
       if CLI.options[:in_file]
         build_proximites_scrivener_file
@@ -70,27 +73,9 @@ class Scrivener
       else
         analyse.output.all
       end
-    end
-
-
-    def check_proximites
-      CLI.dbg("-> Scrivener::Project#check_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
-
-      # On procède à la relève
-      binder_items.each do |bitem|
-        bitem.treate_proximite(self.tableau_proximites)
-      end
-
-      # On peut sauver la liste des segments textuels du projet
-      save_segments
-      # Note : les proximités seront sauvées après leur calcul.
-
-      # On traite les proximités
-      calcul_proximites(self.tableau_proximites)
-
       return true
     end
-    #/check_proximites
+
 
   end #/Project
 end #/Scrivener

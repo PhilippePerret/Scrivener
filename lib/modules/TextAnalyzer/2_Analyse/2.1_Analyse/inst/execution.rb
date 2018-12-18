@@ -11,9 +11,13 @@ class Analyse
   #
   # Noter qu'il vaut mieux utiliser la méthode `reload` si tous les calculs
   # n'ont pas besoin d'être refaits
-  # 
-  def exec
+  #
+  # +paths+ Liste des chemins d'accès aux fichiers à traiter. Elles peuvent
+  #         être définies ici ou à l'instanciation de l'analyse.
+  #
+  def exec given_paths = nil
     CLI.debug_entry
+    given_paths && self.paths = given_paths
     (paths.nil? || paths.empty?) && raise(ERRORS[:no_files_to_analyze])
     init_analyse
     assemble_texts_of_paths
