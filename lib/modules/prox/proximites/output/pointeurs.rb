@@ -1,3 +1,7 @@
+# encoding: UTF-8
+=begin
+  Pour gérer l'affichage de proximité en proxmité
+=end
 class Scrivener
 class Project
 class Console
@@ -40,7 +44,7 @@ class << self
   # à l'index du mot canonique et l'index de la proximité
   def get_proximite_courante
     prox_id = POINTEURS[:data_canonique][:proximites][POINTEURS[:prox]]
-    project.tableau_proximites[:proximites][prox_id]
+    project.analyse.table_resultats.proximites[prox_id]
   end
 
   def pointe_premier_mot_avec_proximites

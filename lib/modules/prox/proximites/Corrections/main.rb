@@ -1,6 +1,8 @@
 =begin
   Module s'occupant des corrections à opérer, par exemple lorsque l'utilisateur
   change une proximité.
+
+  TODO CE MODULE EST À REPRENDRE
 =end
 
 
@@ -54,9 +56,9 @@ class Proximite
   #   :ignore             On doit ignorer cette proximité
   #
   def fix attrs
-
     if attrs[:ignore]
       self.ignored = true
+      # TODO Il y aura une erreur ici
       project.tableau_proximites[:nombre_proximites_ignored] += 1
       return # pour ne pas marquer corrigé
     elsif attrs[:new_mot_avant]

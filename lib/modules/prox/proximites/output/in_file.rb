@@ -100,9 +100,9 @@ class Project
     # couleur peut à nouveau être utilisé
     #
     i_color       = I_COLOR_START - 1
-    tableau_proximites[:proximites].each do |prox_id, iprox|
+    analyse.table_resultats.proximites.each do |prox_id, iprox|
 
-      iprox.erased? || iprox.ignored? || iprox.fixed? && next
+      (iprox.erased? || iprox.ignored? || iprox.fixed?) && next
 
       mavant = iprox.mot_avant
       mapres = iprox.mot_apres
@@ -112,8 +112,8 @@ class Project
         i_color = I_COLOR_START
       end
 
-      segments[mavant.index].merge!(next_color: i_color, has_color: true)
-      segments[mapres.index].merge!(prev_color: i_color, has_color: true)
+      analyse.table_resultats.segments[mavant.index].merge!(next_color: i_color, has_color: true)
+      analyse.table_resultats.segments[mapres.index].merge!(prev_color: i_color, has_color: true)
 
     end
 
@@ -126,10 +126,11 @@ class Project
 
     rf = File.open(file_txt_with_colortags_path, 'ab')
     portion = String.new
-    segments.each do |dsegment|
+    analyse.table_resultats.segments.each do |dsegment|
 
       # Si le mot appartient à un document différent, il faut mettre une ligne
       # contenant le nom du document, de la couleur de document
+      raise 'Il faut régler le problème des documents'
       if dsegment[:new_document_title]
         portion << DOCUMENT_LINE % [dsegment[:new_document_title]]
       end

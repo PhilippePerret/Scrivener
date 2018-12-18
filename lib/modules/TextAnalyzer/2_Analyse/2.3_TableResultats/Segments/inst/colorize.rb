@@ -37,7 +37,7 @@ class Segments < Array
       # puts "---- proximites: #{proximites.inspect}"
 
       # Pour simplifier les écritures
-      table_proxs = tableau_proximites[:proximites]
+      table_proxs = analyse.table_resultats.proximites
 
       # Les instances comme list si non définies en argument
       proximites ||= table_proxs.values

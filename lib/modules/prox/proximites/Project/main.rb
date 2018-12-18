@@ -9,8 +9,12 @@ class Scrivener
     #
     # Méthode qui reçoit dans tous les cas la commande `scriv prox `
     def exec_proximites
-      CLI.dbg("-> Scrivener::Project#exec_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+      CLI.debug_entry
       Debug.init
+
+      Scrivener.require_module('analyse')
+      Scrivener.require_module('TextAnalyzer')
+
       if CLI.params.key?(:abbreviations)
         TextAnalyzer.open_file_abbreviations
       elsif CLI.params.key?(:mot)
@@ -35,41 +39,14 @@ class Scrivener
           end
         end
       end
+      CLI.debug_exit
     end
-
-    def init_proximites
-      # --- Initialisation des valeurs ---
-      # Prépare les listes constantes du programme aussi bien que les
-      # listes propres au projet.
-      Proximite.init
-      init_tableau_proximites
-      init_tableau_segments
-    end
-
-    # Initialisation de la table géante des proximités
-    def init_tableau_proximites
-      self.tableau_proximites = Proximite.init_table_proximites
-    end
-    # /init_tableau_proximites
-
-    def init_tableau_segments # project.segments
-      self.segments = Array.new
-    end
-
-    # Appelle la méthode pour traiter les proximités de mots
-    # +tableau+ Tableau de résultats ou se trouve déjà les mots, et peut-être
-    # aussi les proximites
-    def calcul_proximites(tableau)
-      CLI.dbg("-> Scrivener::Project#calcul_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
-      self.tableau_proximites = Proximite.calcule_proximites_in(tableau)
-      # On enregistre les résultats dans un fichier
-      save_proximites
-    end
+    # /exec_proximites
 
     # Méthode principale qui checke les proximités
     #
     def output_proximites
-      CLI.dbg("-> Scrivener::Project#output_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+      CLI.debug_entry
       Scrivener.require_module('lib/proximites/common')
       get_data_proximites || return
       # Sortie en console
@@ -91,16 +68,13 @@ class Scrivener
         end
         something_is_displayed || puts("Avec --only_calculs, il faut ajouter une option pour voir une liste (--segments, --proximites, etc.)".rouge)
       else
-        Console.output(tableau_proximites)
+        analyse.output.all
       end
     end
 
 
     def check_proximites
       CLI.dbg("-> Scrivener::Project#check_proximites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
-
-      # Initialisation, des listes principalement
-      init_proximites
 
       # On procède à la relève
       binder_items.each do |bitem|

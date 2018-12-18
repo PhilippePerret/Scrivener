@@ -14,20 +14,26 @@ class << self
 
   # Note l'entrée dans la méthode où est appelé cette méthode dans le
   # fichier de débug (ou la sortie débug chosie)
-  # 
+  #
   # @usage:
   #
   #   def ma_fonction
   #      CLI.debug_entry[('mon commentaire')]
   #
   def debug_entry comments = nil
+    debug_inout(:in, comments)
+  end
+
+  def debug_exit comments = nil
+    debug_inout(:out, comments)
+  end
+  def debug_inout sens = :in, comments = nil
     begin
       raise
     rescue => e
       line_function = e.backtrace[1]
-      # file, line, method = line_function.match(/(.+?)\:([0-9]+)\:in `(.*?)`/).to_a[1..-1]
       file, line, method = line_function.match(/^(.+?)\:([0-9]+)\:in `(.*?)'$/).to_a[1..-1]
-      dbg('--> %s %s' % [method, comments || ''], file, line)
+      dbg('%s %s %s' % [sens == :in ? '-->' : '<--', method, comments || ''], file, line)
     end
   end
 

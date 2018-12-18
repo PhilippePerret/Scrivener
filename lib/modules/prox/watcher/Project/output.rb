@@ -78,7 +78,7 @@ class Scrivener
       # l'élément droite pour le tester avec la suite.
       iterator = 0
       right_proxi = nil # on peut reprendre le dernier
-      all_proxs = self.tableau_proximites[:proximites].values
+      all_proxs = self.analyse.table_resultats.proximites.values
       while iprox = all_proxs[iterator]
 
         # Soit il faut reprendre la proximité de droite pour la mettre à
@@ -116,7 +116,7 @@ class Scrivener
     # Règle les infos supérieures (nombre de proxmités et liste de mots)
     def display_header_infos
       if self.tableau_proximites
-        nombre_proximites = self.tableau_proximites[:proximites].count
+        nombre_proximites = self.analyse.table_resultats.proximites.count
       else
         nombre_proximites = '---'
       end

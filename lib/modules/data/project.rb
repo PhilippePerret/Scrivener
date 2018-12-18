@@ -15,6 +15,7 @@ class Project
     def exec_data_projet(iproj)
       puts String::RC*3
       iproj.display_data
+      puts iproj.build_graph_densites
       puts String::RC*3
     end
     # /exec_data_projet
@@ -47,7 +48,7 @@ class Project
     # On recharge tout ce qu'il faut pour l'affichage des data
     Scrivener.require_module('lib/output/Data')
     self.output_data
-    
+
   end
 
   def analysed?

@@ -6,7 +6,7 @@ class Proximite
     self.mot_avant.proximite_apres= nil
     self.mot_apres.proximite_avant= nil
     canon = self.mot_avant.canonique
-    project.tableau_proximites[:proximites].delete(self.id)
+    project.analyse.table_resultats.proximites.delete(self.id)
     project.tableau_proximites[:nombre_proximites_erased] += 1
     # Il faut aussi supprimer l'ID dans la liste :proximites du mot
     debug '* Retrait de la prox d’ID #%i pour le mot canonique «%s»' % [self.id, canon]

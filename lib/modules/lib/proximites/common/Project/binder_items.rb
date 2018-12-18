@@ -9,9 +9,13 @@
 class Scrivener
   class Project
 
-    def create_binder_items_text_files arr_bitems
-      arr_bitems.each do |bitem|
-        File.open(<path du texte du bitem>, 'wb').write((bitem.texte||'') + String::RC)
+    # Crée les fichiers texte simple pour chaque binder-item de la
+    # liste Array +bitems+
+    # RETURN la liste des paths obtenues
+    def create_binder_items_text_files bitems
+      bitems.collect do |bitem|
+        bitem.build_simple_text_file
+        bitem.simple_text_path
       end
     end
 
@@ -44,7 +48,6 @@ class Scrivener
       end
     end
 
-
     # Retourne la liste de tous les binder-items qu'il faut considérer lorsque
     # l'on veut étudier le document de titre commençant par +titre_partiel+
     #
@@ -52,7 +55,7 @@ class Scrivener
     # document surveillé.
     #
     def get_binder_items_around(titre_partiel)
-      CLI.dbg("-> Scrivener::Project#get_binder_items_around (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+      CLI.debug_entry
       arr_binder_items = Array.new # à la place de self.watched_binder_items = Array.new
       @all_titles = Array.new
       # On doit d'abord trouver le binder-item courant
@@ -120,7 +123,7 @@ class Scrivener
         len_after < TextAnalyzer::DISTANCE_MINIMALE || break
       end
 
-      CLI.dbg("<- Scrivener::Project#get_binder_items_around (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+      CLI.debug_exit
       return arr_binder_items
     end
     # /get_binder_items_around

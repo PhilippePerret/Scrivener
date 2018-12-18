@@ -18,7 +18,7 @@ class Analyse
   def texte_entier
     @texte_entier ||= TextAnalyzer::Analyse::WholeText.new(self)
   end
-  
+
   def mots
     table_resultats.mots
   end
@@ -49,9 +49,20 @@ class Analyse
   # Note : on construit le dossier s'il n'existe pas (et toute sa hiérarchie).
   def hidden_folder
     @hidden_folder ||= begin
-      d = File.join(File.expand_path(File.dirname(paths.first)), '.textanalyzer')
+      d = File.join(folder, '.textanalyzer')
       `mkdir -p "#{d}"`
       d
+    end
+  end
+
+  # Le dossier qui contient le texte, normalement.
+  # C'est par exemple le dossier contenant le projet <projet>.scriv pour un
+  # projet Scrivener.
+  # En général, cette donnée est envoyée à l'instanciation de l'analyse.
+  def folder
+    @folder ||= begin
+      !paths.empty? || raise(ERRORS[:one_path_required])
+      File.expand_path(File.dirname(paths.first))
     end
   end
 

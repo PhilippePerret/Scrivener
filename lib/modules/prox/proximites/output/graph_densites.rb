@@ -18,7 +18,10 @@ class Project
   # on obtient 10 colonnes, au maximum, on en obtient 50.
   # Ce nombre de colonnes, en fonction de la longueur, définit un nombre de caractères
   # par colonne. On affiche ensuite le nombre de proximité (%) par colonne.
-  def build_tableau_densite
+  #
+  # RETURN {String} LE GRAPH DES DENSITÉS
+  #
+  def build_graph_densites
     # Détermination du nombre de colonnes
     if longueur_whole_texte < 500
       # Inutile de faire un tableau de densité
@@ -36,7 +39,7 @@ class Project
 
     colonnes = Hash.new
     (0...nombre_colonnes).each do |icolonne|
-      tableau_proximites[:proximites].each do |prox_id, iprox|
+      analyse.table_resultats.proximites.each do |prox_id, iprox|
         offset_mavant = iprox.mot_avant.offset
         offset_mapres = iprox.mot_apres.offset
         colonne_mavant = offset_mavant / largeur_colonne
@@ -67,25 +70,22 @@ class Project
     # On trame sur chaque ligne. Si une colonne a une
     # valeur égale ou supérieure à la ligne, on met un "bloc"
     #
-    tableau_resultat << RC*3
+    graph = Array.new
+    graph << RC * 3
     tit = "Tableau des densités de proximités"
-    tableau_resultat <<  TAB + tit
-    tableau_resultat <<  TAB + '-'*tit.length
-    tableau_resultat <<  RC*2
+    graph <<  TAB + tit
+    graph <<  TAB + '-'*tit.length
+    graph <<  RC * 2
     (0..15).each do |i|
       h = 15 - i
       linei = TAB+''
       colonnes.each do |icol, valcol|
         linei << (valcol >= h ? '∎' : ' ')
-        # linei << (valcol >= h ? '𐄲' : ' ')
-        # linei << (valcol >= h ? '𐄗' : ' ')
-        # linei << (valcol >= h ? '☐' : ' ')
-        # linei << (valcol >= h ? '◻︎' : ' ')
       end
-      tableau_resultat << linei
+      graph << linei
     end
     col_count = colonnes.count
-    tableau_resultat << TAB + '–' * col_count
+    graph << TAB + '–' * col_count
     # Une colonne sur deux on va mettre le nombre de pages
     line1000  = TAB+''
     line100   = TAB+''
@@ -127,8 +127,10 @@ class Project
         break
       end
     end
-    tableau_resultat << [line1,line10,line100,line1000].join(' ' + RC)
-    tableau_resultat << RC*3
+    graph << [line1,line10,line100,line1000].join(' ' + RC)
+    graph << RC*3
+
+    return graph.join(RC)
   end
   # /dessiner_tableau_densite
 

@@ -50,7 +50,6 @@ class Proximite
   # afficher les proximités d'un élément sur deux pages artificielles en
   # console.
   #
-  # +iprojet+   Instance {Scrivener::Project} du projet scrivener concerné
   # +objet+     Objet dont on veut voir la ou les proximités. Ça peut être :
   #               - un ProxMot : un mot dont on veut voir la proximité
   #               - un BinderItem : un document dont on veut afficher toutes
@@ -60,10 +59,8 @@ class Proximite
   # 'iprojet.tableau_proximites' ne doit contenir que les proximités qui
   # intéressent l'affichage et aucune autre.
   #
-  def affiche_en_deux_pages iprojet, objet
-    self.projet   = iprojet
-    self.table    = iprojet.tableau_proximites
-    self.objet    = objet
+  def affiche_en_deux_pages objet
+    self.objet = objet
 
     case objet
     when ProxMot

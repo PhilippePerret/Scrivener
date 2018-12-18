@@ -114,7 +114,7 @@ class Project
     # Binder-item du mot après
     tbl = self.tableau_proximites[:binder_items]
     densite_max = 0
-    self.tableau_proximites[:proximites].each do |prox_id, iprox|
+    self.analyse.table_resultats.proximites.each do |prox_id, iprox|
       bmot = iprox.mot_avant
       if tbl[bmot.binder_item_uuid][:proximites].nil?
         tbl[bmot.binder_item_uuid].merge!(
@@ -132,7 +132,7 @@ class Project
 
     # On peut vraiment calculer la densité. Cette densité correspond au
     # nombre total de proximités par rapport au nombre dans le binder-item.
-    nombre_total_proximites = self.tableau_proximites[:proximites].count.to_f
+    nombre_total_proximites = self.analyse.table_resultats.proximites.count.to_f
     self.tableau_proximites[:binder_items].each do |bi_uuid, bi_data|
       bi_data[:proximites_count] || next
       bi_data[:densite] = (1000 * (bi_data[:proximites_count] / nombre_total_proximites).round(4)).round(2)

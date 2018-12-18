@@ -1,5 +1,7 @@
 =begin
   Pour sortir le résultat en console
+
+  TODO À REPRENDRE POUR TEXTANALYZER
 =end
 require 'curses'
 
@@ -129,7 +131,7 @@ class << self
         # On règle les décalages de départ et de fin du binder-item contenant
         # le/les mots
         [iprox.mot_avant, iprox.mot_apres].each do |imot|
-          imot.binder_item.offset_start || imot.set_offsets_bitem(tableau[:binder_items])
+          imot.document.offset_start || imot.set_offsets_bitem(tableau[:binder_items])
         end
 
         # ==== AFFICHAGE DU BLOC DE PROXIMITÉ (extrait) =====

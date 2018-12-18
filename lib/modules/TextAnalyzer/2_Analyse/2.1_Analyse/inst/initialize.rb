@@ -12,6 +12,9 @@ class Analyse
   #         :path ou :file    Pour définir le path d'un fichier à analyser
   #                           S'il termine par l'extension .scriv, c'est un
   #                           projet Scrivener
+  #         :folder       Peut indiquer le dossier dans lequel mettre l'analyse
+  #                       C'est dans ce dossier que sera créé le dossier
+  #                       `.textanalyzer`
   def initialize data = nil
     treate_data(data)
   end
@@ -33,6 +36,7 @@ class Analyse
     if data[:path]
       self.paths = [ data[:path] ]
     end
+    @folder = data[:folder]
   end
 
 
