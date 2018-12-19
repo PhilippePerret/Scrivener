@@ -16,22 +16,20 @@ class << self
 
   # Sauve les données +data+ du projet courant
   def save_project_data data
+    CLI.debug_entry
     data[:path] = File.expand_path(data[:path])
     data.merge!(saved_at: Time.now)
     # Il ne faut pas répéter plusieurs fois un même projet
-    projet_found = false
     @last_projects_data = last_projects_data.collect do |dprojet|
-      if dprojet[:path] == data[:path]
-        dprojet = data
-        projet_found = true
-      end
+      dprojet[:path] == data[:path] && next
       dprojet
-    end
-    projet_found || begin
-      last_projects_data << data
-      if last_projects_data.count > 10
-        last_projects_data = last_projects_data[-10..-1]
-      end
+    end.compact
+    # Dans tous les cas, qu'on ait ou non trouvé le projet, on
+    # le met à la fin pour qu'il soit celui par défaut à la prochaine
+    # utilisation de la commande.
+    last_projects_data << data
+    if last_projects_data.count > 10
+      last_projects_data = last_projects_data[-10..-1]
     end
     save_last_projects_data
   end

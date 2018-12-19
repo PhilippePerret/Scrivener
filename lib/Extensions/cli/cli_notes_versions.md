@@ -9,6 +9,9 @@
   avoir l'intégralité des textes émis au cours de la commande jouée.
   Pour l'obtenir, il suffit de jouer `res = CLI::Test.output`
 
+  Ajoute de CLI.separator[(character)] qui permet d'obtenir un sépa-
+  rateur de fenêtre de la largeur de la console actuelle.
+
 ## Version 1.6.1
 
   Ajout de CLI.debug_entry pour noter l'entrée dans une fonction sans

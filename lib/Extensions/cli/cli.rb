@@ -122,6 +122,19 @@ class CLI
     end
     # /analyse_command_line
 
+    # Un séparateur qui couvre toute la console actuelle
+    # +options+
+    #     :return     Si false, pas de retour chariot à la fin
+    #     :char       Si défini, le caractère à utiliser pour la séparation
+    #                 Par défaut : un tiret
+    #     :tab        Si défini, ce qu'il faut mettre avant le caractère
+    def separator options = nil
+      options ||= Hash.new
+      char = options[:char] || '-'
+      sep = "#{options[:tab]}#{char}".ljust(`tput cols`.to_i - 4, char) + String::RC
+      options[:return] === false && sep = sep.rstrip
+      return sep
+    end
 
     # Pour benchmarker l'application
     def benchmark ope, titre = nil

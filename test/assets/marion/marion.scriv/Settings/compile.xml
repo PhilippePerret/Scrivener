@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <CompileSettings>
     <ProjectSettings>
-        <Content Scope="Included">
-            <Filter State="Off" Exclude="No" Type="Label">
+        <Content Scope='Included'>
+            <Filter Exclude='No' State='Off' Type='Label'>
                 <Label>-1</Label>
                 <Status>-1</Status>
             </Filter>
@@ -18,44 +18,44 @@
             <Ebook>
                 <StartAfterFrontMatter>Yes</StartAfterFrontMatter>
                 <Cover>
-                    <ImageDocument Source="FrontMatter"></ImageDocument>
+                    <ImageDocument Source='FrontMatter'/>
                     <Title>Couverture</Title>
-                    <SVG Width="600" Height="800"><![CDATA[]]></SVG>
+                    <SVG Height='800' Width='600'><![CDATA[]]></SVG>
                 </Cover>
-                <TOC PandocDepth="3">
-                    <HTML Generate="Yes">
+                <TOC PandocDepth='3'>
+                    <HTML Generate='Yes'>
                         <Title>Contenu</Title>
                     </HTML>
                 </TOC>
             </Ebook>
         </Options>
         <MetaData>
-            <ProjectTitle>projet</ProjectTitle>
+            <ProjectTitle>Projet Marion</ProjectTitle>
             <ProjectAbbreviatedTitle>projet</ProjectAbbreviatedTitle>
             <Authors>
-                <Author FileAs="Perret, Philippe" Role="aut">Philippe Perret</Author>
+                <Author FileAs='Perret, Philippe' Role='aut'>Philippe Perret</Author>
             </Authors>
             <Surname>Perret</Surname>
             <Forename>Philippe</Forename>
             <EbookLanguage>en</EbookLanguage>
             <FountainTitlePageMetaData>
-                <Value Key="Title"><![CDATA[<$projecttitle>]]></Value>
-                <Value Key="Author"><![CDATA[<$author>]]></Value>
+                <Value Key='Title'><![CDATA[<$projecttitle>]]></Value>
+                <Value Key='Author'><![CDATA[<$author>]]></Value>
             </FountainTitlePageMetaData>
             <MMDMetaData>
-                <Value Key="Title"><![CDATA[<$projecttitle>]]></Value>
-                <Value Key="Author"><![CDATA[<$author>]]></Value>
+                <Value Key='Title'><![CDATA[<$projecttitle>]]></Value>
+                <Value Key='Author'><![CDATA[<$author>]]></Value>
             </MMDMetaData>
         </MetaData>
     </ProjectSettings>
     <CurrentFileType>Print</CurrentFileType>
     <FormatSettings>
-        <Format ID="DEFAULT">
+        <Format ID='DEFAULT'>
             <SectionLayouts>
-                <Type ID="8E28ED0E-DA24-46E9-A93B-ACF06F5881A2">NEW-PAGE-HEADER-WITH-TEXT</Type>
-                <Type ID="B4BB9C1B-4D0F-4C06-9799-104F96EF69AF">TEXT-SECTION</Type>
+                <Type ID='8E28ED0E-DA24-46E9-A93B-ACF06F5881A2'>NEW-PAGE-HEADER-WITH-TEXT</Type>
+                <Type ID='B4BB9C1B-4D0F-4C06-9799-104F96EF69AF'>TEXT-SECTION</Type>
             </SectionLayouts>
         </Format>
     </FormatSettings>
-    <LastUsedFormats></LastUsedFormats>
+    <LastUsedFormats/>
 </CompileSettings>

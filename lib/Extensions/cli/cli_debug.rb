@@ -51,6 +51,7 @@ class << self
       raise 'Impossible de trouver la sortie de CLI.dbg'
     end
   end
+  alias :debug :dbg
 
 
   # Si des touches ont été fournies par l'option `-k=` ou `keys_mode_test`,
@@ -65,7 +66,7 @@ class << self
   #   end
   #
   def next_key_mode_test
-    @keys_mode_test ||= options[:keys_mode_test].split(';;;')
+    @keys_mode_test ||= options[:keys_mode_test].to_s.split(';;;')
     return @keys_mode_test.shift
   end
 
