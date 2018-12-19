@@ -8,7 +8,7 @@ class Project
     # le projet.
     #
     def exec_infos_last_projet
-      d = last_project_data
+      d = Scrivener.last_project_data
       if d.empty?
         puts 'Aucun projet n’a été analysé pour le moment. Utilisez `scriv -h` pour obtenir de l’aide ou même `scriv` seul.'
       else

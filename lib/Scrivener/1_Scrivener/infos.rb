@@ -11,9 +11,8 @@ class << self
   # ---------------------------------------------------------------------
   #   Méthodes accessoire
 
-  # TODO Développer pour pouvoir sauver plusieurs projets
   def save_current_informations
-    Project.save_project_data(
+    save_project_data(
       last_command:   self.command,
       path:           self.project_path,
       options:        CLI.options,
@@ -33,8 +32,9 @@ class << self
 
   # Retourne true si la commande est une vraie commande, c'est-à-dire autre
   # chose que l'aide ou la liste des commandes demandées
+  # En d'autres termes, une command sur projet a besoin d'un projet
   def command_on_project?(commande)
-    @is_real_command ||= begin
+    @is_command_on_project ||= begin
       !(NOT_ON_PROJECT_COMMANDS.include?(commande) || CLI.options[:help])
     end
   end

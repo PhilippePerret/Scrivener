@@ -1,12 +1,19 @@
 # Notes sur les versions de CLI
 
-**Version courante : 1.6.1**
+**Version courante : 1.6.2**
+
+## Version 1.6.2
+
+  La commande CLI::Test.run écrit le résultat de la commande dans le
+  fichier `./test/run_command_output.log`. Il suffit de le lire pour
+  avoir l'intégralité des textes émis au cours de la commande jouée.
+  Pour l'obtenir, il suffit de jouer `res = CLI::Test.output`
 
 ## Version 1.6.1
 
   Ajout de CLI.debug_entry pour noter l'entrée dans une fonction sans
   autre précision.
-  
+
 ## Version 1.6.0
 
   Ajout de la classe `CLI::Test` qui permet de simuler le jeu d'une

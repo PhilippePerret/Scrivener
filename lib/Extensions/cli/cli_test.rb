@@ -20,8 +20,18 @@ class Test
         command << ' -k="%s"' % touches
       end
       # puts "Commande jouée : #{cmd.inspect}"
-      res = `#{command}`
+      res = `#{command} > #{output_path}`
       return res
+    end
+
+    # Résultat de la dernière commande `run_command` jouée.
+    # @usage:  res = CLI::Test.output
+    def output
+      File.exist?(output_path) && File.read(output_path).force_encoding('utf-8')
+    end
+
+    def output_path
+      @output_path ||= File.join('.','test','run_command_output.log')
     end
 
   end #/<< self

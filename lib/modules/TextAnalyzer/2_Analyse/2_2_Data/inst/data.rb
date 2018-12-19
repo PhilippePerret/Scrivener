@@ -10,8 +10,13 @@ class Data
   attr_accessor :started_at, :ended_at
 
   # {Array} Liste des paths qui vont constituer le fichier final, if any.
-  attr_accessor :paths
-
+  # C'est une liste de paths relatifs
+  attr_reader :paths
+  def paths= arr_paths
+    @paths = arr_paths.collect do |path|
+      path.relative_path(analyse.folder)
+    end
+  end
 
 end #/Data
 end #/Analyse

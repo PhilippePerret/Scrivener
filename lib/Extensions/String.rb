@@ -1,7 +1,10 @@
 # encoding: UTF-8
 #
-# version 1.4.2
+# version 1.4.3
 #
+# Note version 1.4.3
+#   La méthode relative_path peut prendre un argument pour définir
+#   le dossier de départ.
 # Note version 1.4.2
 #   Ajout de la méthode `titleize` (qui va mettre des capitales à
 #   tous les mots du titre)
@@ -112,9 +115,11 @@ class String
   end
 
   # Retourne le chemin d'accès self comme chemin relatif par rapport
-  # au dossier HOME.
-  def relative_path
-    self.sub(/#{Dir.home}/,'.')
+  # au dossier HOME ou par rapport au dossier fourni
+  #
+  def relative_path in_folder = nil
+    in_folder ||= Dir.home
+    self.sub(/#{in_folder}/,'.')
   end
 
   def as_human_date(options = nil)

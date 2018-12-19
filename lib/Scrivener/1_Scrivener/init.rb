@@ -7,11 +7,12 @@ class Scrivener
   # Liste des commandes qui ne s'appliquent pas à un projet et qui, donc,
   # n'entrainent pas le contrôle de la validité du projet scrivener
   NOT_ON_PROJECT_COMMANDS = [
-    'help',             # => affichage de l'aide
-    'commands',         # => affichage de la liste des commandes
-    'lemma',            # => Définition des abbréviations
-                        #  Peut quand même nécessiter parfois un projet
-    'run',              # Pour jouer du code
+    'help'      , # => affichage de l'aide
+    'last'      , # => Pour voir les derniers projets et en choisir un
+    'commands'  , # => affichage de la liste des commandes
+    'lemma'     , # => Définition des abbréviations
+                  #  Peut quand même nécessiter parfois un projet
+    'run'       , # Pour jouer du code
   ]
 
   class << self

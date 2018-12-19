@@ -12,7 +12,10 @@ class Analyse
 
   # L'instance contenant les données générales de l'analyse
   def data
-    @data ||= Data.new(self)
+    @data ||= begin
+      provdata = Data.new(self)
+      provdata.exist? ? provdata.load : provdata
+    end
   end
 
   # L'instance contenant tous les résultats de l'analyse
