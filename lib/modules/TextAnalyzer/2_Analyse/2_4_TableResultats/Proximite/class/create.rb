@@ -10,7 +10,7 @@ class Proximite
       table.last_id_proximite += 1
       new_prox_id = table.last_id_proximite.to_i
 
-      new_prox = new(new_prox_id, mot_avant, mot_apres)
+      new_prox = new(table.analyse, new_prox_id, mot_avant, mot_apres)
       table.proximites << new_prox
       table.canons.add_proximite(mot_avant, new_prox)
 

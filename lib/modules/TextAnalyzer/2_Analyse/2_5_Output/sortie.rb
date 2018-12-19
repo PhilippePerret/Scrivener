@@ -13,6 +13,14 @@ class Output
     CLI.debug_entry
     defaultize_options(opts)
     table_nombres
+    # = Proxmités =
+    proximites(sorted_by: :distance, limit: 50)
+    proximites(sorted_by: :alpha, limit: 50)
+    # = Canons =
+    canons(sorted_by: :alpha, limit: 50)
+    canons(sorted_by: :prox_count, limit: 50)
+    canons(sorted_by: :mots_count, limit: 50)
+    # = Mots =
     CLI.debug_exit
   end
 

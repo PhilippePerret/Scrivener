@@ -21,7 +21,14 @@ class Canon
       '---'
     end
   end
-  
+
+  # Retourne la distance minimale pour ce canon
+  def distance_minimale
+    @distance_minimale ||= begin
+      TextAnalyzer::Analyse::WholeText::Mot.distance_minimale(self.canon)
+    end
+  end
+
 end #/Canon
 end #/TableResultats
 end #/Analyse

@@ -9,10 +9,11 @@ module TextAnalyzerOutputHelpersFormatTEXT
   LINE_NOMBRE_ENTETE = Array.new
 
   def entete_table_nombres
+    titre_nombre_entete = '  « %s » : TABLE DES NOMBRES' % [analyse.title.titleize]
     LINE_NOMBRE_ENTETE << ''
     LINE_NOMBRE_ENTETE << ''
-    LINE_NOMBRE_ENTETE << '  « %s » : TABLE DES NOMBRES' % [analyse.title.titleize]
-    LINE_NOMBRE_ENTETE << '  ='.ljust(LINE_NOMBRE_ENTETE[2].length,'=')
+    LINE_NOMBRE_ENTETE << titre_nombre_entete.bleu
+    LINE_NOMBRE_ENTETE << '  ='.ljust(titre_nombre_entete.length,'=').bleu
     LINE_NOMBRE_ENTETE << ''
     LINE_NOMBRE_ENTETE << CLI.separator(return: false)
     LINE_NOMBRE_ENTETE.join(String::RC)
@@ -23,28 +24,30 @@ end #/TextAnalyzerOutputHelpersFormatTEXT
 # Module des méthodes pour CANON
 module TextAnalyzerOutputCanonFormatTEXT
 
-  TITRE_LISTING = '  LISTE %{des} CANONS (classés %{type_classement})'
+  TITRE_LISTING = '  « %{title} » – %{des} CANONS (classés %{type_classement})'
   LINE_CANON_ENTETE = Array.new
   LINE_CANON_ENTETE << ''
   LINE_CANON_ENTETE << '<calculé plus tard suivant classement>'
   LINE_CANON_ENTETE <<  '='
   LINE_CANON_ENTETE << ''
-  LINE_CANON_ENTETE << '  %s |%s| %s| %s' % [
+  LINE_CANON_ENTETE << '  %s | %s | %s | %s | %s |' % [
     ' Canon '.ljust(31),
-    'Nombre'. ljust(4),
-    'Prox.'.ljust(4),
-    'Offsets'.ljust(40)
+    ' x '. ljust(4),
+    'Prox.'.ljust(5),
+    ' % '.ljust(5),
+    'Dist.moy'.ljust(8)
   ]
   LINE_CANON_ENTETE << '-' * LINE_CANON_ENTETE[4].length
 
 
   def header(options)
     titre_listing = TITRE_LISTING % {
-      des: options[:limit] == Float::INFINITY ? 'DE TOUS LES' : ('DES %s PREMIERS' % options[:limit]),
+      title: analyse.title.titleize,
+      des: options[:limit] == Float::INFINITY ? 'TOUS LES' : ('%s PREMIERS' % options[:limit]),
       type_classement: self.class.classement_name(options)
     }
-    LINE_CANON_ENTETE[1] = titre_listing
-    LINE_CANON_ENTETE[2] = '  ='.ljust(LINE_CANON_ENTETE[1].length, '=')
+    LINE_CANON_ENTETE[1] = titre_listing.bleu
+    LINE_CANON_ENTETE[2] = '  ='.ljust(titre_listing.length, '=').bleu
     LINE_CANON_ENTETE.join(String::RC)
   end
 
@@ -60,7 +63,7 @@ module TextAnalyzerOutputCanonFormatTEXT
       canon:      fcanon,
       occ:        foccurences,
       proxs:      fproxs,
-      aster:      (distance_minimale != DISTANCE_MINIMALE ? '*' : ' '),
+      aster:      (distance_minimale != TextAnalyzer::DISTANCE_MINIMALE ? '*' : ' '),
       fdensite:   formated_densite,
       fmoydist:   formated_moyenne_distance
     }
@@ -80,16 +83,24 @@ module TextAnalyzerOutputCanonFormatTEXT
 
   # nombre de proximités dans ce canon
   def fproxs
-    @fproxs ||= nombre_proximites.to_s.rjust(4)
+    @fproxs ||= begin
+      (nombre_proximites > 0 ? nombre_proximites.to_s : '-').rjust(4)
+    end
   end
 
   def formated_densite
-    @formated_densite ||= (nombre_proximites.to_f / nombre_occurences).pourcentage
+    @formated_densite ||= begin
+      if nombre_proximites > 0
+        (nombre_proximites.to_f / nombre_occurences).pourcentage
+      else
+        ' - '
+      end.rjust(5)
+    end
   end
 
   def formated_moyenne_distance
     @formated_moyenne_distance ||= begin
-      moyenne_distances.to_s.rjust(5)
+      moyenne_distances.to_s.rjust(8)
     rescue Exception => e
       '[ERR. CALC: %s]' % e.message
     end
@@ -107,7 +118,7 @@ end #/module TextAnalyzerOutputFormatTEXT
 # Méthode pour les PROXIMITÉS
 module TextAnalyzerOutputProximiteFormatTEXT
 
-  TITRE_LISTING = '  LISTE %{des} PROXIMITÉS (classés %{type_classement})'
+  TITRE_LISTING = '  « %{title} » – %{des} PROXIMITÉS (classés %{type_classement})'
   LINE_PROXIMITE_ENTETE = Array.new
   LINE_PROXIMITE_ENTETE << ''
   LINE_PROXIMITE_ENTETE << '<titre calculé plus tard suivant classement>'
@@ -128,11 +139,13 @@ module TextAnalyzerOutputProximiteFormatTEXT
 
   # Entête de la ligne d'affichage des proximités
   def header(options)
-    LINE_PROXIMITE_ENTETE[1] = TITRE_LISTING % {
-      des: options[:limit] == Float::INFINITY ? 'DE TOUS LES' : ('DES %s PREMIERS' % options[:limit]),
+    titre = TITRE_LISTING % {
+      title: analyse.title.titleize,
+      des: options[:limit] == Float::INFINITY ? 'TOUTES LES' : ('%s PREMIÈRES' % options[:limit]),
       type_classement: self.class.classement_name(options)
     }
-    LINE_PROXIMITE_ENTETE[2] = '  ='.ljust(LINE_PROXIMITE_ENTETE[1].length,'=')
+    LINE_PROXIMITE_ENTETE[1] = titre.bleu
+    LINE_PROXIMITE_ENTETE[2] = '  ='.ljust(titre.length,'=').bleu
     LINE_PROXIMITE_ENTETE.join(String::RC)
   end
   def footer_line
@@ -167,7 +180,7 @@ end #/module TextAnalyzerOutputProximiteFormatTEXT
 
 module TextAnalyzerOutputMotFormatTEXT
 
-  TITRE_LISTING = '  LISTE %{des} MOTS (classés %{type_classement})'
+  TITRE_LISTING = '  « %{title} » – %{des} MOTS (classés %{type_classement})'
   LINE_MOT_ENTETE = Array.new
   LINE_MOT_ENTETE << ''
   LINE_MOT_ENTETE << '  LISTE DES MOTS (classés %{classement_name})'
@@ -197,11 +210,13 @@ module TextAnalyzerOutputMotFormatTEXT
   end
 
   def header(options)
-    LINE_MOT_ENTETE[1] = TITRE_LISTING % {
+    titre = TITRE_LISTING % {
+      title: analyse.title.titleize,
       des: options[:limit] == Float::INFINITY ? 'DE TOUS LES' : ('DES %s PREMIERS' % options[:limit]),
       type_classement: self.class.classement_name(options)
     }
-    LINE_MOT_ENTETE[2] = '  ='.ljust(LINE_MOT_ENTETE[1].length, '=')
+    LINE_MOT_ENTETE[1] = titre.bleu
+    LINE_MOT_ENTETE[2] = '  ='.ljust(titre.length, '=').bleu
     LINE_MOT_ENTETE.join(String::RC)
   end
   def footer_line
