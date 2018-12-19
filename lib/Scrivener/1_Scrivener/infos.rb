@@ -13,6 +13,7 @@ class << self
 
   def save_current_informations
     save_project_data(
+      title:          project.title,
       last_command:   self.command,
       path:           self.project_path,
       options:        CLI.options,

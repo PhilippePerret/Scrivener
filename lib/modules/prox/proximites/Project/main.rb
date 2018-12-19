@@ -62,7 +62,7 @@ class Scrivener
         something_is_displayed = false
         if CLI.options[:segments]
           # LAISSER CES puts ! Ils font partie du programme
-          puts "\n\n\n---- SEGMENTS: \n#{segments.inspect}"
+          puts "\n\n\n---- SEGMENTS: \n#{analyse.segments.inspect}"
           something_is_displayed = true
         end
         if CLI.options[:proximites]

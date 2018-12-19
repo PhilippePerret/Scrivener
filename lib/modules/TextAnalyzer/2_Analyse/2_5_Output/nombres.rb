@@ -62,7 +62,7 @@ class Output
       end
       ecrit line_nombre('  %s' % lib, nombre, opts || Hash.new)
     end
-    ecrit line_separation_table_nombres
+    ecrit CLI.separator(return: false)
 
     # On finit par écrire l'aide
     ecrit messages_aide

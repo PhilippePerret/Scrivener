@@ -49,7 +49,7 @@ class Analyse
 
     # D'autres informations qui ont pu être passées par les données
     [:title].each do |prop|
-      self.instance_variable_set('@%s' % prop, data[prop])
+      self.send('%s=' % prop, data[prop])
     end
 
   end

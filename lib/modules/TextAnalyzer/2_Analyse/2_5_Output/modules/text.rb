@@ -14,11 +14,8 @@ module TextAnalyzerOutputHelpersFormatTEXT
     LINE_NOMBRE_ENTETE << '  « %s » : TABLE DES NOMBRES' % [analyse.title.titleize]
     LINE_NOMBRE_ENTETE << '  ='.ljust(LINE_NOMBRE_ENTETE[2].length,'=')
     LINE_NOMBRE_ENTETE << ''
-    LINE_NOMBRE_ENTETE << line_separation_table_nombres
+    LINE_NOMBRE_ENTETE << CLI.separator(return: false)
     LINE_NOMBRE_ENTETE.join(String::RC)
-  end
-  def line_separation_table_nombres
-    @line_separation_table_nombres ||= ' -'.ljust(90,'-')
   end
 
 end #/TextAnalyzerOutputHelpersFormatTEXT

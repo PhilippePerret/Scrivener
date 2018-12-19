@@ -1,5 +1,4 @@
 # encoding: UTF-8
-require_relative '../../lib/xml_module'
 class Scrivener
   class Project
 

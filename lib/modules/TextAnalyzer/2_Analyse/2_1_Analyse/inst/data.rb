@@ -2,6 +2,7 @@
 class TextAnalyzer
 class Analyse
 
+
   # {String} Le chemin d'accès au dossier qui contiendra le dossier
   # caché de l'analyse
   attr_accessor :folder
@@ -30,11 +31,15 @@ class Analyse
     @texte_entier ||= TextAnalyzer::Analyse::WholeText.new(self)
   end
 
-  # Titre du projet de l'analyse
-  # Soit on la définit explicitement lors de l'instanciation, soit on
-  # le calcul en fonction du nom du dossier
+  # # Titre du projet de l'analyse
+  # # Soit on la définit explicitement lors de l'instanciation, soit on
+  # # le calcul en fonction du nom du dossier
+  # # {String} Le titre du projet
   def title
-    @title ||= File.basename(folder)
+    @title #||= File.basename(folder)
+  end
+  def title= value
+    @title = value
   end
 
   def mots

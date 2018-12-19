@@ -6,7 +6,6 @@
   classeur ou autres visibilité de l'inspecteur, etc.
 
 =end
-require_relative '../../lib/xml_module'
 require_relative 'lib/editors_module'
 include XMLModule
 

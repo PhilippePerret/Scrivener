@@ -3,8 +3,6 @@ class Project
 
   # Analyse du projet
   #
-  # Soit elle est rechargée, soit elle est (re)produite
-  #
   # +paths+ est un Array des fichiers de texte de chaque
   # binder-item, simplifié (sans style, etc.)
   def analyse paths = nil
