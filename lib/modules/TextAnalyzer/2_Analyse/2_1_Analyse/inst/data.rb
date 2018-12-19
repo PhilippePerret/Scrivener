@@ -10,6 +10,11 @@ class Analyse
   # {Array} des fichiers (instances TextAnalyzer::File) à analyser
   attr_accessor :paths, :files
 
+  # L'instance contenant les données générales de l'analyse
+  def data
+    @data ||= Data.new(self)
+  end
+
   # L'instance contenant tous les résultats de l'analyse
   # Note : pour charger les données qui sont enregistrées dans le fichier,
   # pour le moment, on doit faire `<analyse>.table_resultats.get`

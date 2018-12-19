@@ -43,6 +43,7 @@ puts "\n\n\n\n"
 
 # +touches+ est la liste des touches à jouer interactivement.
 def run_commande cmd, touches = nil
-  cmd.start_with?('scriv ') || cmd.prepend('scriv ')
+  cmd.start_with?('scriv') || cmd.prepend('scriv ')
   CLI::Test.run_command(cmd, touches)
 end
+alias :run_command :run_commande

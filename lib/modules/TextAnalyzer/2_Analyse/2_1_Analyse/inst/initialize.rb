@@ -22,6 +22,7 @@ class Analyse
   # Initialisation de l'analyse
   def init_analyse
     CLI.debug_entry
+    data.started_at = Time.now
     TableResultats::Proximite.init
     table_resultats.init
     texte_entier.init
@@ -50,7 +51,7 @@ class Analyse
     [:title].each do |prop|
       self.instance_variable_set('@%s' % prop, data[prop])
     end
-    
+
   end
 
 

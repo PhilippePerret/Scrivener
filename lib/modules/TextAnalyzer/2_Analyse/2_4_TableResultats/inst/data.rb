@@ -15,7 +15,6 @@ class TableResultats
   # Le dernier index pour une proximité
   attr_accessor :last_id_proximite
 
-
   attr_accessor :created_at, :updated_at
 
   def canons # avant, c'était tableau_proximites[:mots]

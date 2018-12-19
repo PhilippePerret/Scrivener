@@ -12,6 +12,7 @@ class Scrivener
       CLI.debug_entry
       Debug.init
 
+      Scrivener.require_module('Scrivener')
       Scrivener.require_module('analyse')
       Scrivener.require_module('TextAnalyzer')
 

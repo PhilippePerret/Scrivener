@@ -10,6 +10,7 @@ class TableResultats
     self.current_offset     = 0
     self.current_index_mot  = -1
     self.last_id_proximite  = -1
+    self.paths = Array.new
   end
 
 end #/TableResultats

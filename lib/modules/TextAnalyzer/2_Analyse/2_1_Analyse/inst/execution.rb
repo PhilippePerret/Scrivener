@@ -19,13 +19,21 @@ class Analyse
     CLI.debug_entry
     given_paths && self.paths = given_paths
     (paths.nil? || paths.empty?) && raise(ERRORS[:no_files_to_analyze])
+    data.paths = paths
     init_analyse
     assemble_texts_of_paths
     texte_entier.proceed_analyse
     table_resultats.calcule_proximites
+    save_all
+  end
+
+  def save_all
     table_resultats.save
     texte_entier.save
+    data.ended_at = Time.now
+    data.save
   end
+  # /save_all
 
   # = main =
   # Analyse des paths transmises

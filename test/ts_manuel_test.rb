@@ -2,11 +2,17 @@ require './test/test_helper'
 
 class TestSimpleHelp < Test::Unit::TestCase
 
-  reponse = nil
+  class << self
+    attr_accessor :reponse
+    def startup
+      self.reponse = run_command('scriv')
+    end
+  end #<< self
 
-  PTY.spawn('./bin/scriv.rb') do |stdout, stdin, pid|
-    reponse = stdout.read
+  def reponse
+    @reponse ||= self.class.reponse
   end
+
 
   test 'Sans argument, c’est la page d’aide qui est affichée' do
     assert_match('MANUEL', reponse, 'Sans argument, c’est le manuel qui devrait s’afficher.')
