@@ -28,6 +28,7 @@ class << self
     else
       index_task = indice_task(valeur)
       case operateur
+      when 'n', 'next'  then show_next_task(index_task)
       when '+'          then add_new_task(valeur)
       when '-'          then remove_task(index_task)
       when 'top'        then move_top_task(index_task)
@@ -36,9 +37,10 @@ class << self
       when 'down'       then move_down_task(index_task)
       when 'before'     then move_before_task(index_task, autre_valeur)
       when 'after'      then move_after_task(index_task, autre_valeur)
+      when 'help'       then puts help
+      when nil          then display_list
       else
-        # En dernier recours, on affiche les choses à faire
-        display_list
+        puts ('Je ne connais pas l’opérateur "%s"…' % operateur).rouge
       end
     end
   rescue Exception => e
@@ -50,6 +52,15 @@ class << self
 
   # ---------------------------------------------------------------------
   # Opérations
+
+  # Pour afficher la prochaine tâche
+  def show_next_task(nombre)
+    nombre ||= 1
+    puts String::RC
+    puts "  == Prochaine%{s} tâche%{s} à accomplir ==" % {s: nombre > 1 ? 's' : ''}
+    tasks[0..nombre].each { |t| puts '    - %s' % t}
+    puts String::RC
+  end
 
   def add_new_task(task)
     tasks << task
@@ -132,6 +143,7 @@ class << self
   #   - le début de la tâche.
   # Retourne NIL si la tâche n'existe pas
   def indice_task ref_task
+    ref_task || return
     if ref_task.to_i.to_s == ref_task
       return ref_task.to_i - 1
     else
@@ -244,6 +256,11 @@ commande CLI.
 
       Pour supprimer une tâche par son numéro (le numéro qui
       est affiché quand on demande la liste des tâches).
+
+  #{'<app> todo n[ext][ nombre]'.jaune}
+
+      Pour afficher la/les prochaine/s tâche/s (donc la/les
+      première/s dans la liste).
 
   #{'<app> todo up|down "Début de la tâche"'.jaune}
 

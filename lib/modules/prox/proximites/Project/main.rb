@@ -13,7 +13,6 @@ class Scrivener
       Debug.init
 
       Scrivener.require_module('Scrivener')
-      Scrivener.require_module('analyse')
       Scrivener.require_module('TextAnalyzer')
 
       if CLI.params.key?(:abbreviations)

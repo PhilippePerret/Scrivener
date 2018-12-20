@@ -13,7 +13,6 @@ class Project
     # le projet.
     #
     def exec_data_projet(iproj)
-      Scrivener.require_module('analyse')
       Scrivener.require_module('TextAnalyzer')
       Scrivener.require_module('prox/proximites')
       puts String::RC*3

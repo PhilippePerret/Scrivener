@@ -1,7 +1,12 @@
 # Notes sur les versions de CLI
 
-**Version courante : 1.6.2**
+**Version courante : 1.6.3**
 
+## Version 1.6.3
+
+  Ajout de l'opérateur todo 'n[ext]' pour afficher les prochaines
+  tâches à faire sur l'application.
+  
 ## Version 1.6.2
 
   La commande CLI::Test.run écrit le résultat de la commande dans le

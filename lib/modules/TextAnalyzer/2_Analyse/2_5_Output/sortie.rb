@@ -19,7 +19,7 @@ class Output
     defaultize_options(opts)
     set_filepath_current_format(options[:output_format])
     if CLI.options[:update] || !File.exist?(all_resultats_path)
-      puts "J'actualise le fichier résultat. Merci de patiente…"
+      puts "J'actualise le fichier résultat. Merci de patienter…"
       sleep 1
       prepare_fichier_resultats
       table_nombres

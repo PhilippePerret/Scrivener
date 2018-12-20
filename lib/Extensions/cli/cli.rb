@@ -3,7 +3,7 @@
 #
 # CLI
 #
-# VERSION: 1.6.2
+# VERSION: 1.6.3
 # (Penser à prendre tout le dossier, pas seulement ce module)
 #
 # MODE D'EMPLOI

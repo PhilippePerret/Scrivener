@@ -1,7 +1,17 @@
 class Scrivener
 class Project
 
-  # On récupère les données de proximités
+  # Analyse du projet
+  #
+  # +paths+ est un Array des fichiers de texte de chaque
+  # binder-item, simplifié (sans style, etc.)
+  def analyse paths = nil
+    @analyse ||= begin
+      TextAnalyzer::Analyse.new(folder: folder, paths: paths, title: title)
+    end
+  end
+
+  # On récupère les données d'analyse
   # Soit on les prend des fichiers déjà produits et enregistrés s'ils
   # existent, soient on calcule tout.
   def get_data_analyse
@@ -16,6 +26,8 @@ class Project
     return true # pour pouvoir continuer
   end
 
+  # Retourne la liste de tous les fichiers simple texte tirés
+  # du projet Scrivener analysé.
   def all_paths_simple_text
     # On procède à la relève
     dargs = {only_text: true, deep: true}
@@ -24,5 +36,6 @@ class Project
       bitem.simple_text_path
     end.compact
   end
+  
 end #/Project
 end #/Scrivener
