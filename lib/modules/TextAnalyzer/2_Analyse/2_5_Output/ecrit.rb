@@ -9,12 +9,7 @@ class TableResultats
 class Output
 
   def ecrit str
-    case options[:output]
-    when :text, :cli
-      puts str
-    else
-      raise 'La sortie de format `%s` n’est pas encore implémentée.' % options[:output]
-    end
+    stdoutput.puts str
   end
 end #/Output
 end #/TableResultats

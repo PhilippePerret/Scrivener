@@ -141,7 +141,7 @@ module TextAnalyzerOutputHelpersFormatTEXT
         project_title: analyse.title.titleize,
         table_title:   tbltitre,
         header_labels:  proximites_header_labels
-        })
+      })
     end
 
     def proximites_header_labels
@@ -162,9 +162,12 @@ module TextAnalyzerOutputHelpersFormatTEXT
     # Retourne la ligne à afficher pour la ligne de commande
     def as_line_output index = nil
        temp_line_proximite % {
-        findex: index.to_s.rjust(4),
-        fid: formated_id, pmot: fprevmot, nmot: fnextmot,
-        dist: fdistance, foffsets: foffsets
+        findex:   index.to_s.rjust(4),
+        fid:      formated_id,
+        pmot:     fprevmot,
+        nmot:     fnextmot,
+        dist:     fdistance,
+        foffsets: foffsets
       }
     end
 

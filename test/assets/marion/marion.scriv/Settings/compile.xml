@@ -34,9 +34,9 @@
             <ProjectAbbreviatedTitle>projet</ProjectAbbreviatedTitle>
             <Authors>
                 <Author FileAs='Perret, Philippe' Role='aut'>Philippe Perret</Author>
-            </Authors>
-            <Surname>Perret</Surname>
-            <Forename>Philippe</Forename>
+            <Author FileAs='Michel, Marion' Role='aut'>Marion Michel</Author></Authors>
+            <Surname>Michel</Surname>
+            <Forename>Marion</Forename>
             <EbookLanguage>en</EbookLanguage>
             <FountainTitlePageMetaData>
                 <Value Key='Title'><![CDATA[<$projecttitle>]]></Value>
