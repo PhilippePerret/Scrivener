@@ -94,7 +94,7 @@ class Mot
   end
 
   def pourcentage_utilisation
-    @pourcentage_utilisation ||= nombre_occurences.to_f / analyse.texte_entier.mots.count
+    @pourcentage_utilisation ||= nombre_occurences.pct(analyse.texte_entier.mots.count)
   end
 
   def nombre_occurences

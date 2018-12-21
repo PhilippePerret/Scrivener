@@ -25,6 +25,11 @@ class Mots
     self.items.values
   end
 
+  # Raccourci
+  def pourcentage_utilisation
+    self.items.first.pourcentage_utilisation
+  end
+
   # Retourne le LCP des mots en proximité
   def en_proximites
     @en_proximites || calcule_mots_hors_et_en_proximites

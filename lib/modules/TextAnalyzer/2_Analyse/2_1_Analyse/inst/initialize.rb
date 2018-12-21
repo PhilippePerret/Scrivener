@@ -34,18 +34,32 @@ class Analyse
     data ||= Hash.new
 
     # Les fichiers à traiter, s'ils sont envoyés lors de l'instanciation
-    data.key?(:file) && data.merge!(path: data.delete(:file))
-    data[:path]  && self.paths = [ data[:path] ]
-    data[:paths] && self.paths = data[:paths]
+    if data[:path]
+      self.paths = [ data[:path] ]
+    elsif data[:paths]
+      self.paths = data[:paths]
+    end
+
+    # Un path doit absolument avoir été transmis à l'instanciation (vraiment ?)
+    self.paths.is_a?(Array) || ERRORS[:one_path_required]
+
+    # On doit vérifier que chaque path existe. On en profite pour relever
+    # leur date de dernière modification pour pouvoir régler le
+    # :original_doc_modified_at si :modified_at n'est pas fourni
+    arr_modified_at = Array.new
+    self.paths.each do |p|
+      File.exist?(p) || raise(ERRORS[:bad_path_provided] % data[:path])
+      arr_modified_at << File.stat(p).mtime
+    end
+
+    # TODO Si modified_at n'est pas fourni, on prend la date de dernière
+    # modification des documents fournis (le plus jeune)
+    data.key?(:modified_at) || data.merge!(modified_at: arr_modified_at.max)
+
 
     # Le dossier de l'analyse. Il doit être possible de le déterminer
     # dès l'instanciation.
-    self.folder = data[:folder] ||
-      (
-        data[:paths].first &&
-        File.expand_path(File.dirname(data[:paths].first))
-      ) ||
-      raise(ERRORS[:one_path_required])
+    self.folder = data[:folder] || File.expand_path(File.dirname(self.paths.first))
 
     # D'autres informations qui ont pu être passées par les données
     {
@@ -55,7 +69,6 @@ class Analyse
       self.send('%s=' % prop_to, data[prop_from])
     end
 
-    # Des informations
   end
 
 

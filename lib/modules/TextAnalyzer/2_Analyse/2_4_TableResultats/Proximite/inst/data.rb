@@ -22,6 +22,20 @@ class Proximite
       TextAnalyzer::Analyse::WholeText::Mot.distance_minimale(mot_avant.canon)
     end
   end
+
+  # Transforme l'instance en hash, pour l'utilisation par exemple dans les
+  # string-interpolation
+  # Note : puisque ces valeurs sont destinées à servir pour les interpolations,
+  # on cherche la valeur string qui peut être affichée (cf. les mot_avant et
+  # mot_apres par exemple)
+  def to_h
+    {
+      mot_avant: "#{mot_avant.real} [#{mot_avant.index}]",
+      mot_apres: "#{mot_apres.real} [#{mot_apres.index}]",
+      distance: distance, distance_minimale: distance_minimale
+    }
+  end
+  alias :to_hash :to_h
 end #/Proximite
 end #/TableResultats
 end #/Analyse

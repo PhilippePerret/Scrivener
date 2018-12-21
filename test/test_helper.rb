@@ -47,3 +47,9 @@ def run_commande cmd, touches = nil
   CLI::Test.run_command(cmd, touches)
 end
 alias :run_command :run_commande
+
+# Retourne le path complet (et absolu) d'un fichier se trouvant dans le
+# dossier ./test/assets. +relpath+ est le chemin relatif depuis ce dossier.
+def asset_path_for relpath
+  File.join(APPFOLDER,'test','assets',relpath)
+end

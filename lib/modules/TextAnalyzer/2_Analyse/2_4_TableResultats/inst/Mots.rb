@@ -38,15 +38,12 @@ class TableResultats
       self.key?(mot.lemma) || begin
         self.merge!(mot.lemma => Array.new)
       end
+      # On ajoute le mot ici dans le hash
       self[mot.lemma] << mot.index
     end
     # /create
 
     # Retourne la liste Array des mots uniques
-    # TODO Mais pour le moment, elle retourne les pluriels et les
-    # féminin ('évident' et 'évidente', 'chat' et 'chats' sont retournés
-    # comme des mots identiques)
-    # Donc il faut vérifier la forme canonique, mais ne excluant les verbes.
     def mots_uniques
       @mots_uniques ||= begin
         self.select do |mot_min, arr_indexes|

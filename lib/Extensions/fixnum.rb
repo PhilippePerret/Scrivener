@@ -1,8 +1,11 @@
 # encoding: UTF-8
 #
 # Extension classe Fixnum
-# Version: 2.0.1
+# Version: 2.0.2
 #
+# Note version 2.0.2
+#   Ajout de la méthode `pct` pour retourner vraiment le pourcentage
+#   d'un nombre par rapport à un total donné en argument.
 # Note version 2.0.1
 #   Ajout de l'argument with_time pour as_human_date, pour pouvoir
 #   ajouter l'heure.
@@ -109,6 +112,12 @@ class Fixnum
   # Rappel : pour obtenir le pourcentage, on fait <nombre>/<nombre total>
   def pourcentage pour_mille = false
     "#{self * 100} #{pour_mille ? '‰' : '%'}"
+  end
+
+  # Retourne le pourcentage de self par rapport à +comp+. Par exemple,
+  # si self = 4 et que comp = 8, la méthode retournera 50 (50%)
+  def pct(comp)
+    100 * ( self.to_f / comp )
   end
 
 end #/Fixnum

@@ -34,7 +34,8 @@ class Output
     when :count, :occurences
       list.sort_by { |mot_min, index_list| - index_list.count }
     else
-      list.sort_by { |mot_min, index_list| analyse.texte_entier.mot(index_list.first).sortish }
+      list.sort_by { |mot_min, index_list| analyse.mot(mot_min).sortish }
+      # list.sort_by { |mot_min, index_list| analyse.texte_entier.mot(index_list.first).sortish }
     end
   end
 
