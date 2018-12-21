@@ -32,6 +32,10 @@ class Canon
     @nombre_proximites ||= proximites.count
   end
 
+  def nombre_occurences
+    @nombre_occurences ||= mots.count
+  end
+
   # Dernier offset, c'est-à-dire offset du dernier mot
   def last_offset
     if empty?

@@ -22,6 +22,8 @@ class Analyse
   # Initialisation de l'analyse
   def init_analyse
     CLI.debug_entry
+    @data = Data.new(self)
+    data.paths= paths
     data.started_at = Time.now
     TableResultats::Proximite.init
     table_resultats.init

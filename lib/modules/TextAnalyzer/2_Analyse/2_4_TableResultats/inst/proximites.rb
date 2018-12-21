@@ -44,9 +44,11 @@ class TableResultats
       # /fin de boucle sur tous les mots du canon
     end
     # /fin de boucle sur tous les canons
-    self.moyenne_eloignements         = (total_distances / self.proximites.count)
-    self.moyenne_eloignements_common  = (total_distances_common / self.proximites.count)
 
+    if self.proximites.count > 0
+      self.moyenne_eloignements         = (total_distances / self.proximites.count)
+      self.moyenne_eloignements_common  = (total_distances_common / self.proximites.count)
+    end
   end
   # /calcule_proximites
 

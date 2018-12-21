@@ -52,14 +52,14 @@ class Output
 
   # La sortie vers laquelle on dirige le code construit
   def stdoutput
-    @stdoutput || prepare_fichier_resultats
+    @stdoutput ||= prepare_fichier_resultats
   end
 
   # Méthode qui prépare le fichier de resultat en fonction du format
   def prepare_fichier_resultats
     set_filepath_current_format(options[:output_format])
     File.unlink(all_resultats_path) if File.exist?(all_resultats_path)
-    @stdoutput = File.open(all_resultats_path,'ab')
+    File.open(all_resultats_path,'ab')
   end
 
   def message_footer
