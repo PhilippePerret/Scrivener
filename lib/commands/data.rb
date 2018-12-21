@@ -6,12 +6,14 @@
 =end
 if CLI.options[:help]
   aide = <<-EOT
-  #{'  COMMANDE `scriv data`  '.underlined('-').gras}
+  #{'  COMMANDE `scriv data`  '.underlined('-', '  ').gras}
 
-    #{'Description'.underlined('-', '  ')}
+    #{'Description'.underlined('-', '    ')}
 
-        La commande `scriv data` permet d’obtenir les donnée du
-        projet Scrivener courant (*).
+        La commande #{'`scriv data`'.jaune} permet d’obtenir les données du
+        projet Scrivener courant (*). C'est cette commande qui
+        affiche la liste de tous les mots et leur utilisation
+        dans le texte.
 
         (*) « courant » signifie, dans l'ordre :
         - le projet dont le chemin d'accès est spécifié dans la
@@ -19,6 +21,11 @@ if CLI.options[:help]
         - le projet contenu par le dossier dans lequel on se
           trouve en ce moment.
         - le dernier projet utilisé par la commande `scriv`.
+
+    #{'Alias'.underlined('-', '    ')}
+
+      On peut utiliser aussi l'alias #{'`scriv stats[ <options>]`'.jaune}.
+
 
   EOT
   Scrivener.help(aide)

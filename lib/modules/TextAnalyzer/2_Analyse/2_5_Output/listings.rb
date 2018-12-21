@@ -33,8 +33,6 @@ class Output
     case options[:sorted_by]
     when :count, :occurences
       list.sort_by { |mot_min, index_list| - index_list.count }
-    when :proximites_count, :prox_count
-      list.sort_by { |mot_min, index_list| - index_list.count }
     else
       list.sort_by { |mot_min, index_list| analyse.texte_entier.mot(index_list.first).sortish }
     end
@@ -75,7 +73,7 @@ class Output
     ecrit footer_line
   end
 
-  # Affichage/sortie des mots (de tous les mots du texte, il est donc
+  # Affichage / sortie des mots (de tous les mots du texte, il est donc
   # préférable d'indiquer une limite)
   def mots opts = nil
     defaultize_options(opts)
@@ -94,16 +92,6 @@ class Output
     ecrit footer_line
   end
   # /mots
-
-  def liste_mots_uniques opts = nil
-    defaultize_options(opts)
-    data.liste_mots_uniques.each_with_index do |mot, index|
-      index < options[:limit] || break
-      ecrit "mot unique #{index.to_s.ljust(3)}: #{mot[0]}"
-    end
-  end
-  # /liste_mots_uniques
-
 
 end #/Output
 end #/TableResultats

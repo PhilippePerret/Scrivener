@@ -93,6 +93,17 @@ class Mot
     @distance_minimale ||= self.class.distance_minimale(canon)
   end
 
+  def pourcentage_utilisation
+    @pourcentage_utilisation ||= nombre_occurences.to_f / analyse.texte_entier.mots.count
+  end
+
+  def nombre_occurences
+    @nombre_occurences ||= data_in_table_resultats.count
+  end
+
+  def data_in_table_resultats
+    @in_table_resultats ||= self.analyse.table_resultats.mots[self.lemma]
+  end
 
 end #/Mot
 end #/WholeText

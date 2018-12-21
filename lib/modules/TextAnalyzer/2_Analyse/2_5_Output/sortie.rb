@@ -19,9 +19,10 @@ class Output
     defaultize_options(opts)
     set_filepath_current_format(options[:output_format])
     if CLI.options[:update] || !File.exist?(all_resultats_path)
-      puts "J'actualise le fichier résultat. Merci de patienter…"
+      puts "  J'actualise le fichier résultat. Merci de patienter…"
       sleep 1
       prepare_fichier_resultats
+      ecrit_date_analyse
       table_nombres
       # = Proxmités =
       proximites(sorted_by: :distance, limit: 50)
@@ -31,9 +32,9 @@ class Output
       canons(sorted_by: :prox_count, limit: 50)
       canons(sorted_by: :mots_count, limit: 50)
       # = Mots =
-      mots(sorted_by: :alpha, limit: 100)
-      # mots(sorted_by: :prox_count, limit: 50) # NON : c'est le canon
       mots(sorted_by: :count, limit: 100)
+      mots(sorted_by: :alpha, limit: 100)
+
       message_footer
       stdoutput.close
     end

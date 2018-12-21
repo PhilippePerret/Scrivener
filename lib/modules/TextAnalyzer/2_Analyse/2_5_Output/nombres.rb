@@ -62,7 +62,7 @@ class Output
       end
       ecrit line_nombre('  %s' % lib, nombre, opts || Hash.new)
     end
-    ecrit CLI.separator(return: false)
+    ecrit CLI.separator(return: false, tab: '  ')
 
     # On finit par écrire l'aide
     ecrit messages_aide
@@ -73,8 +73,8 @@ class Output
   def messages_aide
     '
 
-AIDE
-====
+  AIDE
+  ====
 %s
     ' % [@aide.join(String::RC)]
   end
@@ -84,7 +84,7 @@ AIDE
     if options[:aide]
       @indice_aide += 1
       label.concat(' ' + @indice_aide.to_expo)
-      @aide << '(%i) %s' % [@indice_aide, AIDES[options[:aide]]]
+      @aide << '  (%i) %s' % [@indice_aide, AIDES[options[:aide]]]
     end
     valeur_init = valeur.to_i
     valeur = valeur.to_s.rjust(7)

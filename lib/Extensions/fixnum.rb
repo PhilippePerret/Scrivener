@@ -1,8 +1,11 @@
 # encoding: UTF-8
 #
 # Extension classe Fixnum
-# Version: 2.0.0
+# Version: 2.0.1
 #
+# Note version 2.0.1
+#   Ajout de l'argument with_time pour as_human_date, pour pouvoir
+#   ajouter l'heure.
 # Note version 2.0.0
 #   Méthode `to_expo` pour écrire le chiffre en exposant
 #   Requiert au moins la version 1.3.1 de String_CLI.rb
@@ -22,9 +25,10 @@ class Fixnum
     '⁽%s⁾' % [s]
   end
 
-  def as_human_date mois_long = true
+  def as_human_date mois_long = true, with_time = false
     mois = mois_long ? MOIS_LONG[Time.at(self).month] : MOIS_COURT[Time.at(self).month]
-    Time.at(self).strftime("%e #{mois} %Y").strip
+    fmt = "%e #{mois} %Y#{with_time ? ' - %H:%M' : ''}"
+    Time.at(self).strftime(fmt).strip
   end
 
   # Retourne la date correspondant au fixnum (quand c'est un timestamp)

@@ -10,6 +10,7 @@ class CLI
   # Raccourcis pour les commandes
   DIM_CMD_TO_REAL_CMD = {
     'prox'        => 'proximites',
+    'stats'       => 'data',
     'watch-prox'  => 'watch-proximites',
     'lasts'       => 'last',
     'derniers'    => 'last',

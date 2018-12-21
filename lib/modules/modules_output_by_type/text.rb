@@ -5,6 +5,17 @@
 module TextAnalyzerOutputHelpers
 
   class TextAnalyzer::Analyse::TableResultats::Output
+
+    def ecrit_date_analyse
+      ls = ['']
+      ls << CLI.separator(return: false, tab: '  ', char: '=').jaune
+      ls << ('    %s' % [analyse.title.upcase]).jaune
+      ls << ('    ANALYSE DU %s' % Time.now.to_i.as_human_date(true, true)).jaune
+      ls << ls[1]
+      ls << ''
+      ecrit ls.join(String::RC)
+    end
+
     # Méthode principale qui retourne un entête complet pour une table
     # @usage :
     #   TextAnalyzer::Analyse::TableResultats::Output.table_full_header(...)
@@ -65,7 +76,7 @@ module TextAnalyzerOutputHelpers
     end
 
     def footer(options = nil)
-      CLI.separator(return: false)
+      CLI.separator(return: false, tab: '  ')
     end
 
     def temp_line_canon
@@ -222,28 +233,30 @@ module TextAnalyzerOutputHelpers
     end
 
     def mots_header_labels
-      '  %{mot} | %{occ} | %{pindex} | %{lindex}' % {
+      '    %{mot} | %{occ} | %{pindex} |' % {
         mot:      'Mot'       .ljust(30),
         occ:      'Nombre'    .ljust(7),
-        pindex:   'Index  1'  .ljust(8),
-        lindex:   'Index -1'  .ljust(8)
+        pindex:   '% '        .rjust(8)
       }
     end
 
     def temp_line_mot
-      @temp_line_mot ||= '  %{mot} | %{occs} | %{findex} | %{lindex} |'
+      @temp_line_mot ||= '    %{mot} | %{occs} | %{fpourc} | '
     end
     def as_line_output(index = nil)
-      # Pour le(s) mot(s), on doit récupérer la donnée TableResultats#mots qui
-      # liste le nombre d'index
-      mot_tblres = self.analyse.table_resultats.mots[self.lemma]
-      nb_offsets = mot_tblres.count
       temp_line_mot % {
         mot:      self.real.ljust(30),
-        occs:     nb_offsets.to_s.ljust(7),
-        findex:   mot_tblres[0].to_s.rjust(8),
-        lindex:   (nb_offsets > 1 ? mot_tblres[-1].to_s : ' - ').rjust(8)
+        occs:     nombre_occurences.to_s.ljust(7),
+        fpourc:   fpourcentage.rjust(8)
       }
+    end
+
+    # Pourcentage d'utilisation du mot dans le texte
+    # Par exemple, dans un texte constitué seulement de "Marion", le mot "marion"
+    # aurait un pourcentage d'utilisation de 100%. Dans un texte constitué de
+    # "Marion sourit", il aurait 50% d'utilisation.
+    def fpourcentage
+      pourcentage_utilisation.pourcentage
     end
 
     def footer_line
