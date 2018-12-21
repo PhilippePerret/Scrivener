@@ -29,5 +29,10 @@ class Project
     @real_mots ||= tableau_proximites[:real_mots]
   end
 
+  # Date de dernière modification du projet
+  def modified_at
+    @modified_at ||= File.stat(path).mtime
+  end
+
 end #/Project
 end #/Scrivener

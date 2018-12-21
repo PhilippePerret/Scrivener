@@ -7,6 +7,7 @@ class Analyse
   # Rechargement de l'analyse, c'est-à-dire :
   #   - de la table de résultat
   #   - de l'instance du texte entier (et donc des mots)
+  #
   def reload
     self.exist? || begin
       self.exec
@@ -23,6 +24,14 @@ class Analyse
   def exist?
     self.texte_entier.exist? &&
     self.table_resultats.exist?
+  end
+
+  # RETURN true si l'analyse est d'actualité. On peut le savoir seulement si
+  # la date `modified_at` du document original a été transmise à l'instanciation
+  # Cette date `modified_at` est consignée dans `self.original_doc_modified_at`
+  def uptodate?
+    self.original_doc_modified_at || (return true)
+    self.modified_at > self.original_doc_modified_at
   end
 
 end #/Analyse

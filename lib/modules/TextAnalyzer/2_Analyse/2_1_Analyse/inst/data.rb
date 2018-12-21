@@ -11,6 +11,11 @@ class Analyse
   # {Array} des fichiers (instances TextAnalyzer::File) à analyser
   attr_accessor :paths, :files
 
+  # {Time} Date de dernière modification du document de référence
+  # (par exemple le projet Scrivener).
+  # Attention, il ne s'agit pas du document texte complet.
+  attr_accessor :original_doc_modified_at
+
   # L'instance contenant les données générales de l'analyse
   def data
     @data ||= begin
@@ -29,6 +34,12 @@ class Analyse
   # Le texte entier de l'analyse
   def texte_entier
     @texte_entier ||= TextAnalyzer::Analyse::WholeText.new(self)
+  end
+
+  # Date de dernière modification de cette analyse. C'est donc la date de
+  # création de l'analyse (sa date de fin).
+  def modified_at
+    @modified_at ||= self.data.ended_at
   end
 
   # # Titre du projet de l'analyse

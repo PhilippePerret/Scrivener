@@ -7,7 +7,7 @@ class Project
   # binder-item, simplifié (sans style, etc.)
   def analyse paths = nil
     @analyse ||= begin
-      TextAnalyzer::Analyse.new(folder: folder, paths: paths, title: title)
+      TextAnalyzer::Analyse.new(folder: folder, paths: paths, title: title, modified_at: modified_at)
     end
   end
 
@@ -16,7 +16,7 @@ class Project
   # existent, soient on calcule tout.
   def get_data_analyse
     CLI.debug_entry
-    if analyse.exist? && !CLI.options[:force]
+    if analyse.exist? && analyse.uptodate? && !CLI.options[:force]
       analyse.reload
       CLI.options[:force_calcul] && analyse.force_recalcul
     else
@@ -36,6 +36,6 @@ class Project
       bitem.simple_text_path
     end.compact
   end
-  
+
 end #/Project
 end #/Scrivener

@@ -58,7 +58,7 @@ class << self
     nombre ||= 1
     puts String::RC
     puts "  == Prochaine%{s} tâche%{s} à accomplir ==" % {s: nombre > 1 ? 's' : ''}
-    tasks[0..nombre].each { |t| puts '    - %s' % t}
+    tasks[0..nombre].each_with_index { |t, index| puts '    %i. %s' % [index + 1, t]}
     puts String::RC
   end
 

@@ -48,10 +48,14 @@ class Analyse
       raise(ERRORS[:one_path_required])
 
     # D'autres informations qui ont pu être passées par les données
-    [:title].each do |prop|
-      self.send('%s=' % prop, data[prop])
+    {
+      title:        :title,
+      modified_at:  :original_doc_modified_at
+    }.each do |prop_from, prop_to|
+      self.send('%s=' % prop_to, data[prop_from])
     end
 
+    # Des informations
   end
 
 
