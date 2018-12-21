@@ -2,7 +2,7 @@
 
 # Module des helpers de TextAnalyzer::Analyse::TableResultats::Output
 #
-module TextAnalyzerOutputHelpersFormatCSV
+module TextAnalyzerOutputHelpers
 
   class TextAnalyzer::Analyse::TableResultats::Output
     # Méthode principale qui retourne un entête complet pour une table
@@ -15,10 +15,10 @@ module TextAnalyzerOutputHelpersFormatCSV
       hlines << ltitre.bleu
       hlines << '  ='.ljust(ltitre.length, '=').bleu
       hlines << ''
-      hlines << CLI.separator(return: false)
+      hlines << CLI.separator(return: false, tab: '  ')
       if args.key?(:header_labels)
         hlines << args[:header_labels]
-        hlines << CLI.separator(return: false)
+        hlines << CLI.separator(return: false, tab: '  ')
       end
       hlines.join(String::RC)
     end
@@ -36,13 +36,17 @@ module TextAnalyzerOutputHelpersFormatCSV
 
   class TextAnalyzer::Analyse::TableResultats::Canon
 
+    def outputClass
+      @outputClass ||= TextAnalyzer::Analyse::TableResultats::Output
+    end
+
     def header(options)
       @header ||= begin
         tbltitre = '%{des} CANONS (classés %{type_classement})' % {
           des: options[:limit] == Float::INFINITY ? 'TOUS LES' : ('%s PREMIERS' % options[:limit]),
           type_classement: self.class.classement_name(options)
         }
-        Output.table_full_header({
+        outputClass.table_full_header({
           project_title: analyse.title.titleize,
           table_title:   tbltitre,
           header_labels:  canons_header_labels
@@ -131,13 +135,17 @@ module TextAnalyzerOutputHelpersFormatCSV
 
   class TextAnalyzer::Analyse::TableResultats::Proximite
 
+    def outputClass
+      @outputClass ||= TextAnalyzer::Analyse::TableResultats::Output
+    end
+
     # Entête de la ligne d'affichage des proximités
     def header(options)
       tbltitre = '%{des} PROXIMITÉS (classés %{type_classement})' % {
         des: options[:limit] == Float::INFINITY ? 'TOUTES LES' : ('%s PREMIÈRES' % options[:limit]),
         type_classement: self.class.classement_name(options)
       }
-      Output.table_full_header({
+      outputClass.table_full_header({
         project_title: analyse.title.titleize,
         table_title:   tbltitre,
         header_labels:  proximites_header_labels
@@ -145,7 +153,7 @@ module TextAnalyzerOutputHelpersFormatCSV
     end
 
     def proximites_header_labels
-      '%s |%s |%s |%s|%s |%s' % [
+      '  %s |%s |%s |%s|%s |%s' % [
         ' '           .ljust(5),
         ' ID '        .ljust(8),
         ' Mot avant'  .ljust(31),
@@ -156,7 +164,7 @@ module TextAnalyzerOutputHelpersFormatCSV
     end
 
     def temp_line_proximite
-      @temp_line_proximite ||= '%{findex}. | #%{fid} | %{pmot} | %{dist} | %{nmot} | %{foffsets}'
+      @temp_line_proximite ||= '  %{findex}. | #%{fid} | %{pmot} | %{dist} | %{nmot} | %{foffsets}'
     end
 
     # Retourne la ligne à afficher pour la ligne de commande
@@ -188,7 +196,7 @@ module TextAnalyzerOutputHelpersFormatCSV
     end
 
     def footer_line
-      CLI.separator(return: false)
+      CLI.separator(return: false, tab: '  ')
     end
   end #/class Proximite
 
@@ -196,13 +204,17 @@ module TextAnalyzerOutputHelpersFormatCSV
 
   class TextAnalyzer::Analyse::WholeText::Mot
 
+    def outputClass
+      @outputClass ||= TextAnalyzer::Analyse::TableResultats::Output
+    end
+
     # Entête de la ligne d'affichage des proximités
     def header(options)
       tbltitre = '%{des} MOTS (classés %{type_classement})' % {
         des: options[:limit] == Float::INFINITY ? 'TOUS LES' : ('%s PREMIERS' % options[:limit]),
         type_classement: self.class.classement_name(options)
       }
-      Output.table_full_header({
+      outputClass.table_full_header({
         project_title: analyse.title.titleize,
         table_title:   tbltitre,
         header_labels:  mots_header_labels
@@ -210,7 +222,7 @@ module TextAnalyzerOutputHelpersFormatCSV
     end
 
     def mots_header_labels
-      ' %{mot} | %{occ} | %{pindex} | %{lindex}' % {
+      '  %{mot} | %{occ} | %{pindex} | %{lindex}' % {
         mot:      'Mot'       .ljust(30),
         occ:      'Nombre'    .ljust(7),
         pindex:   'Index  1'  .ljust(8),
@@ -219,7 +231,7 @@ module TextAnalyzerOutputHelpersFormatCSV
     end
 
     def temp_line_mot
-      @temp_line_mot ||= ' %{mot} | %{occs} | %{findex} | %{lindex} |'
+      @temp_line_mot ||= '  %{mot} | %{occs} | %{findex} | %{lindex} |'
     end
     def as_line_output(index = nil)
       # Pour le(s) mot(s), on doit récupérer la donnée TableResultats#mots qui
@@ -235,9 +247,9 @@ module TextAnalyzerOutputHelpersFormatCSV
     end
 
     def footer_line
-      CLI.separator(return: false)
+      CLI.separator(return: false, tab: '  ')
     end
 
   end #/class Mot
 
-end #/module
+end #/module TextAnalyzerOutputHelpers

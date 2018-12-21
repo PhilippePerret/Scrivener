@@ -122,20 +122,6 @@ class CLI
     end
     # /analyse_command_line
 
-    # Un séparateur qui couvre toute la console actuelle
-    # +options+
-    #     :return     Si false, pas de retour chariot à la fin
-    #     :char       Si défini, le caractère à utiliser pour la séparation
-    #                 Par défaut : un tiret
-    #     :tab        Si défini, ce qu'il faut mettre avant le caractère
-    def separator options = nil
-      options ||= Hash.new
-      char = options[:char] || '-'
-      sep = "#{options[:tab]}#{char}".ljust(`tput cols`.to_i - 4, char) + String::RC
-      options[:return] === false && sep = sep.rstrip
-      return sep
-    end
-
     # Pour benchmarker l'application
     def benchmark ope, titre = nil
       verbose? || BENCHMARK[:oui] || return
@@ -222,22 +208,6 @@ class CLI
       self.options.merge!(opt.to_sym => real_val_of(val))
     end
 
-    # La vraie valeur de l'option, qui est exprimée forcément en
-    # string.
-    # Noter que nil retourne true
-    def real_val_of val
-      case val
-      when 'false'        then false
-      when 'true'         then true
-      when 'null', 'nil'  then nil
-      when /^[0-9]+$/       then val.to_i
-      when /^[0-9\.]+$/     then val.to_f
-      when nil            then true
-      else
-        val
-      end
-    end
-
     def traite_arg_as_param arg
       if arg.index(/[^ ]=[^ ]/)
         key, val = arg.split('=')
@@ -247,15 +217,6 @@ class CLI
         val = arg
       end
       self.params.merge!(key => val)
-    end
-
-    # Messagerie
-    def log mess
-      puts "\033[1;94m#{mess}\033[0m"
-    end
-    def error err_mess
-      puts "\033[1;31m#{err_mess}\033[0m"
-      return false
     end
 
     # Dossier général de la commande CLI pour l'utilisateur courant

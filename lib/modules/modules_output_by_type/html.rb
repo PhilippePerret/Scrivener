@@ -2,13 +2,14 @@
 
 # Module des helpers de TextAnalyzer::Analyse::TableResultats::Output
 #
-module TextAnalyzerOutputHelpersFormatHTML
+module TextAnalyzerOutputHelpers
 
   class TextAnalyzer::Analyse::TableResultats::Output
     # Méthode principale qui retourne un entête complet pour une table
     # @usage :
     #   TextAnalyzer::Analyse::TableResultats::Output.table_full_header(...)
     def self.table_full_header args
+      puts "----> self.table_full_header (HTML)"
       hlines = Array.new
       ltitre = '  « %{project_title} » : %{table_title}' % args
       hlines << ''
@@ -252,4 +253,4 @@ module TextAnalyzerOutputHelpersFormatHTML
 
   end #/class Mot
 
-end #/module
+end #/module TextAnalyzerOutputHelpers

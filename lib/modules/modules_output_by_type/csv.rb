@@ -2,13 +2,14 @@
 
 # Module des helpers de TextAnalyzer::Analyse::TableResultats::Output
 #
-module TextAnalyzerOutputHelpersFormatTEXT
+module TextAnalyzerOutputHelpers
 
   class TextAnalyzer::Analyse::TableResultats::Output
     # Méthode principale qui retourne un entête complet pour une table
     # @usage :
     #   TextAnalyzer::Analyse::TableResultats::Output.table_full_header(...)
     def self.table_full_header args
+      puts "----> self.table_full_header (CSV)"
       hlines = Array.new
       ltitre = '  « %{project_title} » : %{table_title}' % args
       hlines << ''
@@ -36,13 +37,17 @@ module TextAnalyzerOutputHelpersFormatTEXT
 
   class TextAnalyzer::Analyse::TableResultats::Canon
 
+    def outputClass
+      @outputClass ||= TextAnalyzer::Analyse::TableResultats::Output
+    end
+
     def header(options)
       @header ||= begin
         tbltitre = '%{des} CANONS (classés %{type_classement})' % {
           des: options[:limit] == Float::INFINITY ? 'TOUS LES' : ('%s PREMIERS' % options[:limit]),
           type_classement: self.class.classement_name(options)
         }
-        Output.table_full_header({
+        outputClass.table_full_header({
           project_title: analyse.title.titleize,
           table_title:   tbltitre,
           header_labels:  canons_header_labels
@@ -131,13 +136,18 @@ module TextAnalyzerOutputHelpersFormatTEXT
 
   class TextAnalyzer::Analyse::TableResultats::Proximite
 
+    def outputClass
+      @outputClass ||= TextAnalyzer::Analyse::TableResultats::Output
+    end
+
+
     # Entête de la ligne d'affichage des proximités
     def header(options)
       tbltitre = '%{des} PROXIMITÉS (classés %{type_classement})' % {
         des: options[:limit] == Float::INFINITY ? 'TOUTES LES' : ('%s PREMIÈRES' % options[:limit]),
         type_classement: self.class.classement_name(options)
       }
-      Output.table_full_header({
+      outputClass.table_full_header({
         project_title: analyse.title.titleize,
         table_title:   tbltitre,
         header_labels:  proximites_header_labels
@@ -196,13 +206,17 @@ module TextAnalyzerOutputHelpersFormatTEXT
 
   class TextAnalyzer::Analyse::WholeText::Mot
 
+    def outputClass
+      @outputClass ||= TextAnalyzer::Analyse::TableResultats::Output
+    end
+
     # Entête de la ligne d'affichage des proximités
     def header(options)
       tbltitre = '%{des} MOTS (classés %{type_classement})' % {
         des: options[:limit] == Float::INFINITY ? 'TOUS LES' : ('%s PREMIERS' % options[:limit]),
         type_classement: self.class.classement_name(options)
       }
-      Output.table_full_header({
+      outputClass.table_full_header({
         project_title: analyse.title.titleize,
         table_title:   tbltitre,
         header_labels:  mots_header_labels
@@ -240,4 +254,4 @@ module TextAnalyzerOutputHelpersFormatTEXT
 
   end #/class Mot
 
-end #/module
+end #/module TextAnalyzerOutputHelpers

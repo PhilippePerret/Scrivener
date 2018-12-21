@@ -11,6 +11,14 @@ class << self
   # Par défaut, la sortie standard (puts) est employée
   attr_accessor :debug_output
 
+  # Messagerie
+  def log mess
+    puts "\033[1;94m#{mess}\033[0m"
+  end
+  def error err_mess
+    puts "\033[1;31m#{err_mess}\033[0m"
+    return false
+  end
 
   # Note l'entrée dans la méthode où est appelé cette méthode dans le
   # fichier de débug (ou la sortie débug chosie)
