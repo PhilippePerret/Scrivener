@@ -133,13 +133,6 @@ module TextAnalyzerOutputHelpers
       end
     end
 
-    def nombre_proximites
-      @nombre_proximites ||= self.proximites.count
-    end
-    def nombre_occurences
-      @nombre_occurences ||= self.mots.count
-    end
-
   end #/class Canon
 
   # ---------------------------------------------------------------------

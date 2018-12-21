@@ -25,6 +25,7 @@ class Output
     load_output_modules
 
     self.options_have_been_defaultized = true
+
   end
 
 

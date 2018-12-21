@@ -18,7 +18,7 @@ class Analyse
   def exec given_paths = nil
     CLI.debug_entry
     given_paths && self.paths = given_paths
-    (paths.nil? || paths.empty?) && raise(ERRORS[:no_files_to_analyze])
+    data_valid? || raise(ERRORS[:no_files_to_analyze])
     data.paths= paths
     init_analyse
     assemble_texts_of_paths

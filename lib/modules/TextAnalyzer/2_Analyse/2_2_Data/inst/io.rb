@@ -9,7 +9,7 @@ class Data
   def exist?
     File.exist?(path)
   end
-  
+
   def save
     File.open(path,'wb').write(Marshal.dump(self))
   end
@@ -18,7 +18,7 @@ class Data
   # instancier un objet Data, puis appeler la méthode load pour définir la
   # variable qui contiendra vraiment les données (l'instance retournée)
   def load
-    File.open(path,'rb'){|f|Marshal.load(f)}
+    Marshal.load(File.open(path,'rb'))
   end
 
   def path

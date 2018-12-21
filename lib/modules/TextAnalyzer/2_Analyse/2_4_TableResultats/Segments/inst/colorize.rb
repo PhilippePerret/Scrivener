@@ -132,8 +132,7 @@ class Segments < Array
     end
     # /define_word_colors_in_segments
 
-  end #/Segments
-
+end #/Segments
 end #/TableResultats
 end #/Analyse
 end #/TextAnalyzer

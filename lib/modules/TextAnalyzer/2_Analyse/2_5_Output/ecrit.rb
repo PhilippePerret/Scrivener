@@ -11,6 +11,7 @@ class Output
   def ecrit str
     stdoutput.puts str
   end
+  
 end #/Output
 end #/TableResultats
 end #/Analyse

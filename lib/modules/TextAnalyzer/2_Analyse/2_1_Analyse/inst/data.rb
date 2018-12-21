@@ -5,7 +5,7 @@ class Analyse
 
   # {String} Le chemin d'accès au dossier qui contiendra le dossier
   # caché de l'analyse
-  attr_accessor :folder
+  attr_writer :folder
 
   # {Array} des paths de fichier (String) à analyser et
   # {Array} des fichiers (instances TextAnalyzer::File) à analyser
@@ -20,7 +20,12 @@ class Analyse
   def data
     @data ||= begin
       provdata = Data.new(self)
-      provdata.exist? ? provdata.load : provdata
+      if provdata.exist?
+        # Marshal.load(File.open(provdata.path,'rb'))
+        provdata.load
+      else
+        provdata
+      end
     end
   end
 
@@ -47,18 +52,10 @@ class Analyse
   # # le calcul en fonction du nom du dossier
   # # {String} Le titre du projet
   def title
-    @title #||= File.basename(folder)
+    @title ||= File.basename(folder)
   end
   def title= value
     @title = value
-  end
-
-  def mots
-    table_resultats.mots
-  end
-
-  def all_mots
-    texte_entier.mots
   end
 
   def canons
@@ -74,6 +71,20 @@ class Analyse
   # Question : est-ce que ça sert encore ?
   def get_file object_id
     files[object_id]
+  end
+
+  # Définit et retourne le dossier de l'analyse (le dossier du projet, en
+  # réalité)
+  # Noter qu'il a pu être défini à l'instanciation.
+  def folder
+    @folder ||= begin
+      self.paths                    || raise
+      self.paths.first              || raise
+      File.exist?(self.paths.first) || raise
+      File.expand_path(File.dirname(self.paths.first))
+    rescue Exception
+      raise(ERRORS[:folder_uncalcable])
+    end
   end
 
   # Le dossier caché de l'analyse, pour mettre tous les fichiers utiles et

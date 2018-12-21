@@ -53,14 +53,14 @@ class Output
     # L'entête
     ecrit entete_table_nombres
     # Chaque nombre est affiché
-    liste_nombres.each do |lib, nombre, opts|
+    liste_nombres.each do |lib, nombre, sopts|
       case lib[0..1]
       when 'N ' then lib = '  Nombre%s' % [lib[1..-1]]
       when 'M ' then lib = '  Moyenne%s' % [lib[1..-1]]
       when '% ' then lib = '  Pourcentage%s' % [lib[1..-1]]
       when 'R1' then lib = ' ' * 6 + lib[3..-1]
       end
-      ecrit line_nombre('  %s' % lib, nombre, opts || Hash.new)
+      ecrit line_nombre('  %s' % lib, nombre, sopts || Hash.new)
     end
     ecrit CLI.separator(return: false, tab: '  ')
 
