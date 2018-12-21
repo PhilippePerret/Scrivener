@@ -70,7 +70,7 @@ module TextAnalyzerOutputHelpers
         ' Canon '.ljust(31),
         ' x '. ljust(4),
         'Prox.'.ljust(5),
-        ' % '.ljust(5),
+        ' % '.ljust(6),
         'Dist.moy'.ljust(8)
       ]
     end
@@ -121,7 +121,7 @@ module TextAnalyzerOutputHelpers
           (nombre_proximites.to_f / nombre_occurences).pourcentage
         else
           ' - '
-        end.rjust(5)
+        end.rjust(6)
       end
     end
 
@@ -150,8 +150,8 @@ module TextAnalyzerOutputHelpers
         type_classement: self.class.classement_name(options)
       }
       outputClass.table_full_header({
-        project_title: analyse.title.titleize,
-        table_title:   tbltitre,
+        project_title:  options[:analyse].title.titleize,
+        table_title:    tbltitre,
         header_labels:  proximites_header_labels
       })
     end
@@ -249,7 +249,7 @@ module TextAnalyzerOutputHelpers
     # aurait un pourcentage d'utilisation de 100%. Dans un texte constitué de
     # "Marion sourit", il aurait 50% d'utilisation.
     def fpourcentage
-      pourcentage_utilisation.pourcentage
+      '%s %%' % [pourcentage_utilisation.round(3).to_s]
     end
 
     def footer_line

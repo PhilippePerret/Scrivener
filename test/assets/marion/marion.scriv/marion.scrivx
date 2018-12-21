@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScrivenerProject Identifier="05F9332E-5DC1-466A-B165-AC1F2047BE24" Version="2.0" Creator="SCRMAC-3.1.1-9852" Device="MacBook-Air-de-Philippe" Author="Philippe Perret" Modified="2018-12-21 06:50:23 +0300" ModID="4DC4FB9E-9001-4410-A02C-C6D0C6353436">
+<ScrivenerProject Identifier="05F9332E-5DC1-466A-B165-AC1F2047BE24" Version="2.0" Creator="SCRMAC-3.1.1-9852" Device="MacBook-Air-de-Philippe" Author="Philippe Perret" Modified="2018-12-21 16:09:24 +0300" ModID="8003E1BA-A2C6-4662-AD2E-C4A95C9D0D1F">
     <Binder>
         <BinderItem UUID="7495D5CA-657E-4997-9A5C-D248B0591A75" Type="DraftFolder" Created="2018-11-08 08:37:53 +0300" Modified="2018-11-08 08:37:53 +0300">
             <Title>Ébauche</Title>
@@ -13,7 +13,7 @@
                         <IncludeInCompile>Yes</IncludeInCompile>
                     </MetaData>
                     <TextSettings>
-                        <TextSelection>32,0</TextSelection>
+                        <TextSelection>46,3</TextSelection>
                     </TextSettings>
                 </BinderItem>
                 <BinderItem UUID="96607C23-C15F-46E7-823A-6512DE979A7E" Type="Folder" Created="2018-11-08 09:40:49 +0300" Modified="2018-11-08 09:40:53 +0300">
@@ -25,13 +25,13 @@
                         <TextSelection>0,0</TextSelection>
                     </TextSettings>
                     <Children>
-                        <BinderItem UUID="76E56CA6-F25A-41E6-A513-44309432382F" Type="Text" Created="2018-11-08 09:40:55 +0300" Modified="2018-11-08 10:15:32 +0300">
+                        <BinderItem UUID="76E56CA6-F25A-41E6-A513-44309432382F" Type="Text" Created="2018-11-08 09:40:55 +0300" Modified="2018-12-21 16:09:24 +0300">
                             <Title>Un second chapitre pour voir</Title>
                             <MetaData>
                                 <IncludeInCompile>Yes</IncludeInCompile>
                             </MetaData>
                             <TextSettings>
-                                <TextSelection>58,0</TextSelection>
+                                <TextSelection>122,0</TextSelection>
                             </TextSettings>
                         </BinderItem>
                         <BinderItem UUID="8A0B3C46-465A-452B-992E-FF90FC4267F9" Type="Text" Created="2018-11-08 09:41:02 +0300" Modified="2018-12-21 06:50:23 +0300">
@@ -115,11 +115,11 @@
     <ProjectTargets Notify="No">
         <DraftTarget Type="Words" CountIncludedOnly="Yes" CurrentCompileGroupOnly="No" Deadline="2018-11-08 08:37:51 +0300" IgnoreDeadline="Yes">0</DraftTarget>
         <SessionTarget Type="Words" CountDraftOnly="Yes" AllowNegatives="Yes" ResetType="Time" ResetTime="00:00" DeterminedFromDeadline="No" WritingDays="" CanWriteOnDeadlineDate="No">0</SessionTarget>
-        <PreviousSession Words="0" Characters="0" Date="2018-12-21 06:50:17 +0300"></PreviousSession>
+        <PreviousSession Words="12" Characters="56" Date="2018-12-21 12:50:45 +0300"></PreviousSession>
     </ProjectTargets>
     <RecentWritingHistory Date="2018-12-21 00:00:00 +0300">
-        <DraftWordCount>0</DraftWordCount>
-        <DraftCharCount>0</DraftCharCount>
+        <DraftWordCount>12</DraftWordCount>
+        <DraftCharCount>56</DraftCharCount>
         <OtherWordCount>0</OtherWordCount>
         <OtherCharCount>0</OtherCharCount>
     </RecentWritingHistory>

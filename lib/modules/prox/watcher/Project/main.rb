@@ -17,9 +17,8 @@ class Project
     get_binder_items_around(self.watched_document_title)
     output_tableau_etat # pour le mettre en place
     check_etat_proximites_et_affiche_differences
-    sleep 20
-    return
     exec_boucle_surveillance
+    sleep 20
   rescue Exception => e
     raise_by_mode(e, Scrivener.mode)
   end

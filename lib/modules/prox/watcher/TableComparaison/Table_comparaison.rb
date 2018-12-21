@@ -68,7 +68,7 @@ class TableComparaison
           nmot.real,
           nmot.relative_offset,
           nmot.binder_item.title == pmot.binder_item.title ? 'idem' : "« #{nmot.binder_item.title} »"
-          ], {style: :rouge})
+          ], {style: :other_red})
       end
       fixed_proximites.each do |iprox|
         pmot = iprox.mot_avant

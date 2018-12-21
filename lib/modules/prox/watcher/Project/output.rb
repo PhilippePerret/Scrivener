@@ -72,40 +72,22 @@ class Project
   def display_proximites_courantes
     winproxi.clear
 
-    # Pour construire l'affichage, on fonctionne en deux colonnes. On définit
-    # l'élément gauche (left_prox) et l'élément droite (right_prox). S'ils ne
-    # dépassent pas la largeur de l'écran (Curses.cols - 1), on les affiche
-    # côte à côté. Sinon, on n'affiche que l'élément gauche et on garde
-    # l'élément droite pour le tester avec la suite.
-    iterator = 0
-    right_proxi = nil # on peut reprendre le dernier
-    all_proxs = self.analyse.table_resultats.proximites.values
-    while iprox = all_proxs[iterator]
-
+    all_proxs = self.analyse.table_resultats.proximites.values.dup
+    segprox = Array.new
+    while iprox = all_proxs.shift
       # Soit il faut reprendre la proximité de droite pour la mettre à
       # gauche quand on n'a pas pu l'écrire sur la ligne, soit il faut en
       # prendre une nouvelle.
-      left_proxi  = right_proxi || begin
-        compose_proxi_display_for(iprox)
-      end
-      iterator += 1
-      # Dans tous les cas on prend la proximité de droite
-      right_proxi = compose_proxi_display_for(all_proxs[iterator])
-      iterator += 1
+      segprox << compose_proxi_display_for(iprox)
 
-      if left_proxi.length + right_proxi.length < Curses.cols
-        line = left_proxi + right_proxi
-        left_proxi = right_proxi = nil
-      else
-        line = left_proxi
-        left_proxi = nil
+      if segprox.join.length > Curses.cols
+        winproxi.affiche(segprox.slice!(0, segprox.length - 1).join + String::RC)
       end
-      winproxi.affiche(line + String::RC)
     end
     # /fin de boucle sur toutes les proximités
 
-    # S'il reste à afficher la droite
-    right_proxi && winproxi.affiche(right_proxi)
+    # S'il reste une proximité à afficher
+    segprox.empty? || winproxi.affiche(segprox.join)
 
     winproxi.refresh
   rescue Exception => e

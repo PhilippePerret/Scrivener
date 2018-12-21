@@ -7,14 +7,13 @@ class WholeText
   # de l'analyse contenant le fichier.
   def proceed_analyse
     CLI.debug_entry
-
     # = Lemmatisation du texte =
     lemmatize
-
-    # = Relève des mots dans le fichier =
+    # = Relève des mots dans l'unique fichier =
     # cf. fichier 'releve_mots.rb'
     releve_mots
-
+  ensure
+    CLI.debug_exit
   end
 
 

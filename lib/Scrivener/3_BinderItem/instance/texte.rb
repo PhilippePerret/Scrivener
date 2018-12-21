@@ -39,6 +39,9 @@ class BinderItem
     str = `textutil -format rtf -convert txt -stdout "#{rtf_text_path}"`
     # On supprime toutes les balises de styles
     str.gsub!(/<\!?\$(.*?)>/,'')
+    # On supprime les commentaires Scrivener éventuels
+    # {\Scrv_annot ... \end_Scrv_annot}
+    str.gsub!(/ ?\{\\Scrv_annot(.*?)\\end_Scrv_annot\} ?/,'')
     File.open(simple_text_path,'wb'){|f| f.write str}
     # return str # avant
     return simple_text_file_exists?

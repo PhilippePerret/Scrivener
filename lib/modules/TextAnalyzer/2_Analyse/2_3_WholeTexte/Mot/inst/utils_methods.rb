@@ -5,7 +5,7 @@ class Mot
 
   # Redéfinition pour lecture plus facile
   def inspect
-    return '<<TA::AN::WT::Mot(my inspect) @index=%{index} @real=%{real} @lemma=%{lemma} @canon=%{canon}>>' % self.data
+    return '<<TA::AN::WT::Mot(my inspect) @real=%{real} @offset=%{offset} @index=%{index} @lemma=%{lemma} @canon=%{canon}>>' % self.data
   end
 
   def data

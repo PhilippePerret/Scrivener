@@ -16,7 +16,7 @@ class Project
   def compare_tables_resultats new_table, old_table
     CLI.debug_entry
     old_table != nil || return
-    tables_comparaison = TableComparaison.new(new_table, old_table)
+    self.tables_comparaison = TableComparaison.new(new_table, old_table)
     tables_comparaison.compare_tables
   rescue Exception => e
     raise_by_mode(e, Scrivener.mode)

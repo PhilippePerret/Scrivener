@@ -31,6 +31,7 @@ class Analyse
   # Cette date `modified_at` est consignée dans `self.original_doc_modified_at`
   def uptodate?
     self.original_doc_modified_at || (return true)
+    self.modified_at || (return true)
     self.modified_at > self.original_doc_modified_at
   end
 

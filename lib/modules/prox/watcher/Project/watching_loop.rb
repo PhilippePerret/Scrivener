@@ -5,8 +5,9 @@ class Scrivener
       CLI.debug_entry
       fin = false
       begin
+        # puts "-- J'ENTRE DANS LA BOUCLE DE SURVEILLANCE"
         # On attend une modification du fichier
-        sleep 1 # voir si c'est pas mieux d'utiliser un thread
+        sleep 1
         # Quand le document a changé, il faut analyser l'état actuel et
         # le comparer à l'état précédent.
         if changement_has_occured?
@@ -21,11 +22,10 @@ class Scrivener
     # Retourne true si un changement est survenu dans les binder-item,
     # c'est-à-dire si leur mtime a changé depuis la dernière vérification
     def changement_has_occured?
-      # CLI.dbg("-> Scrivener::Project#changement_has_occured? (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
       watched_binder_items.each do |bitem|
         if bitem.has_changed? then
           # Comme on va procéder à la vérification, on doit marquer la nouvelle
-          # date pour les trois fichiers, pour ne pas faire trois fois
+          # date pour tous les fichiers, pour ne pas faire trois fois
           # l'opération.
           watched_binder_items.each do |sbitem|
             sbitem.set_current_mtime
@@ -33,11 +33,9 @@ class Scrivener
             sbitem.instance_variable_set('@texte', nil)
             # puts "--- Texte de #{bitem.uuid} : #{bitem.texte}"
           end
-          # CLI.dbg("<- Scrivener::Project#changement_has_occured? (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
           return true
         end
       end
-      # CLI.dbg("<- Scrivener::Project#changement_has_occured? (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
       return false
     end
     # /changement_has_occured?

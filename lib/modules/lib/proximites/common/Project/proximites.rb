@@ -14,6 +14,7 @@ class Project
   # Retourne la table des résultats de l'analyse
   def check_proximites_in_watched_binder_items
     paths = create_binder_items_text_files(self.watched_binder_items)
+    @analyse = nil # Pour forcer une nouvelle analyse
     analyse.exec(paths)
   end
   # /check_proximites_in_watched_binder_items

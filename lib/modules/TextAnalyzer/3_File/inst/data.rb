@@ -29,5 +29,9 @@ class AnalyzedFile
     @texte ||= File.read(path)
   end
 
+  def affixe
+    @affixe ||= File.basename(path, File.extname(path))
+  end
+
 end #/AnalyzedFile
 end #/TextAnalyzer

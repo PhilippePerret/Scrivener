@@ -3,6 +3,8 @@ class TextAnalyzer
 class Analyse
 class WholeText
 
+  NOT_FIRST_CHAR_MOT = {' ' => true, '"' => true, "'" => true}
+
   # Méthode qui traite le texte courant et récupère tous
   # ses mots pour les mettre dans la table +tableau+
   #
@@ -13,8 +15,11 @@ class WholeText
     # On commence par remplacer tous les caractères non alphanumérique par
     # des espaces (ponctuations, retour chariot), car sinon ils ne seraient
     # pas considérés par le scan.
-    t = self.content.gsub(/\r/,'').gsub(/[\,\n\.\!\?\;\… ]/, ' ') + ' EOT'
+    t = self.content.gsub(/\r/,'').gsub(/’/,"'").gsub(/[\“\”]/, '"').gsub(/[>\+\\\/\[\]\{\}\(\)\%«»"\,\n\.\¡\¿\!\?\;\…–—\-\: ]/, ' ') + ' EOT'
     # NE SURTOUT PAS METTRE '_' qui sert pour les tags retirés
+
+    # Utiliser l'option -no-output pour ne pas avoir l'affichage des résultats
+    # puts "\n\n--- t:\n#{t}\n\n"
 
     # Valeurs initiales
     rel_offset = 0 # l'offset dans ce document-ci
@@ -27,10 +32,6 @@ class WholeText
     mot = nil
     # pour commencer à 0 et avoir index_found += 1 au-dessus
     index_found = -1
-
-    # L'ID du fichier courant. Normalement, c'est le tout premier mot
-    # qu'on doit trouver.
-    current_file_id = nil
 
     # all_separated_words.each_with_index do |found, index_found|
     while index_found < last_index_found
@@ -101,11 +102,14 @@ class WholeText
       # "inter-mot", qui peut être constitué de plusieurs espaces et
       # ponctuation, retour chariot et consorts.
       # La première chose à faire est de récupérer les signes originaux
-      type_seg = seg[0] == ' ' ? :inter : :mot
+      type_seg = NOT_FIRST_CHAR_MOT[seg[0]] ? :inter : :mot
+
+      current_file_id = get_current_file_id(tres.current_offset)
 
       if type_seg == :inter
         seg = mot = self.content[rel_offset...(rel_offset + seg.length)]
       else # if type_seg == :mot
+        # puts '- %s' % seg.inspect
         mot = self.mots.create({
           analyse:          analyse,
           real:             seg,
@@ -124,11 +128,39 @@ class WholeText
       tres.current_offset += mot.length
       rel_offset += mot.length
     end
+
+    # # Vérification des mots (pour être sûr qu'ils sont bien tous des mots)
+    # puts "- Début vérification des mots…"
+    # self.mots.items.each do |mot_index, imot|
+    #   imot.real.dup.normalize.gsub(/[a-zA-Z'0-9]/,'') == '' && next
+    #   puts "- MOT PROBLÉMATIQUE : #{imot.real.inspect} [#{imot.offset}]"
+    # end
+    # puts "OK"
+
     # Normalement, il faut ajouter 1 pour obtenir le vrai décalage dans
     # le fichier total, qui prend un retour de chariot en plus à la fin.
     tres.current_offset += 1
   end
   # /releve_mots
+
+  def get_current_file_id offs
+    # L'ID du fichier courant.
+    # Pour le trouver, pour le moment, on cherche avec les Files de l'analyse,
+    # dont l'instance contient l'offset dans le texte.
+    from_file_offset_to_file_offset.each_with_index do |offset, file_index|
+      offset < offs || begin
+        return file_index
+      end
+    end
+  end
+
+  def from_file_offset_to_file_offset
+    @from_file_offset_to_file_offset ||= begin
+      analyse.files.collect do |file_id, file_ins|
+        file_ins.offset
+      end
+    end
+  end
 
 end #/WholeText
 end #/Analyse

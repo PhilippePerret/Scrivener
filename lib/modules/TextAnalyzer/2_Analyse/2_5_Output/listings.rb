@@ -88,6 +88,7 @@ class Output
         ecrit(imot.header(options))
         footer_line = imot.footer_line
       end
+      imot.length > 2 || next
       ecrit imot.as_line_output(index + 1)
     end
     ecrit footer_line

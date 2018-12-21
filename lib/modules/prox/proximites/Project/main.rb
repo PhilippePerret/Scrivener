@@ -69,7 +69,7 @@ class Project
       end
       something_is_displayed || puts("Avec --only_calculs, il faut ajouter une option pour voir une liste (--segments, --proximites, etc.)".rouge)
     else
-      analyse.output.all
+      analyse.output.all unless CLI.options[:no_output]
     end
     return true
   end

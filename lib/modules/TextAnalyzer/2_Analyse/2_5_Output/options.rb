@@ -19,6 +19,8 @@ class Output
     opts.key?(:sorted_by)     || opts.merge!(sorted_by: :alpha)
     opts.key?(:limit)         || opts.merge!(limit: Float::INFINITY)
 
+    opts.merge!(analyse: self.analyse)
+
     self.options = opts
 
     # On charge les modules en fonction des options

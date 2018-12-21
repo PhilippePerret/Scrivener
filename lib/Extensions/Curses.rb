@@ -245,29 +245,31 @@ module Curses
     init_pair(10, 39,   COLOR_BLACK) # bleu sur noir
     init_pair(11, 48,   COLOR_BLACK) # vert sur noir
     init_pair(12, 210,  COLOR_BLACK) # gris sur blanc
-    init_pair(13, 196,  COLOR_BLACK) # rouge sur noir
+    init_pair(13, 197,  COLOR_BLACK) # rouge sur noir
     init_pair(14, GRIS,  COLOR_BLACK) # gris sur noir
     init_pair(15, 15,   COLOR_BLACK) # blanc sur noir
+    init_pair(16, COLOR_YELLOW,   COLOR_BLACK) # jaune sur noir
     init_pair(20, 15,   160) # blanc sur rouge # aussi 196
     init_pair(21, 15,   28) # blanc sur vert
 
     init_pair(30, 196, COLOR_BLACK)
     CUSTOM_COLORS.merge!(
-      noir_sur_blanc:             color_pair(9),
-      gris_sur_blanc:             color_pair(5),
       rouge_sur_blanc:            color_pair(1),
       bleu_sur_blanc:             color_pair(2),
       vert_sur_blanc:             color_pair(4),
+      gris_sur_blanc:             color_pair(5),
+      noir_sur_blanc:             color_pair(9),
       bleu_sur_noir:              color_pair(10),
       bleu:                       color_pair(10),
       vert_sur_noir:              color_pair(11),
       vert:                       color_pair(11),
-      blanc_sur_noir:             color_pair(15),
-      blanc:                      color_pair(15),
       rouge_sur_noir:             color_pair(13),
       rouge:                      color_pair(13),
       gris_tres_clair_sur_noir:   color_pair(14),
       gris_clair:                 color_pair(14),
+      blanc_sur_noir:             color_pair(15),
+      blanc:                      color_pair(15),
+      jaune:                      color_pair(16),
       exergue_rouge:              color_pair(20),
       exergue_vert:               color_pair(21)
     )
@@ -282,6 +284,8 @@ module Curses
         case attr
         when :defaut, :default  then curses_attrs | color_pair(9)
         when :red               then curses_attrs | color_pair(1)
+        when :other_red         then curses_attrs | color_pair(13)
+        when :jaune, :yellow    then curses_attrs | color_pair(16)
         when :blue              then curses_attrs | color_pair(2)
         when :green             then curses_attrs | color_pair(4)
         when :gris, :grey       then curses_attrs | color_pair(5)
