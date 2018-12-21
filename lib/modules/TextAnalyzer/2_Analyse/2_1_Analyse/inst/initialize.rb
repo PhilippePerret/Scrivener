@@ -25,7 +25,7 @@ class Analyse
     @data = Data.new(self)
     data.paths= paths
     data.started_at = Time.now
-    TableResultats::Proximite.init
+    TableResultats::Proximite.init(self)
     table_resultats.init
     texte_entier.init
   end

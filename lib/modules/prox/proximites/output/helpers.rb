@@ -54,7 +54,7 @@ class << self
 
   def nombre_proximites_corriged
     @nombre_proximites_corriged ||= begin
-      tb = tableau # protect.tableau_proximites
+      tb = tableau # project.analyse.table_resultats
       tb[:nombre_proximites_erased]   +
       tb[:nombre_proximites_fixed]    +
       tb[:nombre_proximites_ignored]  -

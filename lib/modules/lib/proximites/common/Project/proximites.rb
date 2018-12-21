@@ -11,11 +11,10 @@ class Project
   # ici que les binder-items "autour", donc à peu près 3 pages, ça va
   # assez vite.
   #
-  # Retourne la table des proximités, qui peut être mise par exemple dans
-  # self.tableau_proximites
+  # Retourne la table des résultats de l'analyse
   def check_proximites_in_watched_binder_items
     paths = create_binder_items_text_files(self.watched_binder_items)
-    analyse(paths).exec
+    analyse.exec(paths)
   end
   # /check_proximites_in_watched_binder_items
 

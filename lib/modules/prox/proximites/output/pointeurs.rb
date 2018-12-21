@@ -21,7 +21,7 @@ class << self
 
   def update_pointeurs
     POINTEURS.merge!(
-      liste_mots: project.tableau_proximites[:mots]
+      liste_mots: project.analyse.table_resultats.mots
     )
     POINTEURS.merge!(
       mots_canoniques: POINTEURS[:liste_mots].keys

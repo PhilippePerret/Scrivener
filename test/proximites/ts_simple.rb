@@ -9,7 +9,7 @@ class TestProximiteSimple < Test::Unit::TestCase
 
   test '`scriv prox ./test/assets/ajout` produit le dossier .scriv correct' do
     hidden_folder     = './test/assets/ajout/.scriv'
-    proximites_file    = File.join(hidden_folder, 'tableau_proximites.msh')
+    proximites_file    = File.join(hidden_folder, 'table_resultats.msh')
     lemmatisation_data_file = File.join(hidden_folder, 'lemmatisation_all_data')
     lemmatisation_file = File.join(hidden_folder, 'table_lemmatisation.msh')
     whole_texte_file    = File.join(hidden_folder, 'whole_texte.txt')

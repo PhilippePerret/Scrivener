@@ -2,7 +2,7 @@ class Scrivener
   class Project
 
     def exec_boucle_surveillance
-      CLI.dbg("-> Scrivener::Project#exec_boucle_surveillance (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+      CLI.debug_entry
       fin = false
       begin
         # On attend une modification du fichier
@@ -14,7 +14,7 @@ class Scrivener
         end
       end while !fin
       # Note : mais en fait, c'est CTRL-C qui interrompt le programme.
-      CLI.dbg("<--- Scrivener::Project#exec_boucle_surveillance (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+      CLI.debug_exit
     end
     # /exec_boucle_surveillance
 

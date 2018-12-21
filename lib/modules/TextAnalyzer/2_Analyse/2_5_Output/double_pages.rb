@@ -23,7 +23,7 @@ class Proximite
   }
 
   attr_accessor :projet
-  attr_accessor :table # correspond à project.tableau_proximites
+  attr_accessor :table
 
   # Instance (quelconque) de l'objet dont il faut afficher les proximités.
   # Ce peut être un mot, un document ou un Binder-item (Scrivener)
@@ -56,7 +56,7 @@ class Proximite
   #                 les proximités.
   #
   # Note que le "filtrage" se fait avant, en fait. Ici, la valeur de
-  # 'iprojet.tableau_proximites' ne doit contenir que les proximités qui
+  # 'iprojet.analyse.table_resultats' ne doit contenir que les proximités qui
   # intéressent l'affichage et aucune autre.
   #
   def affiche_en_deux_pages objet

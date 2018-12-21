@@ -50,8 +50,8 @@ class Scrivener
 
     # Fichier contenant la définition des données de proximité propres
     # au projet courant
-    def proximites_file_path
-      @proximites_file_path ||= File.join(folder, 'proximites.txt')
+    def custom_proximites_file_path
+      @custom_proximites_file_path ||= File.join(folder, 'proximites.txt')
     end
 
     # Dossier contenant le fichier principal du projet scrivener

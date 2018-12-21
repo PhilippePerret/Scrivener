@@ -64,7 +64,7 @@ class Project
       open_if_exists(lemma_data_path, 'fichier de lemmatisation', opts)
     when 'proximites', 'prox'
       opts.merge!(tip: :prox)
-      open_if_exists(proximites_file_path, 'fichier des proximités propres au projet', opts)
+      open_if_exists(custom_proximites_file_path, 'fichier des proximités propres au projet', opts)
     when 'abbr', 'abbrs', 'abbreviations'
       opts.merge!(tip: :abbr)
       open_if_exists(TREE_TAGGER_ABBREVIATES, 'fichier des abbréviations', opts)

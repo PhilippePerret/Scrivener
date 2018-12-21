@@ -23,12 +23,6 @@ class Project
     @authors ||= get_authors
   end
 
-  # Liste des mots sans canonisation. Noter qu'il faut avoir lancé une
-  # analyse de proximité pour pouvoir avoir accès à cette donnée.
-  def real_mots
-    @real_mots ||= tableau_proximites[:real_mots]
-  end
-
   # Date de dernière modification du projet
   def modified_at
     @modified_at ||= File.stat(path).mtime

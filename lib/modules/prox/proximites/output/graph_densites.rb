@@ -137,11 +137,10 @@ class Project
   def output_data_proximites
     get_data_analyse || return
     puts "\n\n==== DATA DE PROXIMITES ==="
-    # puts tableau_proximites.inspect
 
-    tableau_proximites[:mots].each do |mot_canonique, data_mot|
-      puts "--- mot générique : #{mot_canonique}"
-      data_mot[:items].each do |imot|
+    table_resultats.mots.each do |mot_lemma, data_mot|
+      puts "--- mot générique : #{mot_lemma}"
+      data_mot.items.each do |imot|
         puts "   - #{imot.real} :: #{imot.offset}"
       end
     end

@@ -17,7 +17,7 @@ class TableResultats
 
   attr_accessor :created_at, :updated_at
 
-  def canons # avant, c'était tableau_proximites[:mots]
+  def canons
     @canons ||= Canons.new(self.analyse)
   end
 
@@ -25,7 +25,7 @@ class TableResultats
   # C'est une table à ne pas confondre avec la liste des mots du texte entier.
   # Celle-ci contient en clé le mot générique (pas canon) en minuscule et
   # en valeur la liste des index de tous les mots identiques du texte.
-  def mots # avant, c'était tableau_proximites[:real_mots]
+  def mots
     @mots ||= Mots.new(self.analyse)
   end
 

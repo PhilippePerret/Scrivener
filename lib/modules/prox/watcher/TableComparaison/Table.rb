@@ -1,5 +1,7 @@
-class Proximite
-  class Table
+class Scrivener
+class Project
+class TableComparaison
+class Table
 
     # Les données de la table des proximités
     attr_reader :data
@@ -175,7 +177,7 @@ class Proximite
       @proximites_par_paire ||= Hash.new
       @proximites_par_paire[canon] ||= begin
         h = Hash.new
-        canons[canon][:proximites].each do |prox_id|
+        canons[canon].proximites.each do |prox_id|
           iprox   = proximite(prox_id)
           kpaire  = '%s-%s' % [iprox.mot_avant.real, iprox.mot_apres.real]
           h.key?(kpaire) || h.merge!(kpaire => Array.new)
@@ -187,13 +189,15 @@ class Proximite
 
     # Retourne la table des canons, donc la table des mots canonisés
     def canons
-      @canons ||= data[:mots]
+      @canons ||= data.canons
     end
     # Retourne l'instance proximité d'identifiant +prox_id+ de la table
     def proximite(prox_id)
-      data[:proximites][prox_id]
+      data.proximites[prox_id]
     end
 
 
-  end #/class Table
-end #/Proximite
+end #/class Table
+end #/TableComparaison
+end #/Project
+end #/Scrivener

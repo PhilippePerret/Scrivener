@@ -59,7 +59,7 @@ class Proximite
     if attrs[:ignore]
       self.ignored = true
       # TODO Il y aura une erreur ici
-      project.tableau_proximites[:nombre_proximites_ignored] += 1
+      project.analyse.table_resultats.nombre_proximites_ignored += 1
       return # pour ne pas marquer corrigé
     elsif attrs[:new_mot_avant]
       debug("= Changement du mot AVANT (#{attrs[:new_mot_avant].inspect})")
@@ -75,7 +75,7 @@ class Proximite
     # TODO Pour le moment, on indique que la proximité est corrigée, mais
     # il faudra vérifier mieux que ça
     self.fixed = true
-    project.tableau_proximites[:nombre_proximites_fixed] += 1
+    project.analyse.table_resultats.nombre_proximites_fixed += 1
   end
   # /fix
 
@@ -95,17 +95,19 @@ class ProxMot
   #
   def remplace_par new_mot
 
-    old_canonique = "#{canonique}".freeze
-    debug "old_canonique de #{real} : #{old_canonique}"
+    old_canon = "#{canon}".freeze
+    # NOTE PEUT-ÊTRE QUE MAINTENANT C'EST LE lemma QU'IL FAUT PRENDRE
+
+    debug "old_canon de #{real} : #{old_canon}"
 
     # La grande table des proximités
-    tableau = project.tableau_proximites
+    table = project.analyse.table_resultats
 
-    old_index = tableau[:mots][old_canonique][:items].index(self)
+    old_index = table.mots[old_canon].items.index(self)
     debug('= Index de l’ancien mot dans la liste des items du canonique : %i' % old_index)
-    old_mot_avant = tableau[:mots][old_canonique][:items][old_index - 1]
+    old_mot_avant = table.mots[old_canon].items[old_index - 1]
     debug('= Mot qui précède : %s' % old_mot_avant.inspect)
-    old_mot_apres = tableau[:mots][old_canonique][:items][old_index + 1]
+    old_mot_apres = table.mots[old_canon].items[old_index + 1]
     debug('= Mot qui suit : %s' % old_mot_apres.inspect)
 
     # Détruire les proximités qui peuvent exister
@@ -150,21 +152,21 @@ class ProxMot
 
     self.reset
     self.real = new_mot
-    project.segments[self.index][:seg] = new_mot
-    project.set_modified
+    project.analyse.segments[self.index][:seg] = new_mot
+    project.analyse.set_modified
     debug "= New canonique de #{real} : #{canonique}"
-    debug "= old_canonique : #{old_canonique}"
+    debug "= old_canon : #{old_canon}"
 
     # Si le mot a changé de mot canonique, on doit le retirer de
     # sa liste et la mettre dans la nouvelle
     # Sinon, il n'y a rien à faire
     new_canonique = canonique
-    if old_canonique != new_canonique
-      debug('= Mots canoniques différents (%s ≠ %s)' % [old_canonique, new_canonique])
+    if old_canon != new_canonique
+      debug('= Mots canoniques différents (%s ≠ %s)' % [old_canon, new_canonique])
       # Retirer le mot de :
-      # tableau[:mots][canonique][:items]
+      # table.mots[canonique][:items]
       # … et le mettre dans
-      # tableau[:mots][new_mot_canonique][:items]
+      # table.mots[new_mot_canonique][:items]
       # En vérifiant dans les deux cas comment ça modifie les proximités
       # des anciens mots avant/après s'ils existent et les nouveaux mots
       # avant/après s'ils existent
@@ -184,7 +186,7 @@ class ProxMot
           debug '= Les deux mots autour sont trop proches. => Il faut créer une nouvelle proximité'
           new_prox = Proximite.create(project, old_mot_avant, old_mot_apres)
           if new_prox.is_a?(Proximite)
-            project.tableau_proximites[:nombre_proximites_added] += 1
+            project.analyse.table_resultats.nombre_proximites_added += 1
           else
             raise 'Un problème est survenu, la nouvelle proximité n’a pas pu être créée entre le mot «%s» (à %i) et le mot «%s» (à %i)…' %
               [old_mot_avant.real, old_mot_avant.offset, old_mot_apres.real, old_mot_apres.offset]
@@ -206,7 +208,7 @@ class ProxMot
     #
     # Pour placer le mot dans
     # Faut-il créer une nouvelle liste canonique ?
-    le_mot_canonique_existe_deja = project.tableau_proximites[:mots].key?(canonique)
+    le_mot_canonique_existe_deja = project.analyse.table_resultats.mots.key?(canonique)
     if le_mot_canonique_existe_deja
       # <= le mot canonique existe déjà
       debug('= Le mot canonique «%s» existe déjà.' % canonique)
@@ -217,27 +219,27 @@ class ProxMot
     end
 
     # On ajoute le mot au projet en créant la table canonique si besoin
-    project.add_mot_in(self, project.tableau_proximites)
+    project.add_mot_in(self, project.analyse.table_resultats)
 
     if le_mot_canonique_existe_deja
       # <= La table canonique existait déjà
       # => Il faut checker la proximité
       debug('= Le mot canonique existait, il faut checker la proximité du nouveau mot.')
-      index_mot = project.tableau_proximites[:mots][canonique][:items].index(self)
+      index_mot = project.analyse.table_resultats.mots[canonique].items.index(self)
       if index_mot > 0
         # <= Le mot n'est pas le premier
         # => Il faut checker avec le précédent
-        mot_precedent = project.tableau_proximites[:mots][canonique][:items][index_mot - 1]
+        mot_precedent = project.analyse.table_resultats.mots[canonique].items[index_mot - 1]
         debug('* Vérification de la proximité du mot d’offset %i avec le précédent (offset %i)' % [self.offset, mot_precedent.offset])
         if self.trop_proche_de?(mot_precedent)
           Proximite.create(project, mot_precedent, self)
           debug('  = Le mot est trop proche => création d’une nouvelle proximité')
         end
       end
-      if index_mot < project.tableau_proximites[:mots][canonique][:items].count - 1
+      if index_mot < project.analyse.table_resultats.mots[canonique].items.count - 1
         # <= Le mot n'est pas le dernier.
         # => Il faut checker avec le mot suivant
-        mot_suivant = project.tableau_proximites[:mots][canonique][:items][index_mot + 1]
+        mot_suivant = project.analyse.table_resultats.mots[canonique].items[index_mot + 1]
         if mot_suivant.trop_proche_de?(self)
           Proximite.create(project, self, mot_suivant)
         end

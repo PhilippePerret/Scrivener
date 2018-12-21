@@ -23,10 +23,7 @@ class Project
     if CLI.options[:tableau]
       display_binder_items_by_densites
     else
-      # # Afficher les proximités du binder-item le plus dense (ou le moins dense)
-      # bi_uuid = self.tableau_proximites[:sorted_binder_items].send(CLI.options[:mintomax] ? :last : :first)
       Scrivener.require_module('prox/one_doc')
-      # exec_proximites_one_doc(self.tableau_proximites[:binder_items][bi_uuid][:title])
     end
   end
 
@@ -46,10 +43,12 @@ class Project
     lines << ENTETE_BINDER_ITEM_LISTE_DENSITE.strip
     lines << '-'
 
-    liste = self.tableau_proximites[:sorted_binder_items]
+    liste = self.analyse.table_resultats.sorted_binder_items
     CLI.options[:mintomax] && liste = liste.reverse
     liste.each do |uuid|
-      bi_data = self.tableau_proximites[:binder_items][uuid]
+
+      raise "Il faut corriger ici pour prendre les documents dans le projet, pas dans l'analyse où ils ne doivent normalement pas être vraiment définis (contrairemetn à leur version simple-texte)"
+      bi_data = self.tablooo_proximites[:binder_items][uuid]
       bi_data[:densite] || next
 
       ftitle = if bi_data[:title].length > 70
@@ -91,28 +90,24 @@ class Project
   # des proximités et enregistrée.
   #
   def sort_binder_items_by_densites
-    CLI.dbg("-> Scrivener::Project#sort_binder_items_by_densites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
-    if CLI.options[:force_calcul] || self.tableau_proximites[:sorted_binder_items].nil?
-      tbl = self.tableau_proximites[:binder_items]
+    CLI.debug_entry
+    if CLI.options[:force_calcul] || self.tabloo_proximites[:sorted_binder_items].nil?
+      tbl = self.tablooo_proximites[:binder_items]
       liste_classed = tbl.sort_by { |bi_id, bi_data| bi_data[:length_by_prox] || 0 }.reverse.collect{|bid,did|bid}
-      self.tableau_proximites.merge!(sorted_binder_items: liste_classed)
+      self.tablooo_proximites.merge!(sorted_binder_items: liste_classed)
       save_proximites
     end
-    CLI.dbg("<- Scrivener::Project#sort_binder_items_by_densites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+    CLI.debug_exit
   end
   # /sort_binder_items_by_densites
 
   # Définir, au besoin, les densités des binder-items, ainsi que les
   # proximités (ID) qu'ils contiennent.
   def define_binder_items_densites
-    CLI.dbg("-> Scrivener::Project#define_binder_items_densites (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+    CLI.debug_entry
     CLI.options[:force] || CLI.options[:force_calcul] || densite_binder_item_undefined? || return
 
-    # On peut boucler sur chaque proximité (self.tableau_proximites) et relever
-    # dans quel(s) binder-item(s) elle se trouve.
-    # Binder-item du mot avant
-    # Binder-item du mot après
-    tbl = self.tableau_proximites[:binder_items]
+    tbl = self.tablooo_proximites[:binder_items]
     densite_max = 0
     self.analyse.table_resultats.proximites.each do |prox_id, iprox|
       bmot = iprox.mot_avant
@@ -133,7 +128,7 @@ class Project
     # On peut vraiment calculer la densité. Cette densité correspond au
     # nombre total de proximités par rapport au nombre dans le binder-item.
     nombre_total_proximites = self.analyse.table_resultats.proximites.count.to_f
-    self.tableau_proximites[:binder_items].each do |bi_uuid, bi_data|
+    self.tablooo_proximites[:binder_items].each do |bi_uuid, bi_data|
       bi_data[:proximites_count] || next
       bi_data[:densite] = (1000 * (bi_data[:proximites_count] / nombre_total_proximites).round(4)).round(2)
       bi_data[:length_by_prox] = (bi_data[:length].to_f/bi_data[:proximites_count]).round(1)
@@ -149,7 +144,7 @@ class Project
 
   # Retourne true si les densités des binder-items ne sont pas définies
   def densite_binder_item_undefined?
-    self.tableau_proximites[:binder_items].values.first[:proximites].nil?
+    self.tablooo_proximites[:binder_items].values.first[:proximites].nil?
   end
   # /densite_binder_item_undefined?
 

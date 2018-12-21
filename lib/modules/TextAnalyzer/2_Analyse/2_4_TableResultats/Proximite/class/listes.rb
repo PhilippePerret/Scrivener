@@ -5,10 +5,11 @@ class Proximite
   class << self
 
     # = Initialisation des listes =
-    def init
+    # Pour l'analyse +ianalyse+
+    def init(ianalyse)
       # On initialise les listes de proximité
       prepare_liste_rectifiees
-      # prepare_liste_proximites_projet TODO À REMETTRE
+      prepare_liste_proximites_projet(ianalyse)
     end
     # /init
 
@@ -24,14 +25,14 @@ class Proximite
     # /prepare_liste_rectifiees
 
     # Préparation de la liste des mots propre au projet, à distance particulière
-    def prepare_liste_proximites_projet
-      File.exists?(proximites_file_path) || begin
-        debug 'Pas de liste proximités propre au texte (le fichier %s n’existe pas)' % proximites_file_path
+    def prepare_liste_proximites_projet(ianalyse)
+      File.exists?(custom_proximites_file_path(ianalyse)) || begin
+        debug 'Pas de liste proximités propre au texte (le fichier %s n’existe pas)' % custom_proximites_file_path
         return
       end
 
       proximite_maximale = -1
-      File.open(proximites_file_path,'rb').each do |line|
+      File.open(custom_proximites_file_path,'rb').each do |line|
         line.start_with?('#') && next
         if line =~ /[0-9]+/
           proximite_maximale = line.to_i
@@ -42,6 +43,10 @@ class Proximite
       end
     end
     # /prepare_liste_proximites_projet
+
+    def custom_proximites_file_path(analyse = nil)
+      @custom_custom_proximites_file_path ||= File.join(analyse.folder, 'proximites.txt')
+    end
 
   end #/ << self
 end #/Proximite
