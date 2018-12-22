@@ -30,7 +30,6 @@ class Project
 
   # Initialisation de la commande
   def init_prox_one_word
-    Debug.init
   end
 
   # Définition des données utiles

@@ -17,13 +17,28 @@ class Project
   def get_data_analyse
     CLI.debug_entry
     if analyse.exist? && analyse.uptodate? && !CLI.options[:force]
-      analyse.reload
+      debug('L’analyse existe et elle est actualisée, je la recharge.')
+      @analyse = TextAnalyzer::Analyse.reload(analyse)
       CLI.options[:force_calcul] && analyse.force_recalcul
     else
+      debug(motif_reexec_analyse)
       analyse.exec(all_paths_simple_text)
     end
-    CLI.debug_exit
     return true # pour pouvoir continuer
+  ensure
+    CLI.debug_exit
+  end
+
+  def motif_reexec_analyse
+    if !analyse.exist?
+      'L’analyse n’existe pas'
+    elsif !analyse.uptodate?
+      'L’analyse existe mais doit être actualisée'
+    elsif CLI.options[:force]
+      'Il faut forcer l’analyse'
+    else
+      'Pour une raison inconnue'
+    end + ', je procède donc à l’analyse complète du texte.'
   end
 
   # Retourne la liste de tous les fichiers simple texte tirés

@@ -15,15 +15,7 @@ class Project
   # Cette méthode est appelée quand on joue la commande `scriv prox` avec
   # l'option `--in_file`
   def build_proximites_scrivener_file
-
-    # # Pour faire des essais
-    # puts (project.folders.title).inspect
-    # puts project.folders.exist?(title: 'Recherche')
-    # puts project.folders.exist?(title: 'Ébauche')
-    # puts "\n\nJe retourne tout de suite"
-    # return
-
-    get_data_analyse || return
+    CLI.debug_entry
 
     erase_temporary_files_if_exists
 
@@ -54,13 +46,17 @@ class Project
     if File.exists?(file_bitem.rtf_text_path)
       erase_temporary_files_if_exists
       puts ('Le fichier « %s » a été créé dans le projet, dans le dossier « Proximités ».' % file_bitem.title).bleu
-      yesOrNo('Voulez-vous ouvrir votre projet ?') && project.open
+      yesOrNo('Voulez-vous ouvrir votre projet ?') && begin
+        Scrivener.require_module('open')
+        project.open
+      end
     else
       raise('Malheureusement, le fichier des proximités ne semble pas avoir pu être créé dans le projet…')
     end
-
-
+  ensure
+    CLI.debug_exit
   end
+  # /build_proximites_scrivener_file
 
   def build_folder_proximites_in_scrivener
     project.create_main_folder({title: 'Proximités', after: :draft_folder})
@@ -68,9 +64,8 @@ class Project
   # /build_folder_proximites_in_scrivener
 
   def build_file_proximites_in_scrivener(folder_bitem)
-    project.create_binder_item(nil, {
-      title: 'Check du %s' % [Time.now.strftime('%d %m %Y - %H:%M')],
-      container: folder_bitem.node.attributes['UUID']
+    folder_bitem.create_binder_item(nil, {
+      title: 'Check du %s' % [Time.now.strftime('%d %m %Y - %H:%M')]
     })
   end
   # /build_file_proximites_in_scrivener
@@ -132,15 +127,15 @@ class Project
 
     rf = File.open(file_txt_with_colortags_path, 'ab')
     portion = String.new
-    analyse.table_resultats.segments.each do |dsegment|
+    analyse.table_resultats.segments.each_with_index do |dsegment, seg_index|
 
       # Si le mot appartient à un document différent, il faut mettre une ligne
       # contenant le nom du document, de la couleur de document
       # Pour ce faire, on met les documents dans une liste qu'on va manger
       # par la tête au fur et à mesure, en contrôlant chaque fois l'offset
       # du premier élément.
-      if files_list.first.offset < dsegment[:offset]
-        portion << DOCUMENT_LINE % [files_list.shift.title]
+      if files_list.any? && files_list.first.offset < analyse.table_resultats.segments[seg_index + 1][:offset]
+        portion << DOCUMENT_LINE % [binder_item(files_list.shift.affixe).title]
       end
 
       segment_str =
@@ -243,6 +238,7 @@ class Project
 
   ensure
     ffinal.close
+    CLI.debug_exit
   end
 
 

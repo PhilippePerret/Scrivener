@@ -28,7 +28,6 @@ class Project
 
   # Initialisation de la commande
   def init_prox_one_doc
-    Debug.init
   end
 
 

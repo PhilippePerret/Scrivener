@@ -8,7 +8,6 @@ class Project
   # Méthode qui reçoit dans tous les cas la commande `scriv prox `
   def exec_proximites
     CLI.debug_entry
-    Debug.init
 
     Scrivener.require_module('Scrivener')
     Scrivener.require_module('TextAnalyzer')
@@ -37,6 +36,7 @@ class Project
         end
       end
     end
+  ensure
     CLI.debug_exit
   end
   # /exec_proximites
@@ -72,6 +72,8 @@ class Project
       analyse.output.all unless CLI.options[:no_output]
     end
     return true
+  ensure
+    CLI.debug_exit
   end
 
 

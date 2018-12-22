@@ -21,8 +21,7 @@ class Analyse
     @data ||= begin
       provdata = Data.new(self)
       if provdata.exist?
-        # Marshal.load(File.open(provdata.path,'rb'))
-        provdata.load
+        TextAnalyzer::Analyse::Data.load(self)
       else
         provdata
       end

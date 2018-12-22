@@ -26,15 +26,24 @@ class Analyse
     save_all
   end
 
+  def save
+    Marshal.dump(self, File.open(data_path, 'wb'))
+  end
+
   def save_all
     table_resultats.save
     texte_entier.save
     data.ended_at = Time.now
     data.save
+    self.save
   end
   # /save_all
 
+  def data_path
+    @data_path ||= File.join(hidden_folder, 'analyse.msh')
+  end
   # = main =
+  #
   # Analyse des paths transmises
   #
   def assemble_texts_of_paths

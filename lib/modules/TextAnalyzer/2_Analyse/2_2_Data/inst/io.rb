@@ -14,13 +14,6 @@ class Data
     File.open(path,'wb').write(Marshal.dump(self))
   end
 
-  # ATTENTION : ça charge l'instance elle-même, donc en fait : il faut
-  # instancier un objet Data, puis appeler la méthode load pour définir la
-  # variable qui contiendra vraiment les données (l'instance retournée)
-  def load
-    Marshal.load(File.open(path,'rb'))
-  end
-
   def path
     @path ||= File.join(analyse.hidden_folder,'data.msh')
   end

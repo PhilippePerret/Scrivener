@@ -13,10 +13,12 @@ class Analyse
       self.exec
       return
     end
+    # Les données de l'analyse
+    @data             = TextAnalyzer::Analyse::Data.load(self)
     # Les données du texte entier
-    @texte_entier = TextAnalyzer::Analyse::WholeText.load(self)
+    @texte_entier     = TextAnalyzer::Analyse::WholeText.load(self)
     # La table de résultats
-    @table_resultats = TextAnalyzer::Analyse::TableResultats.load(self)
+    @table_resultats  = TextAnalyzer::Analyse::TableResultats.load(self)
   end
 
   # RETURN true si tous les fichiers d'analyse (Marshal) existent (et peuvent

@@ -47,6 +47,41 @@
                 </BinderItem>
             </Children>
         </BinderItem>
+        <BinderItem UUID="8411BCEF-C6FE-4614-9529-439D3AED650E" Type="Folder" Created="2018-12-22 07:45:17 +0300" Modified="2018-12-22 07:45:17 +0300">
+            <Title>Proximités</Title>
+            <TextSettings>
+                <TextSelection>0,0</TextSelection>
+            </TextSettings>
+            <Children>
+                <BinderItem UUID="64512843-3CA7-4AB4-8702-D07FBFBAEFE3" Type="Text" Created="2018-12-22 07:46:26 +0300" Modified="2018-12-22 07:46:26 +0300">
+                    <Title>Check du 22 12 2018 - 07:46</Title>
+                    <MetaData>
+                        <IncludeInCompile>Yes</IncludeInCompile>
+                    </MetaData>
+                    <TextSettings>
+                        <TextSelection>0,0</TextSelection>
+                    </TextSettings>
+                </BinderItem>
+                <BinderItem UUID="DF3FB5D6-F63D-449B-AEFF-A072172224D5" Type="Text" Created="2018-12-22 07:49:38 +0300" Modified="2018-12-22 07:49:38 +0300">
+                    <Title>Check du 22 12 2018 - 07:49</Title>
+                    <MetaData>
+                        <IncludeInCompile>Yes</IncludeInCompile>
+                    </MetaData>
+                    <TextSettings>
+                        <TextSelection>0,0</TextSelection>
+                    </TextSettings>
+                </BinderItem>
+                <BinderItem UUID="61A0BAA6-E59B-4C3F-B639-DF5F87FA1DFC" Type="Text" Created="2018-12-22 07:52:06 +0300" Modified="2018-12-22 07:52:06 +0300">
+                    <Title>Check du 22 12 2018 - 07:52</Title>
+                    <MetaData>
+                        <IncludeInCompile>Yes</IncludeInCompile>
+                    </MetaData>
+                    <TextSettings>
+                        <TextSelection>0,0</TextSelection>
+                    </TextSettings>
+                </BinderItem>
+            </Children>
+        </BinderItem>
         <BinderItem UUID="9F5D9FD9-7625-49AC-9102-709AADDB61D9" Type="ResearchFolder" Created="2018-11-08 08:37:53 +0300" Modified="2018-11-08 08:37:53 +0300">
             <Title>Recherche</Title>
             <MetaData>
@@ -115,11 +150,11 @@
     <ProjectTargets Notify="No">
         <DraftTarget Type="Words" CountIncludedOnly="Yes" CurrentCompileGroupOnly="No" Deadline="2018-11-08 08:37:51 +0300" IgnoreDeadline="Yes">0</DraftTarget>
         <SessionTarget Type="Words" CountDraftOnly="Yes" AllowNegatives="Yes" ResetType="Time" ResetTime="00:00" DeterminedFromDeadline="No" WritingDays="" CanWriteOnDeadlineDate="No">0</SessionTarget>
-        <PreviousSession Words="12" Characters="56" Date="2018-12-21 12:50:45 +0300"></PreviousSession>
+        <PreviousSession Words="0" Characters="0" Date="2018-12-22 07:52:13 +0300"></PreviousSession>
     </ProjectTargets>
-    <RecentWritingHistory Date="2018-12-21 00:00:00 +0300">
-        <DraftWordCount>12</DraftWordCount>
-        <DraftCharCount>56</DraftCharCount>
+    <RecentWritingHistory Date="2018-12-22 00:00:00 +0300">
+        <DraftWordCount>0</DraftWordCount>
+        <DraftCharCount>0</DraftCharCount>
         <OtherWordCount>0</OtherWordCount>
         <OtherCharCount>0</OtherCharCount>
     </RecentWritingHistory>

@@ -10,7 +10,6 @@ class Project
   def exec_watch_proximites
     Scrivener.require_module('TextAnalyzer')
     Scrivener.require_module('lib/proximites')
-    Debug.init
     # ask_for_ouverture # TODO À REMETTRE
     options_conformes
     TextAnalyzer::Analyse::TableResultats::Proximite.init(self.analyse)

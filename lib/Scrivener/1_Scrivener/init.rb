@@ -19,6 +19,7 @@ class Scrivener
 
     # Initialisation de l'application
     def init
+      Debug.init
       CLI.analyse_command_line || (return false)# pour 'todo'
       self.command = CLI.command || 'help'
       command_exist?(self.command) || raise(ERRORS_MSGS[:unknown_command] % self.command)
