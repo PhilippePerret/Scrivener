@@ -10,8 +10,10 @@ class Output
   def sorted_list_proximites
     list = data.proximites.values
     case options[:sorted_by]
-    when :distance
+    when :distance, :dist
       list.sort_by{|iprox| iprox.distance}
+    when :'-dist', :'-distance'
+      list.sort_by{|iprox| - iprox.distance}
     else # :alpha et autres
       list.sort_by{|iprox| iprox.mot_avant.real[0..4].downcase.normalize}
     end
@@ -23,6 +25,8 @@ class Output
       list.sort_by{|icanon| - icanon.mots.count}
     when :proximites_count, :prox_count
       list.reject{|c| c.proximites.empty?}.sort_by{|c| - c.proximites.count}
+    when :'-alpha'
+      list.sort_by{|icanon| - icanon.mots.first.sortish}
     else
       list.sort_by{|icanon| icanon.mots.first.sortish}
     end
@@ -33,9 +37,18 @@ class Output
     case options[:sorted_by]
     when :count, :occurences
       list.sort_by { |mot_min, index_list| - index_list.count }
+    when :prox, :proxs, :nombre_proximites
+      # C'est plus compliqué ici dans le sens ou `nombre_proximites`
+      # peut retourner la valeur '-' lorsque le mot est trop court
+      # par exemple
+      list.sort_by do |mot_min, index_list|
+        nb = analyse.mot(mot_min).nombre_proximites
+        nb == '-' ? 1 : - nb
+      end
+    when :'-alpha'
+      list.sort_by { |mot_min, index_list| analyse.mot(mot_min).sortish }.reverse
     else
       list.sort_by { |mot_min, index_list| analyse.mot(mot_min).sortish }
-      # list.sort_by { |mot_min, index_list| analyse.texte_entier.mot(index_list.first).sortish }
     end
   end
 

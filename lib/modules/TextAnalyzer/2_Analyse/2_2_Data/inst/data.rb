@@ -9,6 +9,8 @@ class Data
   # Temps de démarrage et de fin de l'analyse
   attr_accessor :started_at, :ended_at
 
+  # Version courante de l'application `TextAnalyzer`
+
   # {Array} Liste des paths qui vont constituer le fichier final, if any.
   # C'est une liste de paths relatifs
   attr_reader :paths

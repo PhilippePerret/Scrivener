@@ -11,6 +11,7 @@ class Data
   end
 
   def save
+    self.text_analyzer_version = TextAnalyzer.current_version
     File.open(path,'wb').write(Marshal.dump(self))
   end
 

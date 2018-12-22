@@ -116,8 +116,8 @@ class Fixnum
 
   # Retourne le pourcentage de self par rapport à +comp+. Par exemple,
   # si self = 4 et que comp = 8, la méthode retournera 50 (50%)
-  def pct(comp)
-    100 * ( self.to_f / comp )
+  def pct(comp, rounding = nil)
+    (100 * ( self.to_f / comp )).round(rounding||1000)
   end
 
 end #/Fixnum

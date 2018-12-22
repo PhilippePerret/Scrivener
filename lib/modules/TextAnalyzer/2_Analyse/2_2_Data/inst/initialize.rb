@@ -11,6 +11,7 @@ class TextAnalyzer
 class Analyse
 class Data
 
+  attr_accessor :text_analyzer_version
   attr_accessor :analyse
 
   def initialize ianalyse

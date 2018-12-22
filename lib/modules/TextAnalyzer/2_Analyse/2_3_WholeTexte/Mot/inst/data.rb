@@ -101,6 +101,18 @@ class Mot
     @nombre_occurences ||= data_in_table_resultats.count
   end
 
+  # Méthode qui retourne le nombre de proximités du canon de ce mot
+  # Noter que la valeur sera la même pour tous les mots qui partagent
+  # ce canon. Elle est utile pour les listings et notamment le classement
+  # par nombre de proximités, justement.
+  def nombre_proximites
+    @nombre_proximites ||= begin
+      analyse.canons[self.canon] || (return '-')
+      analyse.canons[self.canon].proximites.count
+    end
+  end
+
+
   def data_in_table_resultats
     @in_table_resultats ||= self.analyse.table_resultats.mots[self.lemma]
   end
