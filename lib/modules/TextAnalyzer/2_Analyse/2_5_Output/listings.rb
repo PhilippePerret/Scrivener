@@ -47,13 +47,15 @@ class Output
   def canons opts = nil
     defaultize_options(opts)
     footer_line = nil
+    nombre_canons_affiched = 0
     sorted_list_canons.each_with_index do |icanon, index|
-      index < options[:limit] || break
       index > 0 || begin
         ecrit(icanon.header(options))
         footer_line = icanon.footer
       end
       ecrit icanon.as_line_output(index)
+      nombre_canons_affiched += 1
+      nombre_canons_affiched < options[:limit] || break
     end
     ecrit footer_line
   end
@@ -63,13 +65,15 @@ class Output
   def proximites opts = nil
     defaultize_options(opts)
     footer_line = nil
+    nombre_proximites_affiched = 0
     sorted_list_proximites.each_with_index do |iprox, index|
-      index < options[:limit] || break
       index > 0 || begin
         ecrit(iprox.header(options))
         footer_line = iprox.footer_line
       end
       ecrit iprox.as_line_output(index + 1)
+      nombre_proximites_affiched += 1
+      nombre_proximites_affiched < options[:limit] || break
     end
     ecrit footer_line
   end
@@ -78,18 +82,20 @@ class Output
   # préférable d'indiquer une limite)
   def mots opts = nil
     defaultize_options(opts)
-    footer_line = nil
+    footer_line           = nil
+    nombre_mots_affiched  = 0
     sorted_list_mots.each_with_index do |dmot, index|
       # ATTENTION : l'index dont il est question ici n'a rien à voir avec
       # l'index réel du mot dans le texte.
-      index < options[:limit] || break
       imot = analyse.texte_entier.mot(dmot[1][0])
       index > 0 || begin
         ecrit(imot.header(options))
         footer_line = imot.footer_line
       end
       imot.length > 2 || next
-      ecrit imot.as_line_output(index + 1)
+      ecrit imot.as_line_output(nombre_mots_affiched + 1)
+      nombre_mots_affiched += 1
+      nombre_mots_affiched < options[:limit_mots] || break
     end
     ecrit footer_line
   end

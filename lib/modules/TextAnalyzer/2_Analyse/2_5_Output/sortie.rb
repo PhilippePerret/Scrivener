@@ -18,21 +18,21 @@ class Output
     CLI.debug_entry
     defaultize_options(opts)
     set_filepath_current_format(options[:output_format])
-    if CLI.options[:update] || !File.exist?(all_resultats_path)
-      puts "  J'actualise le fichier résultat. Merci de patienter…"
+    if CLI.options[:update] || !File.exist?(all_resultats_path) || parametres_changeants?
+      puts "  ---> Actualisation du fichier résultat. Merci de patienter…"
       sleep 1
       ecrit_date_analyse
       table_nombres
       # = Proxmités =
-      proximites(sorted_by: :distance, limit: 50)
-      proximites(sorted_by: :alpha, limit: 50)
+      proximites(sorted_by: :distance)
+      proximites(sorted_by: :alpha)
       # = Canons =
-      canons(sorted_by: :alpha, limit: 50)
-      canons(sorted_by: :prox_count, limit: 50)
-      canons(sorted_by: :mots_count, limit: 50)
+      canons(sorted_by: :alpha)
+      canons(sorted_by: :prox_count)
+      canons(sorted_by: :mots_count)
       # = Mots =
-      mots(sorted_by: :count, limit: 100)
-      mots(sorted_by: :alpha, limit: 100)
+      mots(sorted_by: :count)
+      mots(sorted_by: :alpha)
 
       message_footer
       stdoutput.close
@@ -49,6 +49,13 @@ class Output
     end
     CLI.debug_exit
   end
+
+  # Retourne true si un paramètre doit provoquer l'actualisation de la sortie
+  # Par exemple le nombre de mots affichés
+  def parametres_changeants?
+    return !CLI.params[:mots].nil?
+  end
+  # parametres_changeant?
 
   # La sortie vers laquelle on dirige le code construit
   def stdoutput

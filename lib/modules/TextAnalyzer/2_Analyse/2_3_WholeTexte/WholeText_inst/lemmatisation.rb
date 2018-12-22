@@ -80,7 +80,8 @@ class WholeText
     NATURE_LEMMA_TO_SYMBOL = {
       'VER' => :verbe, 'DET' => :determinant, 'ADJ' => :adjectif, 'NOM' => :nom,
       'PRO' => :pronom, 'PRP' => :preposition, 'SENT' => :point, 'KON' => :kon,
-      'ADV' => :adverbe
+      'ADV' => :adverbe, 'NUM' => :nombre, 'NAM' => :prenom,
+      'ABR' => :abbreviation, # km => kilomètre
     }
     # Reçoit la nature du mot telle qu'elle est définie dans le fichier
     # lemmatisé entre le mot et le canon et retourne une version utilisable

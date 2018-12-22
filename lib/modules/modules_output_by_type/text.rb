@@ -226,7 +226,8 @@ module TextAnalyzerOutputHelpers
     end
 
     def mots_header_labels
-      '    %{mot} | %{occ} | %{pindex} |' % {
+      '    %{index} | %{mot} | %{occ} | %{pindex} |' % {
+        index:    'Index'     .ljust(6),
         mot:      'Mot'       .ljust(30),
         occ:      'Nombre'    .ljust(7),
         pindex:   '% '        .rjust(8)
@@ -234,10 +235,11 @@ module TextAnalyzerOutputHelpers
     end
 
     def temp_line_mot
-      @temp_line_mot ||= '    %{mot} | %{occs} | %{fpourc} | '
+      @temp_line_mot ||= '    %{findex} | %{mot} | %{occs} | %{fpourc} | '
     end
     def as_line_output(index = nil)
       temp_line_mot % {
+        findex:   index.to_s.rjust(6),
         mot:      self.real.ljust(30),
         occs:     nombre_occurences.to_s.ljust(7),
         fpourc:   fpourcentage.rjust(8)

@@ -15,7 +15,7 @@ class WholeText
     # On commence par remplacer tous les caractères non alphanumérique par
     # des espaces (ponctuations, retour chariot), car sinon ils ne seraient
     # pas considérés par le scan.
-    t = self.content.gsub(/\r/,'').gsub(/’/,"'").gsub(/[\“\”]/, '"').gsub(/[>\+\\\/\[\]\{\}\(\)\%«»"\,\n\.\¡\¿\!\?\;\…–—\-\: ]/, ' ') + ' EOT'
+    t = self.content.gsub(/\r/,'').gsub(/’/,"'").gsub(/[\“\”]/, '"').gsub(/[>\+\|\\\/\[\]\{\}\(\)\%«»"\,\n\.\¡\¿\!\?\;\…–—\-\: ]/, ' ') + ' EOT'
     # NE SURTOUT PAS METTRE '_' qui sert pour les tags retirés
 
     # Utiliser l'option -no-output pour ne pas avoir l'affichage des résultats
