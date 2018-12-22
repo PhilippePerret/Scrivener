@@ -39,14 +39,16 @@ class << self
     begin
       raise
     rescue => e
-      line_function = e.backtrace[1]
+      line_function = e.backtrace[2]
       file, line, method = line_function.match(/^(.+?)\:([0-9]+)\:in `(.*?)'$/).to_a[1..-1]
       dbg('%s %s %s' % [sens == :in ? '-->' : '<--', method, comments || ''], file, line)
     end
   end
 
   def dbg msg, file = nil, line = nil
-    verbose? || self.debug_output != nil || return
+    verbose? || self.debug_output != nil || begin
+      return
+    end
     if file || line
       relative_file = file.sub(/#{APPFOLDER}\//, '')
       msg << ' (%s%s)' % [relative_file, line ? ":#{line}" : '']

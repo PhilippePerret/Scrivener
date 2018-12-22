@@ -30,17 +30,27 @@ class << self
   end
 
   def init
-    File.unlink(log_file) if File.exists?(log_file)
+    rf.nil? || begin
+      rf.close
+      @rf = nil
+    end
+    File.unlink(log_path) if File.exists?(log_path)
+  end
+
+  def close
+    rf.close
   end
 
   def rf
     @rf ||= begin
-      File.open(log_file, 'a')
+      ref = File.open(log_path, 'a+')
+      ref.write("\n\n\n=== #{Time.now.strftime('%d %m %Y - %H:%M:%S')} ===\n\n")
+      ref
     end
   end
 
-  def log_file
-    @log_file ||= File.join(APPFOLDER, 'debug.log')
+  def log_path
+    @log_path ||= File.expand_path(File.join(APPFOLDER, 'debug.log'))
   end
 
 end #/<< self
