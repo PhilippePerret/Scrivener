@@ -6,8 +6,8 @@
 	<real>1</real>
 	<key>binderSplitFrames</key>
 	<array>
-		<string>{{0, 0}, {265, 748}}</string>
-		<string>{{266, 0}, {904, 748}}</string>
+		<string>{{0, 0}, {265, 716}}</string>
+		<string>{{266, 0}, {904, 716}}</string>
 	</array>
 	<key>collectionsRepresentedBinderDocumentsInfo</key>
 	<dict>
@@ -33,14 +33,14 @@
 		<real>1</real>
 	</dict>
 	<key>mainDocumentEditor.scrollRect</key>
-	<string>{{0, 0}, {452, 331}}</string>
+	<string>{{0, 0}, {452, 315}}</string>
 	<key>mainDocumentEditor.textEditorState</key>
 	<dict>
 		<key>textScaleFactor</key>
 		<real>2</real>
 	</dict>
 	<key>mainWindowFrame</key>
-	<string>88 257 1170 770 0 0 1680 1027 </string>
+	<string>88 289 1170 738 0 0 1680 1027 </string>
 	<key>supportingDocumentEditor.dockedQRTextSettings</key>
 	<dict>
 		<key>textScaleFactor</key>

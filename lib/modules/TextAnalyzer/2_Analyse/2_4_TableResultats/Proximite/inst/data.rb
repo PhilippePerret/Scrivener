@@ -32,7 +32,8 @@ class Proximite
     {
       mot_avant: "#{mot_avant.real} [#{mot_avant.index}]",
       mot_apres: "#{mot_apres.real} [#{mot_apres.index}]",
-      distance: distance, distance_minimale: distance_minimale
+      distance: distance, distance_minimale: distance_minimale,
+      id: id
     }
   end
   alias :to_hash :to_h

@@ -122,7 +122,7 @@ class WholeText
       end
 
       # Ajout du segment
-      tres.segments << {id: tres.current_index_mot, seg: seg, type: type_seg}
+      tres.segments << {id: tres.current_index_mot, seg: seg, type: type_seg, offset: tres.current_offset}
 
       # Dans tous les cas on tient compte du décalage
       tres.current_offset += mot.length

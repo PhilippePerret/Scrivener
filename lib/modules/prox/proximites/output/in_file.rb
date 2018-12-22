@@ -23,6 +23,8 @@ class Project
     # puts "\n\nJe retourne tout de suite"
     # return
 
+    get_data_analyse || return
+
     erase_temporary_files_if_exists
 
     build_simple_texte_file_with_color_tags
@@ -124,15 +126,21 @@ class Project
     nombre_couleurs.times { arr_colors << color_cycle.next }
     self.array_colors_rtf = arr_colors
 
+    # La liste des documents, avec leur offset, pour introduire leur nom
+    # au fur et à mesure
+    files_list = analyse.files.values.dup
+
     rf = File.open(file_txt_with_colortags_path, 'ab')
     portion = String.new
     analyse.table_resultats.segments.each do |dsegment|
 
       # Si le mot appartient à un document différent, il faut mettre une ligne
       # contenant le nom du document, de la couleur de document
-      raise 'Il faut régler le problème des documents'
-      if dsegment[:new_document_title]
-        portion << DOCUMENT_LINE % [dsegment[:new_document_title]]
+      # Pour ce faire, on met les documents dans une liste qu'on va manger
+      # par la tête au fur et à mesure, en contrôlant chaque fois l'offset
+      # du premier élément.
+      if files_list.first.offset < dsegment[:offset]
+        portion << DOCUMENT_LINE % [files_list.shift.title]
       end
 
       segment_str =

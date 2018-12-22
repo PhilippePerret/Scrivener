@@ -31,6 +31,9 @@ class TableResultats
         # Si on passe ici, c'est que le mot imot est trop du mot précédent.
         # On doit donc créer une proximité
         iprox = Proximite.create(self, mot_avant, mot_apres)
+        iprox.distance > 0 || begin
+          raise('La distance dans une proximité est nulle : %s' % iprox.inspect)
+        end
         # On va mettre la PROXIMITÉ PAR TRANCHE et en
         # profiter pour calculer la moyenne d'éloignement
         total_distances += iprox.distance
