@@ -19,7 +19,8 @@ class TextAnalyzer
     # Liste des mots dont on supporte une proximité de 10 lettre ou plus
     10 => [
       'avoir',
-      'être'
+      'être',
+      'un'
     ],
     20 => [
       'elle', # sert au test (ts_proximites.rb)

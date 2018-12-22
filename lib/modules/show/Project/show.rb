@@ -12,7 +12,10 @@ class Project
     'prox'        => :proximites,
     'proxs'       => :proximites,
     'proximite'   => :proximites,
-    'proximites'  => :proximites
+    'proximites'  => :proximites,
+    'dist'        => :distances,
+    'distance'    => :distances,
+    'distances'   => :distances
   }
 
   SORT_TYPES = {
@@ -109,6 +112,8 @@ class Project
     puts String::RC * 3
   end
 
+  # ---------------------------------------------------------------------
+  # Affichage proximités
 
   LINE_PROXIMITE = '  %{id} | %{pmot} | %{nmot} | %{dist} |'
   def show_element_proximites(sorted_by)
@@ -131,6 +136,31 @@ class Project
     puts String::RC * 3
   end
   # /show_element_proximites
+
+  # ---------------------------------------------------------------------
+  #   Affichage distances
+  LINE_DISTANCES = '    %{canon} | %{dist} |'
+  def show_element_distances(sorted_by)
+    TextAnalyzer::Analyse::TableResultats::Proximite.init(analyse)
+    analyse.output.defaultize_options({sorted_by: sorted_by})
+    header, separator = header_table_and_separator(
+      chose: 'Distance', sort_type: SORT_TYPES[sorted_by],
+      labels: "    #{'Mot'.ljust(MOT_MAX_LEN)} " +
+        "| #{'Dist.'.ljust(6)} |"
+    )
+    puts header
+    analyse.output.sorted_list_mots.each_with_index do |dmot, index_mot|
+      imot = analyse.mot(dmot.first)
+      puts LINE_DISTANCES % {
+        canon: imot.canon.ljust(MOT_MAX_LEN),
+        dist:  imot.distance_minimale.to_i.to_s.ljust(6)
+      }
+    end
+    puts separator
+    puts String::RC * 3
+
+  end
+  # /show_element_distances
 
 end #/Project
 end #/Scrivener

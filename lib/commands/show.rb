@@ -57,6 +57,11 @@ if CLI.options[:help]
 
       Affichage de toutes les proximités, dans l'ordre voulu.
 
+    dist, distances (p.e. : #{'scriv show dist:alpha'.jaune})
+
+      Affiche de toutes les distances minimales (ou maximales) des
+      mots du projet courant. Dans l'exem
+
   EOT
   Scrivener.help(aide)
 
