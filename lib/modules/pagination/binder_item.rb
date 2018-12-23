@@ -15,7 +15,7 @@ class BinderItem
       title:        title,
       objectif:     objectif,
       elements:     Array.new,
-      size:         self.size
+      size:         self.size # objet SWP
     }
     # On met l'élément dans le tableau
     tableau[:elements] << data
@@ -64,7 +64,9 @@ class BinderItem
   # +pdata+ C'est la table principale et générale contenant toutes les
   #         informations.
   def add_ligne_pagination(pdata, identation = 1)
-    nombre_signes_init  = 0 + pdata[:current_nombre_signes]
+    nombre_signes_init  = 0 + pdata[:cur_objectif_signs_count]
+
+
     nombre_signes_after = nombre_signes_init + objectif.to_i
     pagination      = (nombre_signes_init.to_f / NOMBRE_SIGNES_PER_PAGE).floor + 1
     str_indent      = '  ' * identation
@@ -72,13 +74,21 @@ class BinderItem
     title_length    = 60 - str_indent.length
     formated_title_line = "#{formated_title} ".ljust(project.title_max_length + 5, '.')
     formated_page   = substr_indent + pagination.to_s.rjust(project.page_number_width + 1)
-    pdata[:tdm] << '  %s%s' % [formated_title_line, formated_page]
+
+    formated_cur_page = pdata[:cur_docs_signs_count].pages
+
+    pdata[:tdm] << '  %s%s | %s' % [formated_title_line, formated_page, formated_cur_page]
     parent? && begin
       children.each do |sitem|
         sitem.add_ligne_pagination(pdata, identation + 1)
       end
     end
-    pdata[:current_nombre_signes] = nombre_signes_after
+    pdata[:cur_objectif_signs_count] = nombre_signes_after
+
+    # Si le binder-item contient du texte, on ajoute sa taille au
+    # nombre de signes courants
+    self.size && pdata[:cur_docs_signs_count] += self.size
+
   end
 
 end #/BinderItem

@@ -38,9 +38,10 @@ class Project
   def display_pagination
     # On crée une table pour faire apparaitre la pagination
     @pdata = {
-      tdm:                    ["  #{self.title}"],
-      current_nombre_signes:  0,
-      tabulation:             '  '
+      tdm:                        ["  #{self.title}"],
+      cur_objectif_signs_count:   0,
+      cur_docs_signs_count:       SWP.new(0), # ajouté pour pagination d'après texte
+      tabulation:                 '  '
     }
 
     # Dans un premier temps, on recherche le titre+indentation le plus
@@ -69,7 +70,7 @@ class Project
   #/calcule_title_max_length
 
   def build_table_of_content
-    current_nombre_signes = 0
+    cur_objectif_signs_count = 0
     table_objectifs[:elements].each do |item|
       bitem = item[:binder_item]
       bitem.add_ligne_pagination(@pdata)
