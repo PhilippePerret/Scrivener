@@ -58,40 +58,20 @@ class Project
     @trash_folder ||= binder_item(:trash_folder)
   end
 
-
-  # # Retourne tous les binder-items du projet (ceux du manuscrit)
-  # # C'est une liste d'instances de {Scrivener::Project::BinderItem}
-  # #
-  # # ATTENTION : POUR LE MOMENT, ça ne retourne que la liste des binder-items
-  # # de premier niveau, pas leur sous-élément.
-  # # CONTRAIREMENT à la méthode binder_item ci-dessus qui elle contient tous
-  # # les binder-items, même ceux imbriqués
-  # #
-  # # Pour les obtenir tous, il faut boucler sur leur children et les children
-  # # de leur children
-  # #
-  # # TODO Reprendre cette méthode pour qu'elle puisse :
-  # #   - retourner tous les binder-items, même imbriqués (deep: true)
-  # #   - retourner n'importe quel dossier, légaux ou créés par l'utilisateur
-  # #   Note : s'inspirer de la méthode suivante, qui fait le truc à partir
-  # #   du dossier.
-  # def binder_items
-  #   @binder_items ||= begin
-  #     xfile.draftfolder.elements.collect('Children/BinderItem') do |data_node|
-  #       Scrivener::Project::BinderItem.new(self, data_node)
-  #     end
-  #   end
-  # end
-
   # Retourne tous les binder-items du dossier +dossier+, avec les
   # options +options+
+  #
+  # +dossier+ Le noeud XML du dossier. On peut aussi utiliser les valeurs
+  #           spéciales :draft_folder, :research_folder ou :trash_folder
   #
   # +options+
   #   :only_text    Seulement les textes
   #   :deep         Fouille les sous-dossier (true par défaut)
+  #
   def all_binder_items_of dossier, options = nil
     options ||= Hash.new
     options.key?(:deep) || options.merge!(deep: true)
+    dossier.is_a?(Symbol) && dossier = self.send(dossier).node
     arr = Array.new
     dossier.elements.each('Children/BinderItem') do |data_node|
       bitem = Scrivener::Project::BinderItem.new(self, data_node)

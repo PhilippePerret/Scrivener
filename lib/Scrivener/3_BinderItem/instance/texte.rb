@@ -31,22 +31,27 @@ class BinderItem
   # RETURN true si le fichier a pu être construit, false dans le cas contraire
   def build_simple_text_file
     File.exist?(rtf_text_path) || (return false)
-    # -stdout ci-dessous permet de retourner le texte transformé
-    # Noter qu'on supprime toutes les balises qui se trouvent
-    # éventuellement dans le fichier, comme des variables Scrivener
-    # Le problème, c'est qu'on perdrait la correspondance au niveau des
-    # offset des mots, donc on les remplaces par des 'SCRVTAGS'
-    str = `textutil -format rtf -convert txt -stdout "#{rtf_text_path}"`
-    # On supprime toutes les balises de styles
-    str.gsub!(/<\!?\$(.*?)>/,'')
-    # On supprime les commentaires Scrivener éventuels
-    # {\Scrv_annot ... \end_Scrv_annot}
-    str.gsub!(/ ?\{\\Scrv_annot(.*?)\\end_Scrv_annot\} ?/,'')
-    File.open(simple_text_path,'wb'){|f| f.write str}
-    # return str # avant
+    File.open(simple_text_path,'wb').write(simple_text)
     return simple_text_file_exists?
   end
   # /build_simple_text_file
+
+  def simple_text
+    @simple_text ||= begin
+      # -stdout ci-dessous permet de retourner le texte transformé
+      # Noter qu'on supprime toutes les balises qui se trouvent
+      # éventuellement dans le fichier, comme des variables Scrivener
+      # Le problème, c'est qu'on perdrait la correspondance au niveau des
+      # offset des mots, donc on les remplaces par des 'SCRVTAGS'
+      str = `textutil -format rtf -convert txt -stdout "#{rtf_text_path}"`
+      # On supprime toutes les balises de styles
+      str.gsub!(/<\!?\$(.*?)>/,'')
+      # On supprime les commentaires Scrivener éventuels
+      # {\Scrv_annot ... \end_Scrv_annot}
+      str.gsub(/ ?\{\\Scrv_annot(.*?)\\end_Scrv_annot\} ?/,'')
+    end
+  end
+  # /simple_text
 
   def simple_text_file_exists?
     File.exist?(simple_text_path)

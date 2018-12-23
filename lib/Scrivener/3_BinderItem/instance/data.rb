@@ -25,12 +25,39 @@ class BinderItem
     @elements ||= node.elements
   end
 
-  # Le titre du document
-  # Mais ce titre peut ne pas être explicitement défini. Dans ce cas,
+  # Titre du document
+  # Ce titre peut ne pas être explicitement défini. Dans ce cas,
   # on prend le début du texte et si ce début du texte n'est pas défini,
   # on prend l'UUID
   def title
     @title ||= define_title
+  end
+
+  # {SWP} Taille du texte du document
+  # ATTENTION : C'est un objet SWP, donc il faut faire size.mots, size.pages,
+  # etc. pour obtenir les valeurs
+  def size
+    @size ||= calc_text_size
+  end
+
+  # Méthode de calcul de la taille du texte.
+  # Noter que cette méthode est approximative, elle ne calcule cette taille
+  # que grossièrement.
+  # La valeur renvoyée est une valeur CharMotsPages qui contient les propriétés
+  # :chars, :mots et :pages qui donnent respectivement les nombres d'éléments
+  def calc_text_size
+    if File.exist?(markdown_text_path)
+      # Si c'est un document markdown, on peut prendre simplement la taille
+      # du fichier
+      SWP.new(File.stat(markdown_text_path).size)
+    elsif File.exist?(rtf_text_path)
+      # Si c'est un fichier RTF, on doit passer par son texte en le transfor-
+      # mant en simple texte (texte sans code RTF et épuré de tous ses styles
+      # et notes)
+      SWP.new(simple_text.length)
+    else
+      nil
+    end
   end
 
   # On définit le titre, soit en prenant celui défini, soit en prenant
