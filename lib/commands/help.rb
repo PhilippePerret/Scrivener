@@ -41,6 +41,9 @@ aide = <<-EOT
 
       La commande `scriv` a été mise au point par Philippe Perret
       (philippe.perret@yahoo.fr) pour son utilisation personnelle.
+      Elle est fournie « as is » (telle quelle), sans aucune garantie
+      ni de fonctionnement ni d’efficacité. Vous l’utilisez à vos
+      propres risques et périls ;-).
 
 EOT
 Scrivener.help(aide)

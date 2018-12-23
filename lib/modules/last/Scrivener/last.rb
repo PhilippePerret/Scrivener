@@ -19,14 +19,17 @@ class << self
       lines << LINE_LAST_PROJET % [findex, ftitle(dprojet), dprojet[:path].relative_path]
     end
     lines << separator
-    puts String::RC*2 + lines.join(String::RC) + String::RC*2
+    lines << '  (le dernier projet — « %s » — est le projet courant)' % [title_for(last_projects_data.last)]
+    puts  String::RC*2 +
+          lines.join(String::RC) +
+          String::RC*2
 
     # On attend le choix
     if t = getc('Projet à choisir (son index — ou "q" pour renoncer) : ', {expected_keys: expected_keys})
       t != 'q' || return
       data_projet = last_projects_data[t.to_i]
       save_project_data(data_projet)
-      puts "Le projet « #{title_for(data_projet)} » a été mis en dernier projet. Vous pouvez utiliser les commandes `scriv` sans indiquer de projet."
+      puts "Le projet « #{title_for(data_projet)} » a été mis en dernier projet. Vous pouvez utiliser les commandes `scriv` sans indiquer ce projet."
     end
   end
 
