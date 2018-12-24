@@ -31,7 +31,7 @@ class BinderItem
   # RETURN true si le fichier a pu être construit, false dans le cas contraire
   def build_simple_text_file
     File.exist?(rtf_text_path) || (return false)
-    File.open(simple_text_path,'wb').write(simple_text)
+    File.open(simple_text_path,'wb'){|f| f.write(simple_text)}
     return simple_text_file_exists?
   end
   # /build_simple_text_file
@@ -60,7 +60,7 @@ class BinderItem
   # à la date du fichier original pour le savoir
   def simple_text_file_uptodate?
     simple_text_file_exists? &&
-      File.stat(simple_text_path).mtime > File.stat(rtf_text_path).mtime
+    File.stat(simple_text_path).mtime > File.stat(rtf_text_path).mtime
   end
 
 end #/BinderItem

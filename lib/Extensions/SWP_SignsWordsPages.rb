@@ -63,7 +63,7 @@ class SWP # Pour Signs-Words-Pages
   alias :chars :signs
 
   def pages_real_round
-    @pages_real ||= (signs.to_f / SIGNS_PER_PAGE).round(2)
+    @pages_real_round ||= (signs.to_f / SIGNS_PER_PAGE).round(2)
   end
   def pages_real
     @pages_real ||= (signs.to_f / SIGNS_PER_PAGE)

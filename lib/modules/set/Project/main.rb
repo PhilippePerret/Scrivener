@@ -2,7 +2,8 @@
 class Scrivener
 
   ERRORS.merge!(
-    unknown_method: 'La propriété `%s`, si elle existe, ne peut être définie avec la commande `set`.'
+    unknown_method: 'La propriété `%s`, si elle existe, ne peut être définie avec la commande `set`.',
+    no_binder_item_with_titre: 'Aucun document du projet ne semble posséder un document dont le titre commence par « %s »…'
   )
 
 class Project
@@ -16,6 +17,7 @@ class Project
     def exec_set
       unless CLI.options[:help]
         project.set_values
+        project.xfile.save_if_modified
       else
         project.help_command_set
       end
@@ -34,6 +36,9 @@ class Project
   # Méthode principale appelée par la méthode Scrivener::Project::exec_set
   # qui boucle sur toutes les clés et appelle les méthodes pour enregistrer
   # les données.
+  #
+  # Note : pour créer une nouvelle propriété modifiable, il suffit de
+  # créer sa méthode 'set_<propriété>'
   def set_values
     # puts "Je dois définir la valeur de #{keys_to_set.pretty_join}"
     puts NOTICES[:require_project_closed].bleu

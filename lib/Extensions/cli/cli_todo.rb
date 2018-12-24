@@ -200,6 +200,7 @@ class << self
   # ---------------------------------------------------------------------
   #   HELPERS
 
+  # Retourne la liste des tâches formatées
   def formated_tasks
     @formated_tasks ||= begin
       indice_len = tasks.count.to_s.length
@@ -207,7 +208,10 @@ class << self
       ft << String::RC * 2
       titre = "TODO-LIST DE L’APPLICATION `#{CLI.app_name}`"
       ft << TAB_TODO_LIST + titre + String::RC + TAB_TODO_LIST + '-'*titre.length
-      tasks.each_with_index{|ta, ita| ft << '%s#%s : %s' % [TAB_TODO_LIST, (ita+1).to_s.ljust(indice_len), ta] }
+      tasks.each_with_index do |ta, ita|
+        ta.start_with?('[BUG]') && ta = ta.rouge
+        ft << '%s#%s : %s' % [TAB_TODO_LIST, (ita+1).to_s.ljust(indice_len), ta]
+      end
       ft << String::RC * 2
       ft.join(String::RC)
     end
@@ -247,6 +251,8 @@ commande CLI.
   #{'<app> todo + "Nouvelle tâche"'.jaune}
 
       Pour ajouter une nouvelle tâche.
+
+      Si la tâche commence par "[BUG]", elle sera affichée en rouge.
 
   #{'<app> todo - "Début de la tâche"'.jaune}
 

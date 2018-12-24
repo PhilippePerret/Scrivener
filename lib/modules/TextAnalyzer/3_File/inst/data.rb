@@ -26,7 +26,7 @@ class AnalyzedFile
 
   # Instance {TextAnalyzer::File::Text} du texte du fichier
   def texte
-    @texte ||= File.read(path)
+    @texte ||= File.read(path)#.force_encoding('utf-8')
   end
 
   def affixe

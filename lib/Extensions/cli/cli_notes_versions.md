@@ -1,12 +1,18 @@
 # Notes sur les versions de CLI
 
-**Version courante : 1.6.3**
+** Version courante : 1.6.4 **
+
+
+## Version 1.6.4
+
+  Ajout de la possibilité d'ajouter "[BUG]" dans `todo` pour afficher
+  un bug qui sera affiché en rouge dans la liste des tâches.
 
 ## Version 1.6.3
 
   Ajout de l'opérateur todo 'n[ext]' pour afficher les prochaines
   tâches à faire sur l'application.
-  
+
 ## Version 1.6.2
 
   La commande CLI::Test.run écrit le résultat de la commande dans le

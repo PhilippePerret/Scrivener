@@ -36,6 +36,7 @@ class BinderItem
   # {SWP} Taille du texte du document
   # ATTENTION : C'est un objet SWP, donc il faut faire size.mots, size.pages,
   # etc. pour obtenir les valeurs
+  attr_writer :size
   def size
     @size ||= calc_text_size
   end

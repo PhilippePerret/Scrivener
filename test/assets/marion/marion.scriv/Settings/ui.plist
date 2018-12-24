@@ -4,6 +4,8 @@
 <dict>
 	<key>NotesScaleFactor</key>
 	<real>1</real>
+	<key>SuppressBookmarksFolderCheck</key>
+	<false/>
 	<key>binderSplitFrames</key>
 	<array>
 		<string>{{0, 0}, {265, 906}}</string>

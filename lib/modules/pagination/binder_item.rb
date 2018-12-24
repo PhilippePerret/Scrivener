@@ -5,50 +5,60 @@
 class Scrivener
 class Project
 class BinderItem
-  # Main méthode qui traite le noeud
-  #
+
+  attr_accessor :elements
+
+  # Mais peut-être qu'il faudrait remplacer par :target
+  attr_accessor :objectif
+
   # Pour le moment, on ne prend que les éléments sans enfants
-  def treate_objectif(tableau)
-    self.compiled? || (return tableau)
-    data = {
-      binder_item:  self,
-      title:        title,
-      objectif:     objectif,
-      elements:     Array.new,
-      size:         self.size # objet SWP
-    }
-    # On met l'élément dans le tableau
-    tableau[:elements] << data
+  def treate_as_tdm_item(tdm, conteneur)
+    # Si l'élément ne doit pas être inclus dans le manuscrit, on
+    # le passe.
+    self.compiled? || return
+
+    # Soit le binder item possède une size, soit on lui donne une
+    # taille de zéro
+    self.size ||= SWP.new(0)
+
+    # On lui définit un objectif en fonction de celui défini
+    self.objectif = SWP.new(self.target.signes || 0)
+
+    # On met l'élément dans son conteneur
+    conteneur.elements << self
+
     if parent?
       # <= Il a des enfants
       # => On doit traiter ses enfants
-      nombre = 0
+      self.elements = Array.new
       children.each do |child|
-        child.treate_objectif(tableau[:elements].last)
-        child.objectif && nombre += child.objectif
+        child.treate_as_tdm_item(tdm, self)
       end
-      @objectif ||= nombre
-      tableau[:elements].last[:objectif] = self.objectif
-    else
-      tableau[:elements].last.delete(:elements)
     end
+
+    # On ajoute au conteneur la taille et la cible
+    conteneur.size     += self.size
+    conteneur.objectif += self.objectif
+
   end
-  #/treate_objectif
+  #/treate_as_tdm_item
 
   # Construit le titre formaté, en fonction de l'identantion, en
   # définit la longueur max pour un titre si ce titre est le plus
   # long actuellement
-  def build_formated_title identation = 1
-    mots_et_signes = if project.options[:with_nombres]
+  # +tdm+ Instance {Scrivener::Project::TDM} de la table des matières pour
+  #       laquelle le titre est formaté
+  def build_formated_title tdm, identation = 1
+    mots_et_signes = if tdm.options[:with_numbers]
       target.mots ? (' [%i c. ≃ %i m. ≃ %s p.]' % [target.signes, target.mots, target.pages]) : ''
     else '' end
-    @formated_title = '%s%s%s ' % [(TITLE_IDENTATION * identation), title, mots_et_signes]
-    if formated_title.length > project.title_max_length
-      project.title_max_length = formated_title.length
+    @formated_title = '%s%s%s ' % [(TDM::TITLE_IDENTATION * identation), title, mots_et_signes]
+    if formated_title.length > tdm.title_width
+      tdm.title_width = formated_title.length
     end
     if parent?
       children.each do |child|
-        child.build_formated_title(identation + 1)
+        child.build_formated_title(tdm, identation + 1)
       end
     end
   end
@@ -56,39 +66,82 @@ class BinderItem
   # points qui vont rejoindre le numéro)
   def formated_title ; @formated_title end
 
-  # Ajoute à +ligne+ la ligne de mise en forme de l'élément, en traitant
-  # aussi ses enfants.
+  # Construit la ligne de table des matières
+  #
   # C'est la méthode principale qui construit la ligne de table des matières
   # du binder-item (et de ses enfants).
   #
   # +pdata+ C'est la table principale et générale contenant toutes les
   #         informations.
-  def add_ligne_pagination(pdata, identation = 1)
-    nombre_signes_init  = 0 + pdata[:cur_objectif_signs_count]
-
-
-    nombre_signes_after = nombre_signes_init + objectif.to_i
-    pagination      = (nombre_signes_init.to_f / NOMBRE_SIGNES_PER_PAGE).floor + 1
+  TDM_LINE = '  %{ftitle}%{fpage_by_wri} | %{fpage_by_obj} |      %{fsigns} %{fobjectif} %{fstate} %{fpages} %{fcumul_pages}'
+  # TDM_LINE = '  %{ftitle}%{fpage_by_wri} %{fpage_by_obj} %{fcumul_signs} %{fcumul_pages}'
+  def add_ligne_pagination(tdm, identation = 1)
     str_indent      = '  ' * identation
-    substr_indent   = '' #'  ' * (4 - identation)
-    title_length    = 60 - str_indent.length
-    formated_title_line = "#{formated_title} ".ljust(project.title_max_length + 5, '.')
-    formated_page   = substr_indent + pagination.to_s.rjust(project.page_number_width + 1)
+    formated_title_line = "#{formated_title} ".ljust(tdm.title_width + 5, '.')
+    fpage_by_obj =
 
-    formated_cur_page = pdata[:cur_docs_signs_count].pages
+    line = TDM_LINE % {
+      ftitle:         formated_title_line,
+      fpage_by_wri:   (' '+tdm.current_size.page.to_s).rjust(tdm.wri_page_number_width + 1,'.'),
+      fpage_by_obj:   formated_page_by_objectif(tdm),
+      fobjectif:      formated_objectif(8),
+      fsigns:         formated_signs(6),
+      fstate:         formated_state(3),
+      # fcumul_signs:   tdm.size.signs.to_s.rjust(8),
+      fpages:         formated_pages_real(8),
+      fcumul_pages:   tdm.current_size.pages_real_round.to_s.rjust(10)
+    }
 
-    pdata[:tdm] << '  %s%s | %s' % [formated_title_line, formated_page, formated_cur_page]
+    self.text? || line = line.gris
+
+    tdm.lines << line
+
     parent? && begin
       children.each do |sitem|
-        sitem.add_ligne_pagination(pdata, identation + 1)
+        sitem.add_ligne_pagination(tdm, identation + 1)
       end
     end
-    pdata[:cur_objectif_signs_count] = nombre_signes_after
+
+    self.text? || return
 
     # Si le binder-item contient du texte, on ajoute sa taille au
     # nombre de signes courants
-    self.size && pdata[:cur_docs_signs_count] += self.size
+    tdm.current_size      += self.size
+    tdm.current_objectif  += self.objectif
 
+  end
+
+  def formated_state(len)
+    @formated_state ||= begin
+      if objectif.signs > 0
+        diff = size.signs - objectif.signs
+        diff_too_big = diff.abs > (objectif.signs / 10)
+        meth  = diff > 0 ? :vert : :rouge
+        meth2 = diff_too_big ? :rouge : :vert
+        ' *'.send(meth) + '* '.send(meth2)
+      else
+        ''.ljust(4)
+      end
+
+    end
+  end
+  def formated_signs(len)
+    @formated_signs ||= (size.signs > 0 ? size.signs : '-').to_s.rjust(len)
+  end
+  def formated_pages_real(len)
+    @formated_pages_real ||= (size.pages_real_round > 0 ? size.pages_real_round : '-').to_s.rjust(len)
+  end
+  def formated_objectif(len)
+    @formated_objectif ||= begin
+      if objectif.signs > 0
+        objectif.signs.to_s
+      else
+        '-'
+      end.ljust(len)
+    end
+  end
+  def formated_page_by_objectif(tdm)
+    tdm.current_objectif.page.to_s.rjust(tdm.obj_page_number_width + 1)
   end
 
 end #/BinderItem

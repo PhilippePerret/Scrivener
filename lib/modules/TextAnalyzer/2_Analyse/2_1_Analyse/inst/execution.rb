@@ -49,17 +49,26 @@ class Analyse
   def assemble_texts_of_paths
     CLI.debug_entry
     self.files = Hash.new
+    nombre_traited = 0
+    paths_count = paths.count
     paths.each_with_index do |path, path_index|
+      CLI.dbg('  * Traitement du fichier %s' % path)
       afile = TextAnalyzer::AnalyzedFile.new(path, self)
       afile.index   = path_index
       afile.id      = path_index + 1
       afile.offset  = self.texte_entier.length
       self.files.merge!(afile.id => afile)
       self.texte_entier << afile.texte + String::RC * 2
+      nombre_traited += 1
+      CLI.dbg('    OK')
     end
+    CLI.dbg('  Nombre de fichier à traiter : %i' % paths_count)
+    CLI.dbg('  Nombre fichiers traités : %i' % nombre_traited)
+    CLI.dbg('  Longueur du texte entier : %i' % self.texte_entier.length)
+    paths_count == nombre_traited || raise(ERRORS[:nb_doc2treate_unmatch] % [paths_count, nombre_traited])
+    CLI.debug_exit
   end
   # /assemble_texts_of_paths
-
 
 end #/Analyse
 end #/TextAnalyzer

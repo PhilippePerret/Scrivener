@@ -18,7 +18,7 @@ class Output
     CLI.debug_entry
     defaultize_options(opts)
     set_filepath_current_format(options[:output_format])
-    if CLI.options[:update] || !File.exist?(all_resultats_path) || parametres_changeants?
+    if CLI.options[:update] || CLI.options[:force] || !File.exist?(all_resultats_path) || parametres_changeants?
       puts "  ---> Actualisation du fichier résultat. Merci de patienter…"
       sleep 1
       ecrit_date_analyse

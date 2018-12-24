@@ -89,6 +89,8 @@ class Project
   end
 
   # Définir l'auteur du projet
+  # Note : chaque setter doit définir cette valeur pour tenir à jour la
+  # table des matières.
   add_modpro(
     :author => {hname: 'auteur', variante: 'auteur', description: 'Pour définir le prénom et nom de l’auteur principal du projet.', exemple: "Alphonse Jouard".inspect,
       category: :project_infos, confirmation: 'Auteur principal mis à %s'}
@@ -155,6 +157,8 @@ class Project
     :title => {hname: 'titre', variante: 'titre', description: 'Pour définir le titre complet du projet.', exemple: "Titre complet du projet".inspect,
       category: :project_infos, confirmation: 'Titre mis à « %s »'}
   )
+  # TODO On devrait pouvoir définir le titre d'un document de cette manière
+  # aussi, avec l'option '-doc="début du titre actuel"'
   def set_title value
     compile_xml.set_xpath('//MetaData/ProjectTitle', value)
     confirme(:title, value)
@@ -362,8 +366,80 @@ class Project
     confirme(:compile_output, value.inspect)
   end
 
+
+
+  add_modpro(
+    :objectif => {hname: 'objectif', variante: 'objectif', description: 'Pour définir l’objectif du projet ou d’un document en particulier.', exemple: "\"6p\" --document=\"début du titre\"",
+      category: :project_infos, confirmation: 'Objectif du %s mis à %s',
+      options: []}
+  )
+  # TODO On doit aussi pouvoir définir --notify, --show_overrun et --show_buffer
+  #      et les autres options pour un projet
+  # TODO Pouvoir mettre :options à add_modpro pour afficher les options des
+  #      différentes commandes
+  def set_objectif value
+    what = CLI.options[:document] || :projet
+    final_value = human_value_objectif_to_real_value(value)
+    if what == :projet
+      # Objectif du projet
+      if yesOrNo('Voulez-vous régler l’objectif général du projet à %i signes ?' % [final_value])
+        # CountIncludedOnly=Yes/No, CurrentCompileGroupOnly=Yes/no, Deadline=<time>, IgnoreDeadline=Yes/no
+        hd = {type: 'Characters', nombre: final_value}
+        CLI.options.key?(:current_compile_group_only) && hd.merge!(current_compile_group_only: CLI.options[:current_compile_group_only])
+        CLI.options.key?(:count_included_only) && hd.merge!(count_included_only: CLI.options[:count_included_only])
+        CLI.options.key?(:deadline) && hd.merge!(deadline: CLI.options[:deadline])
+        CLI.options.key?(:ignore_deadline) && hd.merge!(ignore_deadline: CLI.options[:ignore_deadline])
+        project.xfile.objectif= hd
+      else
+        return
+      end
+    else
+      # Objectif du document
+      bitem = get_binder_item_by_title_heading(what)
+      if yesOrNo('Voulez-vous définir l’objectif de « %s » à %i signes ?' % [bitem.title, final_value])
+        bitem.target.define(final_value, {type: 'Characters', notify: false, show_overrun: true, show_buffer: true})
+      else
+        return
+      end
+    end
+    confirme(:objectif, [what == :projet ? 'projet' : ('document %s ' % [bitem.title]), final_value])
+  end
+
+
+
+
   # ---------------------------------------------------------------------
   # Méthode utilitaires
+
+  # Reçoit un segment de titre de document et retourne le binder-item
+  # correspondant
+  def get_binder_item_by_title_heading titseg
+    titseg = titseg.downcase
+    all_titles = Array.new
+    project.all_binder_items_of(:draft_folder).each do |bitem|
+      if bitem.title.downcase.start_with?(titseg)
+        return bitem
+      end
+      all_titles << bitem.title
+    end
+    puts "Liste des documents"
+    puts "-------------------"
+    all_titles.map{|d| puts '  - %s' % d}
+    raise(ERRORS[:no_binder_item_with_titre] % titseg)
+  end
+
+  def human_value_objectif_to_real_value valeur
+    case valeur
+    when /^([0-9]+)p(ages)?$/
+      return $1.to_i * String::PAGE_WIDTH.to_i
+    when /^([0-9]+)m(ots)?/, /^([0-9]+)w(ords)?/
+      return $1.to_i * 6
+    when /^([0-9]+)c?(hars)?$/
+      return $1.to_i
+    else
+      raise(ERRORS[:bad_objectif_value])
+    end
+  end
 
   # Retourne la vraie valeur de +value+ en la trouvant dans
   # +data_value+. Si la valeur n'est pas trouvée, une exception

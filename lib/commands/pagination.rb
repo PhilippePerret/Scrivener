@@ -21,15 +21,28 @@ Usage :    #{'scriv pagination[ vers/mon/projet.scriv][ <options>]'.jaune}
 
 #{'Description'.underlined}
 
-    Permet de calculer la pagination du projet en s'appuyant sur les
-    objectifs définis pour chaque fichier du manuscrit à compiler.
-    Produit une table des matières qui s'affiche dans le terminal.
+    Permet de calculer la pagination du projet spécifié.
 
-    Si on se trouve dans le dossier contenant le projet Scrivener,
-    on n'a pas besoin de préciser son path (sauf s'il y a plusieurs
-    projets Scrivener).
+    Deux paginations différentes sont affichées :
+
+    * La pagination s'appuyant sur la longueur de texte de chaque
+      document. C'est la pagination normale d'une table des matières.
+    * La pagination s'appuyant sur la définition des objectifs de
+      chaque document. Cette pagination permet de construire les pro-
+      portions du roman ou du texte en général.
+
+    La table des matières peut être produite dans le terminal, dans
+    un fichier HTML ou un fichier simple texte.
+
 
 #{'Options'.underlined}
+
+    -o/--output=[console|html|file]
+
+        Définit la sortie de la table des matières produite. L'option
+        `console` sort la table des matières en console. L'option
+        `html` produit un fichier HTML et l'option `file` la sort
+        dans un fichier texte simple.
 
     -N    Par défaut, le nombre de caractères, de mots et de pages est
           indiqué au bout de chaque titre de fichier dans la table des
@@ -57,6 +70,6 @@ Usage :    #{'scriv pagination[ vers/mon/projet.scriv][ <options>]'.jaune}
 else
 
   Scrivener.require_module('pagination')
-  project.display_pagination
+  project.exec_pagination
 
 end
