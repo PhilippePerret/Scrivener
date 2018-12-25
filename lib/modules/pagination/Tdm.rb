@@ -133,7 +133,6 @@ class Project
       ].each do |prop|
         verbose_line(prop.inspect, send(prop).inspect)
       end
-
       self.lines = Array.new
       add_lines_titre
       self.current_size     = SWP.new(0)
