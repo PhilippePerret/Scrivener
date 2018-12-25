@@ -3,7 +3,7 @@
 #
 # CLI
 #
-# VERSION: 1.6.3
+# VERSION: cf. fichier cli_notes_versions.md
 # (Penser à prendre tout le dossier, pas seulement ce module)
 #
 # MODE D'EMPLOI
@@ -48,6 +48,8 @@ class CLI
   class << self
 
     attr_accessor :app_name, :command, :params, :options
+    # {String} La commande initiale, telle qu'elle a été envoyée
+    attr_accessor :command_init
 
     attr_accessor :last_command # sans l'application
 
@@ -103,6 +105,7 @@ class CLI
             traite_arg_as_option argv
           elsif self.command.nil?
             defined?(DIM_CMD_TO_REAL_CMD) || raise('La constante CLI::DIM_CMD_TO_REAL_CMD doit être définie pour l’application courante.')
+            self.command_init = argv
             self.command = (DIM_OPT_TO_REAL_OPT[argv] ||DIM_CMD_TO_REAL_CMD[argv] || argv).gsub(/\-/,'_')
           else
             traite_arg_as_param argv

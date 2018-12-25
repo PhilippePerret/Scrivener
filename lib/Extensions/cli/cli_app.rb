@@ -14,7 +14,9 @@ class CLI
     'watch-prox'  => 'watch-proximites',
     'lasts'       => 'last',
     'derniers'    => 'last',
-    'dernières'   => 'last'
+    'dernières'   => 'last',
+    'tdm'         => 'pagination',
+    'toc'         => 'pagination'
   }
   DIM_OPT_TO_REAL_OPT = {
     'bm'              => 'benchmark',
@@ -27,6 +29,7 @@ class CLI
     'k'               => 'keys_mode_test',
     'l'               => 'local',
     'm2m'             => 'maxtomin',
+    'N'               => 'no_count',
     'o'               => 'output',
     't'               => 'tableau',
     'u'               => 'update',

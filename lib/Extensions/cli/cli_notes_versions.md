@@ -1,7 +1,11 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.6.4 **
+** Version courante : 1.6.5 **
 
+## Version 1.6.5
+
+  Ajout de la propriété `command_init` qui conserve une trace de la
+  commande initiale telle qu'elle a été envoyée en console.
 
 ## Version 1.6.4
 

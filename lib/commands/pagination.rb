@@ -17,9 +17,10 @@ if CLI.options[:help]
   aide = <<-EOT
 #{' Aide à la commande `pagination` '.underlined.gras}
 
-Usage :    #{'scriv pagination[ vers/mon/projet.scriv][ <options>]'.jaune}
+  Usage :    #{'scriv pagination[ vers/mon/projet.scriv][ <options>]'.jaune}
+  Alias :    #{'scriv tdm'.jaune}
 
-#{'Description'.underlined}
+  #{'Description'.underlined('-', '  ')}
 
     Permet de calculer la pagination du projet spécifié.
 
@@ -35,7 +36,7 @@ Usage :    #{'scriv pagination[ vers/mon/projet.scriv][ <options>]'.jaune}
     un fichier HTML ou un fichier simple texte.
 
 
-#{'Options'.underlined}
+  #{'Options'.underlined('-', '  ')}
 
     -o/--output=[console|html|file]
 
@@ -64,6 +65,58 @@ Usage :    #{'scriv pagination[ vers/mon/projet.scriv][ <options>]'.jaune}
           ajoutée à la table des matières produite.
 
           Exemple : #{'scriv pagination mon_projet.scriv -fdc=1.2'.jaune}
+
+  #{'Explication des colonnes'.underlined('-', '  ')}
+
+      Une table des matières produite par la commande `pagination` ou
+      `tdm` se présente sous cette forme :
+
+                             _ _ _ _ Numéro de la page en fonction du
+                            |        texte écrit.
+      ...                   v
+      Titre du document.... 10 | 24        5010 9000 #{'*'.rouge}#{'*'.rouge}
+      ...                         ^
+      ...                         | _ _ _ _ Numéro de la page en fonction
+      ...                                   des objectifs définis.
+      ...
+      ... (avec l'option `-N`, seuls les deux numéros ci-dessus sont
+      ...  affichés)
+      ...
+      ...    Nombre de signes écrits _ _ _ _      _ _ _ Nombre de signes à
+      ...                                   |    |      écrire (objectif)
+      ...                                   v    v
+      Autre document....... 23 | 54        2457 2500 #{'*'.vert}#{'*'.vert}
+      ...
+      ...
+      Troisième document... 92 | 110        280 300  #{'*'.rouge}#{'*'.vert}
+      ...                                            ^^
+      ...        Indicateurs d'atteinte de           ||
+      ...        cible et de dépassement (*) _ _ _ _ _
+      ...
+
+      (*) Indicateurs d'atteinte de cible et de dépassement
+      -------------------------------------------------
+        La première étoile indique si l'objectif est atteint  ou non.
+        Si elle est verte, l'objectif est atteint, si elle est rouge,
+        l'objectif défini (colonne précédente) reste à atteindre.
+        Lorsque l'objectif n'est pas encore atteint (première  étoile
+        de couleur rouge, la seconde étoile indique  qu'on est proche
+        de l'atteindre (étoile  verte)  ou  qu'on  est  loin  (étoile
+        rouge). Lorsque l'objectif  est atteint (première étoile ver-
+        te), la seconde indique s'il y a dépassement (rouge) ou bonne
+        longueur (vert).
+        Noter que pour  calculer les  dépassements, la commande ne se
+        sert pas des définitions de dépassements dans le projet mais
+        de la valeur 1/12.
+
+      Les lignes grisées sont des dossiers, c'est-à-dire des chapi-
+      tres ou des parties. Elles cumulent les nombres de leurs élé-
+      ments.
+
+      Noter que vous pouvez définir les objectifs de chaque document soit
+      avec un fichier CSV (#{'`scriv csv --help`'.jaune}) soit en indiquant
+      l'objectif de chaque document avec la commande :
+        #{'`scriv set objectif=<objectif> --document="Autre docum"`'.jaune}
   EOT
 
   Scrivener::help(aide)

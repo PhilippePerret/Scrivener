@@ -64,9 +64,10 @@ class Project
     def output_table_of_content
       self.projet.title
       # Et pour le moment, on l'affichage comme ça
-      puts  String::RC * 3 +
-            lines.join(RET) +
-            String::RC * 3
+      ecrit  String::RC * 3 +
+             lines.join(RET) +
+             String::RC * 3 +
+             '(pour obtenir de l’aide, taper `scriv %s --help`)' % [CLI.command_init]
 
     end
 
@@ -78,12 +79,12 @@ class Project
       self.elements = Array.new
       self.size     = SWP.new(0)
       self.objectif = SWP.new(0)
-      self.lines    = Array.new
       projet.all_binder_items_of(:draft_folder, deep: false).each do |bitem|
         bitem.treate_as_tdm_item(self, self)
       end
     end
     #/define_elements
+
 
     # Largeur pour un numéro de page (objectif)
     def obj_page_number_width
@@ -100,6 +101,16 @@ class Project
     # {Finum} Numéro de la dernière page (suivant les objectifs)
     def wri_last_page_number
       @wri_last_page_number ||= self.size.page
+    end
+    # La plus grande largeur pour l'indication des objectifs en
+    # nombre de caractères (signes). Calculé d'après les pages
+    def obj_chars_count_width
+      @obj_chars_count_width ||= begin
+        (obj_last_page_number * String::PAGE_WIDTH.to_i).to_s.length
+      end
+    end
+    def wri_chars_count_width
+      @wri_chars_count_width ||= (wri_last_page_number * String::PAGE_WIDTH).to_s.length
     end
 
 
@@ -129,11 +140,14 @@ class Project
       define_mesures
       [
         :title_width, :obj_page_number_width, :obj_last_page_number,
-        :wri_last_page_number, :wri_page_number_width
+        :wri_last_page_number, :wri_page_number_width,
+        :wri_chars_count_width, :obj_chars_count_width
       ].each do |prop|
         verbose_line(prop.inspect, send(prop).inspect)
       end
 
+      self.lines = Array.new
+      add_lines_titre
       self.current_size     = SWP.new(0)
       self.current_objectif = SWP.new(0)
       self.elements.each do |bitem|
@@ -141,6 +155,14 @@ class Project
       end
     end
     #/build_table_of_content
+
+    # Pour ajouter les lignes de titre
+    def add_lines_titre
+      lines << '  ' + projet.title.upcase
+      lines << '  ='.ljust(lines[0].length, '=')
+      lines << '  TABLE DES MATIÈRES'
+      lines << ''
+    end
 
     def ecrit line
       puts line

@@ -73,21 +73,19 @@ class BinderItem
   #
   # +pdata+ C'est la table principale et générale contenant toutes les
   #         informations.
-  TDM_LINE = '  %{ftitle}%{fpage_by_wri} | %{fpage_by_obj} |      %{fsigns} %{fobjectif} %{fstate} %{fpages} %{fcumul_pages}'
-  # TDM_LINE = '  %{ftitle}%{fpage_by_wri} %{fpage_by_obj} %{fcumul_signs} %{fcumul_pages}'
   def add_ligne_pagination(tdm, identation = 1)
     str_indent      = '  ' * identation
     formated_title_line = "#{formated_title} ".ljust(tdm.title_width + 5, '.')
     fpage_by_obj =
 
-    line = TDM_LINE % {
+    line = template_line % {
       ftitle:         formated_title_line,
       fpage_by_wri:   (' '+tdm.current_size.page.to_s).rjust(tdm.wri_page_number_width + 1,'.'),
       fpage_by_obj:   formated_page_by_objectif(tdm),
-      fobjectif:      formated_objectif(8),
-      fsigns:         formated_signs(6),
-      fstate:         formated_state(3),
-      # fcumul_signs:   tdm.size.signs.to_s.rjust(8),
+      fsigns:         formated_signs(tdm.wri_chars_count_width),
+      fobjectif:      formated_objectif(tdm.obj_chars_count_width),
+      fstate:         formated_state,
+      fdiff:          formated_diff,
       fpages:         formated_pages_real(8),
       fcumul_pages:   tdm.current_size.pages_real_round.to_s.rjust(10)
     }
@@ -111,20 +109,48 @@ class BinderItem
 
   end
 
-  def formated_state(len)
+  def formated_state
     @formated_state ||= begin
-      if objectif.signs > 0
-        diff = size.signs - objectif.signs
-        diff_too_big = diff.abs > (objectif.signs / 10)
-        meth  = diff > 0 ? :vert : :rouge
-        meth2 = diff_too_big ? :rouge : :vert
-        ' *'.send(meth) + '* '.send(meth2)
+      if objectif > 0
+        '*'.send(color_obj_reached) + '*'.send(color_obj_too_big)
       else
-        ''.ljust(4)
+        ''.ljust(2)
       end
+    end
+  end
+  # /formated_state
+
+  def formated_diff
+    @formated_diff ||= begin
 
     end
   end
+  # /formated_diff
+
+  def color_obj_reached
+    @color_obj_reached ||= diff_wri_obj > 0 ? :vert : :rouge
+  end
+  def color_obj_too_big
+    @color_obj_too_big ||= diff_too_big? ? :rouge : :vert
+  end
+
+  def diff_too_big?
+    @diff_wri_obj_is_too_big ||= begin
+      diff_wri_obj.abs > (objectif.signs / 12)
+    end
+  end
+  # Différence (positive ou négative) entre ce qui est écrit et ce qui
+  # doit l'être
+  def diff_wri_obj
+    @diff_wri_obj ||= begin
+      if objectif > 0
+        size.signs - objectif.signs
+      else
+        nil
+      end
+    end
+  end
+
   def formated_signs(len)
     @formated_signs ||= (size.signs > 0 ? size.signs : '-').to_s.rjust(len)
   end

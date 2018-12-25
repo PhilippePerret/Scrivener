@@ -1,7 +1,22 @@
 # encoding: UTF-8
 #
 # SignsWordsPages
-# Version 1.0.0
+# Version 1.0.2
+#
+# Note version 1.0.2
+#   Explication de ce que fait la classe
+# 
+# Note version 1.0.1
+#   Ajout des comparaisons >, <, >=, <=
+#
+# Cette classe permet de gérer très facilement les nombres de signes, de
+# mots et de pages. On définit un objet SWP à l'aide d'un nombre de signes,
+# (swp = SWP.new(12)) de mots (swp = SWP.new(4, :mots)) ou de pages (swp =
+# SWP.new(3, :pages)) puis on peut utiliser cet objet par exemple pour
+# obtenir la page de l'objet (swp.page), un nombre de pages correspondant
+# au nombre de mots (swp.mots) ou faire des comparaisons et des additions
+# (swp > 4 # => true si swp a plus de 4 signes, swp += 12 pour ajouter
+# 12 signes à swp, ou swp += swp pour doubler swp)
 #
 # @usage
 #     taille = SWP.new(nombre_signes)
@@ -81,6 +96,18 @@ class SWP # Pour Signs-Words-Pages
     return SWP.new(self.signs - nb)
   end
 
+  def > nbsigns
+    return self.signs > real_nbsigns(nbsigns)
+  end
+  def >= nbsigns
+    return self.signs >= real_nbsigns(nbsigns)
+  end
+  def < nbsigns
+    return self.signs < real_nbsigns(nbsigns)
+  end
+  def <= nbsigns
+    return self.signs <= real_nbsigns(nbsigns)
+  end
 
   # ---------------------------------------------------------------------
   #   Méthodes d'helper
@@ -244,6 +271,44 @@ if $0 == __FILE__
       assert_equal 250, o.mots
       assert_equal 1, o.pages_real
       assert_equal '1 page', o.hpages
+    end
+    test 'On peut comparer avec > < des SWP et des nombres' do
+      o = SWP.new(4)
+      assert_nothing_raised { o > 2 }
+      assert_false o > 6
+      assert o > 2
+      assert_nothing_raised { o < 6 }
+      assert_false o < 2
+      assert o < 6
+      assert_nothing_raised { o <= 4 }
+      assert o <= 4
+      assert o <= 5
+      assert_false o <= 2
+      assert_nothing_raised { o >= 4 }
+      assert o >= 4
+      assert o >= 3
+      assert_false o >= 6
+    end
+    test 'On peut comparer avec > < des SWP entre eux' do
+      o2 = SWP.new(2)
+      o3 = SWP.new(3)
+      o4 = SWP.new(4)
+      o5 = SWP.new(5)
+      o6 = SWP.new(6)
+      assert_nothing_raised { o4 > o2 }
+      assert_false o2 > o4
+      assert o6 > o4
+      assert_nothing_raised { o4 < o6 }
+      assert_false o4 < o2
+      assert o4 < o6
+      assert_nothing_raised { o4 <= o4 }
+      assert o4 <= o4
+      assert o4 <= o5
+      assert_false o4 <= o2
+      assert_nothing_raised { o4 >= o4 }
+      assert o4 >= o4
+      assert o4 >= o3
+      assert_false o4 >= o6
     end
   end
 end

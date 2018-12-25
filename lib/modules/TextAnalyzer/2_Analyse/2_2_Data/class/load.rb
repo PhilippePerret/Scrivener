@@ -12,7 +12,7 @@ class << self
     # Si des résultats ont été enregistrés, on a besoin de la classe
     # du module. Noter qu'elle sera remplacée par la bonne suivant le
     # format voulu
-    require File.join(APPFOLDER,'lib/modules/modules_output_by_type/text')
+    require File.join(APPFOLDER,'lib/modules/output_by_type/text')
     Marshal.load(File.open(File.join(analyse.hidden_folder,'data.msh'),'rb'))
   end
 
