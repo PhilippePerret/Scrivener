@@ -12,7 +12,7 @@ module ModuleFormatageTdm
 
     # Le formatage final de la ligne
     def formate_line_when_text(line)
-      self.text? ? line.gris : line
+      self.text? ? line : ">>> #{line}"
     end
 
     def formated_title_line
@@ -38,6 +38,15 @@ module ModuleFormatageTdm
     end
     # /formated_state
 
+
+    def color_obj_reached
+      @color_obj_reached ||= diff_wri_obj > 0 ? '👍' : '👎'
+    end
+    def color_obj_too_big
+      @color_obj_too_big ||= diff_too_big? ? '👎' : '👍'
+    end
+
+
     # Ce n'est pas vraiment la différence, c'est la différence par rapport
     # à la valeur minimale (si pas objectif atteint) ou maximale (si objectif
     # dépassé) autorisée.
@@ -46,9 +55,9 @@ module ModuleFormatageTdm
         len = 6
         if diff_wri_obj
           if diff_too_big?
-            "#{overrun? ? '+' : '-'}#{unreached_or_overrun_value}".ljust(len).rouge
+            "#{overrun? ? '+' : '-'}#{unreached_or_overrun_value}".ljust(len)
           else
-            "#{diff_wri_obj > 0 ? diff_wri_obj : - diff_wri_obj}".ljust(len).vert
+            "#{diff_wri_obj > 0 ? diff_wri_obj : - diff_wri_obj}".ljust(len)
           end
         else
           ''.ljust(6)

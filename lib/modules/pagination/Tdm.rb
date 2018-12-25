@@ -53,22 +53,10 @@ class Project
       self.projet = iprojet
     end
 
-    def options
-      @options ||= {
-        with_numbers: false
-      }
-    end
-
-    # Méthode principale qui va sortir la table des matières dans le
-    # format voulu.
-    def output_table_of_content
-      self.projet.title
-      # Et pour le moment, on l'affichage comme ça
-      ecrit  String::RC * 3 +
-             lines.join(RET) +
-             String::RC * 3 +
-             '(pour obtenir de l’aide, taper `scriv %s --help`)' % [CLI.command_init]
-
+    # Pour ouvrir la table des matières, en HTML ou en fichier Simple text
+    # (avec l'option `--open`)
+    def open
+      `open "#{tdm_file_path}"`
     end
 
     # Avant de commencer l'opération de mise en table des matières,
@@ -151,22 +139,10 @@ class Project
       self.current_size     = SWP.new(0)
       self.current_objectif = SWP.new(0)
       self.elements.each do |bitem|
-        bitem.add_ligne_pagination(self)
+        bitem.add_ligne_pagination()
       end
     end
     #/build_table_of_content
-
-    # Pour ajouter les lignes de titre
-    def add_lines_titre
-      lines << '  ' + projet.title.upcase
-      lines << '  ='.ljust(lines[0].length, '=')
-      lines << '  TABLE DES MATIÈRES'
-      lines << ''
-    end
-
-    def ecrit line
-      puts line
-    end
 
     def verbose_line libelle, valeur
       CLI.verbose? || return

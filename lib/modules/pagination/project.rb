@@ -24,9 +24,12 @@ class Project
   def exec_pagination
     # On crée une table pour faire apparaitre la pagination
     tdm.output = CLI.options[:output] || :console
+    Scrivener.require_module('output_by_type/%s/pagination' % [tdm.output])
+    extend ModuleFormatageTdm
     # On peut maintenant construire chaque ligne de la table des matières
     tdm.build_table_of_content
     tdm.output_table_of_content
+    tdm.open if CLI.options[:open] && tdm.respond_to?(:open)
   end
   #/exec_pagination
 

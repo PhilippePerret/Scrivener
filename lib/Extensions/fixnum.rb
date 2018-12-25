@@ -1,8 +1,11 @@
 # encoding: UTF-8
 #
 # Extension classe Fixnum
-# Version: 2.0.2
+# Version: 2.0.3
 #
+# Note version 2.0.3
+#   Possibilité d'envoyer des options à `as_human_date` notamment pour
+#   préciser le délimiteur de temps ("à" ou "-")
 # Note version 2.0.2
 #   Ajout de la méthode `pct` pour retourner vraiment le pourcentage
 #   d'un nombre par rapport à un total donné en argument.
@@ -28,9 +31,11 @@ class Fixnum
     '⁽%s⁾' % [s]
   end
 
-  def as_human_date mois_long = true, with_time = false
+  def as_human_date mois_long = true, with_time = false, options = nil
+    options ||= Hash.new
+    options.key?(:del_time) || options.merge!(del_time: '-')
     mois = mois_long ? MOIS_LONG[Time.at(self).month] : MOIS_COURT[Time.at(self).month]
-    fmt = "%e #{mois} %Y#{with_time ? ' - %H:%M' : ''}"
+    fmt = "%e #{mois} %Y#{with_time ? (' %s %%H:%%M' % [options[:del_time]]) : ''}"
     Time.at(self).strftime(fmt).strip
   end
 

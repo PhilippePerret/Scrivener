@@ -11,11 +11,15 @@ class BinderItem
   # Mais peut-être qu'il faudrait remplacer par :target
   attr_accessor :objectif
 
+  attr_accessor :tdm
+
   # Pour le moment, on ne prend que les éléments sans enfants
-  def treate_as_tdm_item(tdm, conteneur)
+  def treate_as_tdm_item(itdm, conteneur)
     # Si l'élément ne doit pas être inclus dans le manuscrit, on
     # le passe.
     self.compiled? || return
+
+    self.tdm = itdm
 
     # Soit le binder item possède une size, soit on lui donne une
     # taille de zéro
@@ -32,7 +36,7 @@ class BinderItem
       # => On doit traiter ses enfants
       self.elements = Array.new
       children.each do |child|
-        child.treate_as_tdm_item(tdm, self)
+        child.treate_as_tdm_item(itdm, self)
       end
     end
 
@@ -49,10 +53,7 @@ class BinderItem
   # +tdm+ Instance {Scrivener::Project::TDM} de la table des matières pour
   #       laquelle le titre est formaté
   def build_formated_title tdm, identation = 1
-    mots_et_signes = if tdm.options[:with_numbers]
-      target.mots ? (' [%i c. ≃ %i m. ≃ %s p.]' % [target.signes, target.mots, target.pages]) : ''
-    else '' end
-    @formated_title = '%s%s%s ' % [(TDM::TITLE_IDENTATION * identation), title, mots_et_signes]
+    @formated_title = '%s%s ' % [(TDM::TITLE_IDENTATION * identation), title]
     if formated_title.length > tdm.title_width
       tdm.title_width = formated_title.length
     end
@@ -73,59 +74,51 @@ class BinderItem
   #
   # +pdata+ C'est la table principale et générale contenant toutes les
   #         informations.
-  def add_ligne_pagination(tdm, identation = 1)
-    str_indent      = '  ' * identation
-    formated_title_line = "#{formated_title} ".ljust(tdm.title_width + 5, '.')
-    fpage_by_obj =
-
+  def add_ligne_pagination(identation = 1)
     line = template_line % {
       ftitle:         formated_title_line,
-      fpage_by_wri:   (' '+tdm.current_size.page.to_s).rjust(tdm.wri_page_number_width + 1,'.'),
-      fpage_by_obj:   formated_page_by_objectif(tdm),
+      fpage_by_wri:   formated_page_by_writing,
+      fpage_by_obj:   formated_page_by_objectif,
       fsigns:         formated_signs(tdm.wri_chars_count_width),
       fobjectif:      formated_objectif(tdm.obj_chars_count_width),
       fstate:         formated_state,
       fdiff:          formated_diff,
       fpages:         formated_pages_real(8),
-      fcumul_pages:   tdm.current_size.pages_real_round.to_s.rjust(10)
+      fcumul_pages:   formated_cumul_pages
     }
-
-    self.text? || line = line.gris
-
-    tdm.lines << line
-
+    # On ajoute la ligne de table des matières à la tdm
+    tdm.lines << formate_line_when_text(line)
     parent? && begin
       children.each do |sitem|
-        sitem.add_ligne_pagination(tdm, identation + 1)
+        sitem.add_ligne_pagination(identation + 1)
       end
     end
-
     self.text? || return
-
     # Si le binder-item contient du texte, on ajoute sa taille au
     # nombre de signes courants
     tdm.current_size      += self.size
     tdm.current_objectif  += self.objectif
-
   end
+  # /add_ligne_pagination
 
-  def formated_state
-    @formated_state ||= begin
-      if objectif > 0
-        '*'.send(color_obj_reached) + '*'.send(color_obj_too_big)
-      else
-        ''.ljust(2)
-      end
+  def unreached_or_overrun_value
+    @unreached_or_overrun_value ||= begin
+      (size.signs - min_or_max_autorised).abs
     end
   end
-  # /formated_state
-
-  def formated_diff
-    @formated_diff ||= begin
-
+  def min_or_max_autorised
+    @min_or_max_autorised ||= begin
+      objectif.signs + (overrun? ? tolerance : -tolerance)
     end
   end
-  # /formated_diff
+
+  def tolerance
+    @tolerance ||= (objectif.signs / 12).round
+  end
+
+  def overrun?
+    @is_overrun ||= diff_wri_obj > 0
+  end
 
   def color_obj_reached
     @color_obj_reached ||= diff_wri_obj > 0 ? :vert : :rouge
@@ -136,7 +129,11 @@ class BinderItem
 
   def diff_too_big?
     @diff_wri_obj_is_too_big ||= begin
-      diff_wri_obj.abs > (objectif.signs / 12)
+      if diff_wri_obj
+        diff_wri_obj.abs > (objectif.signs / 12)
+      else
+        false
+      end
     end
   end
   # Différence (positive ou négative) entre ce qui est écrit et ce qui
@@ -165,9 +162,6 @@ class BinderItem
         '-'
       end.ljust(len)
     end
-  end
-  def formated_page_by_objectif(tdm)
-    tdm.current_objectif.page.to_s.rjust(tdm.obj_page_number_width + 1)
   end
 
 end #/BinderItem

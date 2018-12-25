@@ -2,6 +2,7 @@
 class Scrivener
 
   ERRORS_MSGS = {
+    unknown_module_required:  'Le module `%s` est introuvable…',
     project_path_required:    'Il faut définir le projet Scrivener à traiter, en indiquant le chemin depuis votre dossier utilisateur (%s).',
     bad_project_extension:    'L’extension du projet devrait être «.scriv» (c’est «%s»)',
     paths_required_for_analyse:  'Il faut impérativement communiquer les chemins d’accès aux fichiers pour procéder à l’analyse textuelle.',
