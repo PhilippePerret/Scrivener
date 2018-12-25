@@ -429,16 +429,7 @@ class Project
   end
 
   def human_value_objectif_to_real_value valeur
-    case valeur
-    when /^([0-9]+)p(ages)?$/
-      return $1.to_i * String::PAGE_WIDTH.to_i
-    when /^([0-9]+)m(ots)?/, /^([0-9]+)w(ords)?/
-      return $1.to_i * 6
-    when /^([0-9]+)c?(hars)?$/
-      return $1.to_i
-    else
-      raise(ERRORS[:bad_objectif_value])
-    end
+    SWP.signs_from_human_value(valeur, true)
   end
 
   # Retourne la vraie valeur de +value+ en la trouvant dans

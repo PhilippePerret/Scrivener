@@ -31,6 +31,28 @@ aide = <<-EOT
 
           #{'scriv pagination -h'.jaune}
 
+  #{'Opérations spéciales'.underlined('=', '  ')}
+
+    Redéfinir les objectifs des fichiers d'un roman
+    -----------------------------------------------
+    Définir les objectifs dans Scrivener peut être assez fastidieux
+    et, surtout, contreproductif cas on travaille à l'aveugle, sans
+    voir ce que les modifications produisent en direct.
+    Pour procéder souplement à cette opération, il est préférable
+    d'utiliser une autre application, Calc ou Numbers (sur Mac).
+    Procédure :
+      1. Exporter la table des matières du projet courant grâce
+         à la commande : #{'`scriv tdm -o=csv` --open'.jaune}
+      2. Grâce à l'option `--open` (ci-dessus), le fichier s'ouvre
+         aussitôt fabriqué dans Numbers (sur Mac).
+      3. Modifier les valeurs `Objectif` (5ème colonne) en utilisant
+         des unités réduites, 'p', 'm' ou 'c' respectivement pour
+         page (p), mot (m) ou caractère (c). Par exemple '4p' pour 4
+         pages ou '20m' pour "20 mots".
+      4. Jouer la commande inverse #{'`scriv tdm --input=tdm.csv`'.jaune}
+         Cette commande recharge la table des matières en définissant
+         les objectifs définis.
+
   #{'Third-party'.underlined('-', '  ')}
 
       Pour pouvoir utiliser la recherche de proximité, il faut charger la

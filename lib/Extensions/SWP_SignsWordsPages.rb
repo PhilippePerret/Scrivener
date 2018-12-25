@@ -1,11 +1,14 @@
 # encoding: UTF-8
 #
 # SignsWordsPages
-# Version 1.0.2
+# Version 1.0.3
+#
+# Note version 1.0.3
+#   Implémentation de la méthode de classe `signs_from_human_value`
 #
 # Note version 1.0.2
 #   Explication de ce que fait la classe
-# 
+#
 # Note version 1.0.1
 #   Ajout des comparaisons >, <, >=, <=
 #
@@ -34,6 +37,7 @@
 #   taille.cars   => nombre de signes/caractères
 #
 class SWP # Pour Signs-Words-Pages
+
   SIGNS_PER_PAGE  = 1500.0
   SIGNS_PER_WORD  = 6
   WORD_PER_PAGE   = 250
@@ -45,6 +49,28 @@ class SWP # Pour Signs-Words-Pages
     fr: {mot: 'mot', page: 'page', sign: 'signe'},
     en: {mot: 'word', page: 'page', sign: 'sign'}
   }
+
+  class << self
+    # Reçoit une valeur humaine (comme "4p" ou "3.5 mots") et retourne
+    # le nombre de caractères correspondants.
+    def signs_from_human_value valeur, raise_if_not_value = false
+      case valeur
+      when /^([0-9\.]+) ?p(ages)?$/
+        return ($1.to_f * SIGNS_PER_PAGE.to_i).to_i
+      when /^([0-9\.]+) ?m(ots)?/, /^([0-9]+) ?w(ords)?/
+        return ($1.to_f * 7).to_i
+      when /^([0-9\.]+) ?c?(hars)?$/
+        return $1.to_i
+      else
+        if raise_if_not_value
+          raise(ERRORS[:bad_objectif_value])
+        else
+          return nil
+        end
+      end
+    end
+  end #/<< self
+  # ---------------------------------------------------------------------
   attr_accessor :signs
 
   def initialize nombre, is = :signs
@@ -309,6 +335,22 @@ if $0 == __FILE__
       assert o4 >= o4
       assert o4 >= o3
       assert_false o4 >= o6
+    end
+    test 'La méthode `signs_from_human_value` retourne la bonne valeur' do
+      [
+        ['4p', 4 * 1500], ['5pages', 5 * 1500], ['6 pages', 6 * 1500],
+        ['4m', 4 * 7], ['5mots', 5 * 7], ['6 words', 6 * 7],
+        ['4c', 4], ['5', 5]
+      ].each do |hv, sv|
+        assert_equal sv, SWP.signs_from_human_value(hv)
+      end
+    end
+    test 'La méthode `signs_from_human_value` raise si voulu avec mauvaise valeur' do
+      assert_raises { SWP.signs_from_human_value('-', true)}
+
+    end
+    test 'La méthode `signs_from_human_value` ne raise pas si voulu avec mauvaise valeur' do
+      assert_nothing_raised { SWP.signs_from_human_value('-', false)}
     end
   end
 end
