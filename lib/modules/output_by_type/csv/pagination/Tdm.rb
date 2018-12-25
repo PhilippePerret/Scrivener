@@ -14,7 +14,6 @@ module ModuleFormatageTdm
     def add_lines_titre
       CLI.debug_entry
       lines << (CLI.options[:no_count] ? TDM_LABELS_SIMPLE : TDM_LABELS)
-      puts "-lines: #{lines.inspect}"
       CLI.debug_exit
     end
 
