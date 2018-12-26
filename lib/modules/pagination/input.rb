@@ -12,11 +12,7 @@ class Project
 
 
   def get_objectifs_and_fichiers_from_file
-    if CLI.options[:input] === true
-      CLI.options[:input] = 'tdm.csv' # Nom par défaut
-    end
-    file_path = File.join(self.folder, CLI.options[:input])
-    File.exist?(file_path) || raise(ERRORS_MSGS[:imported_file_unfound] % file_path)
+    input_file_exist_or_raise
     labels = File.new(file_path).each.first.downcase.split(';')
     index_target  = labels.index('objectif') || labels.index('target')
     index_target || raise(ERRORS_MSGS[:label_objectif_required])
@@ -31,7 +27,42 @@ class Project
       puts "-- Mise du titre «#{titre}» à l'objectif #{target.inspect}"
     end
 
-    return false # pour s'arrêter là
+    return false # pour s'arrêter là pour le moment
+  end
+
+  def input_file
+    @input_file ||= CSVFile.new(input_file_path)
+  end
+
+  def input_file_exist_or_raise
+    input_file.exist? || raise(ERRORS_MSGS[:imported_file_unfound] % input_file_path)
+  end
+
+  def input_file_path
+    @input_file_path ||= begin
+      if CLI.options[:input] === true
+        CLI.options[:input] = 'tdm.csv' # Nom par défaut
+      end
+      File.join(self.folder, CLI.options[:input])
+    end
+  end
+
+  class CSVFile
+    attr_accessor :path
+    def initialize path, options = nil
+      self.path = path
+    end
+    def exist?
+      File.exist?(path)
+    end
+    def labels
+      @labels ||= begin
+        IO.readlines(path,1)[0].split(separator)
+      end
+    end
+    def separator
+      @separator ||= ';'
+    end
   end
 
 end #/Project

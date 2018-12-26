@@ -70,6 +70,7 @@ class SWP # Pour Signs-Words-Pages
       end
     end
   end #/<< self
+
   # ---------------------------------------------------------------------
   attr_accessor :signs
 
