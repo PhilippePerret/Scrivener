@@ -96,12 +96,27 @@ end
 
 # Pose la +question+ et retourne la réponse, même vide.
 def askFor(question, default = nil)
+  expected_keys = nil
+  if default.is_a?(Hash)
+    defo = default.delete(:default)
+    expected_keys = default.delete(:expected_keys)
+    default = defo
+  end
   default && question << " (défaut : #{default}) "
-  print "#{question} : "
-  retour = STDIN.gets.strip
-  retour == '' && retour = nil
-  retour ? retour : default
+
+  begin
+    print "#{question} : "
+    retour = STDIN.gets.strip
+    retour == '' && retour = default
+    if expected_keys && !expected_keys.include?(retour)
+      puts 'La valeur %s n’est pas correcte.'.rouge % [retour.inspect]
+    else
+      break
+    end
+  end while true
+  return retour
 end
+# /askFor
 
 
 

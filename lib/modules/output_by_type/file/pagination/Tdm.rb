@@ -21,7 +21,7 @@ module ModuleFormatageTdm
     end
 
     def tdm_file_path
-      @tdm_file_path ||= File.join(project.folder, 'tdm.txt')
+      @tdm_file_path ||= project.tdm_file_path('txt')
     end
 
     def ecrit str

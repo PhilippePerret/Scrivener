@@ -79,9 +79,11 @@ class CSVFile
   end
   # Pour boucler sur chaque ligne (sauf la ligne de label si elle
   # existe)
+  attr_accessor :linenum
   def each_row &block
     iotemp.rewind
     iotemp.each_line do |line|
+      self.linenum = iotemp.lineno
       yield treate_line(line, iotemp.lineno)
     end
   end

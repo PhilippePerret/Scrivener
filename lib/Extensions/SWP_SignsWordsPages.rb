@@ -1,8 +1,10 @@
 # encoding: UTF-8
 #
 # SignsWordsPages
-# Version 1.0.3
+# Version 1.0.4
 #
+# Note version 1.0.4
+#   Renvoie de la valeur nil au lieu de zéro avec l'option :zero_if_nil
 # Note version 1.0.3
 #   Implémentation de la méthode de classe `signs_from_human_value`
 #
@@ -72,20 +74,38 @@ class SWP # Pour Signs-Words-Pages
   end #/<< self
 
   # ---------------------------------------------------------------------
-  attr_accessor :signs
+  attr_writer :signs
+  attr_accessor :options
 
-  def initialize nombre, is = :signs
+  # +options+
+  #     :zero_if_nil      Si true, et que le nombre de signes est 0,
+  #                       on retourne NIL à toute demande de valeur.
+  #
+  def initialize nombre, is = nil, opts = nil
+    is ||= :signs
+    self.options = opts || Hash.new
     self.send("#{is}=".to_sym, nombre)
   end
+
+  # Avec l'option :zero_if_nil, les méthodes doivent retourner nil si
+  # le nombre de signes est de zéro.
+  def val_or_nil val
+    options[:zero_if_nil] || (return val)
+    signs.nil? ? nil : val
+  end
+
+  def signs
+    options[:zero_if_nil] && @signs == 0 ? nil : @signs
+  end
   def pages
-    @pages ||= pages_real.ceil
+    @pages ||= signs.nil? ? nil : pages_real.ceil
   end
   # La page sur laquelle on se trouve
   def page
-    @page ||= pages_real.floor + 1
+    @page ||= signs.nil? ? nil : (pages_real.floor + 1)
   end
   def words
-    @words ||= (signs.to_f / SIGNS_PER_WORD).round
+    @words ||= signs.nil? ? nil : ((signs.to_f / SIGNS_PER_WORD).round)
   end
   alias :mots :words
 
@@ -105,10 +125,10 @@ class SWP # Pour Signs-Words-Pages
   alias :chars :signs
 
   def pages_real_round
-    @pages_real_round ||= (signs.to_f / SIGNS_PER_PAGE).round(2)
+    @pages_real_round ||= val_or_nil((signs.to_f / SIGNS_PER_PAGE).round(2))
   end
   def pages_real
-    @pages_real ||= (signs.to_f / SIGNS_PER_PAGE)
+    @pages_real ||= val_or_nil((signs.to_f / SIGNS_PER_PAGE))
   end
 
   # ---------------------------------------------------------------------
@@ -352,6 +372,18 @@ if $0 == __FILE__
     end
     test 'La méthode `signs_from_human_value` ne raise pas si voulu avec mauvaise valeur' do
       assert_nothing_raised { SWP.signs_from_human_value('-', false)}
+    end
+    test 'Les méthodes retourne nil si l’option :zero_if_nil est à true' do
+      o = SWP.new(0)
+      assert_equal 0, o.signs
+      assert_equal 0, o.mots
+      assert_equal 0, o.pages
+      assert_equal 1, o.page
+      o = SWP.new(0, nil, {zero_if_nil: true})
+      assert_nil o.signs
+      assert_nil o.mots
+      assert_nil o.pages
+      assert_nil o.page
     end
   end
 end

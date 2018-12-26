@@ -2,6 +2,18 @@
 class Scrivener
   class Project
 
+    def tdm_file_path extension = nil
+      extension ||= 'csv'
+      @tdm_file_paths ||= Hash.new
+      @tdm_file_paths[extension] ||= File.join(folder,'tdm.%s' % extension)
+    end
+
+    # Fichier contenant la définition des données de proximité propres
+    # au projet courant
+    def custom_proximites_file_path
+      @custom_proximites_file_path ||= File.join(folder, 'proximites.txt')
+    end
+
     def affixe
       @affixe ||= File.basename(path, File.extname(path))
     end
@@ -48,11 +60,6 @@ class Scrivener
       @hidden_files_folder ||= File.join(hidden_folder,'files')
     end
 
-    # Fichier contenant la définition des données de proximité propres
-    # au projet courant
-    def custom_proximites_file_path
-      @custom_proximites_file_path ||= File.join(folder, 'proximites.txt')
-    end
 
     # Dossier contenant le fichier principal du projet scrivener
     def folder

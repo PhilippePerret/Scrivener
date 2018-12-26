@@ -18,7 +18,7 @@ module ModuleFormatageTdm
     end
 
     def tdm_file_path
-      @tdm_file_path ||= File.join(project.folder, 'tdm.csv')
+      @tdm_file_path ||= project.tdm_file_path('csv')
     end
 
     def ecrit str

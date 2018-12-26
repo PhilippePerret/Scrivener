@@ -41,6 +41,50 @@ class Project
     end
     @hash_binder_items[uuid]
   end
+  alias :binder_item_by_uuid :binder_item
+
+  # Retourne l'instance binder-item du fichier ou dossier dont le titre
+  # est ou commence par +titseg+
+  #
+  # +options+
+  #     :help       Si true (par défaut), on affiche la liste des titres
+  #                 en cas d'insuccès.
+  #     :in         Le dossier dans lequel il faut chercher le document
+  #                 (par défaut : :draft_folder, le dossier manuscrit)
+  #
+  def binder_item_by_title titseg, options = nil
+    options ||= Hash.new
+    options.key?(:in) || options.merge!(in: :draft_folder)
+    titseg = titseg.strip.downcase
+    all_bitems = Array.new
+    self.all_binder_items_of(options[:in]).each do |bitem|
+      # puts "* Comparaison de %s et %s" % [titseg.inspect, bitem.title.downcase.inspect]
+      if bitem.title.downcase.start_with?(titseg)
+        return bitem
+      end
+      all_bitems << bitem
+    end
+    unless options[:help] === false
+      puts "Vous devez choisir un document dans la liste ci-dessous : ".rouge
+      puts String::RC * 2
+      puts "Liste des documents"
+      puts "-------------------"
+      allindex = Array.new
+      all_bitems.each_with_index do |bi, idx|
+        num = (idx + 1).to_s
+        allindex << num
+        puts '  %s : %s' % [num.rjust(4), bi.title]
+      end
+      puts String::RC * 3
+      choix = askFor('Document à choisir (ou "q" pour renoncer)', {expected_keys: allindex.push('q')})
+      if choix == 'q'
+        # raise(ERRORS[:no_binder_item_with_titre] % titseg)
+        return nil
+      else
+        all_bitems[choix.to_i - 1]
+      end
+    end
+  end
 
   # Retourne l'instance {Scrivener::Project::BinderItem} du
   # dossier Manuscrit

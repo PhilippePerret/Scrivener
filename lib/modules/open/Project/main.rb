@@ -42,6 +42,10 @@ class Project
       found:    'Ce dossier contient tous les fichiers créés lors de l’analyse (de proximités) du projet.',
       unfound:  'Il faut lancer la recherche de proximité au moins une fois pour que ce dossier existe.'
     },
+    tdm: {
+      found:    'Cette table des matières est exportée avec la commande `pagination` (`scriv pagination --output=csv`). Si c’est un fichier .csv, il permet de redéfinir les objectifs et la table des matières du projet. On peut utiliser le format `numbers` pour travailler avec l’application de même nom puis exporter en CSV.',
+      unfound:  'Pour qu’il existe, il faut exporter au format .csv une table des matières depuis Calc, Excel ou autre tableur. On peut également exporter la table des matières du projet courant à l’aide de la commande `scriv pagination --output=csv`.'
+    }
   }
   # ---------------------------------------------------------------------
   #   MÉTHODES D'INSTANCE
@@ -68,6 +72,11 @@ class Project
     when 'abbr', 'abbrs', 'abbreviations'
       opts.merge!(tip: :abbr)
       open_if_exists(TREE_TAGGER_ABBREVIATES, 'fichier des abbréviations', opts)
+    when 'tdm', 'toc'
+      opts.merge!(tip: :tdm)
+      open_if_exists(tdm_file_path(CLI.options[:format]), 'fichier table des matières', opts)
+    else
+      puts "L'objet à ouvrir `#{what}` est inconnu…".rouge
     end
   end
   # /open

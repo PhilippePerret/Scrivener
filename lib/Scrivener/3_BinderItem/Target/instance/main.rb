@@ -16,6 +16,7 @@ class Scrivener
 
         def define value, options = nil
           # <Target Type="Characters" Notify="No" ShowOverrun="Yes" ShowBuffer="Yes">1500</Target>
+          options ||= Hash.new
           attrs = Hash.new
           attrs.merge!('Notify'       => options[:notify] ? 'Yes' : 'No')
           attrs.merge!('ShowOverrun'  => options[:show_overrun] ? 'Yes' : 'No')
@@ -31,30 +32,45 @@ class Scrivener
           # Soit on sauve directement le fichier (si un seul changement)
           # soit on marque simplement que le fichier a été modifié
           if options[:save]
-              projet.xfile.save
-            else
-              projet.xfile.set_modified
+            projet.xfile.save
+          else
+            projet.xfile.set_modified
+          end
+        end
+        # /define
+
+        def swp
+          @swp ||= SWP.new(calc_nombre_signs, nil, {zero_is_nil: true})
+        end
+
+        def calc_nombre_signs
+          if node?
+            case unite
+            when 'Words'
+              nombre * 7
+            when 'Characters'
+              nombre
+            when 'Pages'
+              nombre * String::PAGE_WIDTH
             end
+          else
+            0
+          end
         end
 
         # {String} Objectif en nombre de pages
         def pages
-          @pages ||= begin
-            node? ? (mots.to_f / 250).pretty_round(1) : nil
-          end
+          @pages ||= swp.pages
         end
         # Objectif en nombre de mots
         def mots
-          @mots ||= begin
-            node? ? (unite == 'Words' ? nombre : nombre / 6) : nil
-          end
+          @mots ||= swp.mots
         end
         # Objectif en nombre de signes
         def signes
-          @signes ||= begin
-            node? ? (unite == 'Words' ? nombre * 6 : nombre) : nil
-          end
+          @signes ||= swp.signs
         end
+        alias :signs :signes # pour la cohérence avec SWP
 
         def unite
           @unite ||= begin

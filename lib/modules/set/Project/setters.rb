@@ -395,7 +395,7 @@ class Project
       end
     else
       # Objectif du document
-      bitem = get_binder_item_by_title_heading(what)
+      bitem = binder_item_by_title(what)
       if yesOrNo('Voulez-vous définir l’objectif de « %s » à %i signes ?' % [bitem.title, final_value])
         bitem.target.define(final_value, {type: 'Characters', notify: false, show_overrun: true, show_buffer: true})
       else
@@ -410,23 +410,6 @@ class Project
 
   # ---------------------------------------------------------------------
   # Méthode utilitaires
-
-  # Reçoit un segment de titre de document et retourne le binder-item
-  # correspondant
-  def get_binder_item_by_title_heading titseg
-    titseg = titseg.downcase
-    all_titles = Array.new
-    project.all_binder_items_of(:draft_folder).each do |bitem|
-      if bitem.title.downcase.start_with?(titseg)
-        return bitem
-      end
-      all_titles << bitem.title
-    end
-    puts "Liste des documents"
-    puts "-------------------"
-    all_titles.map{|d| puts '  - %s' % d}
-    raise(ERRORS[:no_binder_item_with_titre] % titseg)
-  end
 
   def human_value_objectif_to_real_value valeur
     SWP.signs_from_human_value(valeur, true)

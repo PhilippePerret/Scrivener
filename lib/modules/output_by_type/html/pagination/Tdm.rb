@@ -93,7 +93,7 @@ div.tdm-item span.sep { width: 20px; text-align: center;}
 
 
     def tdm_file_path
-      @tdm_file_path ||= File.join(project.folder, 'tdm.html')
+      @tdm_file_path ||= project.tdm_file_path('html')
     end
 
     def ecrit str

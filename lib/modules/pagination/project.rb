@@ -29,13 +29,14 @@ class Project
     # un fichier de données fournies
     if CLI.options[:input]
       get_objectifs_and_fichiers_from_file || return
+    else
+      Scrivener.require_module('output_by_type/%s/pagination' % [tdm.output])
+      extend ModuleFormatageTdm
+      # On peut maintenant construire chaque ligne de la table des matières
+      tdm.build_table_of_content
+      tdm.output_table_of_content
+      tdm.open if CLI.options[:open] && tdm.respond_to?(:open)
     end
-    Scrivener.require_module('output_by_type/%s/pagination' % [tdm.output])
-    extend ModuleFormatageTdm
-    # On peut maintenant construire chaque ligne de la table des matières
-    tdm.build_table_of_content
-    tdm.output_table_of_content
-    tdm.open if CLI.options[:open] && tdm.respond_to?(:open)
   end
   #/exec_pagination
 
