@@ -18,23 +18,30 @@ class CLI
     'tdm'         => 'pagination',
     'toc'         => 'pagination'
   }
+  # Les versions courtes communes à toutes les applications
   DIM_OPT_TO_REAL_OPT = {
+    'h'               => 'help',
+    'o'               => 'output',
+    'u'               => 'update',
+    'v'               => 'verbose',
+    'w'               => 'warning'
+  }
+  # Les versions courtes propres à l'application courante
+  # Elles peuvent surclasser des options précédemment définies
+  DIM_OPT_TO_REAL_OPT.merge!({
     'bm'              => 'benchmark',
     'doc'             => 'document',
     'f'               => 'force',
     'fc'              => 'force_calcul',
     'fdc'             => 'final-draft-coefficient',
-    'h'               => 'help',
     'i'               => 'initial',
     'k'               => 'keys_mode_test',
     'l'               => 'local',
     'm2m'             => 'maxtomin',
     'N'               => 'no_count',
-    'o'               => 'output',
     't'               => 'tableau',
-    'u'               => 'update',
     'vb'              => 'verbose',
 
     'now'             => 'today'
-  }
+  })
 end#/CLI
