@@ -26,7 +26,7 @@ class Proximite
 
     # Préparation de la liste des mots propre au projet, à distance particulière
     def prepare_liste_proximites_projet(ianalyse)
-      File.exists?(custom_proximites_file_path(ianalyse)) || begin
+      File.exist?(custom_proximites_file_path(ianalyse)) || begin
         debug 'Pas de liste proximités propre au texte (le fichier %s n’existe pas)' % custom_proximites_file_path
         return
       end

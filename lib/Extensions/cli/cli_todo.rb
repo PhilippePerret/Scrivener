@@ -210,6 +210,7 @@ class << self
       ft << TAB_TODO_LIST + titre + String::RC + TAB_TODO_LIST + '-'*titre.length
       tasks.each_with_index do |ta, ita|
         ta.start_with?('[BUG]') && ta = ta.rouge
+        ta.start_with?('[TEST]') && ta = ta.vert
         ft << '%s#%s : %s' % [TAB_TODO_LIST, (ita+1).to_s.ljust(indice_len), ta]
       end
       ft << String::RC * 2

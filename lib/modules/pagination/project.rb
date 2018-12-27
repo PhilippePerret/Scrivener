@@ -14,6 +14,9 @@
 
 =end
 class Scrivener
+  NOTICES.merge!(
+    tdm_built: 'Table des matières construite dans le fichier « %s » du dossier du projet. Astuce : vous pouvez l’ouvrir après la construction en ajoutant l’option `--open` à la commande.'
+  )
 class Project
 
   # = main =
@@ -35,7 +38,11 @@ class Project
       # On peut maintenant construire chaque ligne de la table des matières
       tdm.build_table_of_content
       tdm.output_table_of_content
-      tdm.open if CLI.options[:open] && tdm.respond_to?(:open)
+      if CLI.options[:open] && tdm.respond_to?(:open)
+        tdm.open
+      else
+        puts (NOTICES[:tdm_built] % File.basename(tdm.tdm_file_path)).bleu
+      end
     end
   end
   #/exec_pagination

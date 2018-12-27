@@ -13,6 +13,7 @@ class Scrivener
     'lemma'     , # => Définition des abbréviations
                   #  Peut quand même nécessiter parfois un projet
     'run'       , # Pour jouer du code
+    'test'      , # pour lancer les tests
   ]
 
   class << self

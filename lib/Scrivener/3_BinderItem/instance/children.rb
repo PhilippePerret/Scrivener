@@ -40,7 +40,6 @@ class Scrivener
         metadata = newdoc.add_element('MetaData')
         data[:metadata].each do |key, mdata|
           text = mdata[:text] || mdata[:value]
-          # el = metadata.add_element('IncludeInCompile')
           el = metadata.add_element(key.camelize)
           el.text = text unless text.nil?
         end
