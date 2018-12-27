@@ -29,7 +29,7 @@ class Scrivener
       save_current_informations
       return true
     rescue Exception => e
-      puts e.message.rouge_gras
+      raise_by_mode(e, Scrivener.mode)
     end
 
   end #/<< self

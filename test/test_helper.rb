@@ -53,3 +53,24 @@ alias :run_command :run_commande
 def asset_path_for relpath
   File.join(APPFOLDER,'test','assets',relpath)
 end
+
+class CLI
+class Test
+class << self
+  # À exécuter AVANT tous les tests (en passant par la commance `scriv test`)
+  def before_all
+    File.exist?(lasts_path) && FileUtils.move(lasts_path, lasts_path_copie)
+  end
+  # À exécuter APRÈS tous les tests (en passant par la commance `scriv test`)
+  def after_all
+    File.exist?(lasts_path_copie) && FileUtils.move(lasts_path_copie, lasts_path)
+  end
+  def lasts_path
+    @lasts_path ||= Scrivener.last_projects_path_file
+  end
+  def lasts_path_copie
+    @lasts_path_copie ||= "#{Scrivener.last_projects_path_file}-COPIE"
+  end
+end #/<< self
+end #/Test
+end #/CLI

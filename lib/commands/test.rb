@@ -43,6 +43,7 @@ if CLI.options[:help]
   Scrivener.help(aide)
 
 else
+  CLI.dbg "SUIVI --> commands/test.rb"
   Scrivener.require_module('test')
   Scrivener.exec_tests
 end

@@ -17,6 +17,8 @@ class Scrivener
       # return
 
       Dir.chdir(command_on_project?(self.command) ? project.folder : File.expand_path('.')) do
+        CLI.dbg "SUIVI --> . = #{`pwd`}"
+        CLI.dbg "SUIVI --> require '%s'" % File.join(APPFOLDER,'lib','commands',self.command)
         require File.join(APPFOLDER,'lib','commands',self.command)
       end
 

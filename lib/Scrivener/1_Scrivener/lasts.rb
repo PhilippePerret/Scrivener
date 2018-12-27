@@ -17,7 +17,7 @@ class << self
   # Sauve les données +data+ du projet courant
   def save_project_data data
     CLI.debug_entry
-    data[:path] = File.expand_path(data[:path])
+    data[:path] && data[:path] = File.expand_path(data[:path])
     data.merge!(saved_at: Time.now)
     # Il ne faut pas répéter plusieurs fois un même projet
     @last_projects_data = last_projects_data.collect do |dprojet|

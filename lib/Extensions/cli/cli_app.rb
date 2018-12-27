@@ -40,7 +40,6 @@ class CLI
     'm2m'             => 'maxtomin',
     'N'               => 'no_count',
     't'               => 'tableau',
-    'vb'              => 'verbose',
 
     'now'             => 'today'
   })

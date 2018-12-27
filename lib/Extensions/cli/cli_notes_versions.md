@@ -1,6 +1,16 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.6.5 **
+** Version courante : 1.7.1 **
+
+## Version 1.7.1
+
+  Amélioration des tests pour pouvoir les lancer depuis la console
+  même lorsqu'on fait appel à `CLI::Test.run_command`.
+
+## Version 1.7.0
+
+  Ajout de la méthode `CLI::Test.run` qui permet de jouer les tests
+  avec Rake.
 
 ## Version 1.6.5
 

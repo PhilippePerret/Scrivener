@@ -5,6 +5,7 @@ class << self
   # Méthode appelée pour afficher l'aide définie dans le
   # message +message+
   def help message
+    CLI.debug_entry
     puts <<-EOT
 
 
@@ -15,6 +16,7 @@ class << self
 
 
     EOT
+    CLI.debug_exit
   end
 
 end #/<< self

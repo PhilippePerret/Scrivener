@@ -437,7 +437,7 @@ class Project
     end
     nil
   rescue Exception => e
-    puts e.message
+    raise_by_mode(e, Scrivener.mode)
     false
   end
   def yes_or_no_value value

@@ -4,6 +4,7 @@
 Module pour méthodes de test en ligne de commmande
 
 =end
+require 'tempfile'
 require 'rake'
 require 'rake/testtask'
 
@@ -16,7 +17,7 @@ class << self
   # cf. Manuel > Tests.rb
   # @usage    CLI::Test.run
   def run(path, options = nil)
-
+    CLI.debug_entry
     options ||= CLI.options
     path = path.to_s # peut être nil
 
@@ -41,9 +42,11 @@ class << self
       path = './test/%s' % [path]
     end
 
-
+    CLI.dbg "SUIVI --> Create Rake application"
     app = Rake.application
-    app.init('raketest', nil)
+    # app.init('raketest', nil)
+    app.init('raketest', [])
+    CLI.dbg "SUIVI --> Rake application inited"
     # Le deuxième argument est ARGV par défaut, mais on ne doit rien
     # envoyer ici parce que c'est CLI qui doit gérer ces options
 
@@ -56,7 +59,7 @@ class << self
       if t.verbose
         t.options = '-%s' % [t.verbose ? 'v' : '']
       end
-      t.test_files  =
+      t.test_files=
         if test_files
           test_files
         elsif File.directory?(path)
@@ -67,8 +70,29 @@ class << self
         end
     end
 
-    # On joue les tests
-    app['tests'].invoke()
+    # Si une méthode before_all existe, on la joue
+    phelpertest = File.join(APPFOLDER,'test','test_helper.rb')
+    require phelpertest if File.exist?(phelpertest)
+
+    self.respond_to?(:before_all) && begin
+      CLI.dbg "SUIVI --> Scrivener.before_all"
+      self.before_all
+      CLI.dbg "SUIVI <-- Scrivener.before_all"
+    end
+
+    begin
+      # On joue les tests
+      CLI.dbg "SUIVI --> invocation des tests"
+      app['tests'].invoke()
+    rescue Exception => e
+      raise e
+    ensure
+      self.respond_to?(:after_all) && begin
+        CLI.dbg "SUIVI --> Scrivener.after_all"
+        self.after_all
+        CLI.dbg "SUIVI <-- Scrivener.after_all"
+      end
+    end
   end
 
 
@@ -85,18 +109,31 @@ class << self
       command << ' -k="%s"' % touches
     end
     # puts "Commande jouée : #{cmd.inspect}"
-    res = `#{command} > #{output_path}`
+    full_command = "cd \"#{APPFOLDER}\";#{command} > #{output_path}"
+    # puts "\nCMD: #{full_command}"
+    res = `#{full_command}`
+    # puts "RES: #{res.inspect}"
     return res
   end
 
   # Résultat de la dernière commande `run_command` jouée.
   # @usage:  res = CLI::Test.output
   def output
-    File.exist?(output_path) && File.read(output_path).force_encoding('utf-8')
+    # o = File.read(output_path).force_encoding('utf-8')
+    o = output_file.read
+    # puts "Contenu de l'output: #{o}"
+    return o
+    # end
+    # output_file.read
   end
 
   def output_path
-    @output_path ||= File.join('.','test','run_command_output.log')
+    @output_path ||= output_file.path
+    # @output_path ||= File.join('.','test','run_command_output.log')
+    # @output_path ||= File.join(APPFOLDER,'test','run_command_output.log')
+  end
+  def output_file
+    @output_file ||= Tempfile.new('output_test')
   end
 
 end #/<< self

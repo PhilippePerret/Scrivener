@@ -25,3 +25,28 @@ Le plus simple est de faire un raccourci dans `test_helper.rb` :
 def run_command(args)
   CLI::Test.run_command(args)
 end
+
+# Méthodes avant et après tous les tests
+
+Pour jouer un code avant et après la suite totale de tests, il suffit de définir les méthodes `CLI::Test.before_all` et `CLI::Test.after_all` dans le fichier `test_helper.rb`. Par exemple :
+
+```ruby
+class CLI
+  class Test
+    class << self
+      def before_all
+        File.exist?(lasts_path) && FileUtils.move(lasts_path, lasts_path_copie)
+      end
+      def after_all
+        File.exist?(lasts_path_copie) && FileUtils.move(lasts_path_copie, lasts_path)
+      end
+      def lasts_path
+        @lasts_path ||= Scrivener.last_projects_path_file
+      end
+      def lasts_path_copie
+        @lasts_path_copie ||= "#{Scrivener.last_projects_path_file}-COPIE"
+      end
+    end #/<< self
+  end #/Test
+end #/CLI
+```
