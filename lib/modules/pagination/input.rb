@@ -8,6 +8,9 @@ class Scrivener
     label_objectif_required:  'Le label (colonne) "Objectif" (ou "Target") doit être défini dans le fichier pour pouvoir être importé.',
     label_titre_required:     'Le label (colonne) "Titre" (ou "Title") est requis dans le fichier à importer.'
     })
+  NOTICES.merge!(
+    no_modification_tdm:      'Aucune modification de la table des matières n’est à opérer.'
+  )
 class Project
 
   # Return true
@@ -15,6 +18,10 @@ class Project
     input_file_exist_or_raise
     labels_are_ok_or_raise
     liste_modifications = get_targets_to_modify
+    liste_modifications.count > 0 || begin
+      puts NOTICES[:no_modification_tdm].bleu
+      return
+    end
     if confirme_modifications(liste_modifications)
       proceed_target_modifications(liste_modifications)
     else
