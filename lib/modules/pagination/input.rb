@@ -3,7 +3,7 @@
 
 =end
 class Scrivener
-  ERRORS_MSGS.merge!({
+  ERRORS.merge!({
     imported_file_unfound:    'Impossible de trouver le fichier à importer « %s ».',
     label_objectif_required:  'Le label (colonne) "Objectif" (ou "Target") doit être défini dans le fichier pour pouvoir être importé.',
     label_titre_required:     'Le label (colonne) "Titre" (ou "Title") est requis dans le fichier à importer.'
@@ -100,12 +100,12 @@ class Project
 
   # Vérifie que le fichier CSV existe ou produit une erreur
   def input_file_exist_or_raise
-    input_file.exist? || raise(ERRORS_MSGS[:imported_file_unfound] % input_file_path)
+    input_file.exist? || raise(ERRORS[:imported_file_unfound] % input_file_path)
   end
 
   def labels_are_ok_or_raise
-    index_label_target || raise(ERRORS_MSGS[:label_objectif_required])
-    index_label_title  || raise(ERRORS_MSGS[:label_titre_required])
+    index_label_target || raise(ERRORS[:label_objectif_required])
+    index_label_title  || raise(ERRORS[:label_titre_required])
   end
 
   # Index du label définissant l'objectif dans le fichier CSV

@@ -19,7 +19,7 @@ class Project
     if analyse.table_resultats.canons.key?(imot.canon)
       self.analyse.output.affiche_en_deux_pages(mot)
     else
-      puts ERRORS_MSGS[:unfound_word] % [mot, imot.canon]
+      puts ERRORS[:unfound_word] % [mot, imot.canon]
     end
 
   rescue Exception => e
@@ -44,7 +44,7 @@ class Project
   end
 
   def raise_no_document
-    raise(ERRORS_MSGS[:document_title_required])
+    raise(ERRORS[:document_title_required])
   end
 
 end #/Project

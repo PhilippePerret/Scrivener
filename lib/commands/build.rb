@@ -5,16 +5,6 @@
   C'est l'aide générale du site
 =end
 
-# def puts str
-#   puts_rf.write(str + String::RC)
-# end
-# def puts_rf
-#   @puts_rf ||= File.open(puts_rf_path,'a+')
-# end
-# def puts_rf_path
-#   @puts_rf_path ||= File.join(APPFOLDER,'LOG.LOG')
-# end
-
 if CLI.options[:help]
   aide = <<-EOT
   #{'AIDE DE LA COMMANDE `scriv build`  '.underlined('-','  ').gras}
@@ -22,7 +12,14 @@ if CLI.options[:help]
     #{'Description'.underlined('-', '  ')}
 
         La commande `scriv build` permet de construire des éléments
-        dans le projet scrivener courant.
+        dans le projet scrivener courant. Cette commande ne peut pas
+        s'appeler seule. Il lui faut forcément un premier paramètre
+        en argument. Ces paramètres définissent ce qui doit être
+        construit :
+
+        `documents`   Construit les dossiers et documents à partir
+                      d'un fichier csv défini avec l'option `--from`
+                      ou `--depuis`
 
   EOT
   Scrivener.help(aide)

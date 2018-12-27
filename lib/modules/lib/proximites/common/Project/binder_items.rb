@@ -94,7 +94,7 @@ class Project
 
     # Si le binder-item n'a pas été trouvé, on lève une
     # exception
-    self.watched_binder_item || raise_unfound_binder_item(ERRORS_MSGS[:no_document] % [watched_document_title])
+    self.watched_binder_item || raise_unfound_binder_item(ERRORS[:no_document] % [watched_document_title])
 
     # Sinon, on poursuit
     #

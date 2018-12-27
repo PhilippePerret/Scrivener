@@ -1,7 +1,7 @@
 # encoding: UTF-8
 class Scrivener
 
-  ERRORS_MSGS = {
+  ERRORS = {
     unknown_module_required:  'Le module `%s` est introuvable…',
     project_path_required:    'Il faut définir le projet Scrivener à traiter, en indiquant le chemin depuis votre dossier utilisateur (%s).',
     bad_project_extension:    'L’extension du projet devrait être «.scriv» (c’est «%s»)',
@@ -13,8 +13,6 @@ class Scrivener
     no_proximites:            'Aucune proximité n’est à afficher.',
     unproximable_objet:       'Je ne sais pas afficher en deux pages les proximités d’un élément :%s'
   }
-
-  ERRORS = Hash.new
 
   NOTICES = Hash.new
   NOTICES.merge!(
