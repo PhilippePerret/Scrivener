@@ -74,7 +74,7 @@ if CLI.options[:help]
                              _ _ _ _ Numéro de la page en fonction du
                             |        texte écrit.
       ...                   v
-      Titre du document.... 10 | 24        5010 9000 #{'*'.rouge}#{'*'.rouge}
+      Titre du document.... 10 | 24        5010 4080 #{'*'.vert}#{'*'.rouge} #{'+590'.rouge} (**)
       ...                         ^
       ...                         | _ _ _ _ Numéro de la page en fonction
       ...                                   des objectifs définis.
@@ -85,14 +85,17 @@ if CLI.options[:help]
       ...    Nombre de signes écrits _ _ _ _      _ _ _ Nombre de signes à
       ...                                   |    |      écrire (objectif)
       ...                                   v    v
-      Autre document....... 23 | 54        2457 2500 #{'*'.vert}#{'*'.vert}
+      Autre document....... 23 | 54        2457 2500 #{'*'.vert}#{'*'.vert} #{'-43'.vert}
+      ...                                                ^
+      ...              Différence (raisonnable) entre _ _|
+      ...              nombre de signes et objectif
       ...
-      ...
-      Troisième document... 92 | 110        280 300  #{'*'.rouge}#{'*'.vert}
-      ...                                            ^^
-      ...        Indicateurs d'atteinte de           ||
-      ...        cible et de dépassement (*) _ _ _ _ _
-      ...
+      Troisième document... 92 | 110        280 300  #{'*'.rouge}#{'*'.vert} #{'-240'.rouge}
+      ...                                            ^^   ^
+      ...        Indicateurs d'atteinte de           ||   |
+      ...        cible et de dépassement (*) _ _ _ _ _    |_ _  Nombre
+      ...                                                     de signes
+      ...                                                     manquants
 
       (*) Indicateurs d'atteinte de cible et de dépassement
       -------------------------------------------------
@@ -105,9 +108,14 @@ if CLI.options[:help]
         rouge). Lorsque l'objectif  est atteint (première étoile ver-
         te), la seconde indique s'il y a dépassement (rouge) ou bonne
         longueur (vert).
-        Noter que pour  calculer les  dépassements, la commande ne se
-        sert pas des définitions de dépassements dans le projet mais
-        de la valeur 1/12.
+        (**) Noter que pour  calculer les  dépassements, la commande
+        ne se sert pas des définitions de dépassements dans le projet
+        mais de la valeur 1/12. Ainsi, si l'objectif est de 4000 si-
+        gnes, la tolérance sera de +/- 4080/12, c'est-à-dire 340.
+        L'excès (dépassement) ou le manque sera calculé par rapport à
+        cette valeur, c'est-à-dire par rapport à 4080-340 pour le
+        manque (3749) et par rapport à 4080 + 340 pour le dépassement
+        (4420).
 
       Les lignes grisées sont des dossiers, c'est-à-dire des chapi-
       tres ou des parties. Elles cumulent les nombres de leurs élé-

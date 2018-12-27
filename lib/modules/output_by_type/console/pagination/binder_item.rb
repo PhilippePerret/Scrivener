@@ -6,13 +6,21 @@ module ModuleFormatageTdm
     TDM_LINE        = '  %{ftitle}%{fpage_by_wri} | %{fpage_by_obj} |      %{fsigns} %{fobjectif} %{fstate} %{fdiff} %{fpages} %{fcumul_pages}'
     TDM_LINE_SIMPLE = '  %{ftitle}%{fpage_by_wri} | %{fpage_by_obj}'
 
+    # BOULE = '•'
+    # BOULE = '◦'
+    BOULE = '●'
+    BOULE_OK = '✅'
+    BOULE_KO = '🛑'
+
+    # ○◦✡︎▵■●☐⦁❌⭕️❗️‼️
+
     def template_line
       @tempate_line ||= CLI.options[:no_count] ? TDM_LINE_SIMPLE : TDM_LINE
     end
 
     # Le formatage final de la ligne
     def formate_line_when_text(line)
-      self.text? ? line.gris : line
+      self.text? ? line : line.gris
     end
 
     def formated_title_line
@@ -27,10 +35,26 @@ module ModuleFormatageTdm
       @formated_page_by_writing ||= (' '+tdm.current_size.page.to_s).rjust(tdm.wri_page_number_width + 1,'.')
     end
 
+    def boule_ok
+
+    end
+
+    def mark_objectif_reached
+      @mark_objectif_reached ||= begin
+        BOULE.send(color_obj_reached)
+        # objectif_reached? ? BOULE_OK : BOULE_KO
+      end
+    end
+    def mark_objectif_too_big
+      @mark_objectif_too_big ||= begin
+        BOULE.send(color_obj_too_big)
+        # diff_too_big? ? BOULE_KO : BOULE_OK
+      end
+    end
     def formated_state
       @formated_state ||= begin
         if objectif > 0
-          '◉'.send(color_obj_reached) + '◉'.send(color_obj_too_big)
+          mark_objectif_reached + mark_objectif_too_big
         else
           ''.ljust(2)
         end

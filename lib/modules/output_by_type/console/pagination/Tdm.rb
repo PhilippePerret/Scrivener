@@ -25,5 +25,11 @@ module ModuleFormatageTdm
       puts line
     end
 
+
+    # Pour la compatibilité avec les autres formats
+    def tdm_file_path
+      @tdm_file_path ||= nil
+    end
+
   end#/Scrivener
 end#/Module

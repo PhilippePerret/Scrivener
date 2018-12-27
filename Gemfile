@@ -6,5 +6,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 source 'https://rubygems.org' do
   gem 'yaml'
   gem 'curses'
-  gem 'plist', '>=3.4.0'  
+  gem 'plist', '>=3.4.0'
+  gem 'rake'
 end

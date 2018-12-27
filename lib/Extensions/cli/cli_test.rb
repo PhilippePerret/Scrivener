@@ -4,6 +4,8 @@
 Module pour méthodes de test en ligne de commmande
 
 =end
+require 'rake'
+require 'rake/testtask'
 
 class CLI
 class Test
@@ -16,9 +18,10 @@ class << self
   def run(path, options = nil)
 
     options ||= CLI.options
+    path = path.to_s # peut être nil
 
+    # On cherche les fichiers à tester
     test_files = nil
-
     if path.start_with?('^') && path.end_with?('$')
       # <= C'est une expression régulière
       # => On cherche tous les fichiers qui correspondent

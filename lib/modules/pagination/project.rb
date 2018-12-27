@@ -5,7 +5,6 @@
   édité en fonction des objectifs définis.
 
   TODO
-    * pouvoir fournir l'option -N qui va dire de ne pas afficher les nombres
     * pouvoir donner le coefficient de premier jet (fdc — first-draft-coeff)
       qui va permettre de ramener les nombres au projet final. Cette valeur
       doit être le coefficient employé, 1.5 par défaut
@@ -15,7 +14,8 @@
 =end
 class Scrivener
   NOTICES.merge!(
-    tdm_built: 'Table des matières construite dans le fichier « %s » du dossier du projet. Astuce : vous pouvez l’ouvrir après la construction en ajoutant l’option `--open` à la commande.'
+    tdm_built: 'Table des matières construite dans le fichier « %s » du dossier du projet. Astuce : vous pouvez l’ouvrir après la construction en ajoutant l’option `--open` à la commande.',
+    tdm_maybe_in_file: 'On peut également construire la table des matières dans un fichier en ajoutant l’option `--output=<format>` ou <format> peut être "csv", "text", "html" ou "scrivener".'
   )
 class Project
 
@@ -40,8 +40,10 @@ class Project
       tdm.output_table_of_content
       if CLI.options[:open] && tdm.respond_to?(:open)
         tdm.open
-      else
+      elsif tdm.tdm_file_path
         puts (NOTICES[:tdm_built] % File.basename(tdm.tdm_file_path)).bleu
+      else
+        puts (NOTICES[:tdm_maybe_in_file])
       end
     end
   end

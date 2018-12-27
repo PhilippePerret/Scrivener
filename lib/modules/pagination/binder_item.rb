@@ -108,7 +108,7 @@ class BinderItem
   end
   def min_or_max_autorised
     @min_or_max_autorised ||= begin
-      objectif.signs + (overrun? ? tolerance : -tolerance)
+      objectif.signs + (objectif_reached? ? tolerance : -tolerance)
     end
   end
 
@@ -116,15 +116,20 @@ class BinderItem
     @tolerance ||= (objectif.signs / 12).round
   end
 
+  # TODO Normalement, ça devrait être objectif_reached?
   def overrun?
     @is_overrun ||= diff_wri_obj > 0
   end
 
   def color_obj_reached
-    @color_obj_reached ||= diff_wri_obj > 0 ? :vert : :rouge
+    @color_obj_reached ||= objectif_reached? ? :vert : :rouge
   end
   def color_obj_too_big
     @color_obj_too_big ||= diff_too_big? ? :rouge : :vert
+  end
+
+  def objectif_reached?
+    @objectif_is_reached ||= diff_wri_obj > 0
   end
 
   def diff_too_big?
