@@ -65,24 +65,31 @@ class Project
       all_bitems << bitem
     end
     unless options[:help] === false
-      puts "Vous devez choisir un document dans la liste ci-dessous : ".rouge
-      puts String::RC * 2
-      puts "Liste des documents"
-      puts "-------------------"
-      allindex = Array.new
-      all_bitems.each_with_index do |bi, idx|
-        num = (idx + 1).to_s
-        allindex << num
-        puts '  %s : %s' % [num.rjust(4), bi.title]
-      end
-      puts String::RC * 3
-      choix = askFor('Document à choisir (ou "q" pour renoncer)', {expected_keys: allindex.push('q')})
-      if choix == 'q'
-        # raise(ERRORS[:no_binder_item_with_titre] % titseg)
-        return nil
-      else
-        all_bitems[choix.to_i - 1]
-      end
+      ask_for_binder_item_in(all_bitems)
+    end
+  end
+
+  # Affiche la liste des documents actuels du projet et demande
+  # à l'utilisateur d'en choisir un.
+  # Returne nil en cas d'annulation.
+  def ask_for_binder_item_in(arr_bitems)
+    puts "Merci de choisir un document dans la liste ci-dessous : ".rouge
+    puts String::RC * 2
+    puts "Liste des documents"
+    puts "-------------------"
+    allindex = Array.new
+    arr_bitems.each_with_index do |bi, idx|
+      num = (idx + 1).to_s
+      allindex << num
+      puts '  %s : %s' % [num.rjust(4), bi.title]
+    end
+    puts String::RC * 3
+    choix = askFor('Document à choisir (ou "q" pour renoncer)', {expected_keys: allindex.push('q')})
+    if choix == 'q'
+      # raise(ERRORS[:no_binder_item_with_titre] % titseg)
+      return nil
+    else
+      arr_bitems[choix.to_i - 1]
     end
   end
 
