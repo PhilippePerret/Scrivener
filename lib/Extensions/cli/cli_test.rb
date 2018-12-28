@@ -102,6 +102,7 @@ class << self
   #
   # RETURN Le résultat final produit par la commande.
   def run_command command, touches = nil
+    reset_run_command
     if touches
       touches.is_a?(Array) || touches = [touches]
       touches = touches.join(';;;')
@@ -116,21 +117,19 @@ class << self
     return res
   end
 
-  # Résultat de la dernière commande `run_command` jouée.
-  # @usage:  res = CLI::Test.output
-  def output
-    # o = File.read(output_path).force_encoding('utf-8')
-    o = output_file.read
-    # puts "Contenu de l'output: #{o}"
-    return o
-    # end
-    # output_file.read
+  def reset_run_command
+    @output = @output_path = @output_file = nil
   end
 
+  # Résultat de la dernière commande `run_command` jouée.
+  # @usage:  res = CLI::Test.output
+  # @note: remis à nil chaque fois que la commande run est
+  # invoquée
+  def output
+    @output ||= output_file.read
+  end
   def output_path
     @output_path ||= output_file.path
-    # @output_path ||= File.join('.','test','run_command_output.log')
-    # @output_path ||= File.join(APPFOLDER,'test','run_command_output.log')
   end
   def output_file
     @output_file ||= Tempfile.new('output_test')
