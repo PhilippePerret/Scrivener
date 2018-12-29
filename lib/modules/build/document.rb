@@ -52,9 +52,12 @@ module BuildDocumentsModule
         d = {
           title: self.titre
         }
-        if self.target
+        if self.target && projet.building_options[:targets]
           # TODO Certaines colonnes pour définir s'il faut afficher les dépassements
           d.merge!(text_settings: {target: {type: 'Characters', show_overrun: 'Yes', notify: 'No', value: self.target}})
+        end
+        if self.id && projet.building_options[:ids]
+          # TODO Créer la métadonnée ID
         end
       end
     end
@@ -65,6 +68,16 @@ module BuildDocumentsModule
       @target ||= begin
         if projet.target_column
           self.data_line[projet.target_column]
+        else
+          nil
+        end
+      end
+    end
+
+    def id
+      @id ||= begin
+        if projet.id_column
+          self.data_line[projet.id_column]
         else
           nil
         end

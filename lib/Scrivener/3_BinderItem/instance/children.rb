@@ -57,6 +57,27 @@ class Scrivener
           el.text = text unless text.nil?
         end
 
+        data[:custom_metadata].each do |key, mdata|
+          # Il faut définir la métadonnée customisée de façon générale
+          # dans <CustomMetaDataSettings>. C'est fait au niveau du
+          # projet
+          define_custom_metadata_if_needed(key, mdata)
+          # Il faut ensuite définir la métadonnée pour le binder-item
+          # en particulier
+          mdata     = XML.get_or_add(node, 'MetaData')
+          mdata_id  = key.to_s.downcase
+          cmdata    = XML.get_or_add(mdata, 'CustomMetaData/MetaDataItem/FieldID')
+        end
+
+        # Metadata customisée
+        # Il faut deux choses :
+        #   1. La définir en général, dans le fichier xfile, à l'aide du code :
+        #   2. La définir pour chaque binder à l'aide de :
+        #     <BinderItem><MetaData><CustomMetaData>
+        #       <MetaDataItem>
+        #         <FieldID>IDENTIFIANT</FieldID>
+        #         <Value>VALEUR</Value>
+
         # Les données du texte
         data.key?(:text_settings) || data.merge!(text_settings: Hash.new)
         data[:text_settings].key?(:text_selection) || data[:text_settings].merge!(text_selection: {text: '0,0'})
@@ -97,6 +118,34 @@ class Scrivener
         return bitem_newdoc
       end
       #/create_binder_item
+
+      # Pour définir une méta-donnée personnalisé
+      #      <CustomMetaDataSettings>
+      #       <MetaDataField ID="id" Type="Text" Wraps="No" Align="Center">
+      #         <Title>ID</Title>
+      #       </MetaDataField>
+      #       <MetaDataField ID="autredonnéecustomisée" Type="Checkbox" Default="Yes">
+      #         <Title>Autre donnée customisée</Title>
+      #       </MetaDataField>
+      #       </CustomMetaDataSettings>
+      # Type = "Text" => {'Wraps' => 'No', 'Align' => 'Left'}
+      # Type = "Checkbox" => {'Default' => 'Yes'}
+      CUSTOM_METADATA_PER_TYPE = {
+        text:     {'Type' => 'Text', 'Wraps' => 'No', 'Align' => 'Left'},
+        checkbox: {'Type' => 'Checkbox', 'Default' => 'Yes'}
+      }
+      def define_custom_metadata_if_needed(key, mdata)
+        mdata_settings  = XML.get_or_add(root, 'CustomMetaDataSettings')
+        cmdata_id = key.to_s.downcase
+        mdata_field     = XML.get_or_add(mdata_settings, 'MetaDataField[@ID="%s"]' % cmdata_id)
+        CUSTOM_METADATA_PER_TYPE[mdata[:type]].each do |attr, valdefaut|
+          mdata_field.attributes[attr] = mdata[attr] || valdefaut
+        end
+        mdata_title = XML.get_or_add(mdata_field, 'Title')
+        mdata_title.text = key
+      end
+      # /define_custom_metadata_if_needed
+
 
     end #/BinderItem
   end #/Project

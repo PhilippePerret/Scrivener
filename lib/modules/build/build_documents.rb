@@ -10,8 +10,13 @@ module BuildDocumentsModule
   attr_accessor :labels
   attr_accessor :table_data
   # {Fixnum} Indice 0-start de la colonne définissant les
-  # objectifs, if any
-  attr_accessor :target_column
+  # objectifs, if any. Et colonne définissant l'identifiant
+  attr_accessor :target_column, :id_column
+  # {Hash} Options de construction
+  # Contient notamment :ids qui est mis à true si des identifiants sont
+  # définis et qu'il faut créer cette métadonnée et :targets si des objectifs
+  # sont définis et qu'il faut les régler.
+  attr_accessor :building_options
 
 OVERVIEW_BUILD_DOCUMENT = <<-EOT
 
@@ -23,8 +28,7 @@ APERÇU DE LA TABLE DES MATIÈRES PRODUITE
 %{separation}
 %{lignes}
 %{separation}
-
-%{coltarget}
+%{fspeccols}
 EOT
 
   # Construction des documents du projet
@@ -34,7 +38,7 @@ EOT
     analyse_data_source
     proceed_build_apercu
     simulation? || begin
-      if yesOrNo('Puis-je procéder à la création ?')
+      if confirm_all? && ask_for_fermeture
         proceed_build_documents
         finish_execution
       end
@@ -42,6 +46,21 @@ EOT
     CLI.debug_exit
   end
 
+  # ---------------------------------------------------------------------
+
+  def confirm_all?
+    self.building_options = {
+      ids:      false,
+      targets:  false
+    }
+    if colonne_identifiant?
+      building_options[:ids] = yesOrNo('Dois-je créer la métadonnée ID avec l’identifiant du document ?')
+    end
+    if target_column
+      building_options[:targets] = yesOrNo('Dois-je tenir compte des objectifs définis ?')
+    end
+    yesOrNo('Puis-je procéder à la création ?')
+  end
   # ---------------------------------------------------------------------
 
   # Vérifie qu'on ait bien toutes les données pour procéder à l'opération
@@ -68,7 +87,6 @@ EOT
     self.last_folder_by_level = Hash.new
     self.last_folder_by_level.merge!(0 => self.binder_item(:draft_folder))
     self.last_folder = self.binder_item(:draft_folder)
-    # TODO Demander à ce que le projet soit fermé
     # TODO Si des éléments sont contenus, il faut signaler et préciser
     # qu'on fera seulement une actualisation, en gardant tous les
     # éléments voulus. Pour forcer une actualisation, il faut ajouter
@@ -109,11 +127,22 @@ EOT
     apercu = OVERVIEW_BUILD_DOCUMENT
     separation = '   -'.ljust(formated_labels.length + 2, '-')
 
+    # Pour mettre des colonnes spéciales en pied de page
+    formated_spec_cols = Array.new
+
     # Si une colonne pour l'objectif a été trouvée, on l'indique
     search_target_column
-    fcoltarget = ''
     unless target_column.nil?
-      fcoltarget = ('  Colonne des objectifs : %i%s' % [target_column + 1, target_column > 0 ? 'e' : 'ère']) + separation + (String::RC * 2)
+      formated_spec_cols << ('  Colonne des objectifs : %i%s' % [target_column + 1, target_column > 0 ? 'e' : 'ère'])
+    end
+    if colonne_identifiant?
+      formated_spec_cols << ('  Colonne des ID : %i%s' % [id_column + 1, id_column > 0 ? 'e' : 'ère'])
+    end
+
+    unless formated_spec_cols.empty?
+      formated_spec_cols << separation
+      formated_spec_cols << String::RC * 2
+      formated_spec_cols = formated_spec_cols.join(String::RC)
     end
 
     rf_temp.rewind
@@ -121,7 +150,7 @@ EOT
       flabels:      formated_labels,
       separation:   separation,
       lignes:       rf_temp.read,
-      coltarget:    fcoltarget
+      fspeccols:    formated_spec_cols
     }
   end
 
@@ -282,6 +311,17 @@ EOT
   end
 
 
+  # Retourne true si une colonne portant le nom 'id' a été trouvé
+  # En fait, retourne l'index de la colonne.
+  def colonne_identifiant?
+    labels.each_with_index do |label, idx_label|
+      if label.downcase == 'id'
+        self.id_column = idx_label
+        return true
+      end
+    end
+    return nil
+  end
   # Méthode qui cherche une colonne pouvant définir les objectifs de
   # mots/pages/signes à atteindre.
   # Si deux colonnes candidates ont été trouvées, il faut que les
