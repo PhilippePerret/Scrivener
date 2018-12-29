@@ -193,6 +193,7 @@ class CLI
       if arg.start_with?('--')
         opt, val = arg[2..-1].strip.split('=')
         opt.gsub!(/-/,'_')
+        opt = LANG_OPT_TO_REAL_OPT[opt] || opt
       else # is start_with? '-'
         # <= diminutif
         #    (ou cas spécial de '-' tout seul)

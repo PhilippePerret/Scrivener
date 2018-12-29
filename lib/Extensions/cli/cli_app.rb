@@ -19,18 +19,29 @@ class CLI
     'toc'         => 'pagination'
   }
   # Les versions courtes communes à toutes les applications
+  # Attention, cette table ne travaille qu'avec les options
+  # définies par un seul trait.
+  # S'il faut transformer une valeur donnée par '--', il faut
+  # utiliser la table LANG_OPT_TO_REAL_OPT
   DIM_OPT_TO_REAL_OPT = {
     'h'               => 'help',
     'o'               => 'output',
+    's'               => 'simulate',
     'u'               => 'update',
     'v'               => 'verbose',
-    'w'               => 'warning'
+    'w'               => 'warning',
+  }
+
+  LANG_OPT_TO_REAL_OPT = {
+    'delimiteur'      => 'delimitor',
+    'profondeur'      => 'depth'
   }
   # Les versions courtes propres à l'application courante
   # Elles peuvent surclasser des options précédemment définies
   DIM_OPT_TO_REAL_OPT.merge!({
     'bm'              => 'benchmark',
     'doc'             => 'document',
+    'del'             => 'delimitor',
     'f'               => 'force',
     'fc'              => 'force_calcul',
     'fdc'             => 'final-draft-coefficient',
@@ -39,6 +50,7 @@ class CLI
     'l'               => 'local',
     'm2m'             => 'maxtomin',
     'N'               => 'no_count',
+    'sep'             => 'delimitor',
     't'               => 'tableau',
 
     'now'             => 'today'

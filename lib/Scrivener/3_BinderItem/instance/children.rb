@@ -8,6 +8,18 @@ class Scrivener
         @children ||= node.elements.collect('Children/BinderItem'){|c| Scrivener::Project::BinderItem.new(projet, c)}
       end
 
+      # Tous les descendants
+      def descendants
+        @descendants ||= begin
+          des = Array.new
+          if parent?
+            des += children
+            children.each { |child| des += child.descendants }
+          end
+          des
+        end
+      end
+
       # Crée un nouvel élément classeur dans le binder-item courant
       #
       # RETURN Le nouveau binder-item créé {Scrivener::Project::BinderItem}
@@ -15,6 +27,7 @@ class Scrivener
       #           dans la balise.
       # +data+    Contient les balises que contiendra l'élément.
       def create_binder_item attrs = nil, data = nil
+        # puts "--> create_binder_item(#{attrs.inspect}, #{data.inspect})"
         data  ||= Hash.new
         attrs ||= Hash.new
         # On fournit toujours l'UUID ici
@@ -47,7 +60,12 @@ class Scrivener
         # Les données du texte
         data.key?(:text_settings) || data.merge!(text_settings: Hash.new)
         data[:text_settings].key?(:text_selection) || data[:text_settings].merge!(text_selection: {text: '0,0'})
+
         textsettings = newdoc.add_element('TextSettings')
+
+        # Des données de cible sont-elles définies ?
+        data_target = data[:text_settings].key?(:target) ? data[:text_settings].delete(:target) : nil
+
         data[:text_settings].each do |key, setting|
           text = setting.delete(:text) || setting.delete(:value) || nil
           # textsettings.add_element('TextSelection').text = text
@@ -59,6 +77,10 @@ class Scrivener
         end
 
         bitem_newdoc = Scrivener::Project::BinderItem.new(projet, newdoc)
+
+        data_target && bitem_newdoc.target.define(data_target)
+          # {value: final_value, type: 'Characters', notify: false, show_overrun: true, show_buffer: true}
+
 
         # On indique que le fichier xfile a été modifié pour
         # qu'il soit sauvé

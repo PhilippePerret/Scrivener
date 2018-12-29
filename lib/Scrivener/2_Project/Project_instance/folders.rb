@@ -2,7 +2,7 @@
 class Scrivener
 class Project
 
-  # Retourne la liste des dossier du projet
+  # Retourne la liste des dossier du projet sous forme de binder-items
   def folders
     @folders ||= begin
       ActiveList.new(self.xfile.binder.elements.collect {|xmlNode| Scrivener::Project::BinderItem.new(self, xmlNode)}, self)

@@ -14,8 +14,16 @@ class Scrivener
         # Raccourci
         def projet ; binder_item.projet end
 
+        # +value+   {Fixnum} La valeur à donner à la cible. L'unité dépend
+        #           de +options+
+        #           {Hash} Peut contenir toutes les valeurs de la définition
+        #           Dans ce cas, value[:value] doit contenir la valeur
         def define value, options = nil
           # <Target Type="Characters" Notify="No" ShowOverrun="Yes" ShowBuffer="Yes">1500</Target>
+          if value.is_a?(Hash)
+            options = value.dup
+            value   = options.delete(:value)
+          end
           options ||= Hash.new
           attrs = Hash.new
           attrs.merge!('Notify'       => options[:notify] ? 'Yes' : 'No')

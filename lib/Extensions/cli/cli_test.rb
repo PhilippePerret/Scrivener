@@ -57,7 +57,8 @@ class << self
       t.warning     = !!options[:warning]
       t.verbose     = !!options[:verbose]
       if t.verbose
-        t.options = '-%s' % [t.verbose ? 'v' : '']
+        t.options   = '-%s' % [t.verbose ? 'v' : '']
+        # t.ruby_opts = ['-v']
       end
       t.test_files=
         if test_files

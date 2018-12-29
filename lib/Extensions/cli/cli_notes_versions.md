@@ -1,7 +1,14 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.7.1 **
+** Version courante : 1.7.2 **
 
+## Version 1.7.2
+
+  Ajout de la table `LANG_OPT_TO_REAL_OPT` qui permet de traduire
+  certaines options. Par exemple, dans une application, l'option
+  `--profondeur` peut être traduite par `--depth` si :
+    `LANG_OPT_TO_REAL_OPT['profondeur'] = 'depth'`
+    
 ## Version 1.7.1
 
   Amélioration des tests pour pouvoir les lancer depuis la console

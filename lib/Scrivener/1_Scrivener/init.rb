@@ -16,6 +16,12 @@ class Scrivener
     'test'      , # pour lancer les tests
   ]
 
+  # Liste des commandes qui fonctionnent toujours avec deux paramètres, c'est-
+  # à-dire elle-même et un autre paramètre. Comme la commande 'build' qui
+  # utilise toujours en deuxième paramètre le paramètre de la chose à construire.
+  # Dans le cas de ces commandes, on cherche le path en CLI.params[2]
+  TWO_PARAMS_COMMANDS = ['build']
+
   class << self
 
     # Initialisation de l'application
