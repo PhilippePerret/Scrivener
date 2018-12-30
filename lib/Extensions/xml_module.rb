@@ -5,8 +5,15 @@ module XMLModule
 
     class << self
       # Retourne l'enfant +tag+ de +parent+ en le créant si nécessaire
+      # Note : depuis déc 2018, peut créer un path complet 'path/to/node'
       def get_or_add(parent, tag)
-        parent.elements[tag] ? parent.elements[tag] : parent.add_element(tag)
+        tag.split('/').each do |node_name|
+          parent = parent.elements[node_name] ? parent.elements[node_name] : parent.add_element(node_name)
+        end
+        puts "\n\n--- PARENT: #{parent}"
+        return parent
+        # Avant, c'était simplement :
+        # parent.elements[tag] ? parent.elements[tag] : parent.add_element(tag)
       end
       # Pour vider le nœud +node+ de tout son contenu (mais en gardant
       # la balise)
