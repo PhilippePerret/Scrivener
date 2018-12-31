@@ -56,7 +56,7 @@ TXT
       @depth ||= begin
         CLI.options[:depth].to_i.or_nil || begin
           @depth_is_default = true
-          3
+          1
         end
       end
     end
@@ -111,6 +111,7 @@ TXT
     # ---------------------------------------------------------------------
     #   Méthodes d'helper
     def formated_labels
+      return '' if labels.nil?
       @formated_labels ||= begin
         labels_list = labels.empty? ? Array.new(cell_count, '') : labels
         # puts "\n-- labels list: #{labels_list.inspect}"

@@ -54,7 +54,16 @@ EOT
 
   # Vérifie qu'on ait bien toutes les données pour procéder à l'opération
   def documents_params_are_valid_or_raise
-    building_settings.source_csv_exist? || raise_source_unfoundable(building_settings.source_csv_init)
+    building_settings.source_csv_exist? || begin
+      # Différentes erreurs peuvent être produites en fonction des informations
+      # données
+      # Si aucun fichier n'a été fourni par --from
+      if CLI.options[:from].nil?
+        raise_source_default_unfoundable
+      else
+        raise_source_unfoundable(building_settings.source_csv_init)
+      end
+    end
     document_source_is_valide_or_raise
   end
 
@@ -221,9 +230,10 @@ EOT
       bon_nombre_de_cellules_or_raise(idx_in_file, lig, dline)
     end
 
-    # Contrôle de la présence des valeurs suffisante pour définir
-    # le titre du document
-    valeurs_par_depth_ok_or_raise(dline)
+    # Contrôle de la présence des valeurs suffisantes pour définir
+    # le titre du document. Si aucune profondeur n'est définie, la première
+    # colonne doit impérativement contenir le titre du document.
+    valeurs_par_depth_ok_or_raise(lig, idx_in_file + 1, dline)
 
     # On va chercher les longueurs max pour chaque colonne (juste pour
     # l'affichage)
@@ -302,7 +312,7 @@ EOT
     building_settings.cell_count = building_settings.labels.count
     # On recherche éventuellement : la colonne des cibles, la colonne des ID numériques
     building_settings.labels.each_with_index do |label, idx|
-      label.strip.match(/(Target|Cible|Objectif)s?/i) || next
+      label.strip.match(/^(Target|Cible|Objectif)s?$/i) || next
       building_settings.target_column = idx
       break
     end
@@ -319,6 +329,7 @@ EOT
   # Retourne true si une colonne portant le nom 'id' a été trouvé
   # En fait, retourne l'index de la colonne.
   def search_id_column
+    return if building_settings.labels.nil?
     building_settings.labels.each_with_index do |label, idx_label|
       if label.downcase == 'id'
         building_settings.id_column = idx_label
@@ -331,6 +342,7 @@ EOT
   # Si deux colonnes candidates ont été trouvées, il faut que les
   # libellés les départagent.
   def search_target_column
+    # puts "--> search_target_column(building_settings.target_column=#{building_settings.target_column.inspect})"
     return if building_settings.target_column != nil
     table_data.each do |idx_col, dcol|
       if dcol[:maybe_target] && idx_col != building_settings.id_column
@@ -347,7 +359,7 @@ EOT
   private :search_target_column
 
   def source_csv_is_not_empty_or_raise
-    File.stat(building_settings.real_source_csv).size > 0 || raise_empty_document_source(src_document)
+    File.stat(building_settings.real_source_csv).size > 0 || raise_empty_document_source(building_settings.source_csv_init)
   end
   private :source_csv_is_not_empty_or_raise
 
@@ -375,8 +387,8 @@ EOT
   # seule valeur doit les <profondeur> premières colonnes.
   # trouvée dans les x première cellules, soit aucune profondeur
   # n'est définie et la première colonne doit comprendre une valeur
-  def valeurs_par_depth_ok_or_raise(dline)
-    if building_settings.depth.nil?
+  def valeurs_par_depth_ok_or_raise(lig, idx_in_file, dline)
+    if building_settings.depth == 1 # valeur par défaut
       raise_depth_required if dline[0].strip.empty?
     else
       une_valeur_deja_definie = false
@@ -386,6 +398,7 @@ EOT
         if une_valeur_deja_definie
           # Il ne peut pas y avoir deux valeurs définies à deux niveaux
           # de profondeur différents
+          puts "\n\nERREUR(double valeur): #{lig}::#{idx_in_file}"
           raise_double_value_profondeur(lig, idx_in_file)
         else
           une_valeur_deja_definie = true
