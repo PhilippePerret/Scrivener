@@ -1,8 +1,11 @@
 # encoding: UTF-8
 #
 # Extension classe Fixnum
-# Version: 2.0.3
+# Version: 2.0.4
 #
+# Note version 2.0.4
+#   Ajout de la méthode d'instance `or_nil` qui retourne nil lorsque la
+#  valeur est 0 (zéro)
 # Note version 2.0.3
 #   Possibilité d'envoyer des options à `as_human_date` notamment pour
 #   préciser le délimiteur de temps ("à" ou "-")
@@ -25,6 +28,10 @@ class Fixnum
     'sept', 'oct', 'nov', 'déc']
 
 
+  def or_nil
+    self == 0 ? nil : self
+  end
+  
   # 12.to_expo doit retourner ⁽¹²⁾
   def to_expo
     s = self.to_s.split('').collect{|l| String::CHIFFRE_HAUT[l.to_i]}.join('')

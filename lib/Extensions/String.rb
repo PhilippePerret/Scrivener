@@ -1,7 +1,9 @@
 # encoding: UTF-8
 #
-# version 1.4.3
+# version 1.4.4
 #
+# Note version 1.4.4
+#   Ajout de la méthode `or_nil`
 # Note version 1.4.3
 #   La méthode relative_path peut prendre un argument pour définir
 #   le dossier de départ.
@@ -74,6 +76,9 @@ class String
     return t
   end
 
+  def or_nil
+    self.empty? ? nil : self
+  end
 
   # Pour upcaser vraiment tous les caractères, même les accents et
   # les diacritiques

@@ -28,79 +28,30 @@ class Scrivener
       # +data+    Contient les balises que contiendra l'élément.
       def create_binder_item attrs = nil, data = nil
         # puts "--> create_binder_item(#{attrs.inspect}, #{data.inspect})"
-        data  ||= Hash.new
-        attrs ||= Hash.new
-        # On fournit toujours l'UUID ici
-        attrs.merge!('UUID' => `uuidgen`.strip)
-        attrs.key?(:created)    || attrs.merge!(:created   => Time.now)
-        attrs.key?(:modified)   || attrs.merge!(:modified  => Time.now)
-        attrs.key?(:type)       || attrs.merge!(:type      => 'Text')
-
-        # Le nœud contenant les enfants du binder-item
-        nchildren = XML.get_or_add(node, 'Children')
-
-        # On crée le noeud
-        newdoc = nchildren.add_element('BinderItem', attrs.symbol_to_camel)
-
-        # Le titre du document ou du dossier (if any)
-        data.key?(:title) && begin
-          newdoc.add_element('Title').text = data[:title].to_s.strip
+        attrs, data = create_default_values(attrs, data)
+        # Le nœud contenant les enfants de ce binder-item
+        newdoc = create_child_node_with_titre(data[:title], attrs)
+        # On récupère la cible avant d'écrire les données méta
+        if data[:text_settings]
+          dtarget = data[:text_settings].delete(:target)
         end
-
-        # Les métadonnées
-        data.key?(:metadata) || data.merge!(metadata: Hash.new)
-        data[:metadata].key?(:include_in_compile) || data[:metadata].merge!(include_in_compile: {text: 'Yes'})
-        metadata = newdoc.add_element('MetaData')
-        data[:metadata].each do |key, mdata|
-          text = mdata[:text] || mdata[:value]
-          el = metadata.add_element(key.camelize)
-          el.text = text unless text.nil?
-        end
-
-        data[:custom_metadata].each do |key, mdata|
-          # Il faut définir la métadonnée customisée de façon générale
-          # dans <CustomMetaDataSettings>. C'est fait au niveau du
-          # projet
-          define_custom_metadata_if_needed(key, mdata)
-          # Il faut ensuite définir la métadonnée pour le binder-item
-          # en particulier
-          mdata     = XML.get_or_add(node, 'MetaData')
-          mdata_id  = key.to_s.downcase
-          cmdata    = XML.get_or_add(mdata, 'CustomMetaData/MetaDataItem/FieldID')
-        end
-
-        # Metadata customisée
-        # Il faut deux choses :
-        #   1. La définir en général, dans le fichier xfile, à l'aide du code :
-        #   2. La définir pour chaque binder à l'aide de :
-        #     <BinderItem><MetaData><CustomMetaData>
-        #       <MetaDataItem>
-        #         <FieldID>IDENTIFIANT</FieldID>
-        #         <Value>VALEUR</Value>
-
-        # Les données du texte
-        data.key?(:text_settings) || data.merge!(text_settings: Hash.new)
-        data[:text_settings].key?(:text_selection) || data[:text_settings].merge!(text_selection: {text: '0,0'})
-
-        textsettings = newdoc.add_element('TextSettings')
-
-        # Des données de cible sont-elles définies ?
-        data_target = data[:text_settings].key?(:target) ? data[:text_settings].delete(:target) : nil
-
-        data[:text_settings].each do |key, setting|
-          text = setting.delete(:text) || setting.delete(:value) || nil
-          # textsettings.add_element('TextSelection').text = text
-          el = textsettings.add_element(key.camelize)
-          el.text = text unless text.nil?
-          setting.each do |k, v|
-            el.attributes[k.camelize] = v
-          end
-        end
-
+        # On inscrit les données méta (il y en a toujours au moins une,
+        # par défaut)
+        add_metadata_in_new_child_node(newdoc, data)
+        # Le binder-item enfant
         bitem_newdoc = Scrivener::Project::BinderItem.new(projet, newdoc)
 
-        data_target && bitem_newdoc.target.define(data_target)
+        dtarget && bitem_newdoc.target.define(dtarget)
           # {value: final_value, type: 'Characters', notify: false, show_overrun: true, show_buffer: true}
+
+        data[:custom_metadatas].each do |key, mdata|
+          # Il faut définir la métadonnée customisée de façon générale
+          # dans <CustomMetaDataSettings>. C'est fait au niveau du
+          # projet, pas au niveau de ce binder-item
+          # Il faut ensuite définir la métadonnée pour le binder-item
+          # en particulier
+          bitem_newdoc.custom_metadatas[key.to_s.downcase]= mdata[:value]
+        end
 
 
         # On indique que le fichier xfile a été modifié pour
@@ -119,33 +70,67 @@ class Scrivener
       end
       #/create_binder_item
 
-      # Pour définir une méta-donnée personnalisé
-      #      <CustomMetaDataSettings>
-      #       <MetaDataField ID="id" Type="Text" Wraps="No" Align="Center">
-      #         <Title>ID</Title>
-      #       </MetaDataField>
-      #       <MetaDataField ID="autredonnéecustomisée" Type="Checkbox" Default="Yes">
-      #         <Title>Autre donnée customisée</Title>
-      #       </MetaDataField>
-      #       </CustomMetaDataSettings>
-      # Type = "Text" => {'Wraps' => 'No', 'Align' => 'Left'}
-      # Type = "Checkbox" => {'Default' => 'Yes'}
-      CUSTOM_METADATA_PER_TYPE = {
-        text:     {'Type' => 'Text', 'Wraps' => 'No', 'Align' => 'Left'},
-        checkbox: {'Type' => 'Checkbox', 'Default' => 'Yes'}
-      }
-      def define_custom_metadata_if_needed(key, mdata)
-        mdata_settings  = XML.get_or_add(root, 'CustomMetaDataSettings')
-        cmdata_id = key.to_s.downcase
-        mdata_field     = XML.get_or_add(mdata_settings, 'MetaDataField[@ID="%s"]' % cmdata_id)
-        CUSTOM_METADATA_PER_TYPE[mdata[:type]].each do |attr, valdefaut|
-          mdata_field.attributes[attr] = mdata[attr] || valdefaut
-        end
-        mdata_title = XML.get_or_add(mdata_field, 'Title')
-        mdata_title.text = key
-      end
-      # /define_custom_metadata_if_needed
 
+      # ---------------------------------------------------------------------
+
+      def create_default_values attrs, data
+        data  ||= Hash.new
+        attrs ||= Hash.new
+        # On fournit toujours l'UUID ici
+        attrs.merge!('UUID' => `uuidgen`.strip)
+        attrs.key?(:created)    || attrs.merge!(:created   => Time.now)
+        attrs.key?(:modified)   || attrs.merge!(:modified  => Time.now)
+        attrs.key?(:type)       || attrs.merge!(:type      => 'Text')
+        return [attrs, data]
+      end
+      # /create_default_values
+      private :create_default_values
+
+      # Création de l'enfant : création du nœud XML, avec son titre
+      def create_child_node_with_titre title = nil, attrs
+        nchildren = XML.get_or_add(node, 'Children')
+        newdoc = nchildren.add_element('BinderItem', attrs.symbol_to_camel)
+        # Le titre du document ou du dossier (if any)
+        title && newdoc.add_element('Title').text = title.to_s.strip
+        return newdoc
+      end
+      # /create_child_node_with_titre
+      private :create_child_node_with_titre
+
+      # Ajoute les données méta au noeud XML du nouveau child +newdoc+
+      DEFAULT_METADATA = {
+        include_in_compile: {text: 'Yes'}
+      }
+      def add_metadata_in_new_child_node newdoc, data
+        # Les métadonnées
+        dmetadata = DEFAULT_METADATA.merge(data[:metadata]||{})
+        metadata = newdoc.add_element('MetaData')
+        dmetadata.each do |key, mdata|
+          text = mdata[:text] || mdata[:value]
+          el = metadata.add_element(key.camelize)
+          el.text = text unless text.nil?
+        end
+      end
+      private :add_metadata_in_new_child_node
+
+      # Ajoute les données de texte au nouveau nœud XML du nouveau child +newdoc+
+      DEFAULT_TEXT_SETTINGS = {
+        text_selection: {text: '0,0'}
+      }
+      def add_text_settings_in_new_child_node newdoc, data
+        # Les données du texte
+        dsettings = DEFAULT_TEXT_SETTINGS.merge(data[:text_settings]||{})
+        textsettings = newdoc.add_element('TextSettings')
+        dsettings.each do |key, setting|
+          text = setting.delete(:text) || setting.delete(:value) || nil
+          el = textsettings.add_element(key.camelize)
+          el.text = text unless text.nil?
+          setting.each do |k, v|
+            el.attributes[k.camelize] = v
+          end
+        end
+      end
+      private :add_text_settings_in_new_child_node
 
     end #/BinderItem
   end #/Project

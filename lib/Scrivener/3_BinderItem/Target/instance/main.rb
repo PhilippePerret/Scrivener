@@ -26,7 +26,7 @@ class Scrivener
           end
           options ||= Hash.new
           attrs = Hash.new
-          attrs.merge!('Notify'       => options[:notify] ? 'Yes' : 'No')
+          attrs.merge!('Notify'       => !!options[:notify] ? 'Yes' : 'No')
           attrs.merge!('ShowOverrun'  => options[:show_overrun] ? 'Yes' : 'No')
           attrs.merge!('ShowBuffer'   => options[:show_buffer] ? 'Yes' : 'No')
           attrs.merge!('Type'         => options[:type] ? options[:type] : 'Characters')

@@ -30,7 +30,10 @@ module BuildDocumentsModule
       if is_folder?
         self.container = projet.last_folder_by_level[self.level - 1]
       end
+
+      # === CRÉATION DU BINDER-ITEM ===
       self.binder_item = container.create_binder_item(self.attrs_binder_item, self.data_binder_item)
+
       if is_folder?
         projet.last_folder_by_level.merge!(self.level => self.binder_item)
         projet.last_folder = self.binder_item
@@ -48,39 +51,35 @@ module BuildDocumentsModule
     # Les données qui doivent permettre de créer le binder-item
     # (quel que soit son type, dossier ou document)
     def data_binder_item
-      @data_binder_item ||= begin
-        d = {
-          title: self.titre
-        }
-        if self.target && projet.building_options[:targets]
-          # TODO Certaines colonnes pour définir s'il faut afficher les dépassements
-          d.merge!(text_settings: {target: {type: 'Characters', show_overrun: 'Yes', notify: 'No', value: self.target}})
-        end
-        if self.id && projet.building_options[:ids]
-          # TODO Créer la métadonnée ID
-        end
+      @data_binder_item ||= define_data_binder_item
+    end
+
+    def define_data_binder_item
+      d = {
+        title: self.titre,
+        custom_metadatas: Hash.new
+      }
+      if self.target
+        # TODO Certaines colonnes pour définir s'il faut afficher les dépassements
+        d.merge!(text_settings: {target: {type: 'Characters', show_overrun: 'Yes', notify: 'No', value: self.target}})
       end
+      # Si l'ID est défini
+      self.id && d[:custom_metadatas].merge!(id: {value: self.id} )
+
+      return d
     end
 
     # TODO : s'il y a une colonne "résumé"
 
     def target
       @target ||= begin
-        if projet.target_column
-          self.data_line[projet.target_column]
-        else
-          nil
-        end
+        projet.building_settings.target_column ? self.data_line[projet.building_settings.target_column].or_nil : nil
       end
     end
 
     def id
       @id ||= begin
-        if projet.id_column
-          self.data_line[projet.id_column]
-        else
-          nil
-        end
+        projet.building_settings.id_column ? self.data_line[projet.building_settings.id_column].or_nil : nil
       end
     end
 
@@ -89,10 +88,10 @@ module BuildDocumentsModule
     # Si la profondeur de la commande n'est pas définie ou est = 1,
     # la première colonne définit le titre
     def calc_titre_and_level
-      if projet.profondeur.nil?
+      if projet.building_settings.depth.nil?
         self.titre = data_line[0]
       else
-        (0...projet.profondeur).each do |icol|
+        (0...projet.building_settings.depth).each do |icol|
           data_line[icol].strip != '' || next
           self.level = icol + 1
           break
@@ -103,7 +102,7 @@ module BuildDocumentsModule
 
     # Retourne true si l'élément est un document
     def is_document?
-      @self_is_a_document ||= self.level == projet.profondeur
+      @self_is_a_document ||= self.level == projet.building_settings.depth
     end
     # Retourne true si l'élément est un dossier
     def is_folder?

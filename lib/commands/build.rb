@@ -13,9 +13,8 @@ if CLI.options[:help]
 
         La commande `scriv build` permet de construire des éléments
         dans le projet scrivener courant. Cette commande ne peut pas
-        s'appeler seule. Il lui faut forcément un premier paramètre
-        en argument. Ces paramètres définissent ce qui doit être
-        construit :
+        s'appeler seule. Il lui faut obligatoirement un premier para-
+        mètre en argument pour indiquer ce qui doit être construit :
 
         `documents`   Construit les dossiers et documents à partir
                       d'un fichier csv défini avec l'option `--from`
@@ -30,9 +29,22 @@ if CLI.options[:help]
                       Mais attention, dans ce cas, l'ordre des don-
                       nées doit être absolument respecté.
 
-        Commande complète =
+                      --target_unit=<unité objectif>
+                        Permet de définir l'utité des objectifs,
+                        quand une colonne 'Cible', 'Objectif' ou
+                        'Target' est utilisée avec seulement des
+                        nombres. La valeur peut être 'm' ou 'w' pour
+                        'mots', 'p' pour 'pages' ou 's' ou 'c' pour
+                        'signes.'
+                        Par défaut, l'unité est la page. Donc la
+                        seule indication '4' dans une colonne 'Target'
+                        sans unité de cible définie signifiea '4 pa-
+                        ges'.
 
-        #{'scriv build documents --from=tdm.csv --delimitor="\t" --no-heading'}
+
+        Exemple de commande complète =
+
+        #{'scriv build documents --from=tdm.csv --delimitor="\t" --depth=2 --target_unit=w --no-heading'.jaune}
 
   #{'Aperçu d’un fichier CSV pour la création de documents'.undelined('-', '  ')}
 
@@ -73,6 +85,9 @@ if CLI.options[:help]
                                             | La toute première action
       … il faudra donc ajouter l'option `--depth=3` ou
       `--profondeur=3` à la commande.
+      Noter cependant que 3 est la profondeur par défaut et n'a pas
+      besoin d'être indiquée si les trois premières colonnes repré-
+      sentent des dossiers, sous-dossiers et documents.
     * Les objectifs (cible) peuvent être définis en pages (avec "p"),
       en mot (avec "m") ou en nombre de signes (sans unité).
     * La commande a deux moyens de savoir qu'une colonne particulière

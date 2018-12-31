@@ -8,18 +8,66 @@ module XMLModule
       # Note : depuis déc 2018, peut créer un path complet 'path/to/node'
       def get_or_add(parent, tag)
         tag.split('/').each do |node_name|
-          parent = parent.elements[node_name] ? parent.elements[node_name] : parent.add_element(node_name)
+          parent =
+            if parent.elements[node_name]
+              parent.elements[node_name]
+            else
+              add_node(parent, get_tagname_and_attributes_from(node_name))
+            end
         end
-        puts "\n\n--- PARENT: #{parent}"
         return parent
-        # Avant, c'était simplement :
-        # parent.elements[tag] ? parent.elements[tag] : parent.add_element(tag)
+      end
+
+      # Ajoute le noeud défini par +data_node+ dans +parent+ et
+      # retourne le noeud créé
+      def add_node(parent, data_node)
+        neu = parent.add_element(data_node[:tagname], data_node[:attributes])
+        data_node[:text] && neu.text = data_node[:text]
+        return neu
+      end
+
+      # Retourne l'enfant +tag+ de +parent+ sans le créer
+      # Note : depuis déc 2018, peut créer un path complet 'path/to/node'
+      def get(parent, tag)
+        tag.split('/').each do |node_name|
+          parent = parent.elements[node_name]
+          parent || return
+        end
+        return parent
       end
       # Pour vider le nœud +node+ de tout son contenu (mais en gardant
       # la balise)
       def empty(node)
         node.elements.each { |n| n.parent.delete(n) }
       end
+      # ---------------------------------------------------------------------
+      #   Méthodes fonctionnelles
+
+      # Reçoit un String de la forme 'TagName' ou 'TagName[@attr="valeur"]'
+      # ou même 'TagName[@attr="valeurAttr"][text()="Valeur Texte"]'
+      # et retourne une table contenant :
+      #   {:tagname, :attributes et :text}
+      def get_tagname_and_attributes_from(str)
+        index_crochet = str.index(/\[/)
+          attrs = Hash.new
+          texte = nil
+        if index_crochet
+          tag = str[0...index_crochet]
+          str.scan(/(?:\[(.*?)=(.*?)\])/).each do |found|
+            attr = found.first
+            valu = found.last.gsub(/^"?(.*?)"?$/,'\1')
+            if attr == 'text()'
+              texte = valu
+            else
+              attrs.merge!(attr[1..-1] => valu)
+            end
+          end
+        else
+          tag = str
+        end
+        return {tagname: tag, attributes: attrs, text: texte}
+      end
+
     end #/<< self
 
 
