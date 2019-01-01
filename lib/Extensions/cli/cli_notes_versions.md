@@ -1,7 +1,11 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.7.3 **
+** Version courante : 1.7.4 **
 
+## Version 1.7.4
+
+  Todo: texte mis en bleu quand il commence par "[TUTORIEL]"
+  
 ## Version 1.7.3
 
   Possibilité de définir une commande qui soit transformée en une
@@ -12,7 +16,7 @@
     `monapp update machin`
   … produira en réalité :
     `monapp build machin --update`
-    
+
 ## Version 1.7.2
 
   Ajout de la table `LANG_OPT_TO_REAL_OPT` qui permet de traduire
