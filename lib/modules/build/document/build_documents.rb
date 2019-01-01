@@ -1,6 +1,7 @@
 # encoding: UTF-8
 =begin
   Module pour la commande 'build'
+  Méthode de l'instance Scrivener::Project
 =end
 module BuildDocumentsModule
 
@@ -21,19 +22,32 @@ EOT
   # documents.
   attr_accessor :building_settings
   attr_accessor :table_data
+  attr_accessor :for_update
+  # Liste des updates qui sont effectuées avec l'option --update (ou la
+  # commande de même nom)
+  attr_accessor :updates
 
   # Construction des documents du projet
+  # Ou actualisation
   def exec_building
     CLI.debug_entry
     self.building_settings = BuildingSettings.new(self)
+    self.for_update = !!CLI.options[:update]
     documents_params_are_valid_or_raise
     analyse_data_source
-    proceed_build_apercu
+    search_target_column
+    search_id_column
+    search_metadatas_columns
+    proceed_build_apercu unless for_update
     simulation? || begin
-      if confirm_all? && ask_for_fermeture
-        proceed_build_documents
-        finish_execution
+      if for_update
+        ask_for_fermeture && proceed_update_documents
+      else
+        if confirm_all? && ask_for_fermeture
+          proceed_build_documents
+        end
       end
+      finish_execution
     end
     CLI.debug_exit
   end
@@ -76,6 +90,7 @@ EOT
   attr_accessor :last_folder_by_level
   attr_accessor :last_folder # {BinderItem}
 
+  # Construction des documents, si ça n'est pas une simulation
   def proceed_build_documents
     # Pour garder la trace des containers courant
     self.last_folder_by_level = Hash.new
@@ -87,11 +102,63 @@ EOT
     # l'option --force/-f
     proceed_each_line(procedure_real)
 
-    # Créer la métadonnée ID générale si nécessaire
-    if building_settings.id_column
-      define_custom_metadata_if_needed(id: {title: 'ID', type: :text})
+    # Créer (définit) la métadonnée ID générale et les méta-données si
+    # nécessaire
+    build_custom_metadatas
+
+  end
+  # /proceed_build_documents
+
+
+  def build_custom_metadatas
+    if building_settings.id_column || building_settings.metadatas_columns
+      hmetadatas = Hash.new
+      if building_settings.id_column
+        hmetadatas.merge!(id: {title: 'ID', type: :text})
+      end
+      if building_settings.metadatas_columns
+        building_settings.metadatas_columns.each do |col_idx, col_name|
+          hmetadatas.merge!(col_name => {title: col_name, type: :text})
+        end
+      end
+      puts "--> hmetadatas: #{hmetadatas.inspect}"
+      define_custom_metadata_if_needed(hmetadatas)
     end
   end
+  # /build_custom_metadatas
+
+TABLE_MODIFICATIONS = '
+
+%{header}
+%{soulign}
+
+'
+  # Actualisation du projet
+  def proceed_update_documents
+    self.updates  = Array.new
+    proceed_each_line(procedure_update)
+    # Pour terminer, on affiche les actualisations opérées
+    # puts "Nombre de modifications: #{updates.count}"
+    header  = "  Résumé des modifications opérées (#{updates.count})"
+    sep     = '  -'.ljust(header.length,'-')
+    puts TABLE_MODIFICATIONS % {
+      header: header,
+      soulign: sep
+    }
+    updates.each do |update|
+      puts update.to_s(indent: '    ').send(update.update_ok ? :bleu : :rouge)
+    end
+    puts String::RC * 3
+  end
+  # /proceed_update_documents
+
+  # Retourne true si l'update est possible
+  def update_possible?
+    # Pour pouvoir actualiser un projet, il faut :
+    #   - que les documents soient identifiés (aient un ID => colonne ID)
+    id_column_exist_pour_update_or_raise
+  end
+  # /update_possible?
 
   # Procédure qui construit pour de bon le document
   def procedure_real
@@ -99,11 +166,22 @@ EOT
       NewElement.new(
         self,
         self.last_folder,
-        traite_ligne(line, idx_line, false)
-        ).treate
+        traite_ligne(line, idx_line)
+        ).build
     end
   end
   # /procedure_real
+
+  def procedure_update
+    lambda do |line, idx_line|
+      NewElement.new(
+        self,
+        self.last_folder,
+        traite_ligne(line, idx_line)
+        ).update
+    end
+  end
+  # /procedure_update
 
   # Procédure de fin de la création
   def finish_execution
@@ -123,7 +201,6 @@ EOT
     end
   end
 
-
   # On procède vraiment à l'opération
   def proceed_build_apercu
     # = Affichage de la table =
@@ -134,11 +211,10 @@ EOT
     formated_spec_cols = Array.new
 
     # Si une colonne pour l'objectif a été trouvée, on l'indique
-    search_target_column
+
     unless building_settings.target_column.nil?
       formated_spec_cols << ('    Colonne des objectifs : %i%s' % [building_settings.target_column + 1, building_settings.target_column > 0 ? 'e' : 'ère'])
     end
-    search_id_column
     if building_settings.id_column
       formated_spec_cols << ('    Colonne des ID : %i%s' % [building_settings.id_column + 1, building_settings.id_column > 0 ? 'e' : 'ère'])
     end
@@ -165,7 +241,7 @@ EOT
 
   def procedure_simulation
     lambda do |line, idx_line|
-      dline = traite_ligne(line, idx_line, true)
+      dline = traite_ligne(line, idx_line)
       dline_formated = dline.collect.with_index do |cell, col_idx|
         cell.ljust(table_data[col_idx][:max_len])
       end
@@ -275,7 +351,7 @@ EOT
   # /control_ligne
 
   # Retourne la liste des cellules traitées
-  def traite_ligne lig, idx_in_file = nil, control = false
+  def traite_ligne lig, idx_in_file = nil
     # ATTENTION : de pas tripper la ligne, elle se termine peut-être par
     # des tabulations en délimiteur
     dline = lig.split(building_settings.cell_delimitor, 1000) # 1000 pour ne pas supprimer les vides
@@ -337,6 +413,7 @@ EOT
       end
     end
   end
+
   # Méthode qui cherche une colonne pouvant définir les objectifs de
   # mots/pages/signes à atteindre (si elle n'a pas été trouvée par les labels).
   # Si deux colonnes candidates ont été trouvées, il faut que les
@@ -357,6 +434,29 @@ EOT
   end
   # /search_target_column
   private :search_target_column
+
+  # Méthode qui cherche les colonnes pouvant définir des métadatas
+  # Le but est d'obtenir une table :
+  #   {
+  #     <index colonne>: "<label>"
+  #   }
+  def search_metadatas_columns
+    # S'il n'y a pas de labels, il ne peut pas y avoir de métadonnées
+    building_settings.labels || return
+    # Toutes les colonnes
+    metadatas_columns = Hash.new
+    building_settings.labels.each_with_index {|label, idx| metadatas_columns.merge!(idx => label)}
+
+    # On passe les colonnes de profondeur
+    building_settings.depth.times{|itime| metadatas_columns.delete(itime) }
+    # On passe les colonnes des ID et Target si elles sont définies
+    building_settings.id_column && metadatas_columns.delete(building_settings.id_column)
+    building_settings.target_column && metadatas_columns.delete(building_settings.target_column)
+    # On ne garde que les colonnes restantes
+    building_settings.metadatas_columns = metadatas_columns
+  end
+  # /search_metadatas_columns
+  private :search_metadatas_columns
 
   def source_csv_is_not_empty_or_raise
     File.stat(building_settings.real_source_csv).size > 0 || raise_empty_document_source(building_settings.source_csv_init)

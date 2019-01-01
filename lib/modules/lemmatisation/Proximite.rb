@@ -11,7 +11,7 @@ class << self
   #
   def exec_lemmatisation
     if CLI.params[1] == 'abbreviations'
-      if CLI.options[:initial]
+      if CLI.options[:original]
         TextAnalyzer.retrieve_original_abbreviations
       else
         TextAnalyzer.open_file_abbreviations # s'il existe, sinon erreur

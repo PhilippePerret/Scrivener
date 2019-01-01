@@ -9,6 +9,15 @@ if CLI.options[:help]
   aide = <<-EOT
   #{'AIDE DE LA COMMANDE `scriv build`  '.underlined('-','  ').gras}
 
+  Note préliminaire
+  -----------------
+
+  La commande `update` correspond à `scriv build --update`. Elle per-
+  met d'actualiser des données construites avec `scriv build`.
+  Avec l'option `-i/--interactive`, on peut confirmer chaque modifi-
+  cation. Dans le cas contraire, toutes les modifications sont
+  opérées sans demande.
+
     #{'Description'.underlined('-', '  ')}
 
         La commande `scriv build` permet de construire des éléments

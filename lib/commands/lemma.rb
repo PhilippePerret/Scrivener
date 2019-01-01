@@ -24,7 +24,7 @@ Usage :    #{'scriv lemma[ vers/mon/projet.scriv][ <operation>][ <options>]'.jau
         Permet de modifier la liste des abbréviations de Tree-
         Tagger.
 
-    #{'scriv lemma abbreviations -i/--initial'.jaune}
+    #{'scriv lemma abbreviations --original'.jaune}
 
         Permet de récupérer le fichier original fourni avec
         la commande. À utiliser en cas d'erreur.
@@ -75,7 +75,7 @@ Usage :    #{'scriv lemma[ vers/mon/projet.scriv][ <operation>][ <options>]'.jau
 
 #{'Options'.underlined}
 
-    -i/--initial
+    --original
 
         Avec l'opération `abbreviations`, permet de récupérer le
         fichier original des abbréviations.

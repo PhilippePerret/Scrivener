@@ -106,7 +106,7 @@ class CLI
           elsif self.command.nil?
             defined?(DIM_CMD_TO_REAL_CMD) || raise('La constante CLI::DIM_CMD_TO_REAL_CMD doit être définie pour l’application courante.')
             self.command_init = argv
-            self.command = (DIM_OPT_TO_REAL_OPT[argv] ||DIM_CMD_TO_REAL_CMD[argv] || argv).gsub(/\-/,'_')
+            self.command = command_vdef(argv)
           else
             traite_arg_as_param argv
           end
@@ -124,6 +124,26 @@ class CLI
       return true
     end
     # /analyse_command_line
+
+    # La version définitive de la commande
+    def command_vdef(argv)
+      if DIM_OPT_TO_REAL_OPT.key?(argv)
+        DIM_OPT_TO_REAL_OPT[argv]
+      elsif DIM_CMD_TO_REAL_CMD.key?(argv)
+        cmd = DIM_CMD_TO_REAL_CMD[argv]
+        cmd.is_a?(Array) || (return cmd)
+        # Quand cmd est un array, il définit en premier élément le vrai
+        # nom de commande à utiliser et en argument un Hash définissant les
+        # nouvelles options. Par exemple quand on fait `monapp update truc`,
+        # si DIM_CMD_TO_REAL_CMD[:update] = ['build', {update: true}], alors
+        # la commande `update` est remplacée par `build` et l'option :update
+        # est ajoutée, avec la valeur true
+        CLI.options.merge!(cmd.last)
+        cmd.first
+      else
+        argv.gsub(/\-/,'_')
+      end
+    end
 
     # Pour benchmarker l'application
     def benchmark ope, titre = nil

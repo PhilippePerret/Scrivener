@@ -18,6 +18,8 @@ OVERVIEW_SETTINGS = <<-TXT
     %{tit_delimitor} : %{fdelimitor}
     %{tit_target_unit} : %{ftarget}
     %{tit_depth} : %{fdepth}
+    %{tit_metadatas} : %{fmetadatas}
+
 TXT
 
     attr_accessor :projet
@@ -95,6 +97,10 @@ TXT
     attr_accessor :target_column
     # La colonne des ID
     attr_accessor :id_column
+    # Les colonnes des métadonnées (en clé, l'indice de colonnes et en
+    # valeur le nom de la colonne — donc de la données méta)
+    attr_accessor :metadatas_columns
+
     # Retourne true s'il existe une ligne de labels
     def heading?
       options[:heading] == true
@@ -133,9 +139,15 @@ TXT
         tit_target_unit:  formate_titre('Unité cibles', target_unit_default?),
         ftarget:          target_unit.inspect,
         tit_depth:        formate_titre('Profondeur', depth_default?),
-        fdepth:           depth || '---'
+        fdepth:           depth || '---',
+        tit_metadatas:    formate_titre('Métadonnées', false),
+        fmetadatas:       formated_metadatas
       }
+    end
 
+    def formated_metadatas
+      metadatas_columns || (return '---')
+      metadatas_columns.values.pretty_join
     end
 
     def formate_titre titre, par_default

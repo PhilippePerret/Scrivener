@@ -1,6 +1,10 @@
 # encoding: UTF-8
 class Scrivener
 ERRORS.merge!({
+  update: {
+    id_column_required: 'Pour actualiser un projet, il faut impérativement une colonne d’identifiant (ID) pour retrouver les éléments.',
+    unenable_to_update_value: 'Impossible d’actualiser la donnée de type "%s"'
+  },
   build: {
     thing_required: 'Il faut définir la chose à construire en deuxième argument. P.e. `scriv build documents ...`',
     invalid_thing:  '"%s" est une chose à construire invalide (choisir parmi %s).',
@@ -84,6 +88,9 @@ def raise_depth_required
 end
 def raise_double_value_profondeur(lig, idx_in_file)
   raise(ERRORS[:build][:two_depth_on_same_line] % [idx_in_file, lig, building_settings.depth, building_settings.depth])
+end
+def id_column_exist_pour_update_or_raise
+  building_settings.id_column || raise(ERRORS[:update][:id_column_required])
 end
 
 end #/Project

@@ -1,14 +1,25 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.7.2 **
+** Version courante : 1.7.3 **
 
+## Version 1.7.3
+
+  Possibilité de définir une commande qui soit transformée en une
+  autre commande avec ajout d'options.
+  Par exemple, si…
+    `DIM_CMD_TO_REAL_CMD[:update] = [:build, {update: true}]`
+  … alors l'appel de…
+    `monapp update machin`
+  … produira en réalité :
+    `monapp build machin --update`
+    
 ## Version 1.7.2
 
   Ajout de la table `LANG_OPT_TO_REAL_OPT` qui permet de traduire
   certaines options. Par exemple, dans une application, l'option
   `--profondeur` peut être traduite par `--depth` si :
     `LANG_OPT_TO_REAL_OPT['profondeur'] = 'depth'`
-    
+
 ## Version 1.7.1
 
   Amélioration des tests pour pouvoir les lancer depuis la console

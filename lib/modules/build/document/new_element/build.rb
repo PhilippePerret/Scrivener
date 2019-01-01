@@ -3,10 +3,6 @@
 module BuildDocumentsModule
   class NewElement
 
-    attr_accessor :projet
-    attr_accessor :container
-    attr_accessor :data_line, :args
-
     # +dline+ Les données contenues sur la ligne
     # +container+ Le conteneur du document (il en a toujours un, quel que
     #             soit sa profondeur)
@@ -15,18 +11,13 @@ module BuildDocumentsModule
       self.data_line = dline
       self.args      = args
       self.container = container
+      calc_titre_and_level
     end
-
-    attr_accessor :titre
-    attr_accessor :level
-    # {BinderItem} Le bi résultant de la création de cet élément
-    attr_accessor :binder_item
 
     # = main =
     #
     # Méthode principale qui traite l'élément courant
-    def treate
-      calc_titre_and_level
+    def build
       if is_folder?
         self.container = projet.last_folder_by_level[self.level - 1]
       end
@@ -39,7 +30,11 @@ module BuildDocumentsModule
         projet.last_folder = self.binder_item
       end
     end
-    # /treate
+    # /build
+
+    def not_interactive?
+      !CLI.options[:interactive]
+    end
 
     def attrs_binder_item
       @attrs_binder_item ||= begin
@@ -65,48 +60,15 @@ module BuildDocumentsModule
       end
       # Si l'ID est défini
       self.id && d[:custom_metadatas].merge!(id: {value: self.id} )
+      # Si d'autres colonnes sont définies
+      if projet.building_settings.metadatas_columns
+        projet.building_settings.metadatas_columns.each do |col_idx, col_name|
+          d[:custom_metadatas].merge!(col_name => {value: data_line[col_idx]})
+        end
+        # puts "-- custom metadatas à prendre : #{d[:custom_metadatas].inspect}"
+      end
 
       return d
-    end
-
-    # TODO : s'il y a une colonne "résumé"
-
-    def target
-      @target ||= begin
-        projet.building_settings.target_column ? self.data_line[projet.building_settings.target_column].or_nil : nil
-      end
-    end
-
-    def id
-      @id ||= begin
-        projet.building_settings.id_column ? self.data_line[projet.building_settings.id_column].or_nil : nil
-      end
-    end
-
-    # On doit déterminer la profondeur de l'élément en fonction
-    # de la profondeur du projet
-    # Si la profondeur de la commande n'est pas définie ou est = 1,
-    # la première colonne définit le titre
-    def calc_titre_and_level
-      if projet.building_settings.depth.nil?
-        self.titre = data_line[0]
-      else
-        (0...projet.building_settings.depth).each do |icol|
-          data_line[icol].strip != '' || next
-          self.level = icol + 1
-          break
-        end
-        self.titre = data_line[self.level - 1]
-      end
-    end
-
-    # Retourne true si l'élément est un document
-    def is_document?
-      @self_is_a_document ||= self.level == projet.building_settings.depth
-    end
-    # Retourne true si l'élément est un dossier
-    def is_folder?
-      @self_is_a_folder ||= !is_document?
     end
 
   end #/Document

@@ -16,7 +16,8 @@ class CLI
     'derniers'    => 'last',
     'dernières'   => 'last',
     'tdm'         => 'pagination',
-    'toc'         => 'pagination'
+    'toc'         => 'pagination',
+    'update'      => ['build', {update: true}]
   }
   # Les versions courtes communes à toutes les applications
   # Attention, cette table ne travaille qu'avec les options
@@ -25,6 +26,7 @@ class CLI
   # utiliser la table LANG_OPT_TO_REAL_OPT
   DIM_OPT_TO_REAL_OPT = {
     'h'               => 'help',
+    'i'               => 'interactive',
     'o'               => 'output',
     's'               => 'simulate',
     'u'               => 'update',
@@ -45,7 +47,6 @@ class CLI
     'f'               => 'force',
     'fc'              => 'force_calcul',
     'fdc'             => 'final-draft-coefficient',
-    'i'               => 'initial',
     'k'               => 'keys_mode_test',
     'l'               => 'local',
     'm2m'             => 'maxtomin',

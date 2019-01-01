@@ -59,7 +59,13 @@ class BinderItem
     private :get_field_value
 
     def create_custom_metadata(field_id, field_value)
-      n = XML.get_or_add(binder_item.node, 'MetaData/CustomMetaData/MetaDataItem')
+      n = XML.get(binder_item.node, 'MetaData/CustomMetaData/MetaDataItem/FieldID[text()="%s"]' % field_id.downcase)
+      unless n.nil?
+        n = n.parent
+      else
+        n = XML.get_or_add(binder_item.node, 'MetaData/CustomMetaData')
+        n = n.add_element('MetaDataItem')
+      end
       n.add_element('FieldID').text = field_id.downcase
       n.add_element('Value').text   = field_value
     end

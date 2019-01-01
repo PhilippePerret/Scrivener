@@ -69,6 +69,37 @@ class Project
     end
   end
 
+  # Permet de retrouver un binder-item par son ID. Attention, il ne s'agit
+  # pas de l'UUID du binder-item, mais d'une métadonnée ID définie par exemple
+  # quand on construit le projet à partir d'un fichier CSV.
+  #
+  # Return l'instance BinderItem ou nil
+  def binder_item_by_id bitem_id, options = nil
+    options ||= Hash.new
+    options.key?(:in) || options.merge!(in: :draft_folder)
+
+    # self.all_binder_items_of(options[:in]).each do |bitem|
+    # NON: ON DOIT ALLER PLUS VITE EN RECHERCHANT DIRECTEMENT
+    # DANS LE FICHIER XFILE COMME CI-DESSOUS
+    # end
+
+    bitem_id = bitem_id.to_s
+    bitem = nil
+    REXML::XPath.each(xfile.root, '//BinderItem/MetaData/CustomMetaData/MetaDataItem/FieldID[text()="id"]') do |n|
+      parent = n.parent
+      bitem_id == parent.elements['Value'].text || next
+      begin
+        parent = parent.parent
+      end until parent.name == 'BinderItem'
+      bitem = parent
+      break
+    end
+    bitem || return
+    # Ici, bitem est un noeud
+    return binder_item(bitem.attributes['UUID'])
+  end
+  # /binder_item_by_id
+
   # Affiche la liste des documents actuels du projet et demande
   # à l'utilisateur d'en choisir un.
   # Returne nil en cas d'annulation.
