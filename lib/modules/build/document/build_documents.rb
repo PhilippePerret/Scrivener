@@ -121,7 +121,7 @@ EOT
           hmetadatas.merge!(col_name => {title: col_name, type: :text})
         end
       end
-      puts "--> hmetadatas: #{hmetadatas.inspect}"
+      # puts "--> hmetadatas: #{hmetadatas.inspect}"
       define_custom_metadata_if_needed(hmetadatas)
     end
   end

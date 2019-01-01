@@ -39,14 +39,30 @@ class Update
   def type
     @type ||= data[:type]
   end
+  # ID, quand c'est une métadonnée personnalisée
+  # (mais attention, c'est la version "title", avec capitales, pas la
+  # vraie version 'ID' de scrivener, qui est toute en minuscules)
+  def id
+    @id ||= data[:id]
+  end
   def property
     @property ||= (data[:property] || type).to_sym
   end
   def hproperty
-    @hproperty ||= HPROPERTIES[property][lang]
+    @hproperty ||= begin
+      unless custom_metadata?
+        HPROPERTIES[property][lang]
+      else
+        id
+      end
+    end
   end
   def lang
     @lang ||= :fr
+  end
+
+  def custom_metadata?
+    type == :custom_metadata
   end
 
   # ---------------------------------------------------------------------
@@ -54,15 +70,18 @@ class Update
 
   # Actualise la valeur suivant son type.
   def update_value_by_type
-    equal_method  = "#{property}=".to_sym
-    prop_method   =
-    if binder_item.respond_to?(equal_method)
-      binder_item.send(equal_method, new_value)
-    elsif binder_item.respond_to?(property) && binder_item.send(property).respond_to?(:define)
-      # <= Lorsque c'est un objet complexe, comme par exemple une target
-      binder_item.send(property).define(new_value)
+    if custom_metadata?
+      binder_item.custom_metadatas[id] = new_value
     else
-      raise_unknown_type_for_update(type)
+      equal_method  = "#{property}=".to_sym
+      if binder_item.respond_to?(equal_method)
+        binder_item.send(equal_method, new_value)
+      elsif binder_item.respond_to?(property) && binder_item.send(property).respond_to?(:define)
+        # <= Lorsque c'est un objet complexe, comme par exemple une target
+        binder_item.send(property).define(new_value)
+      else
+        raise_unknown_type_for_update(type)
+      end
     end
   rescue Exception => e
     self.error = e.message
@@ -79,11 +98,13 @@ class Update
   end
 
   def message_confirmation
-    @message_confirmation ||= case type
+    case type
     when :title
       "Dois-je mettre le titre #{du_doc} à #{new_value.inspect} (titre actuel : #{old_value.inspect}) ?"
     when :target
       "Dois-je mettre l'objectif #{du_doc} à #{new_value} signes (contre #{old_value} actuellement) ?"
+    when :custom_metadata
+      "Dois-je mettre la donnée #{id} à #{new_value} (actuellement : #{old_value}) ?"
     else
       raise 'Je ne sais pas encore traiter la propriété %s' % property.inspect
     end
