@@ -1,6 +1,11 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.7.5 **
+** Version courante : 1.8.0 **
+
+## Version 1.8.0
+
+  Ajout de la classe `CLI::Screen` qui permet de gérer l'écran, sans
+  la lourdeur de Curves.
 
 ## Version 1.7.5
 

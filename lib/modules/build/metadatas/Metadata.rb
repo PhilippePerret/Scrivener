@@ -25,7 +25,7 @@ class MetaData
     'long+time'   => {ex: '2 janvier 2019 09:40'    , real: 'Long+Time'},
     'full'        => {ex: 'Mercredi 2 janvier 2019' , real: 'Full'},
     'full+time'   => {ex: 'Mercredi 2 janvier 2019 09:41',  real: 'Full+Time'},
-    'timeOnly'    => {ex: '09:45'                   , real: 'TimeOnly'},
+    'timeOnly'    => {ex: '09:45 (heure seulement)' , real: 'TimeOnly'},
     'custom'      => {ex: 'EEE j MMMM aaaa kk:mm'   , real: 'Custom'}
   }
 

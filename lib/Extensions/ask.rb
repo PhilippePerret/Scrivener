@@ -1,7 +1,10 @@
 # encoding: utf-8
 #
 # ask
-# v. 1.3.2
+# v. 1.3.3
+#
+# Note version 1.3.3
+#     Ajout du mode test pour askFor
 #
 # Voir aussi le module ask_for_test.rb qui fonctionne en parallèle de celui-ci
 #
@@ -14,8 +17,8 @@ ASK_ON_ONE_LINE   = ASK_TABULATION+'%s %s'
 ASK_ON_TWO_LINES  = ASK_TABULATION+'%s'+(String::RC*2)+ASK_TABULATION+'%s %s'
 def getc message, options = nil
   options ||= Hash.new
+  # puts "-- options : #{options.inspect}::#{options.class}"
   expected_keys = options[:expected_keys]
-  puts "\n\n"
   if options[:invite]
     deux_points = [':','?'].include?(options[:invite].strip[-1]) ? '' : ': '
     print ASK_ON_TWO_LINES % [message, options[:invite], deux_points]
@@ -27,7 +30,7 @@ def getc message, options = nil
     if CLI.mode_interactif?
       touche = get_full_caractere
     else
-      touche  = CLI.next_key_mode_test
+      touche = CLI.next_key_mode_test
     end
     if expected_keys.nil? || expected_keys.include?(touche)
       puts ''
@@ -96,6 +99,12 @@ end
 
 # Pose la +question+ et retourne la réponse, même vide.
 def askFor(question, default = nil)
+
+  # Mode test
+  unless CLI.mode_interactif?
+    return CLI.next_key_mode_test
+  end
+
   expected_keys = nil
   if default.is_a?(Hash)
     defo = default.delete(:default)
