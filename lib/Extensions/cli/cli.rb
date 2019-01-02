@@ -64,6 +64,11 @@ class CLI
     #   :output     Sortie à utiliser (un fichier par défaut)
     def init options = nil
       options ||= Hash.new
+
+      # Certains constantes sont indispensables
+      defined?(DIM_CMD_TO_REAL_CMD) || raise('La constante CLI::DIM_CMD_TO_REAL_CMD doit être définie pour l’application courante.')
+      defined?(APP_CORRESPONDANCES) || raise('La constante CLI::APP_CORRESPONDANCES doit être définie pour l’application courante.')
+
       # L'application
       # puts "constantes : #{File.constants}"
       self.app_name = ENV['_'].split(File::SEPARATOR).last
@@ -104,7 +109,6 @@ class CLI
           if argv.start_with?('-')
             traite_arg_as_option argv
           elsif self.command.nil?
-            defined?(DIM_CMD_TO_REAL_CMD) || raise('La constante CLI::DIM_CMD_TO_REAL_CMD doit être définie pour l’application courante.')
             self.command_init = argv
             self.command = command_vdef(argv)
           else
@@ -127,7 +131,9 @@ class CLI
 
     # La version définitive de la commande
     def command_vdef(argv)
-      if DIM_OPT_TO_REAL_OPT.key?(argv)
+      if APP_CORRESPONDANCES.key?(argv)
+        APP_CORRESPONDANCES[argv]
+      elsif DIM_OPT_TO_REAL_OPT.key?(argv)
         DIM_OPT_TO_REAL_OPT[argv]
       elsif DIM_CMD_TO_REAL_CMD.key?(argv)
         cmd = DIM_CMD_TO_REAL_CMD[argv]
@@ -213,7 +219,7 @@ class CLI
       if arg.start_with?('--')
         opt, val = arg[2..-1].strip.split('=')
         opt.gsub!(/-/,'_')
-        opt = LANG_OPT_TO_REAL_OPT[opt] || opt
+        opt = LANG_OPT_TO_REAL_OPT[opt] || APP_CORRESPONDANCES[opt] || opt
       else # is start_with? '-'
         # <= diminutif
         #    (ou cas spécial de '-' tout seul)
@@ -240,6 +246,7 @@ class CLI
         key = self.params.count
         val = arg
       end
+      val = APP_CORRESPONDANCES[val] || val
       self.params.merge!(key => val)
     end
 

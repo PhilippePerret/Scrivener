@@ -10,9 +10,6 @@ ERRORS[:update].merge!({
 })
 # === BUILD ===
 ERRORS[:build].merge!({
-  thing_required: 'Il faut définir la chose à construire en deuxième argument. P.e. `scriv build documents ...`',
-  invalid_thing:  '"%s" est une chose à construire invalide (choisir parmi %s).',
-
   # Documents
   default_source_unfoundable:  'Sans option --from=<...> définissant la document source, il faut que ce document source porte le nom "tdm.csv" et qu’il se trouve dans le dossier du projet.',
   no_source:          'Un document source est absolument requis (ajouter l’option `--from=<path/to/source>`)',

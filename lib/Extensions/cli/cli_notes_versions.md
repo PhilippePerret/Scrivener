@@ -1,11 +1,17 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.7.4 **
+** Version courante : 1.7.5 **
+
+## Version 1.7.5
+
+  Ajout de la constante application APP_CORRESPONDANCES pour pouvoir
+  faire des conversions autant au niveau des options que des comman-
+  des ou des paramètres.
 
 ## Version 1.7.4
 
   Todo: texte mis en bleu quand il commence par "[TUTORIEL]"
-  
+
 ## Version 1.7.3
 
   Possibilité de définir une commande qui soit transformée en une

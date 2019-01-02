@@ -13,11 +13,18 @@ class CLI
     'stats'       => 'data',
     'watch-prox'  => 'watch-proximites',
     'lasts'       => 'last',
-    'derniers'    => 'last',
-    'dernières'   => 'last',
     'tdm'         => 'pagination',
     'toc'         => 'pagination',
     'update'      => ['build', {update: true}]
+  }
+
+  # Liste des correspondances, que ce soit au niveau des commandes,
+  # des options ou des paramètres, un mot trouvé en clé sera toujours
+  # transformé en sa valeur.
+  APP_CORRESPONDANCES = {
+    'derniers'    => 'last',
+    'dernières'   => 'last',
+    'metadata'    => 'metadatas'
   }
   # Les versions courtes communes à toutes les applications
   # Attention, cette table ne travaille qu'avec les options
@@ -36,7 +43,8 @@ class CLI
 
   LANG_OPT_TO_REAL_OPT = {
     'delimiteur'      => 'delimitor',
-    'profondeur'      => 'depth'
+    'profondeur'      => 'depth',
+    'depuis'          => 'from'
   }
   # Les versions courtes propres à l'application courante
   # Elles peuvent surclasser des options précédemment définies

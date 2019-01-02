@@ -4,6 +4,8 @@ MODE_DEVELOPPEMENT = true
 
 CLI.debug_output = :log
 
+# Langue utilisée par défaut
+ENV['SCRIV_LANG'] = 'fr'
 
 # Mettre ici le path du dossier TreeTagger qui permet la lemmatisation
 # du texte. Ce dossier est important, notamment, pour éditer les
