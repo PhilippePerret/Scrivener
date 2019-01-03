@@ -68,6 +68,8 @@ class Analyse
     paths_count == nombre_traited || raise(ERRORS[:nb_doc2treate_unmatch] % [paths_count, nombre_traited])
     # Une erreur est produite si aucun texte n'est fourni
     raise(ERRORS[:proximites][:no_text]) if nombre_traited == 0
+    return true
+  ensure
     CLI.debug_exit
   end
   # /assemble_texts_of_paths

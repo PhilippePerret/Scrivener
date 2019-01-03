@@ -19,8 +19,8 @@ class Output
     defaultize_options(opts)
     set_filepath_current_format(options[:output_format])
     if CLI.options[:update] || CLI.options[:force] || !File.exist?(all_resultats_path) || parametres_changeants?
-      puts "  ---> Actualisation du fichier résultat. Merci de patienter…"
-      sleep 1
+      CLI::Screen.clear
+      CLI::Screen.write_slowly('---> Actualisation du fichier résultat. Merci de patienter…')
       ecrit_date_analyse
       table_nombres
       # = Proxmités =
@@ -40,10 +40,9 @@ class Output
 
     case options[:output_format]
     when :text
-      puts File.read(all_resultats_path)
-      # File.open(all_resultats_path,'rb').each do |line|
-      #   puts line
-      # end
+      File.open(all_resultats_path,'rb').each do |line|
+        puts line
+      end
     else
       raise 'Je ne sais pas encore faire ça.'
     end

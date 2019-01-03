@@ -25,7 +25,8 @@ class Output
 
     # Les deux données importantes
     wtx   = analyse.texte_entier
-    tbr   = analyse.table_resultats
+    # tbr est analyse.table_resultats
+    tbr   = self.data # passé à l'instanciation'
 
     liste_nombres = [
       ['N de caractères',         wtx.length, {u: 'signe%{s}'}],

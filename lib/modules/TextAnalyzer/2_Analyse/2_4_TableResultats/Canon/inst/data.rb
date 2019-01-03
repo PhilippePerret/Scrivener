@@ -35,6 +35,7 @@ class Canon
   def nombre_occurences
     @nombre_occurences ||= mots.count
   end
+  alias :nombre_mots :nombre_occurences
 
   # Dernier offset, c'est-à-dire offset du dernier mot
   def last_offset
