@@ -25,6 +25,7 @@ class Project
     mode_vue_editeur2:            :editor2_view_mode,
     mode_vue_groupe_editeur1:     :editor1_group_view_mode,
     mode_vue_groupe_editeur2:     :editor2_group_view_mode,
+    nom:                          :name,
     inspecteur_visible:           :inspector_visible,
     sortie_compilation:           :compile_output,
     titre:                        :title,
@@ -86,6 +87,33 @@ class Project
   def self.add_modpro h
     MODIFIABLE_PROPERTIES.key?(h.keys.first) && raise('LA CLÉ %s existe déjà !' % [h.keys.first])
     MODIFIABLE_PROPERTIES.merge!(h)
+  end
+
+
+
+  # Définir le nom de fichier du projet
+  add_modpro(
+    :name => {hname: 'nom du fichier', variante: 'nom', description: 'Pour définir le nom du fichier du projet.', exemple: "nouveau_nom".inspect,
+      category: :project_infos, confirmation: 'Nom du fichier mis à %s'}
+  )
+  def set_name value
+    new_nom = value.gsub(/ /, '_')
+    new_nom.end_with?('.scriv') || new_nom.concat('.scriv')
+    if yesOrNo('Voulez-vous mettre le nom du projet %s à %s ?' % [File.basename(path).inspect, new_nom.inspect])
+      old_path_scrivx = self.xfile.path
+      new_path_scrivx = File.join(path, "#{new_nom}x")
+      FileUtils.move(old_path_scrivx, new_path_scrivx)
+      new_path = File.join(folder, new_nom)
+      FileUtils.move(path, new_path)
+      @path   = new_path
+      @xfile  = nil
+      # Attention il faut le passer en fichier courant (noter que ça retire
+      # automatiquement l'ancien nom, qui n'existe plus)
+      Scrivener.project_path = new_path
+      Scrivener.save_current_informations
+      Scrivener.save_last_projects_data
+      confirme(:name, new_nom.inspect)
+    end
   end
 
   # Définir l'auteur du projet

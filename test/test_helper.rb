@@ -42,9 +42,9 @@ Dir['./test/support/**/*.rb'].each{|m| require m}
 puts "\n\n\n\n"
 
 # +touches+ est la liste des touches à jouer interactivement.
-def run_commande cmd, touches = nil
+def run_commande cmd, touches = nil, options = nil
   cmd.start_with?('scriv') || cmd.prepend('scriv ')
-  CLI::Test.run_command(cmd, touches)
+  CLI::Test.run_command(cmd, touches, options)
 end
 alias :run_command :run_commande
 

@@ -1,6 +1,11 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.8.0 **
+** Version courante : 1.8.1 **
+
+## Version 1.8.1
+
+  Ajout des options (troisième argument) à run_command, pour débugger
+  facile la sortie de console avec {debug: true}.
 
 ## Version 1.8.0
 

@@ -102,7 +102,7 @@ class << self
   # et à mesure des besoins interactivement.
   #
   # RETURN Le résultat final produit par la commande.
-  def run_command command, touches = nil
+  def run_command command, touches = nil, options = nil
     reset_run_command
     if touches
       touches.is_a?(Array) || touches = [touches]
@@ -114,7 +114,10 @@ class << self
     full_command = "cd \"#{APPFOLDER}\";#{command} > #{output_path}"
     # puts "\nCMD: #{full_command}"
     res = `#{full_command}`
-    # puts "RES: #{res.inspect}"
+    if options && options[:debug]
+      puts self.output
+      debug self.output
+    end
     return res
   end
 

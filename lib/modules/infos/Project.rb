@@ -23,19 +23,34 @@ class Project
   #   MÉTHODES D'INSTANCE
 
   def display_infos(last_data)
-    puts String::RC*3
-    puts '-'*80
-    puts 'Titre complet : %s' % [self.title || '---']
-    puts 'Titre court   : %s' % [self.title_abbreviated || '---']
-    puts 'Auteurs       : %s' % [get_authors_or_neant]
-    puts 'Accès         : %s' % self.path.relative_path
-    puts '-'*80
-    puts 'Date création scriv     : %s' % [last_data[:created_at].to_i.as_human_date]
-    puts 'Date d’enregistrement   : %s' % [last_data[:saved_at].to_i.as_human_date]
-    puts '-'*80
-    puts 'Dernière commande jouée : %s %s' % [last_data[:last_command], last_data[:options].collect{|o, v| "--#{o}[=#{v.inspect}]"}.join]
-    puts '-'*80
-    puts String::RC*3
+    puts '
+
+
+    %{separation}
+      Titre complet : %{full_title}
+      Titre court   : %{short_title}
+      Auteurs       : %{authors}
+      Accès         : %{access}
+    %{separation}
+      Date création scriv     : %{created_at}
+      Date d’enregistrement   : %{saved_at}
+    %{separation}
+      Dernière commande jouée : %{command} %{options}
+    %{separation}
+
+
+    
+    ' % {
+      separation:   '-'*80,
+      full_title:   self.title || '---',
+      short_title:  self.title_abbreviated || '---',
+      authors:      get_authors_or_neant,
+      access:       self.path.relative_path,
+      created_at:   last_data[:created_at].to_i.as_human_date,
+      saved_at:     last_data[:saved_at].to_i.as_human_date,
+      command:      last_data[:last_command],
+      options:      last_data[:options].collect{|o, v| "--#{o}[=#{v.inspect}]"}.join
+    }
   end
 
   def get_authors_or_neant
