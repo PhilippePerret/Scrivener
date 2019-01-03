@@ -20,7 +20,7 @@ class Analyse
     given_paths && self.paths = given_paths
     data_valid? || raise(ERRORS[:no_files_to_analyze])
     init_analyse
-    assemble_texts_of_paths
+    assemble_texts_of_paths || return
     texte_entier.proceed_analyse
     table_resultats.calcule_proximites
     save_all
@@ -66,6 +66,8 @@ class Analyse
     CLI.dbg('  Nombre fichiers traités : %i' % nombre_traited)
     CLI.dbg('  Longueur du texte entier : %i' % self.texte_entier.length)
     paths_count == nombre_traited || raise(ERRORS[:nb_doc2treate_unmatch] % [paths_count, nombre_traited])
+    # Une erreur est produite si aucun texte n'est fourni
+    raise(ERRORS[:proximites][:no_text]) if nombre_traited == 0
     CLI.debug_exit
   end
   # /assemble_texts_of_paths

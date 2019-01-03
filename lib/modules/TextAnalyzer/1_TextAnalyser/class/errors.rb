@@ -12,4 +12,9 @@ class TextAnalyzer
     unfound_word:             'Impossible de trouver le mot "%s" (%s)'
   }
 
+  ERRORS.key?(:proximites) || ERRORS.merge!(proximites: Hash.new)
+  ERRORS[:proximites].merge!(
+    no_text:          'Aucun texte à analyser…'
+  )
+
 end #/TextAnalyzer

@@ -60,6 +60,7 @@ class << self
         t.options   = '-%s' % [t.verbose ? 'v' : '']
         # t.ruby_opts = ['-v']
       end
+
       t.test_files=
         if test_files
           test_files

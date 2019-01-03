@@ -37,6 +37,9 @@ require 'test/unit'
 require './lib/required'
 CLI.init # notamment pour que CLI.options ne soit pas nil
 
+# Pour CLI.mode_test?
+ENV['CLI_MODE_TEST'] = 'true'
+
 Dir['./test/support/**/*.rb'].each{|m| require m}
 
 puts "\n\n\n\n"

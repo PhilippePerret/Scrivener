@@ -57,6 +57,9 @@ class CLI
     attr_reader :historique, :i_histo
 
 
+    def mode_test?
+      ENV['CLI_MODE_TEST'] == 'true'
+    end
 
     # Initialisation de CLI
     #

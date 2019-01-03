@@ -57,5 +57,9 @@ class << self
     @last_projects_path_file ||= File.join(APPFOLDER,'.last_projects_data')
   end
 
+  def init_last_projects_data
+    @last_projects_data = nil
+  end
+
 end #/<< self
 end #/Scriver

@@ -1,3 +1,15 @@
+# CLI.mode_test?
+
+Pour que `CLI.mode_test?` retourne `true`, il faut mettre quelque part, par exemple dans le fichier `test_helper.rb` :
+
+```ruby
+
+    ENV['CLI_MODE_TEST'] = 'true'
+
+```
+
+Cela peut notamment avoir une influence sur `raise_by_mode` qui n'affiche que le message d'erreur quand on est en mode test, et pas de backtrace.
+
 # CLI::Test
 
 La classe `CLI::Test` permet de gérer les tests. Elle possède deux méthodes principales, l'une qu'on peut utiliser dans les feuilles de test (`CLI::Test.run_command`) et l'autre qu'on utilise dans un script, pour lancer des tests (`CLI::Test.run`).

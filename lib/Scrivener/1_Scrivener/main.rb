@@ -11,7 +11,9 @@ class << self
 
   # Le mode actuel
   def mode
-    if defined?(MODE_DEVELOPPEMENT) && MODE_DEVELOPPEMENT
+    if CLI.mode_test?
+      :test
+    elsif defined?(MODE_DEVELOPPEMENT) && MODE_DEVELOPPEMENT
       :development
     else
       :production

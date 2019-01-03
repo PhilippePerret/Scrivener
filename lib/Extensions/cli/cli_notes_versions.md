@@ -1,6 +1,12 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.8.1 **
+** Version courante : 1.8.2 **
+
+## Version 1.8.2
+
+  Ajout de la méthode `CLI::mode_test?` pour savoir si on est en mode
+  test. Fonctionne avec la variable environnement 'CLI_MODE_TEST'
+  mise à `'true'`
 
 ## Version 1.8.1
 
