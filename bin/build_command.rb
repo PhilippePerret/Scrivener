@@ -7,10 +7,14 @@
 
 =end
 
-require 'fileutils'
-
-THISFOLDER = File.expand_path(__dir__)
+# Nom de la commande CLI (doit correspondre au fichier qui se trouve
+# au même niveau que ce module et qui lance et gère la commande)
 APPNAME = 'scriv'
+
+# ---------------------------------------------------------------------
+# Ne rien toucher sous cette ligne
+require 'fileutils'
+THISFOLDER = File.expand_path(__dir__)
 
 bin_local_folder  = File.join('/','usr','local','bin')
 app_command_path  = File.join(bin_local_folder, APPNAME)
