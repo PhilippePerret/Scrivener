@@ -36,6 +36,8 @@ module BuildMetadatasModule
     confirm_data_metadata(md_data) || return
     MetaData.new(self, md_key, md_data).create
     xfile.save
+    puts String::RC
+    puts ('Métadonnée %s créée avec succès.' % [md_data['Name'].inspect]).bleu
   end
 
   # ---------------------------------------------------------------------
@@ -64,8 +66,10 @@ module BuildMetadatasModule
       CLI.options[prop] || next
       name = CLI.options[prop] and break
     end
-    CLI::Screen.write_slowly('Nom de la métadonnée (titre)')
-    name ||= askFor('')
+    name ||= begin
+      CLI::Screen.write_slowly('Nom de la métadonnée (titre)')
+      askFor('')
+    end
   end
 
 
@@ -100,7 +104,7 @@ module BuildMetadatasModule
       CLI::Screen.write_slowly('Alignement du texte ("d" pour "à droite", "g" pour "à gauche")')
       choix = getc('', expected_keys: ['d', 'g', 'q'])
       choix != 'q' || raise('Abandon')
-      align = choix == 'd' ? 'Right' : 'Left'
+      return choix == 'd' ? 'Right' : 'Left'
     end
     return align
   end

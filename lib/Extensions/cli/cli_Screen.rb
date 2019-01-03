@@ -12,11 +12,17 @@ class << self
     puts "\033c"
   end
 
-  def write_slowly str, line = :current
-    print '  '
-    str.split('').each do |let|
-      print let
-      sleep 0.04
+  # +line+ Numéro de ligne où il faut écrire le texte
+  def write_slowly str, line = nil, column = nil
+    line && print("\033[#{line};#{column||1}H")
+    if CLI.mode_interactif?
+      print '  '
+      str.split('').each do |let|
+        print let
+        sleep 0.04
+      end
+    else
+      print str
     end
   end
 
