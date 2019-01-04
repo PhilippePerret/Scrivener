@@ -10,16 +10,6 @@ class << self
   def help message
     CLI.debug_entry
     CLI::Screen.less(message)
-#     puts <<-EOT
-#
-#
-# #{('-'*80).jaune}
-# #{message}
-#
-# #{('-'*80).jaune}
-#
-#
-#     EOT
     CLI.debug_exit
   end
 

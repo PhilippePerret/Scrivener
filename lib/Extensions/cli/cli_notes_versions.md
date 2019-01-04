@@ -1,7 +1,12 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.8.3 **
+** Version courante : 1.9.0 **
 
+## Version 1.9.0
+
+  Implémentation de la méthode `CLI::Screen.less` qui singe la com-
+  mande de même nom.
+  
 ## Version 1.8.3
 
   * Librairie `String_CLI.rb` déplacée dans le dossier cli.
