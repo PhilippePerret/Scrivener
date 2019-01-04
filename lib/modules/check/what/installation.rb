@@ -1,11 +1,12 @@
 # encoding: UTF-8
 class Scrivener
 GEM_LIST = {
-  yaml:     {name: 'yaml'   , by_required: true},
-  # yaml:     {name: 'yamleu'   , by_required: true}, # pour tester une erreur
-  plist:    {name: 'plist'  , by_required: true},
-  curses:   {name: 'curses' , by_required: true},
-  rake:     {name: 'rake'   , by_required: true}
+  yaml:       {name: 'yaml'       , by_required: true},
+  # yaml:       {name: 'yamleu'     , by_required: true}, # pour tester une erreur
+  plist:      {name: 'plist'      , by_required: true},
+  curses:     {name: 'curses'     , by_required: true},
+  rake:       {name: 'rake'       , by_required: true},
+  fileutils:  {name: 'fileutils'  , by_required: true}
 }
 DATA_CHECK_INSTALL = {
   scrivener_app: {

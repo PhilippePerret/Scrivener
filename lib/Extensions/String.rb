@@ -1,7 +1,9 @@
 # encoding: UTF-8
 #
-# version 1.4.4
+# version 1.4.5
 #
+# Note version 1.4.5
+#   Simplifications.
 # Note version 1.4.4
 #   Ajout de la méthode `or_nil`
 # Note version 1.4.3
@@ -136,8 +138,7 @@ class String
 
   # Méthode qui strip la chaine courante mais renvoie NIL si elle est vide.
   def strip_nil
-    s = self.strip
-    s == '' ? nil : s
+    self.strip.or_nil
   end
 
   # Self est de la forme JJ/MM/YYYY et la méthode renvoie le

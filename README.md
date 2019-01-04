@@ -23,7 +23,7 @@ Parmi ces fonctionnalités, on peut notablement noter :
 
 * Clone le présent dossier `Scrivener` sur ton ordinateur (dans le dossier téléchargement, par exemple).
 * Place le dossier à l'endroit voulu (⛔️ sauf le dossier `/Applications`).
-* Ouvre l’application Terminal 💻 (qui se trouve dans ton dossier `/Applications/Utilitaires/`).
+* Ouvre l’application Terminal 💻 (qui se trouve dans ton dossier `/Applications/Utilitaires/`). Si tu comptes utiliser efficacement la commande `scriv`, je te conseille vivement de placer ce Terminal dans ton dock, juste à côté de ton application Scrivener.
 * Rejoins ton dossier en tapant dans le Terminal ✏️ `cd ~/vers/dossier/Scrivener` (tu dois remplacer `vers/dossier/` par la liste des dossiers depuis ton bureau. Si, par exemple, tu as placé ce dossier `Scrivener` dans ton dossier `Documents`, la commande sera `cd ~/Documents/Scrivener`).
 * Joue la commande ✏️ `pwd` pour t'assurer que tu es bien dans le bon dossier (la commande devrait retourner quelque chose comme `/Users/chezmoi/Documents/Scrivener`).
 * Joue la commande ✏️ `ruby ./bin/build_command.rb` dans le Terminal pour installer la commande.
