@@ -6,6 +6,7 @@ class << self
   # message +message+
   def help message
     CLI.debug_entry
+    CLI::Screen.clear
     puts <<-EOT
 
 
