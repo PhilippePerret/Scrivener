@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    curses (1.2.5)
+    plist (3.5.0)
+    rake (12.3.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  curses!
+  plist (>= 3.4.0)!
+  rake!
+
+BUNDLED WITH
+   1.16.4
