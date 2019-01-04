@@ -9,7 +9,6 @@
 # Voir aussi le module ask_for_test.rb qui fonctionne en parallèle de celui-ci
 #
 require 'io/console'
-require_relative 'String'
 
 ASK_TABULATION = ' '
 
