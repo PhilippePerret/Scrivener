@@ -1,6 +1,13 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.8.2 **
+** Version courante : 1.8.3 **
+
+## Version 1.8.3
+
+  * Librairie `String_CLI.rb` déplacée dans le dossier cli.
+  * `cli_app.rb` sortie du dossier (pour pouvoir copier le dossier `cli`)
+  sans détruire ce fichier qui est propre à toutes les applications.
+  * Librairie `ask.rb` placée dans le dossier cli.
 
 ## Version 1.8.2
 
