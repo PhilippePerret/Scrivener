@@ -57,3 +57,15 @@ Tu peux maintenant passer à la suite.
 * Si tout se passe bien, tu devrais voir une analyse textuelle de ton projet avec notamment les fréquences et les proximités,
 * Tape ✏️ `scriv prox -h` pour obtenir l'aide de cette commande,
 * Ou tape ✏️ `scriv commands` pour voir la liste de toutes les commandes que tu peux utiliser.
+
+
+### Conclusion
+
+Amuse-toi bien !
+
+Et si tu rêves de trouver d'autres fonctionnalités, n'hésite pas à venir les demander sur le [groupe Facebook](https://www.facebook.com/groups/1893652697386562/).
+
+
+### Mise en garde
+
+Cette application est fournie "telle quelle" et vous l'utilisez à vos propres risques et périls. En aucun cas les concepteurs ne pourront être responsables des dommages éventuellement occasionnés.
