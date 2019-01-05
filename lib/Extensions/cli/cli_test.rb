@@ -18,6 +18,11 @@ class << self
   # @usage    CLI::Test.run
   def run(path, options = nil)
     CLI.debug_entry
+    if CLI.options[:help]
+      require_relative 'test_aide'
+      CLI::Screen.less(CLITestHelp::aide_test_cmd)
+      return
+    end
     options ||= CLI.options
     path = path.to_s # peut être nil
 
@@ -45,7 +50,11 @@ class << self
     CLI.dbg "SUIVI --> Create Rake application"
     app = Rake.application
     # app.init('raketest', nil)
-    app.init('raketest', [])
+    app.init('raketest', ['-f'])
+    #                       ^---------- juste pour obliger à avoir seulement
+    #                                   cette option. Sinon, prend tout ARGV
+    #                                   et ça pose des problèmes avec les
+    #                                   options comme --location par exemple.
     CLI.dbg "SUIVI --> Rake application inited"
     # Le deuxième argument est ARGV par défaut, mais on ne doit rien
     # envoyer ici parce que c'est CLI qui doit gérer ces options
@@ -59,6 +68,12 @@ class << self
       if t.verbose
         t.options   = '-%s' % [t.verbose ? 'v' : '']
         # t.ruby_opts = ['-v']
+      end
+      # t.options = '-h'
+      # t.options = '--testcase="avec des documents précédemment construits" '
+      if test_line = CLI.options.delete(:line) || CLI.options.delete(:location)
+        t.options ||= ''
+        t.options << +" --location=#{test_line}"
       end
 
       t.test_files=

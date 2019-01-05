@@ -111,6 +111,7 @@ class CLI
         arguments_v.each do |argv|
           if argv.start_with?('-')
             traite_arg_as_option argv
+            break if @mark_uncaugth_options_found
           elsif self.command.nil?
             self.command_init = argv
             self.command = command_vdef(argv)
@@ -219,7 +220,13 @@ class CLI
     end
 
     def traite_arg_as_option arg
-      if arg.start_with?('--')
+      if arg == '--'
+        # Certaines
+        # Les options qui seront définies après cette marque ne doivent pas être
+        # étudiées, on peut s'arrêter là
+        @mark_uncaugth_options_found = true
+        return
+      elsif arg.start_with?('--')
         opt, val = arg[2..-1].strip.split('=')
         opt.gsub!(/-/,'_')
         opt = LANG_OPT_TO_REAL_OPT[opt] || APP_CORRESPONDANCES[opt] || opt
