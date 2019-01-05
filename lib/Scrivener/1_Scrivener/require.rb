@@ -3,7 +3,12 @@ class << self
 
   def require_module module_name
     module_full_path = File.join(APPFOLDER,'lib','modules',module_name)
-    File.exist?(module_full_path) || raise(ERRORS[:unknown_module_required] % module_name)
+    File.exist?(module_full_path) || begin
+      raise(ERRORS[:unknown_module_required] % module_name)
+    rescue Exception => e
+      raise_by_mode(e, CLI.verbose? ? :tout_voir : Scrivener.mode)
+      raise
+    end
     Dir['%s/**/*.rb' % [module_full_path]].each do |m|
       # puts '--> require %s' % m
       require m

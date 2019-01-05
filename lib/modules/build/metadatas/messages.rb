@@ -41,7 +41,10 @@ def raise_err_with(err_id, *args)
   err = ERRORS[:build][:custom_metadatas][err_id]
   raise(err % args)
 end
+end #/Project
+end #/Scrivener
 
+module BuildMetadatasModule
 class MetaData
 def raise_type_invalid(type)
   project.raise_err_with(:type_invalid, type)
@@ -53,5 +56,4 @@ def raise_options_required_for_cm_list
   project.raise_err_with(:options_required)
 end
 end #/MetaData
-end #/Project
-end #/Scrivener
+end #/module

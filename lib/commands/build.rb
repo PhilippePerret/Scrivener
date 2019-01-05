@@ -24,38 +24,27 @@ if CLI.options[:help]
   Scrivener.help(full_aide)
 
 else
+  # Si ce n'est pas l'aide qui est demandée
   class Scrivener
-ERRORS.merge!(
-  build_thing_required: 'Il faut définir la chose à construire en deuxième argument. P.e. `scriv build documents ...`',
-  build_invalid_thing:  '"%s" est une chose à construire invalide (choisir parmi %s).'
-)
   class Project
-    BUILDABLE_THINGS = {
-    documents:  {hname: 'documents'},
-    tdm:        {hname: 'table des matières'},
-    metadatas:  {hname: 'metadatas'}
-    }
   class << self
     def exec_build_thing thing
+      # On a besoin des librairies, qui contiennent notamment les
+      # message d'erreur.
+      Scrivener.require_module('Scrivener')
+      Scrivener.require_module('build/common')
       # Cette "thing" est-elle valide
       thing || raise_thing_required
       thing = thing.strip.downcase.to_sym
       is_thing?(thing)  || raise_invalid_thing
+      Scrivener.require_module('build/%s' % thing)
 
       # On peut lancer l'opération
-      Scrivener.require_module('Scrivener')
-      Scrivener.require_module('build/%s' % thing)
       Scrivener::Project.exec_build
     end
     # Return true si +thing+ est une chose constructible
     def is_thing?(thing)
       BUILDABLE_THINGS.key?(thing)
-    end
-    def raise_thing_required
-      raise(ERRORS[:build_thing_required])
-    end
-    def raise_invalid_thing(thing)
-      raise(ERRORS[:build_invalid_thing] % thing)
     end
 
   end #/<< self

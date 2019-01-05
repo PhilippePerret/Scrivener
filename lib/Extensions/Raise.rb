@@ -2,9 +2,10 @@
 
 
 def raise_by_mode err, mode = nil
+  mode = :tout_voir if CLI.verbose? # essai non testé
   puts String::RC*3
   case mode
-  when :pour_tout_voir # mettre "mode"
+  when :tout_voir # mettre "mode"
     puts ('ERREUR : ' + err.message).rouge
     puts err.backtrace.join(String::RC).rouge
   when :development, :dev, :developpement

@@ -114,15 +114,15 @@ EOT
     if building_settings.id_column || building_settings.metadatas_columns
       hmetadatas = Hash.new
       if building_settings.id_column
-        hmetadatas.merge!(id: {title: 'ID', type: :text})
+        hmetadatas.merge!('ID' => {'Title' => 'ID', 'Type' => :text})
       end
       if building_settings.metadatas_columns
         building_settings.metadatas_columns.each do |col_idx, col_name|
-          hmetadatas.merge!(col_name => {title: col_name, type: :text})
+          hmetadatas.merge!(col_name => {'Title' => col_name, 'Type' => :text})
         end
       end
       # puts "--> hmetadatas: #{hmetadatas.inspect}"
-      define_custom_metadata_if_needed(hmetadatas)
+      define_custom_metadatas_if_needed(hmetadatas)
     end
   end
   # /build_custom_metadatas
@@ -226,12 +226,11 @@ TABLE_MODIFICATIONS = '
     end
 
     rf_temp.rewind
-    puts apercu % {
-      flabels:      building_settings.formated_labels,
-      separation:   separation,
-      lignes:       rf_temp.read,
-      fspeccols:    formated_spec_cols
-    }
+    puts apercu % { flabels:      building_settings.formated_labels,
+                    separation:   separation,
+                    lignes:       rf_temp.read,
+                    fspeccols:    formated_spec_cols
+                  }
   end
 
   def simulation?

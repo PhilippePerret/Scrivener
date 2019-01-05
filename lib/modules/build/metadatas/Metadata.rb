@@ -37,6 +37,9 @@ class MetaData
   # Les valeurs supplémentaires attendues en fonction du type de la métadonnée
   attr_accessor :supplement_values
 
+  # +projet+  Instance Scrivener::Project
+  # +key+     La clé de la métadonnée, ne sert pas vraiment
+  # +data+    Les données de la métadonnée (en fonction de son type)
   def initialize projet, key, data
     self.projet = projet
     self.key    = key
@@ -140,6 +143,7 @@ class MetaData
   # Pour ajouter les valeurs supplémentaires en fonction du type de
   # la métadonnée
   def get_supp_values_by_type
+    CLI.debug_entry
     sup_values = Hash.new
     case type
     when :text
@@ -165,12 +169,17 @@ class MetaData
     # debug "---- data après définition supp-value: #{data.inspect}"
     # debug "---- supplement_values après définition supp-value: #{sup_values.inspect}"
     self.supplement_values = sup_values
+  rescue Exception => e
+    CLI.debug(e)
+    raise_by_mode(e, Scrivener.mode)
+  ensure
+    CLI.debug_exit
   end
   # /get_supp_values_by_type
   private :get_supp_values_by_type
 
   # Les clés de +data+ qu'il ne faut pas transformer
-  NO_KEY_TRANSFORM = ['DateType', 'DateFormat']
+  NO_KEY_TRANSFORM = ['Title', 'Type', 'DateType', 'DateFormat']
   # Les valeurs de +data+ qu'il ne faut pas transformer
   NO_VAL_TRANSFORM = ['Title', 'DateType', 'DateFormat', 'Format']
 
@@ -178,13 +187,14 @@ class MetaData
   # ligne de commande) et en fait des données conforme. Par exemple, si
   # le type doit toujours être capitalisé
   def conform_data
+    CLI.debug_entry
     newh = Hash.new
 
     # debug "--- data initiale: #{data.inspect}"
 
     # Dans un premier temps, on passe toutes les clés en majuscule
     data.each do |k, v|
-      k = NO_KEY_TRANSFORM.include?(k) ? k : k.capitalize
+      k = NO_KEY_TRANSFORM.include?(k) ? k.to_s : k.to_s.capitalize
       newh.merge!(k => v)
     end
 
@@ -222,6 +232,11 @@ class MetaData
     end
     # debug "-- data conformisées : #{data.inspect}"
     self.data = data
+  rescue Exception => e
+    CLI.debug(e)
+    raise_by_mode(e, Scrivener.mode)
+  else
+    CLI.debug_exit
   end
   # /conform_data
 
