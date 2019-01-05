@@ -1,7 +1,9 @@
 # encoding: UTF-8
 #
-# version 1.4.5
+# version 1.4.6
 #
+# Note version 1.4.6
+#   Ajout de la méthode `affixe`.
 # Note version 1.4.5
 #   Simplifications.
 # Note version 1.4.4
@@ -71,6 +73,15 @@ class String
       titre.join(' ')
     end
   end #/<< self
+
+  # ---------------------------------------------------------------------
+  #   Instance
+
+  # Retourne l'affixe (nom sans extension) de self considéré comme
+  # une path
+  def affixe
+    File.basename(self, File.extname(self))
+  end
 
   def titleize
     t = self.downcase

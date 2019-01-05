@@ -5,6 +5,10 @@
   construire le lien symbolique qui permet de lancer le script en
   ligne de commande.
 
+  ATTENTION : POUR FAIRE LA VERSION "FINALE" (CELLE DANS LE DOSSIER
+  APPLICATION) IL FAUT METTRE MODE_DEVELOPPEUR CI-DESSOUS À FALSE
+  AVANT DE LANCER CE MODULE.
+
 =end
 
 # Nom de la commande CLI (doit correspondre au fichier qui se trouve

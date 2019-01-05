@@ -49,7 +49,7 @@ class << self
   # Retourne la liste humaine des choses constructible avec la
   # commande build
   def buildable_things_hlist
-    @buildable_things_hlist ||= THINGS.collect{|t,d| t.to_s}.pretty_join
+    @buildable_things_hlist ||= BUILDABLE_THINGS.collect{|t,d| t.to_s}.pretty_join
   end
 
   def raise_thing_required

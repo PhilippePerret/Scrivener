@@ -35,7 +35,7 @@ class String
   #   :indent       Retrait de chaque ligne.
   def self.truncate str, line_len, options = nil
     options ||= Hash.new
-    truncate_and_justify(str, line_len, options.merge!(justify: false))
+    truncate_and_justify(str, line_len, options.merge(justify: false))
   end
 
   def self.truncate_and_justify str, line_len, options = nil
