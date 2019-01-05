@@ -104,6 +104,11 @@ class CLI
       # On ajoute cette commande à l'historique courant
       add_historique(self.last_command)
 
+      # Si on rencontre la marque '--' seule, on continue d'étudier
+      # les options, mais on ne génère plus d'alerte si on en trouve
+      # qui ne sont pas connues.
+      @mark_uncaugth_options_found = false
+
       # Ensuite, on peut trouver des paramètres ou des options. Les options
       # se reconnaissent au fait qu'elles commencent toujours par "-" ou "--"
       # puts "ARGV : #{ARGV.inspect}"
@@ -111,7 +116,6 @@ class CLI
         arguments_v.each do |argv|
           if argv.start_with?('-')
             traite_arg_as_option argv
-            break if @mark_uncaugth_options_found
           elsif self.command.nil?
             self.command_init = argv
             self.command = command_vdef(argv)
@@ -239,10 +243,11 @@ class CLI
         else
           opt_dim, val = arg[1..-1].strip.split('=')
           opt = DIM_OPT_TO_REAL_OPT[opt_dim]
-          opt != nil || begin
+          opt != nil || @mark_uncaugth_options_found || begin
             error "L'option #{opt_dim.inspect} est inconnue de CLI… Il faut la définir dans cli_app.rb."
             return
           end
+          opt ||= opt_dim # quand @mark_uncaugth_options_found est vrai
         end
       end
       self.options.merge!(opt.to_sym => real_val_of(val))

@@ -19,6 +19,7 @@ class << self
   def run(path, options = nil)
     CLI.debug_entry
     if CLI.options[:help]
+      # Si l'aide est demandée, on l'affiche et on s'en retourne.
       require_relative 'test_aide'
       CLI::Screen.less(CLITestHelp::aide_test_cmd)
       return
