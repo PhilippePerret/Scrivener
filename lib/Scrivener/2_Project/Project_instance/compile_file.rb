@@ -27,16 +27,28 @@ class Scrivener
     # Retourne la liste des auteurs
     # C'est un Array contenant des Hash {:firstname, :lastname, :role}
     def get_authors
-      # # Ne retourne pas tous les auteurs mais seulement le premier :
-      # compile_xml.metadata.elements['Authors'].elements['Author'].collect {|n| n.value}
-
-      # Retourne bien tous les auteurs
       REXML::XPath.each(compile_xml.docxml, '//MetaData/Authors/Author').collect do |n|
-        nom, prenom =
-          n.attributes['FileAs'] ? n.attributes['FileAs'].split(',') : [n.text, '']
-        {firstname: prenom.strip, lastname: nom.strip, role: n.attributes['Role']}
+        get_author_info_from_node(n)
       end
+    end
 
+    def get_author
+      # On essaie d'abord d'obtenir les informations par les data Surname et
+      # Forename.
+      nom     = compile_xml.get_xpath('//MetaData/Surname')
+      prenom  = compile_xml.get_xpath('//MetaData/Forename')
+
+      unless (nom+prenom).empty?
+        {firstname: prenom, lastname: nom, role: 'MainWriter'}
+      else
+        get_author_info_from_node(compile_xml.metadata.elements['Authors'].elements['Author'].first)
+      end
+    end
+
+    def get_author_info_from_node n
+      nom, prenom =
+        n.attributes['FileAs'] ? n.attributes['FileAs'].split(',') : [n.text, '']
+      {firstname: prenom.strip, lastname: nom.strip, role: n.attributes['Role']}
     end
 
     def remove_comment?

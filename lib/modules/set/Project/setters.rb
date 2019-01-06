@@ -89,17 +89,23 @@ class Project
     MODIFIABLE_PROPERTIES.merge!(h)
   end
 
-
+  QUESTIONS = {
+    set_project_name: 'Voulez-vous mettre le nom du projet %s à %s ?'
+  }
 
   # Définir le nom de fichier du projet
-  add_modpro(
-    :name => {hname: 'nom du fichier', variante: 'nom', description: 'Pour définir le nom du fichier du projet.', exemple: "nouveau_nom".inspect,
-      category: :project_infos, confirmation: 'Nom du fichier mis à %s'}
+  add_modpro(:name => { hname: 'nom du fichier',
+                        variante: 'nom',
+                        description: 'Pour définir le nom du fichier du projet.',
+                        exemple: "nouveau_nom".inspect,
+                        category: :project_infos,
+                        confirmation: 'Nom du fichier mis à %s'
+                      }
   )
   def set_name value
     new_nom = value.gsub(/ /, '_')
     new_nom.end_with?('.scriv') || new_nom.concat('.scriv')
-    if yesOrNo('Voulez-vous mettre le nom du projet %s à %s ?' % [File.basename(path).inspect, new_nom.inspect])
+    if yesOrNo(QUESTIONS[:set_project_name] % [File.basename(path).inspect, new_nom.inspect])
       old_path_scrivx = self.xfile.path
       new_path_scrivx = File.join(path, "#{new_nom}x")
       FileUtils.move(old_path_scrivx, new_path_scrivx)
@@ -119,10 +125,13 @@ class Project
   # Définir l'auteur du projet
   # Note : chaque setter doit définir cette valeur pour tenir à jour la
   # table des matières.
-  add_modpro(
-    :author => {hname: 'auteur', variante: 'auteur', description: 'Pour définir le prénom et nom de l’auteur principal du projet.', exemple: "Alphonse Jouard".inspect,
-      category: :project_infos, confirmation: 'Auteur principal mis à %s'}
-  )
+  add_modpro(:author => { hname: 'auteur',
+                          variante: 'auteur',
+                          description: 'Pour définir le prénom et nom de l’auteur principal du projet.',
+                          exemple: "Alphonse Jouard".inspect,
+                          category: :project_infos,
+                          confirmation: 'Auteur principal mis à %s'
+                        })
   # Trois façons de le définir avec +value+ :
   #   - "Prénom Nom"
   #   - "Nom, Prénom"
@@ -160,9 +169,13 @@ class Project
   end
 
   # Définir les auteurs du projet
-  add_modpro(
-    :authors => {hname: 'auteurs', variante: 'auteurs', description: 'Pour définir les prénoms et noms de tous les auteurs du projet.', exemple: "John Ford, Fred Vargas".inspect,
-      category: :project_infos, confirmation: 'Auteurs mis à %s'}
+  add_modpro(:authors => {  hname: 'auteurs',
+                            variante: 'auteurs',
+                            description: 'Pour définir les prénoms et noms de tous les auteurs du projet.',
+                            exemple: "John Ford, Fred Vargas".inspect,
+                            category: :project_infos,
+                            confirmation: 'Auteurs mis à %s'
+                          }
   )
   def set_authors value
     compile_xml.remove_children_of_xpath('//MetaData/Authors')
@@ -437,7 +450,7 @@ class Project
 
 
   # ---------------------------------------------------------------------
-  # Méthode utilitaires
+  # Méthode fonctionnelles
 
   def human_value_objectif_to_real_value valeur
     SWP.signs_from_human_value(valeur, true)

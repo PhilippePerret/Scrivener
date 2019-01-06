@@ -75,7 +75,7 @@ class << self
       # t.options = '--testcase="avec des documents précédemment construits" '
       if test_line = CLI.options.delete(:line) || CLI.options.delete(:location)
         t.options ||= ''
-        t.options << +" --location=#{test_line}"
+        t.options += " --location=#{test_line}"
       end
 
       t.test_files=

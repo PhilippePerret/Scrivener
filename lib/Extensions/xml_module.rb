@@ -113,6 +113,10 @@ module XMLModule
     end
     alias :remove_children_of_xpath :delete_all_of_xpath
 
+    # Pour obtenir facilement le texte de l'élément
+    def get_xpath xpath
+      REXML::XPath.first(docxml, xpath).text
+    end
     # Pour définir un élément, par l'xpath
     def set_xpath xpath, value
       REXML::XPath.first(docxml, xpath).text = value
