@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # encoding: UTF-8
 class Scrivener
 class << self
@@ -13,9 +14,9 @@ class << self
     lines << separator
     expected_keys = Array.new
     expected_keys << 'q' #pour renoncer
-    last_projects_data.each_with_index do |dprojet, index|
-      expected_keys << index.to_s
-      findex = index.to_s.rjust(2)
+    last_projects_data.each_with_index do |dprojet, idx|
+      expected_keys << idx.to_s
+      findex = idx.to_s.rjust(2)
       lines << LINE_LAST_PROJET % [findex, ftitle(dprojet), dprojet[:path].relative_path]
     end
     lines << separator
@@ -40,6 +41,7 @@ class << self
     title_for(dprojet).ljust(30)
   end
   def title_for(dprojet)
+    puts "-- dprojet: #{dprojet.inspect}"
     dprojet[:title] || dprojet[:path].split(File::SEPARATOR)[-2..-1].join(File::SEPARATOR)
   end
 

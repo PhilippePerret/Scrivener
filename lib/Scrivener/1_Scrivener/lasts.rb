@@ -39,26 +39,36 @@ class << self
       last_projects_data = last_projects_data[-10..-1]
     end
     save_last_projects_data
+    CLI.debug_exit
   end
   # Pour remontrer les informations du dernier projet utilisé
   def last_projects_data
-    @last_projects_data ||= get_last_projects_data || Array.new
+    @last_projects_data ||= get_last_projects_data
   end
   def get_last_projects_data
+    CLI.debug_entry
     if File.exists?(last_projects_path_file) && File.stat(last_projects_path_file).size > 0
       File.open(last_projects_path_file,'rb'){|f| Marshal.load(f)}
+    else
+      Array.new
     end
+  ensure
+    CLI.debug_exit
   end
   def save_last_projects_data
+    CLI.debug_entry
     lastdata = last_projects_data # pour qu'il ne soit pas ouvert
     File.open(last_projects_path_file,'wb'){|f| Marshal.dump(lastdata, f)}
+    CLI.debug_exit
   end
   def last_projects_path_file
     @last_projects_path_file ||= File.join(APPFOLDER,'.last_projects_data')
   end
 
+  # Pour les tests
   def init_last_projects_data
-    @last_projects_data = nil
+    @last_projects_data       = nil
+    @last_projects_path_file  = nil
   end
 
 end #/<< self
