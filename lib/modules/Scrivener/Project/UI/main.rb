@@ -4,9 +4,20 @@ class Project
     @ui ||= UI.new(self)
   end
   class UI
+
     attr_accessor :projet
     def initialize projet
       self.projet = projet
+    end
+
+    # Sert principalement à faire <projet>.ui au lieu de <projet>.ui_common
+    # qui fait plutôt référence au fichier xml.
+    def method_missing meth, &block
+      if projet.ui_common.respond_to?(meth)
+        projet.ui_common.send(meth, &block)
+      else
+        raise NoMethodError, meth
+      end
     end
 
     # ---------------------------------------------------------------------

@@ -21,8 +21,7 @@ class Project
     compiler_sans_annotations:    :remove_annotations_on_compile,
     entete_editeurs:              :editors_header,
     pied_de_page_editeurs:        :editors_footer,
-    mode_vue_editeur1:            :editor1_view_mode,
-    mode_vue_editeur2:            :editor2_view_mode,
+    mode_vue_editeur:             :editor_view_mode,
     mode_vue_groupe_editeur1:     :editor1_group_view_mode,
     mode_vue_groupe_editeur2:     :editor2_group_view_mode,
     nom:                          :name,
@@ -42,7 +41,7 @@ class Project
   DIVEXPLI = {
     factor_or_pourcentage: 'On peut le définir soit par un facteur (zoom_editor=2.5) soit par un pourcentage (zoom_editor="150%").',
     yes_or_no_values: {'Yes' => [nil, 'Yes', 'yes', 'y', 'oui', 'o', 'true', 'vrai'], 'No' => ['n', 'No', 'non', 'false', 'faux']},
-    modes_vues: {'Single' => ['Single', 'Texte', 'T'], 'Scrivenings' => ['Scrivenings', 'Textes', 'S'], 'Corkboard' => ['Corkboard', 'C'], 'Outliner' => ['Plan', 'Outliner', 'O']}
+    modes_vues: {'Single' => ['Single', 'Texte', 'Text', 'T'], 'Scrivenings' => ['Scrivenings', 'Textes', 'S'], 'Corkboard' => ['Corkboard', 'Tableau', 'C'], 'Outliner' => ['Plan', 'Outliner', 'O']}
   }
 
   # ---------------------------------------------------------------------
@@ -243,20 +242,29 @@ class Project
   # ---------------------------------------------------------------------
   #   MÉTHODES INTERFACE ÉDITEURS
 
-  add_modpro(
-    :editors_header => {hname: 'Visibilité des entêtes des éditeurs', variante: 'entete_editeurs', description: 'Pour définir si les entêtes doivent être visibles dans les deux éditeurs.', exemple: 'Yes', values: DIVEXPLI[:yes_or_no_values],
-      category: [:interface, :editors], confirmation: 'Visibilité des entêtes mise à %s'}
-  )
+  add_modpro(:editors_header => { hname: 'Visibilité des entêtes des éditeurs',
+                                  variante: 'entete_editeurs',
+                                  description: 'Pour définir si les entêtes doivent être visibles dans les deux éditeurs.',
+                                  exemple: 'Yes',
+                                  values: DIVEXPLI[:yes_or_no_values],
+                                  category: [:interface, :editors],
+                                  confirmation: 'Visibilité des entêtes mise à %s'
+                                })
   def set_editors_header value
     value = yes_or_no_value(value)
     project.ui_common.editor1.header_visible(value == 'Yes')
     project.ui_common.editor2.header_visible(value == 'Yes')
     confirme(:editors_header, value.inspect)
   end
-  add_modpro(
-    :editors_footer => {hname: 'Visibilité des pieds de page des éditeurs', variante: 'pied_de_page_editeurs', description: 'Pour définir si les pieds de page doivent être visibles dans les deux éditeurs.', exemple: 'Yes', values: DIVEXPLI[:yes_or_no_values],
-      category: [:interface, :editors], confirmation: 'Visibilité des pieds de page mise à %s'}
-  )
+
+  add_modpro(:editors_footer => { hname: 'Visibilité des pieds de page des éditeurs',
+                                  variante: 'pied_de_page_editeurs',
+                                  description: 'Pour définir si les pieds de page doivent être visibles dans les deux éditeurs.',
+                                  exemple: 'Yes',
+                                  values: DIVEXPLI[:yes_or_no_values],
+                                  category: [:interface, :editors],
+                                  confirmation: 'Visibilité des pieds de page mise à %s'
+                                })
   def set_editors_footer value
     value = yes_or_no_value(value)
     project.ui_common.editor1.footer_visible(value == 'Yes')
@@ -265,29 +273,21 @@ class Project
   end
 
   add_modpro(
-    :editor1_view_mode => {hname: 'Mode de vue de l’éditeur principal', variante: 'mode_vue_editeur1', description: 'Pour définir le mode d’affichage de l’éditeur principal, c’est-à-dire pour définir s’il doit afficher le ou les textes, le tableau d’affichage ou le plan.', exemple: 'Plan',
-      values: DIVEXPLI[:modes_vues], category: [:interface, :editors], confirmation: 'Mode courant de vue de l’éditeur principal mis à %s'
-    }
-  )
-  def set_editor1_view_mode value
+    :editor_view_mode => { hname: 'Mode de vue de l’éditeur principal',
+                            variante: 'mode_vue_editeur',
+                            description: 'Pour définir le mode d’affichage de l’éditeur principal, c’est-à-dire pour définir s’il doit afficher le ou les textes, le tableau d’affichage ou le plan.',
+                            exemple: 'Plan',
+                            values: DIVEXPLI[:modes_vues],
+                            category: [:interface, :editors],
+                            confirmation: 'Mode courant de vue de l’éditeur principal mis à %s'
+                          })
+  def set_editor_view_mode value
     value = real_value_in(value.capitalize, DIVEXPLI[:modes_vues]) || return
     project.ui_common.editor1.current_view_mode= value
-    confirme(:editor1_view_mode, value.inspect)
-  end
-  add_modpro(
-    :editor2_view_mode => {hname: 'Mode de vue de l’éditeur secondaire', variante: 'mode_vue_editeur2', description: 'Pour définir le mode d’affichage de l’éditeur secondaire, c’est-à-dire pour définir s’il doit afficher le ou les textes, le tableau d’affichage ou le plan.', exemple: 'Corkboard',
-      values: DIVEXPLI[:modes_vues], category: [:interface, :editors], confirmation: 'Mode courant de vue de l’éditeur secondaire mis à %s'
-    }
-  )
-  def set_editor2_view_mode value
-    value = real_value_in(value.capitalize, DIVEXPLI[:modes_vues]) || return
-    project.ui_common.editor2.current_view_mode= value
-    confirme(:editor2_view_mode, value.inspect)
+    confirme(:editor_view_mode, value.inspect)
   end
 
-
-  add_modpro(
-    :editor1_group_view_mode => {hname: 'Mode de vue de groupe dans l’éditeur principal', variante: 'mode_vue_groupe_editeur1', description: 'Pour définir le mode d’affichage d’un groupe de documents ou de dossier dans l’éditeur principal, c’est-à-dire pour définir s’il doit afficher les textes, le tableau d’affichage ou le plan.', exemple: 'Plan',
+  add_modpro( :editor1_group_view_mode => {hname: 'Mode de vue de groupe dans l’éditeur principal', variante: 'mode_vue_groupe_editeur1', description: 'Pour définir le mode d’affichage d’un groupe de documents ou de dossier dans l’éditeur principal, c’est-à-dire pour définir s’il doit afficher les textes, le tableau d’affichage ou le plan.', exemple: 'Plan',
       values: DIVEXPLI[:modes_vues], category: [:interface, :editors], confirmation: 'Mode courant de vue de groupe de l’éditeur principal mis à %s'
     }
   )

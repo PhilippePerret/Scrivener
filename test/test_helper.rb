@@ -40,6 +40,7 @@ CLI.init # notamment pour que CLI.options ne soit pas nil
 # Pour CLI.mode_test?
 ENV['CLI_MODE_TEST'] = 'true'
 
+
 def stop_mode_test
   # ENV['CLI_MODE_TEST'] = nil
   ENV.delete('CLI_MODE_TEST')
@@ -49,6 +50,8 @@ def rerun_mode_test
 end
 
 Dir['./test/support/**/*.rb'].each{|m| require m}
+
+include ModuleHandyMethods
 
 puts "\n\n\n\n"
 

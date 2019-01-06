@@ -1,12 +1,23 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.9.0 **
+** Version courante : 1.9.2 **
+
+## Version 1.9.2
+
+  Méthode `CLI::Screen.select_in` qui permet de choisir dans une lis-
+  te de valeurs indexées.
+  
+## Version 1.9.1
+
+  Ajout de l'option :no_slowly pour empêcher d'afficher les messages
+  lentement à l'écran (CLI::Screen.write_slowly). Utile pour le
+  développement.
 
 ## Version 1.9.0
 
   Implémentation de la méthode `CLI::Screen.less` qui singe la com-
   mande de même nom.
-  
+
 ## Version 1.8.3
 
   * Librairie `String_CLI.rb` déplacée dans le dossier cli.

@@ -15,7 +15,7 @@ class << self
   # +line+ Numéro de ligne où il faut écrire le texte
   def write_slowly str, line = nil, column = nil
     line && goto(line,column)
-    if CLI.mode_interactif?
+    if CLI.mode_interactif? && !CLI.options[:no_slowly]
       print '  '
       str.split('').each do |let|
         print let
@@ -28,6 +28,42 @@ class << self
 
   def goto line, column
     print("\033[#{line};#{column||1}H")
+  end
+
+  # Pour choisir dans une liste de valeur, par l'index de cette valeur
+  # dans la liste.
+  # La touche 'q' permet toujours de sortir. Mais elle doit être traitée
+  # par la méthode appelante, elle renvoie nil.
+  # Sinon, c'est le choix 0-start qui est retourné.
+  #
+  # +liste+       Liste des valeurs. Ce sont des Hash.
+  #               Si Liste est un Hash, on prend ses values.
+  #
+  # +options+
+  #   :ktitle     La clé (propriété) qui contient le texte à écrire dans la
+  #               liste de choix. :item par défaut
+  #   :multiple   Plusieurs choix possibles (séparés par des virgules)
+  #               TODO À implémenter
+  def select_in liste, options = nil
+    options ||= Hash.new
+    options.key?(:ktitle) || options.merge!(ktitle: :item)
+    options.key?(:invite) || options.merge!(invite: '  Votre choix')
+    liste.is_a?(Hash) && liste = liste.values
+    ekeys = Array.new
+    puts String::RC*2
+    liste.each_with_index do |d, idx|
+      lettre = (97+idx).chr
+      puts '    %s : %s' % [lettre, d[options[:ktitle]]]
+      ekeys << lettre
+    end
+    ekeys << 'q'
+    puts String::RC*2
+    choix = getc(options[:invite], {expected_keys: ekeys})
+    if choix != 'q'
+      choix.ord - 97
+    else
+      nil
+    end
   end
 
   # Fonctionne comme la commande `less` en affichant petit à petit le

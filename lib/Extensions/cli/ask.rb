@@ -22,7 +22,7 @@ def getc message, options = nil
     deux_points = [':','?'].include?(options[:invite].strip[-1]) ? '' : ': '
     print ASK_ON_TWO_LINES % [message, options[:invite], deux_points]
   else
-    deux_points = [':','?'].include?(message.strip[-1]) ? '' : ': '
+    deux_points = [':','?', '>'].include?(message.strip[-1]) ? '' : ': '
     print ASK_ON_ONE_LINE % [message, deux_points]
   end
   while

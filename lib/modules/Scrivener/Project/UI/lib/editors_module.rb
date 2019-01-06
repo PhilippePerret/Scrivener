@@ -108,6 +108,8 @@ module EditorsModule
     def current_view_mode
       view_node.elements['CurrentViewMode'].text
     end
+    alias :view_mode :current_view_mode
+    
     # Mode de vue de groupe. C'est comme le 'current_view_mode' mais ça
     # affecte l'affichage quand un dossier ou un groupe de fichiers est
     # affiché.

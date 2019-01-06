@@ -12,7 +12,6 @@ include XMLModule
 class Scrivener
 class Project
 
-
   # Raccourci
   def ui_common
     ui.ui_common

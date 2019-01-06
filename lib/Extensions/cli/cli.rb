@@ -127,9 +127,15 @@ class CLI
 
       BENCHMARK.merge!(oui: options[:benchmark])
 
-      # Traitement spécial de la commande universelle `todo`
       if self.command == 'todo'
+        # Traitement spécial de la commande universelle `todo`
         CLI::Todo.run
+        return false
+      elsif self.command == 'test'
+        # Traitement spécial de la commande universelle 'test'
+        Dir.chdir(APPFOLDER) do
+          CLI::Test.run(CLI.params[1])
+        end
         return false
       end
 
