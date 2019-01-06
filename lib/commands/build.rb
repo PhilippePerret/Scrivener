@@ -36,7 +36,7 @@ else
       # Cette "thing" est-elle valide
       thing || raise_thing_required
       thing = thing.strip.downcase.to_sym
-      is_thing?(thing)  || raise_invalid_thing
+      is_thing?(thing)  || raise_invalid_thing(thing)
       Scrivener.require_module('build/%s' % thing)
 
       # On peut lancer l'opération
@@ -47,8 +47,14 @@ else
       BUILDABLE_THINGS.key?(thing)
     end
 
+    # Permet par exemple d'utiliser 'tdm' à la place de 'documents'
+    def real_thing(thing)
+      thing = 'documents' if thing == 'tdm'
+      return thing
+    end
+
   end #/<< self
   end #/Project
   end #/Scrivener
-  Scrivener::Project.exec_build_thing(CLI.params[1])
+  Scrivener::Project.exec_build_thing(Scrivener::Project.real_thing(CLI.params[1]))
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # encoding: UTF-8
 =begin
 
@@ -125,7 +126,7 @@ class << self
       touches.is_a?(Array) || touches = [touches]
       touches = touches.join(';;;')
       # command << ' --benchmark'
-      command << ' -k="%s"' % touches
+      command += ' -k="%s"' % touches
     end
     # puts "Commande jouée : #{cmd.inspect}"
     full_command = "cd \"#{APPFOLDER}\";#{command} > #{output_path}"
