@@ -14,8 +14,8 @@ class Project
   # ---------------------------------------------------------------------
   # Méthode fonctionnelles
 
-  def human_value_objectif_to_real_value valeur
-    SWP.signs_from_human_value(valeur, true)
+  def human_value_objectif_to_real_value valeur, raise_if_bad_value
+    SWP.signs_from_human_value(valeur, raise_if_bad_value)
   end
 
   # Retourne la vraie valeur de +value+ en la trouvant dans

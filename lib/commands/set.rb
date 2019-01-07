@@ -4,6 +4,7 @@
 
   C'est l'aide générale du site
 =end
+Scrivener.require_module('Scrivener')
 Scrivener.require_module('set') # même pour l'aide
 
 if CLI.options[:help]
@@ -48,6 +49,5 @@ aide = <<-EOT
 
 
 else
-  Scrivener.require_module('Scrivener')
   Scrivener::Project.exec_set
 end

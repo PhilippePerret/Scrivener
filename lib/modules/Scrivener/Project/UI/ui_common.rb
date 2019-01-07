@@ -162,6 +162,12 @@ class Project
       # ---------------------------------------------------------------------
       #   INSPECTEUR
       class Inspector
+        ONGLETS = { notes: 'Notes',
+                    bookmarks: 'Bookmarks',
+                    metadata: 'MetaData',
+                    snapshots: 'Snapshots',
+                    comments: 'Comments'
+                  }
         attr_accessor :ui_common
         def initialize uicommon
           self.ui_common = uicommon
@@ -175,8 +181,8 @@ class Project
           ui_common.xpath('/UIStates/Inspector').attributes['Show'] = visible ? 'Yes' : 'No'
           set_modified
         end
-        def set_onglet onglet # parmi 'Bookmarks'
-          ui_common.xpath('/UIStates/Inspector').attributes['View'] = onglet
+        def set_onglet onglet # parmi 'Bookmarks', 'MetaData', 'Notes', etc.
+          ui_common.xpath('/UIStates/Inspector').attributes['View'] = ONGLETS[onglet.downcase.to_sym]
           set_modified
         end
       end #/ Inspector

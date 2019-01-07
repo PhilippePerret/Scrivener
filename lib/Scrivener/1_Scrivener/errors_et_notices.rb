@@ -14,6 +14,18 @@ class Scrivener
     unproximable_objet:       'Je ne sais pas afficher en deux pages les proximités d’un élément :%s'
   }
 
+# === ERREURS D'ARGUMENT(S) ===
+ERRORS.key?(:args) || ERRORS.merge!(args: Hash.new)
+# ERRORS[:args].merge!(
+#
+# )
+# === ERREURS AVEC LES BINDER-ITEMS ===
+ERRORS.key?(:binder_item) || ERRORS.merge!(binder_item: Hash.new)
+ERRORS[:binder_item].merge!(
+  unfound_with_title: 'Aucun document du projet ne semble posséder un document dont le titre commence par « %s »…'
+)
+
+
   NOTICES = Hash.new
   NOTICES.merge!(
     require_project_closed:       'Cette opération nécessite que le projet soit absolument fermé.',

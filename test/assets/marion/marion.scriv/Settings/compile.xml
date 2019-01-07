@@ -9,7 +9,6 @@
             </Filter>
         </Content>
         <Options>
-            <RemoveComments>Yes</RemoveComments>
             <RemoveAnnotations>Yes</RemoveAnnotations>
             <Scriptwriting>
                 <IncludeTitles>Yes</IncludeTitles>
@@ -29,7 +28,7 @@
                     </HTML>
                 </TOC>
             </Ebook>
-        </Options>
+        <RemoveComments>No</RemoveComments></Options>
         <MetaData>
             <ProjectTitle>Le Projet de Marion</ProjectTitle>
             <ProjectAbbreviatedTitle>Proj. Marion</ProjectAbbreviatedTitle>
@@ -50,7 +49,7 @@
             </MMDMetaData>
         </MetaData>
     </ProjectSettings>
-    <CurrentFileType>Print</CurrentFileType>
+    <CurrentFileType>pdf</CurrentFileType>
     <FormatSettings>
         <Format ID='DEFAULT'>
             <SectionLayouts>
@@ -61,5 +60,26 @@
     </FormatSettings>
     <LastUsedFormats>
         <Print>DEFAULT</Print>
+        <mmd>DEFAULT</mmd>
+        <pandoc-epub>DEFAULT</pandoc-epub>
+        <html>DEFAULT</html>
+        <doc>DEFAULT</doc>
+        <mmd-pdf>DEFAULT</mmd-pdf>
+        <kf8>DEFAULT</kf8>
+        <rtf>DEFAULT</rtf>
+        <mmd-odt>DEFAULT</mmd-odt>
+        <pandoc-docbook>DEFAULT</pandoc-docbook>
+        <Fountain>DEFAULT</Fountain>
+        <txt>DEFAULT</txt>
+        <docx>DEFAULT</docx>
+        <mmd-odf>DEFAULT</mmd-odf>
+        <pdf>DEFAULT</pdf>
+        <mmd-latex>DEFAULT</mmd-latex>
+        <pandoc-docx>DEFAULT</pandoc-docx>
+        <fdx>DEFAULT</fdx>
+        <odt>DEFAULT</odt>
+        <rtfd>DEFAULT</rtfd>
+        <mmd-html>DEFAULT</mmd-html>
+        <epub3>DEFAULT</epub3>
     </LastUsedFormats>
 </CompileSettings>

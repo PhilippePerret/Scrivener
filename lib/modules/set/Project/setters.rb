@@ -268,7 +268,8 @@ class Project
 
   add_modpro(
     :editors_selection => { hname: 'Sélection de texte dans les éditeurs',
-                            variante: 'selection_editeur1 (ou 2)',
+                            real:       'editor1_selection, editor2_selection',
+                            variante:   'selection_editeur1 (ou 2)',
                             description: 'Pour définir la sélection de texte dans les éditeur',
                             exemple: '10, 30',
                             values:  '<offset start>, <offset end>',
@@ -299,58 +300,68 @@ class Project
   def set_editor_view_mode value
     value = real_value_in(value.capitalize, DIVEXPLI[:modes_vues]) || return
     project.ui_common.editor1.current_view_mode= value
-    confirme(:editor_view_mode, value.inspect)
+    confirme(:editors_view_mode, value.inspect)
   end
 
-  add_modpro( :editor1_group_view_mode => {hname: 'Mode de vue de groupe dans l’éditeur principal', variante: 'mode_vue_groupe_editeur1', description: 'Pour définir le mode d’affichage d’un groupe de documents ou de dossier dans l’éditeur principal, c’est-à-dire pour définir s’il doit afficher les textes, le tableau d’affichage ou le plan.', exemple: 'Plan',
-      values: DIVEXPLI[:modes_vues], category: [:interface, :editors], confirmation: 'Mode courant de vue de groupe de l’éditeur principal mis à %s'
-    }
-  )
+  add_modpro( :editors_group_view_mode => { hname: 'Mode de vue de groupe dans les éditeurs',
+                                            real: 'editor1_group_view_mode, editor2_group_view_mode',
+                                            variante: 'mode_vue_groupe_editeur1 (ou 2)',
+                                            description: 'Pour définir le mode d’affichage d’un groupe de documents ou de dossier dans l’éditeur principal, c’est-à-dire pour définir s’il doit afficher les textes, le tableau d’affichage ou le plan.',
+                                            exemple: 'Plan',
+                                            values: DIVEXPLI[:modes_vues],
+                                            category: [:interface, :editors],
+                                            confirmation: 'Mode courant de vue de groupe de l’éditeur %i mis à %s'
+                                          })
   def set_editor1_group_view_mode value
-    value = real_value_in(value.capitalize, DIVEXPLI[:modes_vues]) || return
-    project.ui_common.editor1.group_view_mode= value
-    confirme(:editor1_group_view_mode, value.inspect)
+    set_editor_group_view_mode(1, value)
   end
-  add_modpro(
-    :editor2_group_view_mode => {hname: 'Mode de vue de groupe dans l’éditeur secondaire', variante: 'mode_vue_groupe_editeur2', description: 'Pour définir le mode d’affichage d’un groupe de documents ou de dossier de l’éditeur secondaire, c’est-à-dire pour définir s’il doit afficher les textes, le tableau d’affichage ou le plan.', exemple: 'Corkboard',
-      values: DIVEXPLI[:modes_vues], category: [:interface, :editors], confirmation: 'Mode courant de vue de groupe de l’éditeur secondaire mis à %s'
-    }
-  )
   def set_editor2_group_view_mode value
+    set_editor_group_view_mode(2, value)
+  end
+  def set_editor_group_view_mode index_editor, value
     value = real_value_in(value.capitalize, DIVEXPLI[:modes_vues]) || return
-    project.ui_common.editor2.group_view_mode= value
-    confirme(:editor2_group_view_mode, value.inspect)
+    project.ui_common.send("editor#{index_editor}".to_sym).group_view_mode= value
+    confirme(:editors_group_view_mode, [index_editor, value.inspect])
   end
 
   # ---------------------------------------------------------------------
   #   MÉTHODES INTERFACE INSPECTEUR
 
-  add_modpro(
-    :inspector_visible => {hname: 'Visibilité de l’inspecteur', variante: 'inspecteur_visible', description: 'Pour définir la visibilité de l’inspecteur.', exemple: 'No', values: DIVEXPLI[:yes_or_no_values],
-      category: [:interface, :inspector], confirmation: 'Visibilité de l’inspecteur mise à %s'}
-  )
+  add_modpro(:inspector_visible => {hname: 'Visibilité de l’inspecteur',
+                                    variante: 'inspecteur_visible',
+                                    description: 'Pour définir la visibilité de l’inspecteur.',
+                                    exemple: 'No',
+                                    values: DIVEXPLI[:yes_or_no_values],
+                                    category: [:interface, :inspector],
+                                    confirmation: 'Visibilité de l’inspecteur mise à %s'
+                                  })
   def set_inspector_visible value
     value = yes_or_no_value(value)
     project.ui_common.inspector.visibility(value == 'Yes')
     confirme(:inspector_visible, value.inspect)
   end
 
-  INSPECTOR_ONGLETS = ['Notes', 'Bookmarks', 'MetaData', 'Snapshots', 'Comments']
-  add_modpro(
-    :inspector_onglet => {hname: 'Onglet de l’inspecteur', variante: 'inspecteur_onglet', description: 'Pour définir l’onglet courant de l’inspecteur.', exemple: 'Bookmarks', values: INSPECTOR_ONGLETS,
-      category: [:interface, :inspector], confirmation: 'Onglet courant de l’inspecteur mis à %s'}
-  )
-  def set_inspector_onglet onglet
-    INSPECTOR_ONGLETS.include?(onglet) || raise(ERRORS[:bad_onglet_inspector])
-    project.ui_common.inspector.set_onglet(onglet)
-    confirme(:inspector_onglet, value.inspect)
+  add_modpro(:inspector_tab => {  hname: 'Onglet de l’inspecteur',
+                                  variante: 'onglet_inspecteur',
+                                  description: 'Pour définir l’onglet courant de l’inspecteur.',
+                                  exemple: 'Bookmarks',
+                                  method_values: :inspector_tabs_valid_values,
+                                  category: [:interface, :inspector],
+                                  confirmation: 'Onglet courant de l’inspecteur mis à %s'
+                                })
+  def set_inspector_tab value
+    UI::UICommon::Inspector::ONGLETS[value.downcase.to_sym] || raise(ERRORS[:bad_onglet_inspector])
+    project.ui_common.inspector.set_onglet(value)
+    confirme(:inspector_tab, value.inspect)
   end
 
   # Définir le zoom des notes
-  add_modpro(
-    :zoom_notes => {hname: 'zoom des notes', description: 'Pour définir la taille des notes dans l’inspecteur.', exemple: '1.5',
-      category: [:interface, :inspector], confirmation: 'Zoom des notes dans l’inspecteur mis à %s'}
-  )
+  add_modpro(:zoom_notes => { hname: 'zoom des notes',
+                              description: 'Pour définir la taille des notes dans l’inspecteur.',
+                              exemple: '1.5',
+                              category: [:interface, :inspector],
+                              confirmation: 'Zoom des notes dans l’inspecteur mis à %s'
+                            })
   def set_zoom_notes value
     factor = any_value_as_factor(value)
     project.ui.notes_scale_factor= factor
@@ -358,10 +369,13 @@ class Project
   end
 
   # Définir le zoom de l'éditeur principal
-  add_modpro(
-    :zoom_editor => {hname: 'zoom de l’éditeur', variante: 'zoom_editeur', description: 'Pour définir le zoom dans l’éditeur. %s' % [DIVEXPLI[:factor_or_pourcentage]], exemple: "200%".inspect,
-      category: :interface, confirmation: 'Zoom de l’éditeur principal mis à %s'}
-  )
+  add_modpro(:zoom_editor => {  hname: 'zoom de l’éditeur',
+                                variante: 'zoom_editeur',
+                                description: 'Pour définir le zoom dans l’éditeur. %s' % [DIVEXPLI[:factor_or_pourcentage]],
+                                exemple: "200%".inspect,
+                                category: :interface,
+                                confirmation: 'Zoom de l’éditeur principal mis à %s'
+                              })
   def set_zoom_editor value
     factor = any_value_as_factor(value)
     project.ui.main_document_editor.text_scale_factor= factor
@@ -369,72 +383,97 @@ class Project
   end
 
   # Définir le zoom de l'éditeur secondaire
-  add_modpro(
-    :zoom_alt_editor => {hname: 'zoom de l’éditeur alternatif', variante: 'zoom_autre_editeur', description: 'Pour définir le zoom dans le second éditeur. %s' % [DIVEXPLI[:factor_or_pourcentage]], exemple: "2",
-      category: :interface, confirmation: 'Zoom de l’éditeur alternatif mis à %s'}
-  )
+  add_modpro(:zoom_alt_editor => {  hname: 'zoom de l’éditeur alternatif',
+                                    variante: 'zoom_autre_editeur',
+                                    description: 'Pour définir le zoom dans le second éditeur. %s' % [DIVEXPLI[:factor_or_pourcentage]],
+                                    exemple: "2",
+                                    category: [:interface, :editors],
+                                    confirmation: 'Zoom de l’éditeur alternatif mis à %s'
+                                  })
   def set_zoom_alt_editor value
     factor = any_value_as_factor(value)
     project.ui.supporting_document_editor.text_scale_factor= factor
     confirme(:zoom_alt_editor, "#{(factor * 100).round}%")
   end
 
-  add_modpro(
-    :zoom_editors => {hname: 'zoom des deux éditeurs', variante: 'zoom_editeurs', description: 'Pour définir le zoom dans les deux éditeurs en même temps. %s' % [DIVEXPLI[:factor_or_pourcentage]], exemple: "250".inspect,
-      category: :interface}
-  )
+  add_modpro(:zoom_editors => { hname: 'zoom des deux éditeurs',
+                                variante: 'zoom_editeurs',
+                                description: 'Pour définir le zoom dans les deux éditeurs en même temps. %s' % [DIVEXPLI[:factor_or_pourcentage]],
+                                exemple: "250".inspect,
+                                category: [:interface, :editors]
+                              })
   def set_zoom_editors value
     set_zoom_editor value
     set_zoom_alt_editor value
   end
 
-  add_modpro(
-    :remove_comments_on_compile => {hname: 'Ne pas compiler les commentaires', variante: 'compiler_sans_commentaires', description: 'Pour compiler le projet sans ou avec les commentaires', exemple: 'vrai', values: DIVEXPLI[:yes_or_no_values],
-      category: :compilation, confirmation: 'Suppression ou ajout des commentaires à la compilation mis à %s'}
-  )
-  def set_remove_comments_on_compile value
-    value = yes_or_no_value(value)
-    compile_xml.set_xpath('//Options/RemoveComments', value)
-    confirme(:remove_comments_on_compile, value)
+  add_modpro(:compile_comments => { hname: 'Ne pas compiler les commentaires',
+                                              variante: 'compiler_sans_commentaires',
+                                              description: 'Pour compiler le projet sans ou avec les commentaires',
+                                              exemple: 'vrai',
+                                              values: DIVEXPLI[:yes_or_no_values],
+                                              category: :compilation,
+                                              confirmation: 'Ajout des commentaires à la compilation mis à %s'
+                                            })
+  def set_compile_comments value
+    value = yes_or_no_value(value) == 'Yes' ? 'No' : 'Yes'
+    compile_xml.remove_comments= value
+    confirme(:compile_comments, value)
   end
 
-  add_modpro(
-    :remove_annotations_on_compile => {hname: 'Suppression des annotations à la compilation', variante: 'compiler_sans_annotations', description: 'Pour compiler le projet avec ou sans les annotations.', exemple: 'Oui', values: DIVEXPLI[:yes_or_no_values],
-      category: :compilation, confirmation: 'suppression ou ajout des annotations à la compilation défini'}
-  )
-  # puts "DIVEXPLI[:yes_or_no_values]: #{DIVEXPLI[:yes_or_no_values].inspect}"
-  def set_remove_annotations_on_compile value
-    compile_xml.set_xpath('//Options/RemoveAnnotations', yes_or_no_value(value))
-    confirme(:remove_annotations_on_compile)
+  add_modpro(:compile_annotations => { hname: 'Suppression des annotations à la compilation',
+                                            variante: 'compiler_les_annotations',
+                                            description: 'Pour compiler le projet avec ou sans les annotations.',
+                                            exemple: 'Oui',
+                                            values: DIVEXPLI[:yes_or_no_values],
+                                            category: :compilation,
+                                            confirmation: 'Ajout des annotations à la compilation mis à %s'
+                                          })
+  def set_compile_annotations value
+    value = yes_or_no_value(value) == 'Yes' ? 'No' : 'Yes'
+    compile_xml.remove_annotations = value
+    confirme(:compile_annotations, value)
   end
 
 
-  add_modpro(
-    :compile_output => {hname: 'Type de sortie de la compilation', variante: 'sortie_compilation', description: 'Pour définir s’il faut imprimer ou créer un document PDF lors de la compilation.', exemple: 'PDF', values: {'un document PDF' => ['pdf', 'PDF'], 'imprimer le projet' => ['print', 'PRINT', 'imprimer']},
-      category: :compilation, confirmation: 'Format de sortie de compilation mis à %s'}
-  )
+  add_modpro(:compile_output => { hname: 'Type de sortie de la compilation',
+                                  variante: 'sortie_compilation',
+                                  description: 'Pour définir s’il faut imprimer ou créer un document PDF lors de la compilation.',
+                                  exemple: 'PDF',
+                                  method_values: :compile_output_valid_values,
+                                  category: :compilation,
+                                  confirmation: 'Format de sortie de compilation mis à %s'
+                                })
+
   def set_compile_output value
     # Value doit être 'print' ou 'pdf'
-    value = value.downcase
-    value != 'imprimer' || value = 'print'
-    ['print', 'imprimer', 'pdf'].include?(value) || raise(ERRORS[:valeurs_possibles] % ['compile_output', '"print" (impression) ou "pdf" (document PDF)'])
-    compile_xml.set_xpath('//CurrentFileType', value)
-    confirme(:compile_output, value.inspect)
+    dvalue = XMLCompile::OUTPUT_FORMATS[value.downcase.to_sym] || raise(ERRORS[:valeurs_possibles] % ['compile_output', '(demande l’aide avec `scriv set compile_output -h`)'])
+    compile_xml.set_xpath('//CurrentFileType', dvalue[:value])
+    confirme(:compile_output, dvalue[:hname])
   end
 
-
-
-  add_modpro(
-    :objectif => {hname: 'objectif', variante: 'objectif', description: 'Pour définir l’objectif du projet ou d’un document en particulier.', exemple: "\"6p\" --document=\"début du titre\"",
-      category: :project_infos, confirmation: 'Objectif du %s mis à %s',
-      options: []}
+  add_modpro(:target => {   hname: 'cible',
+                            variante: 'objectif',
+                            description: 'Pour définir l’objectif du projet ou d’un document en particulier.',
+                            exemple: "\"6p\" --document=\"début du titre\"",
+                            in_yaml_file: '"<début titre>::<longueur>" (par exemple : "Début du titre::6p")',
+                            category: :project_infos,
+                            confirmation: 'Objectif du %s mis à %s',
+                            options: [],
+                          }
   )
   # TODO On doit aussi pouvoir définir --notify, --show_overrun et --show_buffer
   #      et les autres options pour un projet
   # TODO Pouvoir mettre :options à add_modpro pour afficher les options des
   #      différentes commandes
+  # +value+ peut venir de la ligne de commande ou d'un fichier YAML. Dans
+  # un fichier YAML, on trouver "<nom document (début)>::<longueur avec unité>"
   def set_objectif value
-    what = CLI.options[:document] || :projet
+    if value.match(/::/)
+      CLI.options[:document], what = value.split('::')
+    else
+      what = CLI.options[:document] || :projet
+    end
     final_value = human_value_objectif_to_real_value(value)
     if what == :projet
       # Objectif du projet
@@ -451,7 +490,7 @@ class Project
       end
     else
       # Objectif du document
-      bitem = binder_item_by_title(what)
+      bitem = binder_item_by_title(what, raise: true)
       if yesOrNo('Voulez-vous définir l’objectif de « %s » à %i signes ?' % [bitem.title, final_value])
         bitem.target.define(final_value, {type: 'Characters', notify: false, show_overrun: true, show_buffer: true})
       else
@@ -461,6 +500,25 @@ class Project
     confirme(:objectif, [what == :projet ? 'projet' : ('document %s ' % [bitem.title]), final_value])
   end
 
+
+  add_modpro(:targets => {  hname: 'objectifs',
+                            variante: 'objectifs',
+                            description: 'Pour définir les objectifs de plusieurs documents.',
+                            in_yaml_file: 'objectifs: ["<début titre>::<longueur>", "<autre début>::<longueur>"]',
+                            only_in_yaml_file: true,
+                            category: [:documents],
+                            confirmation: 'Les objectifs ont été définis'
+                          })
+  def set_targets value
+    value.is_a?(Array) || raise('Il faut une liste, pour définir les objectifs de documents')
+    value.each do |docdef|
+      docdef = docdef.split('::')
+      len = human_value_objectif_to_real_value(docdef.pop, true)
+      tit = docdef.join('::')
+      bitem = binder_item_by_title(tit, raise: true)
+      bitem.target.define(len, {type: 'Characters', notify: false, show_overrun: true, show_buffer: true})
+    end
+  end
 
 
 end #/Project

@@ -48,13 +48,17 @@ class Project
   #
   # +options+
   #     :help       Si true (par défaut), on affiche la liste des titres
-  #                 en cas d'insuccès.
+  #                 en cas d'insuccès. Noter qu'il faut mettre explicitement
+  #                 :help à false pour qu'elle ne soit pas affichée. Sauf
+  #                 si :raise est true, qui est prioritaire
   #     :in         Le dossier dans lequel il faut chercher le document
   #                 (par défaut : :draft_folder, le dossier manuscrit)
+  #     :raise      Si true, on raise quand on ne trouve pas le document
   #
   def binder_item_by_title titseg, options = nil
     options ||= Hash.new
     options.key?(:in) || options.merge!(in: :draft_folder)
+    titseg_init = titseg.to_s
     titseg = titseg.strip.downcase
     all_bitems = Array.new
     self.all_binder_items_of(options[:in]).each do |bitem|
@@ -64,9 +68,8 @@ class Project
       end
       all_bitems << bitem
     end
-    unless options[:help] === false
-      ask_for_binder_item_in(all_bitems)
-    end
+    options[:raise] && raise(ArgumentError, ERRORS[:binder_item][:unfound_with_title] % titseg_init)
+    options[:help] === false || ask_for_binder_item_in(all_bitems)
   end
 
   # Permet de retrouver un binder-item par son ID. Attention, il ne s'agit
@@ -117,7 +120,6 @@ class Project
     puts String::RC * 3
     choix = askFor('Document à choisir (ou "q" pour renoncer)', {expected_keys: allindex.push('q')})
     if choix == 'q'
-      # raise(ERRORS[:no_binder_item_with_titre] % titseg)
       return nil
     else
       arr_bitems[choix.to_i - 1]

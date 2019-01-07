@@ -10,7 +10,58 @@ class Scrivener
     # titres des documents ou les auteurs.
     #
     def compile_xml
-      @compile_file ||= XML.new(self, compile_file_path)
+      @compile_file ||= XMLCompile.new(self, compile_file_path) #XML.new(self, compile_file_path)
+    end
+
+    class XMLCompile < XML
+
+      # Formats de sortie possibles
+      # La clé doit être la valeur que peut fournir un utilisateur, mise en
+      # minuscule. La `:value` doit être la valeur à enregistrer dans le
+      # fichier XML.
+OUTPUT_FORMATS = {
+  pdf:            {value: 'pdf'            , hname: 'PDF'},
+  print:          {value: 'Print'          , hname: 'Print'},
+  rtf:            {value: 'rtf'            , hname: 'RTF'},
+  rtfd:           {value: 'rtfd'           , hname: 'RTFD'},
+  docx:           {value: 'docx'           , hname: 'Microsoft Word (X)'},
+  doc:            {value: 'doc'            , hname: 'Microsoft Word'},
+  odt:            {value: 'odt'            , hname: 'LibreOffice/OpenOffice'},
+  txt:            {value: 'txt'            , hname: 'Simple text'},
+  html:           {value: 'html'           , hname: 'Page web'},
+  fdx:            {value: 'fdx'            , hname: 'Final Draft'},
+  fountain:       {value: 'Fountain'       , hname: 'Scénario Fountain'},
+  epub3:          {value: 'epub3'          , hname: 'ePub'},
+  multimarkdown:  {value: 'mmd'            , hname: 'MultiMarkdown'},
+  mmd_latex:      {value: 'mmd-latex'      , hname: 'MultiMarkdown vers LaTex'},
+  mmd_office:     {value: 'mmd-odt'        , hname: 'MultiMarkdown vers LibreOffice'},
+  mmd_html:       {value: 'mmd-html'       , hname: 'MultiMarkdown vers HTML'},
+  mmd_odf:        {value: 'mmd-odf'        , hname: 'MultiMarkdown vers flat-XML'},
+  mmd_pdf:        {value: 'mmd-pdf'        , hname: 'MultiMarkdown vers PDF'},
+  pandoc_docx:    {value: 'pandoc-docx'    , hname: 'PanDoc vers Microsoft WordX'},
+  pandoc_docbook: {value: 'pandoc-docbook' , hname: 'PanDoc vers DocBook'},
+  pandoc_epub:    {value: 'pandoc-epub'    , hname: 'PanDoc vers ePub'}
+}
+
+      def remove_comments?
+        options.elements['RemoveComments'].text == 'Yes'
+      end
+      def remove_comments= value
+        XML.get_or_add(options, 'RemoveComments').text = value
+      end
+
+      def remove_annotations?
+        options.elements['RemoveAnnotations'].text == 'Yes'
+      end
+      def remove_annotations= value
+        XML.get_or_add(options, 'RemoveAnnotations').text = value
+      end
+
+      # 'Print' ou 'Pdf'
+      def output_format
+        root.elements['CurrentFileType'].text
+      end
+
     end
 
     # ---------------------------------------------------------------------
@@ -51,12 +102,6 @@ class Scrivener
       {firstname: prenom.strip, lastname: nom.strip, role: n.attributes['Role']}
     end
 
-    def remove_comment?
-      compile_xml.options.elements['RemoveComments'].text == 'Yes'
-    end
-    def remove_annotations?
-      compile_xml.options.elements['RemoveAnnotations'].text == 'Yes'
-    end
 
     def options
       @get_options ||= compile_xml.options

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NotesScaleFactor</key>
-	<real>1</real>
+	<real>1.0</real>
 	<key>SuppressBookmarksFolderCheck</key>
 	<false/>
 	<key>binderSplitFrames</key>
@@ -12,7 +12,7 @@
 		<string>{{266, 0}, {1145, 906}}</string>
 	</array>
 	<key>binderWidth</key>
-	<real>265</real>
+	<real>265.0</real>
 	<key>collectionsRepresentedBinderDocumentsInfo</key>
 	<dict>
 		<key>MainID</key>
@@ -35,34 +35,34 @@
 		<string>{{0, 0}, {336, 896}}</string>
 	</array>
 	<key>inspectorWidth</key>
-	<real>245</real>
+	<real>245.0</real>
 	<key>lastDocumentSplitType</key>
 	<integer>0</integer>
 	<key>mainDocumentEditor.dockedQRTextSettings</key>
 	<dict>
 		<key>textScaleFactor</key>
-		<real>1</real>
+		<real>1.0</real>
 	</dict>
 	<key>mainDocumentEditor.scrollRect</key>
-	<string>{{0, 0}, {572.5, 190.5}}</string>
+	<string>{{0, 0}, {620, 254}}</string>
 	<key>mainDocumentEditor.textEditorState</key>
 	<dict>
 		<key>textScaleFactor</key>
-		<real>2</real>
+		<real>1.5</real>
 	</dict>
 	<key>mainWindowFrame</key>
 	<string>88 99 1411 928 0 0 1680 1027 </string>
 	<key>supportingDocumentEditor.dockedQRTextSettings</key>
 	<dict>
 		<key>textScaleFactor</key>
-		<real>1</real>
+		<real>1.0</real>
 	</dict>
 	<key>supportingDocumentEditor.scrollRect</key>
-	<string>{{0, 0}, {620, 382}}</string>
+	<string>{{0, 0}, {620, 424.44444444444451}}</string>
 	<key>supportingDocumentEditor.textEditorState</key>
 	<dict>
 		<key>textScaleFactor</key>
-		<real>1</real>
+		<real>0.9</real>
 	</dict>
 	<key>supportingDocumentViewIsCurrent</key>
 	<true/>
