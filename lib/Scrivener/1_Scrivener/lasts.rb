@@ -17,12 +17,17 @@ class << self
   # Sauve les données +data+ du projet courant
   # +data+ Hash contenant :
   #   :path       Le path absolu vers le projet (.scriv)
+  #               Si non défini (au départ, quand le fichier des derniers
+  #               n'existe pas et qu'aucun projet n'a été spécifié — mais on
+  #               ne génère pas d'erreur car ça peut être une commande sans
+  #               projet, comme l'aide)
   #   :title      Le titre du projet
   #   :saved_at   [Sera ajouté ici] La date d'enregistrement comme
   #               projet courant.
   def save_project_data data
     CLI.debug_entry
-    data[:path] && data[:path] = File.expand_path(data[:path])
+    data[:path] || return
+    data[:path] = File.expand_path(data[:path])
     data.merge!(saved_at: Time.now)
     # Il ne faut pas répéter plusieurs fois un même projet
     # On en profite aussi pour passer les projets qui n'existent plus

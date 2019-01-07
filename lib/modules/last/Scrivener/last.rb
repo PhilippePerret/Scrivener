@@ -8,6 +8,10 @@ class << self
   #
   # Permet de récupérer la liste des derniers projets
   def exec_last_projects
+    File.exist?(Scrivener.last_projects_path_file) || begin
+      puts INDENT+'Aucun projet n’a été encore enregistré par la commande `scriv`, désolé.'
+      return
+    end
     lines = Array.new
     lines << INDENT+'LISTE DES DERNIERS PROJETS'
     lines << (INDENT+'=').ljust(lines.first.length,'=')
