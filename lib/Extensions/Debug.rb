@@ -11,6 +11,7 @@
   il est encore ouvert en écriture et ne peut pas être consulté.
 
 =end
+require 'tempfile'
 def debug err
   Debug.write(err)
 end
@@ -43,7 +44,8 @@ class << self
 
   def rf
     @rf ||= begin
-      ref = File.open(log_path, 'a+')
+      # ref = File.open(log_path, 'a+')
+      ref = Tempfile.new('scrivener_log')
       ref.write("\n\n\n=== #{Time.now.strftime('%d %m %Y - %H:%M:%S')} ===\n\n")
       ref
     end

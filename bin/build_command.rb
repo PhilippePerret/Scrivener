@@ -25,6 +25,7 @@ FOLDER_IN_APPS = 'Scrivener_CLI'
 # En mode développeur (quand c'est moi), je crée la commande scriv pour
 # quelle pointe sur le dossier de développement
 MODE_DEVELOPPEUR = File.basename(Dir.home) == 'philippeperret'
+# MODE_DEVELOPPEUR = false
 
 require 'fileutils'
 THISFOLDER = File.expand_path(__dir__)

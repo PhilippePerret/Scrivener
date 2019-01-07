@@ -62,7 +62,7 @@ class << self
     CLI.debug_exit
   end
   def last_projects_path_file
-    @last_projects_path_file ||= File.join(APPFOLDER,'.last_projects_data')
+    @last_projects_path_file ||= File.join(HOME_FOLDER,'.last_projects_data')
   end
 
   # Pour les tests

@@ -19,7 +19,6 @@ module BuildConfigFileModule
     end
   end
 
-
   DEFAULT_CONFIG_LINE = '%{property}: %{default} # %{hname}'
 
   # Si on ne doit pas ouvrir le fichier à la fin, on indique comment le

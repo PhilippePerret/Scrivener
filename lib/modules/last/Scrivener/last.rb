@@ -9,8 +9,8 @@ class << self
   # Permet de récupérer la liste des derniers projets
   def exec_last_projects
     lines = Array.new
-    lines << "  LISTE DES DERNIERS PROJETS"
-    lines << '  ='.ljust(lines.first.length,'=')
+    lines << INDENT+'LISTE DES DERNIERS PROJETS'
+    lines << (INDENT+'=').ljust(lines.first.length,'=')
     lines << separator
     expected_keys = Array.new
     expected_keys << 'q' #pour renoncer
@@ -21,9 +21,10 @@ class << self
     end
     lines << separator
     lines << '  (le dernier projet — « %s » — est le projet courant)' % [title_for(last_projects_data.last)]
-    puts  String::RC*2 +
-          lines.join(String::RC) +
-          String::RC*2
+
+    # On écrit la liste
+    CLI::Screen.clear
+    puts  lines.join(String::RC) + String::RC*2
 
     # On attend le choix
     if t = getc('Projet à choisir (son index — ou "q" pour renoncer) : ', {expected_keys: expected_keys})
@@ -41,7 +42,6 @@ class << self
     title_for(dprojet).ljust(30)
   end
   def title_for(dprojet)
-    puts "-- dprojet: #{dprojet.inspect}"
     dprojet[:title] || dprojet[:path].split(File::SEPARATOR)[-2..-1].join(File::SEPARATOR)
   end
 

@@ -6,6 +6,12 @@ require 'plist'
 # APPFOLDER = File.expand_path(File.dirname(File.dirname(__FILE__)))
 APPFOLDER = File.expand_path(File.dirname(__dir__))
 
-Dir["#{APPFOLDER}/lib/Extensions/**/*.rb"].each{|m|require m}
-Dir["#{APPFOLDER}/lib/Scrivener/**/*.rb"].each{|m|require m}
-Dir["#{APPFOLDER}/config/**/*.rb"].each{|m|require m}
+HOME_FOLDER = File.join(Dir.home,'.scriv')
+`mkdir -p "#{HOME_FOLDER}"` # créé au besoin
+
+[ File.join('lib','Extensions'),
+  File.join('lib','Scrivener'),
+  'config'].each do |relpath|
+  fpath = File.join(APPFOLDER,relpath,'**','*.rb')
+  Dir[fpath].each{|m|require m}
+end
