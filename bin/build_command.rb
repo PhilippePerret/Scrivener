@@ -9,6 +9,13 @@
   APPLICATION) IL FAUT METTRE MODE_DEVELOPPEUR CI-DESSOUS À FALSE
   AVANT DE LANCER CE MODULE.
 
+  En d'autres termes : quand on met `MODE_DEVELOPPEUR` ci-dessus,
+  la commande `scriv` appelle le script se trouvant dans le dossier
+  /Applications/ScrivenerCLI/bin/. Dans le cas contraire, elle appelle
+  le bin de ce dossier-ci, ce qui ne fonctionnera donc pas pour les
+  autres utilisateurs (à vérifier quand même, maintenant que le débug
+  et les fichiers propres se trouvent dans le $HOME de l'utilisateur)
+
 =end
 
 # Nom de la commande CLI (doit correspondre au fichier qui se trouve

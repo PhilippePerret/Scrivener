@@ -82,7 +82,7 @@ class Project
                         default: 'null'
                       })
   def set_name value
-    value || return # quand un fichier de configuration met à null la valeur
+    value === nil && return # quand un fichier de configuration met à null la valeur
     new_nom = value.gsub(/ /, '_')
     new_nom.end_with?('.scriv') || new_nom.concat('.scriv')
     if yesOrNo(QUESTIONS[:set_project_name] % [File.basename(path).inspect, new_nom.inspect])
@@ -115,7 +115,7 @@ class Project
   # TODO On devrait pouvoir définir le titre d'un document de cette manière
   # aussi, avec l'option '-doc="début du titre actuel"'
   def set_title value
-    value || return
+    value === nil && return
     compile_xml.set_xpath('//MetaData/ProjectTitle', value)
     confirme(:title, value)
   end
@@ -130,7 +130,7 @@ class Project
                                     default: 'null'
                                   })
   def set_title_abbreviated value
-    value || return
+    value === nil && return
     compile_xml.set_xpath('//MetaData/ProjectAbbreviatedTitle', value)
     confirme(:title_abbreviated, value)
   end
@@ -152,7 +152,7 @@ class Project
   #   - "Nom, Prénom"
   #   - {firstname: "Prénom", lastname: "Nom"}
   def set_author value
-    value || return
+    value === nil && return
     case value
     when String
       if value.index(',')
@@ -194,7 +194,7 @@ class Project
                             default: 'null'
                           })
   def set_authors value
-    value || return
+    value === nil && return
     compile_xml.remove_children_of_xpath('//MetaData/Authors')
     value.split(',').collect{|a| a.strip}.each do |patro|
       patro_init = patro
@@ -224,7 +224,7 @@ class Project
                                   default: 'Yes'
                                 })
   def set_binder_visible value
-    value || return
+    value === nil && return
     value = yes_or_no_value(value)
     project.ui_common.binder.visibility(value == 'Yes')
     confirme(:binder_visible, value.inspect)
@@ -240,7 +240,7 @@ class Project
                                       default: 'Yes'
                                     })
   def set_collections_visible value
-    value || return
+    value === nil && return
     value = yes_or_no_value(value)
     project.ui_common.collections_visibility(value == 'Yes')
     confirme(:collections_visible, value.inspect)
@@ -259,7 +259,7 @@ class Project
                                   default: 'Yes'
                                 })
   def set_editors_header value
-    value || return
+    value === nil && return
     value = yes_or_no_value(value)
     project.ui_common.editor1.header_visible(value == 'Yes')
     project.ui_common.editor2.header_visible(value == 'Yes')
@@ -276,7 +276,7 @@ class Project
                                   default: 'Yes'
                                 })
   def set_editors_footer value
-    value || return
+    value === nil && return
     value = yes_or_no_value(value)
     project.ui_common.editor1.footer_visible(value == 'Yes')
     project.ui_common.editor2.footer_visible(value == 'Yes')
@@ -301,7 +301,7 @@ class Project
     set_editor_selection(2, value)
   end
   def set_editor_selection index_editor, value
-    value || return
+    value === nil && return
     paire = value.split(',').collect{|e| e.strip.to_i}
     project.ui.send("editor#{index_editor}".to_sym).text_selection = paire
     confirme(:editors_selection, [index_editor, paire.inspect])
@@ -318,7 +318,7 @@ class Project
                             default: 'Single'
                           })
   def set_editor_view_mode value
-    value || return
+    value === nil && return
     value = real_value_in(value.capitalize, DIVEXPLI[:modes_vues]) || return
     project.ui_common.editor1.current_view_mode= value
     confirme(:editors_view_mode, value.inspect)
@@ -341,7 +341,7 @@ class Project
     set_editor_group_view_mode(2, value)
   end
   def set_editor_group_view_mode index_editor, value
-    value || return
+    value === nil && return
     value = real_value_in(value.capitalize, DIVEXPLI[:modes_vues]) || return
     project.ui_common.send("editor#{index_editor}".to_sym).group_view_mode= value
     confirme(:editors_group_view_mode, [index_editor, value.inspect])
@@ -360,7 +360,7 @@ class Project
                                     default: 'Yes'
                                   })
   def set_inspector_visible value
-    value || return
+    value === nil && return
     value = yes_or_no_value(value)
     project.ui_common.inspector.visibility(value == 'Yes')
     confirme(:inspector_visible, value.inspect)
@@ -376,7 +376,7 @@ class Project
                                   default: 'Notes'
                                 })
   def set_inspector_tab value
-    value || return
+    value === nil && return
     UI::UICommon::Inspector::ONGLETS[value.downcase.to_sym] || raise(ERRORS[:bad_onglet_inspector])
     project.ui_common.inspector.set_onglet(value)
     confirme(:inspector_tab, value.inspect)
@@ -391,7 +391,7 @@ class Project
                               default: '100'
                             })
   def set_zoom_notes value
-    value || return
+    value === nil && return
     factor = any_value_as_factor(value)
     project.ui.notes_scale_factor= factor
     confirme(:zoom_notes, "#{(factor * 100).round}%")
@@ -407,7 +407,7 @@ class Project
                                 default: '100'
                               })
   def set_zoom_editor value
-    value || return
+    value === nil && return
     factor = any_value_as_factor(value)
     project.ui.main_document_editor.text_scale_factor= factor
     confirme(:zoom_editor, "#{(factor * 100).round}%")
@@ -423,7 +423,7 @@ class Project
                                     default: '100'
                                   })
   def set_zoom_alt_editor value
-    value || return
+    value === nil && return
     factor = any_value_as_factor(value)
     project.ui.supporting_document_editor.text_scale_factor= factor
     confirme(:zoom_alt_editor, "#{(factor * 100).round}%")
@@ -437,7 +437,7 @@ class Project
                                 default: '100'
                               })
   def set_zoom_editors value
-    value || return
+    value === nil && return
     set_zoom_editor value
     set_zoom_alt_editor value
   end
@@ -452,7 +452,7 @@ class Project
                                               default: 'false'
                                             })
   def set_compile_comments value
-    value || return
+    value === nil && return
     value = yes_or_no_value(value) == 'Yes' ? 'No' : 'Yes'
     compile_xml.remove_comments= value
     confirme(:compile_comments, value)
@@ -468,7 +468,7 @@ class Project
                                             default: 'false'
                                           })
   def set_compile_annotations value
-    value || return
+    value === nil && return
     value = yes_or_no_value(value) == 'Yes' ? 'No' : 'Yes'
     compile_xml.remove_annotations = value
     confirme(:compile_annotations, value)
@@ -486,7 +486,7 @@ class Project
                                 })
 
   def set_compile_output value
-    value || return
+    value === nil && return
     # Value doit être 'print' ou 'pdf'
     dvalue = XMLCompile::OUTPUT_FORMATS[value.downcase.to_sym] || raise(ERRORS[:valeurs_possibles] % ['compile_output', '(demande l’aide avec `scriv set compile_output -h`)'])
     compile_xml.set_xpath('//CurrentFileType', dvalue[:value])

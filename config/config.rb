@@ -1,6 +1,6 @@
 
 # MODE_DEVELOPPEMENT = false
-MODE_DEVELOPPEMENT = true
+MODE_DEVELOPPEMENT = File.basename(Dir.home) == 'philippeperret'
 
 CLI.debug_output = :log
 
