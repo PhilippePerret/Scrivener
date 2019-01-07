@@ -1,12 +1,18 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.9.2 **
+** Version courante : 1.9.3 **
+
+
+## Version 1.9.3
+
+  `INDENT` et `INDENT_TIRET` pour faciliter les écritures et unifor-
+  miser l'affichage.
 
 ## Version 1.9.2
 
   Méthode `CLI::Screen.select_in` qui permet de choisir dans une lis-
   te de valeurs indexées.
-  
+
 ## Version 1.9.1
 
   Ajout de l'option :no_slowly pour empêcher d'afficher les messages

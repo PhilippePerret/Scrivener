@@ -52,7 +52,16 @@ module EditorsModule
     end
     # Pour définir la sélection du texte
     # +paire+ [offset premier caractère, nombre de caractères]
+    # TODO Traiter avec des valeurs négatives (à commencer par 0, -1)
+    # La difficulté réside dans le fait de parvenir à connaitre le contenu
+    # de l'éditeur.
     def text_selection= paire
+      # paire = paire.collect.each do |v|
+      #   if v < 0
+      #     v =
+      #   end
+      #   v
+      # end
       node.elements['Text'].elements['Selection'].text = paire.join(',')
     end
 
@@ -109,7 +118,7 @@ module EditorsModule
       view_node.elements['CurrentViewMode'].text
     end
     alias :view_mode :current_view_mode
-    
+
     # Mode de vue de groupe. C'est comme le 'current_view_mode' mais ça
     # affecte l'affichage quand un dossier ou un groupe de fichiers est
     # affiché.

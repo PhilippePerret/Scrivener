@@ -13,27 +13,6 @@
 class Scrivener
 class Project
 
-  TABLE_EQUIVALENCE_DATA_SET = {
-    auteur:                       :author,
-    auteurs:                      :authors,
-    classeur_visible:             :binder_visible,
-    compiler_sans_commentaires:   :remove_comments_on_compile,
-    compiler_sans_annotations:    :remove_annotations_on_compile,
-    entete_editeurs:              :editors_header,
-    pied_de_page_editeurs:        :editors_footer,
-    mode_vue_editeur:             :editor_view_mode,
-    mode_vue_groupe_editeur1:     :editor1_group_view_mode,
-    mode_vue_groupe_editeur2:     :editor2_group_view_mode,
-    nom:                          :name,
-    inspecteur_visible:           :inspector_visible,
-    sortie_compilation:           :compile_output,
-    titre:                        :title,
-    titre_court:                  :title_abbreviate,
-    zoom_editeurs:                :zoom_editors,
-    zoom_editeur:                 :zoom_editor,
-    zoom_autre_editeur:           :zoom_alt_editor
-  }
-
   # Liste des méthodes, pour l'aide
   MODIFIABLE_PROPERTIES = Hash.new
 
@@ -193,9 +172,13 @@ class Project
   end
 
   # Définir le titre du projet
-  add_modpro(
-    :title => {hname: 'titre', variante: 'titre', description: 'Pour définir le titre complet du projet.', exemple: "Titre complet du projet".inspect,
-      category: :project_infos, confirmation: 'Titre mis à « %s »'}
+  add_modpro(:title =>  { hname: 'titre',
+                          variante: 'titre',
+                          description: 'Pour définir le titre complet du projet.',
+                          exemple: "Titre complet du projet".inspect,
+                          category: :project_infos,
+                          confirmation: 'Titre mis à « %s »'
+                        }
   )
   # TODO On devrait pouvoir définir le titre d'un document de cette manière
   # aussi, avec l'option '-doc="début du titre actuel"'
@@ -205,13 +188,16 @@ class Project
   end
 
   # Définir le titre abbrégé (court) du projet
-  add_modpro(
-    :title_abbreviate => {hname: 'titre abrégé', variante: 'titre_court', description: 'Pour définir le titre court du projet.', exemple: "Tit. court".inspect,
-      category: :project_infos, confirmation: 'Titre abrégé mis à « %s »'}
-  )
-  def set_title_abbreviate value
+  add_modpro(:title_abbreviated => {hname: 'titre abrégé',
+                                    variante: 'titre_court',
+                                    description: 'Pour définir le titre court du projet.',
+                                    exemple: "Tit. court".inspect,
+                                    category: :project_infos,
+                                    confirmation: 'Titre abrégé mis à « %s »'
+                                  })
+  def set_title_abbreviated value
     compile_xml.set_xpath('//MetaData/ProjectAbbreviatedTitle', value)
-    confirme(:title_abbreviate, value)
+    confirme(:title_abbreviated, value)
   end
 
 
@@ -219,20 +205,28 @@ class Project
   #   MÉTHODES INTERFACE
 
   # Définir la visibilité du classeur
-  add_modpro(
-    :binder_visible => {hname: 'Visibilité du classeur', variante: 'classeur_visible', description: 'Pour définir la visibilité du classeur.', exemple: 'Oui', values: DIVEXPLI[:yes_or_no_values],
-      category: [:interface, :binder], confirmation: 'Visibilité du classeur mise à %s'}
-  )
+  add_modpro(:binder_visible => { hname: 'Visibilité du classeur',
+                                  variante: 'classeur_visible',
+                                  description: 'Pour définir la visibilité du classeur.',
+                                  exemple: 'Oui',
+                                  values: DIVEXPLI[:yes_or_no_values],
+                                  category: [:interface, :binder],
+                                  confirmation: 'Visibilité du classeur mise à %s'
+                                })
   def set_binder_visible value
     value = yes_or_no_value(value)
     project.ui_common.binder.visibility(value == 'Yes')
     confirme(:binder_visible, value.inspect)
   end
 
-  add_modpro(
-    :collections_visible => {hname: 'Visibilité des collections', variante: nil, description: 'Pour définir la visibilité des collections dans le classeur.', exemple: 'Y', values: DIVEXPLI[:yes_or_no_values],
-      category: [:interface, :binder], confirmation: 'Visibilité des collections dans le classeur mise à %s'}
-  )
+  add_modpro(:collections_visible => {hname: 'Visibilité des collections',
+                                      variante: nil,
+                                      description: 'Pour définir la visibilité des collections dans le classeur.',
+                                      exemple: 'Y',
+                                      values: DIVEXPLI[:yes_or_no_values],
+                                      category: [:interface, :binder],
+                                      confirmation: 'Visibilité des collections dans le classeur mise à %s'
+                                    })
   def set_collections_visible value
     value = yes_or_no_value(value)
     project.ui_common.collections_visibility(value == 'Yes')
@@ -270,6 +264,27 @@ class Project
     project.ui_common.editor1.footer_visible(value == 'Yes')
     project.ui_common.editor2.footer_visible(value == 'Yes')
     confirme(:editors_footer, value.inspect)
+  end
+
+  add_modpro(
+    :editors_selection => { hname: 'Sélection de texte dans les éditeurs',
+                            variante: 'selection_editeur1 (ou 2)',
+                            description: 'Pour définir la sélection de texte dans les éditeur',
+                            exemple: '10, 30',
+                            values:  '<offset start>, <offset end>',
+                            category: [:interface, :editors],
+                            confirmation: 'Sélection de l’éditeur %i mis à %s'
+                          })
+  def set_editor1_selection value
+    set_editor_selection(1, value)
+  end
+  def set_editor2_selection value
+    set_editor_selection(2, value)
+  end
+  def set_editor_selection index_editor, value
+    paire = value.split(',').collect{|e| e.strip.to_i}
+    project.ui.send("editor#{index_editor}".to_sym).text_selection = paire
+    confirme(:editors_selection, [index_editor, paire.inspect])
   end
 
   add_modpro(
@@ -447,67 +462,6 @@ class Project
   end
 
 
-
-
-  # ---------------------------------------------------------------------
-  # Méthode fonctionnelles
-
-  def human_value_objectif_to_real_value valeur
-    SWP.signs_from_human_value(valeur, true)
-  end
-
-  # Retourne la vraie valeur de +value+ en la trouvant dans
-  # +data_value+. Si la valeur n'est pas trouvée, une exception
-  # est levée.
-  # Cette méthode permet par exemple de donner 'Plan' comme valeur
-  # et de retourner 'Outliner', le nom du plan dans Scrivener.
-  def real_value_in(value, data_value)
-    case data_value
-    when Array
-      # Quand +data_value+ est une liste, on doit juste vérifier que
-      # +value+ appartient bien à cette liste
-      data_value.include?(value) || raise('La valeur devrait être une parmi : %s' % data_value.join(', '))
-    when Hash
-      data_value.key?(value) && (return value)
-      # Sinon, il faut chercher la bonne valeur
-      data_value.each do |real, arr_values|
-        arr_values.include?(value) && (return real)
-      end
-      # Si on arrive ici c'est que la valeur n'a pas été trouvée
-      raise('Impossible de trouver la valeur correspond à %s' % value.inspect)
-    end
-    nil
-  rescue Exception => e
-    raise_by_mode(e, Scrivener.mode)
-    false
-  end
-  def yes_or_no_value value
-    case value.to_s.downcase
-    when '', 'vrai', 'true', 'yes', 'oui', 'y', 'o' then 'Yes'
-    when 'no', 'non', 'n', 'false', 'faux' then 'No'
-    else raise 'Valeur yes/no invalide.'
-    end
-  end
-
-  # Prend n'importe quelle valeur +value+ et la retourne comme un factor
-  # Scrivener. Par exemple, `100` qui signifie `100%` vaut 1.0
-  def any_value_as_factor(value)
-    case value
-    when /^[0-9](\.[0-9]{1,2})?$/ then value # déjà un facteur
-    when /^[0-9]{2,3}$/
-      (value.to_f / 100).pretty_round
-    when /^[0-9]{2,3}%$/
-      (value[0...-1].to_f / 100).pretty_round
-    else
-      raise(ERRORS[:unable_to_find_factor_with] % [value.inspect, '%'])
-    end.to_f
-  end
-
-  def confirme key_set, replacements = nil
-    msg = MODIFIABLE_PROPERTIES[key_set][:confirmation]
-    replacements.nil? || msg = msg % replacements
-    puts '  – ' + msg
-  end
 
 end #/Project
 end #/Scrivener

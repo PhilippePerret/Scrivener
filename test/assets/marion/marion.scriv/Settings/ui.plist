@@ -11,6 +11,8 @@
 		<string>{{0, 0}, {265, 906}}</string>
 		<string>{{266, 0}, {1145, 906}}</string>
 	</array>
+	<key>binderWidth</key>
+	<real>265</real>
 	<key>collectionsRepresentedBinderDocumentsInfo</key>
 	<dict>
 		<key>MainID</key>
@@ -18,6 +20,11 @@
 		<key>SupportingID</key>
 		<string></string>
 	</dict>
+	<key>editorSplitFrames</key>
+	<array>
+		<string>{{0, 0}, {1145, 438}}</string>
+		<string>{{0, 439}, {1145, 437}}</string>
+	</array>
 	<key>fullScreenTextEditorSettings</key>
 	<dict>
 		<key>textScaleFactor</key>
@@ -29,13 +36,15 @@
 	</array>
 	<key>inspectorWidth</key>
 	<real>245</real>
+	<key>lastDocumentSplitType</key>
+	<integer>0</integer>
 	<key>mainDocumentEditor.dockedQRTextSettings</key>
 	<dict>
 		<key>textScaleFactor</key>
 		<real>1</real>
 	</dict>
 	<key>mainDocumentEditor.scrollRect</key>
-	<string>{{0, 0}, {572.5, 410}}</string>
+	<string>{{0, 0}, {572.5, 190.5}}</string>
 	<key>mainDocumentEditor.textEditorState</key>
 	<dict>
 		<key>textScaleFactor</key>
@@ -49,13 +58,13 @@
 		<real>1</real>
 	</dict>
 	<key>supportingDocumentEditor.scrollRect</key>
-	<string>{{0, 0}, {620, 294}}</string>
+	<string>{{0, 0}, {620, 382}}</string>
 	<key>supportingDocumentEditor.textEditorState</key>
 	<dict>
 		<key>textScaleFactor</key>
 		<real>1</real>
 	</dict>
 	<key>supportingDocumentViewIsCurrent</key>
-	<false/>
+	<true/>
 </dict>
 </plist>

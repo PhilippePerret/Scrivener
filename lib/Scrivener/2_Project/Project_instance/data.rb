@@ -38,6 +38,14 @@ class Project
   end
   # /define_custom_metadatas_if_needed
 
+  def save_all
+    xfile.modified?       && xfile.save
+    ui_plist.modified?    && ui_plist.save
+    compile_xml.modified? && compile_xml.save
+    ui_common.modified?   && ui_common.save
+  end
+  # /save_all
+
   # ---------------------------------------------------------------------
   #   Méthodes fonctionnelles
 

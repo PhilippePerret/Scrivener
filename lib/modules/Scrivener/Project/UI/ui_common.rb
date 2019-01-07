@@ -169,7 +169,7 @@ class Project
         def set_modified ; ui_common.set_modified end
 
         def visible?
-          ui_common.xpath('/UIStates/Binder').attributes['Show'] == 'Yes'
+          ui_common.xpath('/UIStates/Inspector').attributes['Show'] == 'Yes'
         end
         def visibility visible
           ui_common.xpath('/UIStates/Inspector').attributes['Show'] = visible ? 'Yes' : 'No'

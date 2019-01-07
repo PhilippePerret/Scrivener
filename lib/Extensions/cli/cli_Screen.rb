@@ -1,9 +1,13 @@
+# frozen_string_literal: true
 # encoding: UTF-8
 =begin
 
 
 
 =end
+INDENT = '  '
+INDENT_TIRET = INDENT + '– '
+
 class CLI
 class Screen
 class << self
@@ -47,13 +51,13 @@ class << self
   def select_in liste, options = nil
     options ||= Hash.new
     options.key?(:ktitle) || options.merge!(ktitle: :item)
-    options.key?(:invite) || options.merge!(invite: '  Votre choix')
+    options.key?(:invite) || options.merge!(invite: INDENT+'Votre choix')
     liste.is_a?(Hash) && liste = liste.values
     ekeys = Array.new
     puts String::RC*2
     liste.each_with_index do |d, idx|
       lettre = (97+idx).chr
-      puts '    %s : %s' % [lettre, d[options[:ktitle]]]
+      puts INDENT * 2 + '%s : %s' % [lettre, d[options[:ktitle]]]
       ekeys << lettre
     end
     ekeys << 'q'

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <UIStates>
     <Binder Show="Yes">
-        <ShowCollections>No</ShowCollections>
+        <ShowCollections>Yes</ShowCollections>
         <SelectedCollection>0</SelectedCollection>
         <SubdocumentCounts>No</SubdocumentCounts>
         <ExpandedItems>
@@ -19,7 +19,7 @@
         <Collapse>CustomMetaData</Collapse>
         <FootnoteNumbers Prompt="No">No</FootnoteNumbers>
     </Inspector>
-    <Split>None</Split>
+    <Split>Horizontal</Split>
     <BinderAffects>Current</BinderAffects>
     <Labels>
         <Binder FullWidth="No">No</Binder>
@@ -114,7 +114,7 @@
                 <PageLayout Facing="No">No</PageLayout>
                 <TypewriterScrolling>No</TypewriterScrolling>
                 <LineNumbers Interval="1">No</LineNumbers>
-                <Selection>0,0</Selection>
+                <Selection>2,0</Selection>
             </Text>
             <Outliner>
                 <Columns>
@@ -150,15 +150,22 @@
             <View>
                 <ShowHeader>Yes</ShowHeader>
                 <ShowFooter>Yes</ShowFooter>
-                <GroupsViewMode>Corkboard</GroupsViewMode>
+                <GroupsViewMode>Scrivenings</GroupsViewMode>
+                <CurrentViewMode>Scrivenings</CurrentViewMode>
                 <SelectionAffects>None</SelectionAffects>
+                <Content>
+                    <ItemID>7495D5CA-657E-4997-9A5C-D248B0591A75</ItemID>
+                </Content>
+                <NavigationHistory CurrentIndex="0">
+                    <HistoryItem Type="BinderItems" ViewMode="Scrivenings">7495D5CA-657E-4997-9A5C-D248B0591A75</HistoryItem>
+                </NavigationHistory>
             </View>
             <Text>
                 <ShowRuler>No</ShowRuler>
                 <PageLayout Facing="No">No</PageLayout>
                 <TypewriterScrolling>No</TypewriterScrolling>
                 <LineNumbers Interval="1">No</LineNumbers>
-                <Selection>0,0</Selection>
+                <Selection>20,30</Selection>
             </Text>
             <Outliner>
                 <Columns>
