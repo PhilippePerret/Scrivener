@@ -140,6 +140,19 @@ class String
     self.sub(/#{in_folder}/,'.')
   end
 
+  # Pour ajouter l'extension '.+ext+' à un nom de fichier s'il ne
+  # la contient pas (et seulement s'il ne la contient pas)
+  def with_extension!(ext)
+    str = self.dup
+    str.end_with?(".#{ext}") || str.concat(".#{ext}")
+    self.replace(self.with_extension(ext))
+  end
+  def with_extension(ext)
+    str = self.dup
+    str.end_with?(".#{ext}") || str.concat(".#{ext}")
+    return str
+  end
+
   def as_human_date(options = nil)
     Time.at(self).to_i.as_human_date(options)
   end

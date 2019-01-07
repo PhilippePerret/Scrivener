@@ -79,10 +79,10 @@ def yesOrNo question, options = nil
   options ||= Hash.new
   options.merge!(expected_keys: ['y','o','n'])
   if options.key?(:invite)
-    options[:invite]
+    options[:invite] += ' (y/o = oui / n = non)'
   else
-    question
-  end  << ' (y/o = oui / n = non)'
+    question += ' (y/o = oui / n = non)'
+  end
   r = getc(question, options)
   return r.upcase != 'N'
 end

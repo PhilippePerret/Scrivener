@@ -16,14 +16,7 @@ aide = <<-EOT
   #{'Description'.underlined('-', '  ')}
 
       La commande `scriv set` permet de définir un grand nombre de
-      données du projet Scrivener courant (*).
-
-      (*) « courant » signifie, dans l'ordre :
-      - le projet dont le chemin d'accès est spécifié dans la
-        commande. Par exemple : `scriv data ~/projets/proj.scriv`
-      - le projet contenu par le dossier dans lequel on se
-        trouve en ce moment.
-      - le dernier projet utilisé par la commande `scriv`.
+      données du projet Scrivener courant.
 
       Par exemple, on remarquera que définir le titre ou l'auteur
       d'un projet Scrivener est assez malaisé et bizarre : il faut

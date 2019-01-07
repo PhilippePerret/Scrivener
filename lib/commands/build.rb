@@ -16,6 +16,9 @@ if CLI.options[:help]
                 when 'metadata', 'metadatas'
                   Scrivener.require_texte('aide_build_metadata_command')
                   BuildMetadataCommandHelp::AIDE
+                when 'config_file'
+                  Scrivener.require_texte('aide_build_config_file_command')
+                  BuildConfigFileCommandHelp::AIDE
                 else
                   ''
                 end

@@ -1,6 +1,12 @@
 class Scrivener
 class << self
 
+  # @usage: Scrivener.require('path/rel/app')
+  def require module_name
+    File.exist?(module_name.with_extension('rb')) || module_name = File.join(APPFOLDER, module_name)
+    Kernel.require(module_name)
+  end
+
   def require_module module_name
     module_full_path = File.join(APPFOLDER,'lib','modules',module_name)
     File.exist?(module_full_path) || begin

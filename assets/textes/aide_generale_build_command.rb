@@ -27,5 +27,9 @@ AIDE = <<-MARKDOWN
                   commande (interactive ou explicite) ou à partir de
                   fichiers YAML.
 
+    `config_file` Construit un fichier dit « de configuration » qui
+                  permet de définir rapidement de nombreuses données
+                  de l'application pour le projet courant.
+
 MARKDOWN
 end #/module
