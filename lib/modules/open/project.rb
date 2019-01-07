@@ -27,6 +27,11 @@ class Project
       unfound:  'Ça ne devrait pas pouvoir se produire. Vous avez dû détruire le projet depuis votre dernière utilisation de commande scriv.',
       no_vim:   true
     },
+    config: {
+      found:    nil,
+      unfound:  'Pour en créer un, utilisez `scriv build config-file. Ces fichiers contiennent des configurations de l’application qu’il suffit de charger avec `scriv set --from=NAME`.',
+      no_vim:   false,
+    },
     lemma: {
       found:    'Ce fichier contient la lémmatisation du texte principal du projet.',
       unfound:  'Ce fichier ne peut qu’exister après une analyse du texte.'
@@ -70,6 +75,9 @@ class Project
     when 'folder' # le dossier contenant le projet
       opts.merge!(tip: :folder)
       open_if_exists(folder, 'dossier du projet', opts)
+    when 'config', 'config-file'
+      opts.merge!(tip: :config)
+      open_if_exists(get_config_path, 'fichier de configuration', opts)
     when 'folder-scriv'
       opts.merge!(tip: :scriv)
       open_if_exists(hidden_folder, 'dossier du projet', opts)
@@ -172,5 +180,17 @@ class Project
       `vim -es "#{chemin}"`
     end
   end
+
+  # Retourne le chemin d'accès au fichier config par défaut ou défini par
+  # les options --name ou --nom
+  def get_config_path
+    return File.join(
+      folder,
+      (CLI.options[:name] || CLI.options[:nom] || 'config').with_extension('yaml')
+    )
+  end
+  # /get_config_path
+  private :get_config_path
+
 end #/Project
 end #/Scrivener

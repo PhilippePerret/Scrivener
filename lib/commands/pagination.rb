@@ -45,6 +45,11 @@ if CLI.options[:help]
         `html` produit un fichier HTML et l'option `file` la sort
         dans un fichier texte simple.
 
+    --open
+
+          Si présent en option, et que le format (output) HTML ou
+          FILE est choisi, le fichier est ouvert après sa création.
+
     -N    Par défaut, le nombre de caractères, de mots et de pages est
           indiqué au bout de chaque titre de fichier dans la table des
           matière produite. Avec cette option, ces nombres ne sont pas

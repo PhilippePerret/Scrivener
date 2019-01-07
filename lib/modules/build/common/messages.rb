@@ -14,6 +14,12 @@ ERRORS[:build].merge!({
   thing_required:       'Une chose à construire est requise (après `scriv build`)',
   invalid_thing:        'Jusqu’à preuve du contraire, la chose "%s" n’est pas constructible.',
 })
+
+NOTICES.key?(:build) || NOTICES.merge!(build: Hash.new)
+NOTICES[:build].merge!(
+  config_file_success: 'Le fichier config "%s" a été construit avec succès. Vous pouvez le voir en ouvrant le dossier du projet (`scriv open folder`) ou en ouvrant directement le fichier à l’aide de `scriv open config%s`'
+)
+
 class Project
 class << self
   # Retourne la liste humaine des choses constructible avec la

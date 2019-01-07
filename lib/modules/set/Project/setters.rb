@@ -78,6 +78,7 @@ class Project
                         exemple: "nouveau_nom".inspect,
                         category: :project_infos,
                         confirmation: 'Nom du fichier mis à %s',
+                        not_in_yam_file: true,
                         default: 'null'
                       })
   def set_name value
@@ -100,6 +101,40 @@ class Project
       confirme(:name, new_nom.inspect)
     end
   end
+
+  # Définir le titre du projet
+  add_modpro(:title =>  { hname: 'Titre du projet',
+                          variante: 'titre',
+                          description: 'Pour définir le titre complet du projet.',
+                          exemple: 'title="Titre complet du projet"',
+                          category: :project_infos,
+                          confirmation: 'Titre mis à « %s »',
+                          default: 'null'
+                        }
+  )
+  # TODO On devrait pouvoir définir le titre d'un document de cette manière
+  # aussi, avec l'option '-doc="début du titre actuel"'
+  def set_title value
+    value || return
+    compile_xml.set_xpath('//MetaData/ProjectTitle', value)
+    confirme(:title, value)
+  end
+
+  # Définir le titre abbrégé (court) du projet
+  add_modpro(:title_abbreviated => {hname: 'Titre abrégé du projet',
+                                    variante: 'titre_court',
+                                    description: 'Pour définir le titre court du projet.',
+                                    exemple: 'title_abbreviated="Tit. court"',
+                                    category: :project_infos,
+                                    confirmation: 'Titre abrégé mis à « %s »',
+                                    default: 'null'
+                                  })
+  def set_title_abbreviated value
+    value || return
+    compile_xml.set_xpath('//MetaData/ProjectAbbreviatedTitle', value)
+    confirme(:title_abbreviated, value)
+  end
+
 
   # Définir l'auteur du projet
   # Note : chaque setter doit définir cette valeur pour tenir à jour la
@@ -174,40 +209,6 @@ class Project
   def add_an_author dauteur
     compile_xml.add_xpath('//MetaData/Authors', dauteur)
   end
-
-  # Définir le titre du projet
-  add_modpro(:title =>  { hname: 'Titre du projet',
-                          variante: 'titre',
-                          description: 'Pour définir le titre complet du projet.',
-                          exemple: 'title="Titre complet du projet"',
-                          category: :project_infos,
-                          confirmation: 'Titre mis à « %s »',
-                          default: 'null'
-                        }
-  )
-  # TODO On devrait pouvoir définir le titre d'un document de cette manière
-  # aussi, avec l'option '-doc="début du titre actuel"'
-  def set_title value
-    value || return
-    compile_xml.set_xpath('//MetaData/ProjectTitle', value)
-    confirme(:title, value)
-  end
-
-  # Définir le titre abbrégé (court) du projet
-  add_modpro(:title_abbreviated => {hname: 'Titre abrégé du projet',
-                                    variante: 'titre_court',
-                                    description: 'Pour définir le titre court du projet.',
-                                    exemple: 'title_abbreviated="Tit. court"',
-                                    category: :project_infos,
-                                    confirmation: 'Titre abrégé mis à « %s »',
-                                    default: 'null'
-                                  })
-  def set_title_abbreviated value
-    value || return
-    compile_xml.set_xpath('//MetaData/ProjectAbbreviatedTitle', value)
-    confirme(:title_abbreviated, value)
-  end
-
 
   # ---------------------------------------------------------------------
   #   MÉTHODES INTERFACE

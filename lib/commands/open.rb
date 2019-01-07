@@ -18,16 +18,25 @@ if CLI.options[:help]
   ----------------
 
     #{'scriv open'.jaune}
-        Ouvre le projet dans Scrivener.
+
+        Ouvre le projet dans Scrivener lui-même.
 
     #{'scriv open folder'.jaune}
+
         Ouvre le dossier contenant le projet, dans le Finder.
 
+    #{'scriv open config[ --name=NAME]'.jaune}
+
+        Ouvre le fichier de configuration par défaut (config.yaml) ou
+        de nom NAME.
+
     #{'scriv open folder-scriv'.jaune}
+
         Ouvre le dossier caché `.scriv` qui contient tous les fi-
         chiers créés pour l'analyse du texte.
 
     #{'scriv open prox[imites][ <options>]'.jaune}
+
         Ouvrir la liste des proximités de mots propres au projet cou-
         rant, si elle existe.
         Si elle n'existe pas et que l'option `--create`, est définie,
@@ -35,10 +44,12 @@ if CLI.options[:help]
         pres au projet.
 
     #{'scriv open lemma'.jaune}
+
         Ouvre la liste de lemmatisation des mots qui a permis de cal-
         culer les proximités et autres fréquences.
 
     #{'scriv open abbr[s|eviations][ <options>]'.jaune}
+
         Ouvre le fichier contenant les abbréviations de TreeTagger,
         pour en ajouter de nouvelles, mais en toute connaissance de
         cause.

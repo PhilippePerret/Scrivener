@@ -26,11 +26,11 @@ ERRORS[:binder_item].merge!(
 )
 
 
-  NOTICES = Hash.new
-  NOTICES.merge!(
-    require_project_closed:       'Cette opération nécessite que le projet soit absolument fermé.',
-    maybe_only_leading_doctitle:  'Rappel : vous pouvez indiquer seulement le début du titre du document.'
-  )
+NOTICES = Hash.new
+NOTICES.merge!(
+  require_project_closed:       'Cette opération nécessite que le projet soit absolument fermé.',
+  maybe_only_leading_doctitle:  'Rappel : vous pouvez indiquer seulement le début du titre du document.'
+)
 
   QUEST = {
     is_project_closed:          'Le projet est-il bien fermé dans Scrivener ? C’est indispensable.',

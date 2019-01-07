@@ -12,11 +12,23 @@ module BuildConfigFileModule
     # TODO Utiliser la lang pour définir les valeurs
     lang = CLI.options[:lang] || ENV['SCRIV_LANG']
     build_new_config_file
-    open_new_config_file if CLI.options[:open]
+    if CLI.options[:open]
+      open_new_config_file
+    else
+      annonce_fin_build
+    end
   end
 
 
   DEFAULT_CONFIG_LINE = '%{property}: %{default} # %{hname}'
+
+  # Si on ne doit pas ouvrir le fichier à la fin, on indique comment le
+  # voir ou l'ouvrir.
+  def annonce_fin_build
+    puts String::RC * 2
+    puts INDENT + (Scrivener::NOTICES[:build][:config_file_success] % [config_file_path, config_file_name == DEFAULT_NAME ? '' : (' --name="%s"' % config_file_name)]).bleu
+    puts String::RC * 2
+  end
 
   def build_new_config_file
     Scrivener.require 'lib/modules/set/Project/setters'
@@ -25,6 +37,7 @@ module BuildConfigFileModule
       # voir la longueur à adopter
       max_len = 0
       Scrivener::Project::MODIFIABLE_PROPERTIES.each do |kprop, dprop|
+        next if dprop[:not_in_yam_file]
         kprop.to_s.length > max_len || next
         max_len = kprop.to_s.length
       end
@@ -36,6 +49,7 @@ module BuildConfigFileModule
     begin
       rf = File.open(config_file_path,'wb')
       Scrivener::Project::MODIFIABLE_PROPERTIES.each do |kprop, dprop|
+        next if dprop[:not_in_yam_file]
         hprop = max_len ? kprop.to_s.ljust(max_len) : kprop.to_s
         rf.puts(DEFAULT_CONFIG_LINE % dprop.merge(property: hprop))
       end
@@ -56,7 +70,7 @@ module BuildConfigFileModule
   # Si un fichier de même nom existe déjà, on demande quoi faire. Le supprimer
   # ou entrer une nouveau nom, qui sera lui aussi testé.
   def ask_for_solution_if_exist
-    if yesOrNo('Le fichier "%s" existe. Dois-je le remplacer ? (toutes les définitions seront perdues)')
+    if yesOrNo('Le fichier "%s" existe. Dois-je le remplacer ? (les définitions seront perdues)' % config_file_path)
       File.unlink(config_file_path)
       return true
     else
