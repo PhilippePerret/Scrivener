@@ -92,7 +92,7 @@ class << self
       Il suffit ensuite de jouer la commande :
         #{'scriv set --from=mon/fichier.yaml'.jaune}
       … pour que les données soient modifiées.
-      La commande #{'`scriv build config_file`'.jaune} permet de partir
+      La commande #{'`scriv build config-file`'.jaune} permet de partir
       d'un modèle contenant toutes les valeurs possibles. Ajouter
       l'option `--name=nom_fichier` pour définir un nom de fichier
       propre, dans le cas où plusieurs fichier de configurations se-

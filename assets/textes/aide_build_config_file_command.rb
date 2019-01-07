@@ -1,7 +1,7 @@
 module BuildConfigFileCommandHelp
 AIDE = <<-SOUSAIDE
 
-  AIDE PROPRE À LA COMMANDE `scriv build config_file`
+  AIDE PROPRE À LA COMMANDE `scriv build config-file`
   ===================================================
 
   Permet de construire un fichier dit « de configuation » qui permet
@@ -21,7 +21,7 @@ AIDE = <<-SOUSAIDE
 
   #{'Syntaxe de la commande'.underlined('-', INDENT)}
 
-    #{'scriv build[ mon/projet.scriv] config_file[ --nom=<NAME>][ --lang=<LANG>]'.jaune}
+    #{'scriv build[ mon/projet.scriv] config-file[ --nom=<NAME>][ --lang=<LANG>]'.jaune}
 
   #{'Options'.underlined('-', INDENT)}
 
@@ -45,7 +45,7 @@ AIDE = <<-SOUSAIDE
                       dans le fichier de configuration de Scrivener
                       dans ENV['SCRIV_EDITOR'] ou dans l'éditeur spé-
                       cifié par EDITOR. Exemple :
-                      #{'scriv build config_file --open=TextMate'}
+                      #{'scriv build config-file --open=TextMate'}
 
 
 SOUSAIDE
