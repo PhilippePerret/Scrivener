@@ -169,8 +169,7 @@ class Project
       patron = value[:lastname]
     end
     value_init = '%s %s' % [prenom, patron]
-    compile_xml.set_xpath('//MetaData/Surname', patron)
-    compile_xml.set_xpath('//MetaData/Forename', prenom)
+    define_author({firstname: prenom, lastname: patron})
     # Voir si cet auteur est déjà dans la liste
     # dans le cas contraire, l'ajouter (à la fin, pour le moment).
     author_found = false
@@ -307,21 +306,20 @@ class Project
     confirme(:editors_selection, [index_editor, paire.inspect])
   end
 
-  add_modpro(
-    :editor_view_mode => { hname: 'Mode de vue de l’éditeur principal',
-                            variante: 'mode_vue_editeur',
-                            description: 'Pour définir le mode d’affichage de l’éditeur principal, c’est-à-dire pour définir s’il doit afficher le ou les textes, le tableau d’affichage ou le plan.',
-                            exemple: 'editor_view_mode=Plan',
-                            values: DIVEXPLI[:modes_vues],
-                            category: [:interface, :editors],
-                            confirmation: 'Mode courant de vue de l’éditeur principal mis à %s',
-                            default: 'Single'
+  add_modpro(:editor_view_mode => { hname: 'Mode de vue de l’éditeur principal',
+                                    variante: 'mode_vue_editeur',
+                                    description: 'Pour définir le mode d’affichage de l’éditeur principal, c’est-à-dire pour définir s’il doit afficher le ou les textes, le tableau d’affichage ou le plan.',
+                                    exemple: 'editor_view_mode=Plan',
+                                    values: DIVEXPLI[:modes_vues],
+                                    category: [:interface, :editors],
+                                    confirmation: 'Mode courant de vue de l’éditeur principal mis à %s',
+                                    default: 'Single'
                           })
   def set_editor_view_mode value
     value === nil && return
     value = real_value_in(value.capitalize, DIVEXPLI[:modes_vues]) || return
     project.ui_common.editor1.current_view_mode= value
-    confirme(:editors_view_mode, value.inspect)
+    confirme(:editor_view_mode, value.inspect)
   end
 
   add_modpro( :editors_group_view_mode => { hname: 'Mode de vue de groupe dans les éditeurs',

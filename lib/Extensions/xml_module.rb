@@ -149,10 +149,10 @@ module XMLModule
     # Les métadonnées, if any
     def metadata
       @metadata ||= begin
-        # n = root.elements['CompileSettings']elements['Metadata'].first
         REXML::XPath.first(docxml, '//MetaData')
       end
     end
+    alias :metadatas :metadata
 
     # Les options, if any
     def options

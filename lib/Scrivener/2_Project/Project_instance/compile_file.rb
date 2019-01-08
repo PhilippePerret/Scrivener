@@ -90,10 +90,16 @@ OUTPUT_FORMATS = {
       prenom  = compile_xml.get_xpath('//MetaData/Forename')
 
       unless (nom+prenom).empty?
-        {firstname: prenom, lastname: nom, role: 'MainWriter'}
+        {firstname: prenom, lastname: nom, role: 'aut'}
       else
         get_author_info_from_node(compile_xml.metadata.elements['Authors'].elements['Author'].first)
       end
+    end
+
+    def define_author dauteur
+      XML.get_or_add(compile_xml.metadata, 'Surname').text = dauteur[:lastname]
+      XML.get_or_add(compile_xml.metadata, 'Forename').text = dauteur[:firstname]
+      compile_xml.set_modified
     end
 
     def get_author_info_from_node n
