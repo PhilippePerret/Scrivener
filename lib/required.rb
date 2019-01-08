@@ -1,5 +1,6 @@
 # encoding: UTF-8
 require 'fileutils'
+require 'i18n'
 require 'yaml'
 require 'plist'
 

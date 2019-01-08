@@ -8,4 +8,5 @@ source 'https://rubygems.org' do
   gem 'curses'
   gem 'plist', '>=3.4.0'
   gem 'rake'
+  gem 'i18n'
 end

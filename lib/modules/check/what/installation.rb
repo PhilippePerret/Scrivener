@@ -6,6 +6,7 @@ GEM_LIST = {
   plist:      {name: 'plist'      , by_required: true},
   curses:     {name: 'curses'     , by_required: true},
   rake:       {name: 'rake'       , by_required: true},
+  i18n:       {name: 'i18n'       , by_required: true},
   fileutils:  {name: 'fileutils'  , by_required: true}
 }
 DATA_CHECK_INSTALL = {
@@ -60,6 +61,17 @@ DATA_CHECK_INSTALL = {
     expected:     '2.3', # version ruby
     solve:        'Actualiser la version de Ruby'
   },
+  required_gems: {
+    success_msg:  'Tous les gems ruby requis sont installés et actualisés',
+    failure_msg:  'La liste des gems n’est pas conforme (cf. ci-dessous)',
+    value:        'all_gems_valid?',
+    expected:     'true',
+    evaluate:     'value === expected',
+    solve:        [
+      'Se placer dans le dossier de la commande à l’aide de  `cd "%s"`' % [APPFOLDER],
+      'Jouer `bundle install` (pour installer tous les gems requis)'
+    ]
+  },
   tree_grabber: {
     success_msg:  'Commande Tree-Tagger (pour la lemmatisation)',
     failure_msg:  'Commande Tree-Tagger (pour la lemmatisation) introuvable…',
@@ -71,17 +83,6 @@ DATA_CHECK_INSTALL = {
       'Placer le dossier téléchargé dans "/usr/local" (utiliser "open /usr/local" dans le Terminal pour l’ouvrir)',
       'Faire un "alias" en tapant le code suivant dans le Terminal : ln -s /usr/local/TreeTagger/cmd/tree-tagger-french /usr/local/bin'
                   ]
-  },
-  required_gems: {
-    success_msg:  'Tous les gems ruby requis sont installés et actualisés',
-    failure_msg:  'La liste des gems n’est pas conforme (cf. ci-dessous)',
-    value:        'all_gems_valid?',
-    expected:     'true',
-    evaluate:     'value === expected',
-    solve:        [
-      'Se placer dans le dossier de la commande à l’aide de  `cd "%s"`' % [APPFOLDER],
-      'Jouer `bundle install` (pour installer tous les gems requis)'
-    ]
   }
 }
 class << self

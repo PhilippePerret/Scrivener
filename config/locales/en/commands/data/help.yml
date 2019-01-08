@@ -1,0 +1,25 @@
+en:
+  commands:
+    data:
+      help: |
+        #{INDENT}#{'COMMAND `scriv data` HELP'.underlined('-', INDENT).gras}
+
+          #{'Description'.underlined('-', '    ')}
+
+              With the #{'`scriv data`'.jaune} command, you can get
+              all data from the current Scrivener project. For ins-
+              tance, it can display all the words occurences.
+
+          #{'Alias'.underlined('-', '    ')}
+
+            #{'`scriv stats[ <options>]`'.jaune} can be used as an
+            alias.
+
+        #{INDENT}#{'Limit words count'.underlined('-', INDENT)}
+
+          One can limit displayed words count with `words` parameter
+          provided with the expected count of words (or "all" for all
+          of the words). For instance :
+
+            #{'`scriv data words=20`'.jaune}
+            # => Display only 20 words

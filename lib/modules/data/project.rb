@@ -15,7 +15,7 @@ class Project
     def exec_data_projet(iproj)
       Scrivener.require_module('TextAnalyzer')
       Scrivener.require_module('prox/proximites')
-      puts String::RC*3
+      CLI::Screen.clear
       iproj.display_data
       # puts iproj.build_graph_densites # TODO Remettre plus tard
       puts String::RC*3
