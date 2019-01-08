@@ -31,14 +31,55 @@ class << self
     puts 'Projet : %s' % project_path
   end
 
-  # Retourne true si la commande est une vraie commande, c'est-à-dire autre
-  # chose que l'aide ou la liste des commandes demandées
-  # En d'autres termes, une command sur projet a besoin d'un projet
-  def command_on_project?(commande)
+  # Retourne true si la commande est une commande qui s'applique
+  # à un projet.
+  # Une commande qui s'applique à un projet a toujours besoin d'un
+  # projet.
+  def command_on_project?(cmd = nil)
     @is_command_on_project ||= begin
-      !(NOT_ON_PROJECT_COMMANDS.include?(commande) || CLI.options[:help])
+      cmd ||= self.command
+      !(help_wanted || cmd_without_project(cmd))
+    end
+    # # puts "=== @is_command_on_project: #{@is_command_on_project.inspect}"
+    # @is_command_on_project
+  end
+
+  def help_wanted
+    !!CLI.options[:help]
+  end
+  private :help_wanted
+  def cmd_without_project(cmd)
+    if NOT_ON_PROJECT_COMMANDS.key?(cmd)
+      # Si cette commande est connue, il faut voir si elle n'est évitable
+      # qu'avec certaines sous commandes (comme 'set lang' par exemple, qui
+      # a besoin d'un projet pour la plupart de ses valeurs)
+      if NOT_ON_PROJECT_COMMANDS[cmd].key?(:only_if)
+        return subcmd_without_project(cmd)
+      else
+        true
+      end
+    else
+      false
     end
   end
+  private :cmd_without_project
+
+  # Retourne true s'il n'y a pas de sous-commande qui définissent
+  # une commande sans projet.
+  def subcmd_without_project(cmd)
+    dnoton = NOT_ON_PROJECT_COMMANDS[cmd]
+    # Si la donnée n'a pas de :only_if, on peut s'arrêter là
+    if dnoton[:only_if].key?(:params)
+      dnoton[:only_if][:params].each do |param|
+        if CLI.params.key?(param)
+          return true
+        end
+      end
+    end
+    return false
+  end
+  #/subcmd_without_project
+  private :subcmd_without_project
 
   # Retourne true si la commande +commande+ existe.
   def command_exist?(commande)

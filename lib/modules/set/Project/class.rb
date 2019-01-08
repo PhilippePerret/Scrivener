@@ -10,13 +10,22 @@ class << self
     CLI.options[:help] && begin
       return project.help_command_set
     end
-    puts NOTICES[:require_project_closed].bleu
-    if CLI.options[:from]
-      project.set_values_from_file
+    if Scrivener.command_on_project?
+      puts NOTICES[:require_project_closed].bleu
+      if CLI.options[:from]
+        project.set_values_from_file
+      else
+        project.set_values
+      end
+      project.save_all
     else
-      project.set_values
+      # Si ce n'est pas une commande sur projet
+      # Rappel : pour les commandes qui ne se font pas sur projet (par
+      # exemple `set lang` qui définit la langue de scriv, il faut
+      # le définir dans la constante : NOT_ON_PROJECT_COMMANDS
+      # du fichier ./lib/Scrivener/1_Scrivener/init.rb)
+      Scrivener.set_values
     end
-    project.save_all
   end
   # /exec_set
 

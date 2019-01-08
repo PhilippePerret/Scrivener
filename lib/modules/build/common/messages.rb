@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # encoding: UTF-8
 class Scrivener
 ERRORS[:build]  ||= Hash.new
@@ -5,19 +6,18 @@ ERRORS[:update] ||= Hash.new
 
 # === UPDATE ===
 ERRORS[:update].merge!({
-  id_column_required:         'Pour actualiser un projet, il faut impérativement une colonne d’identifiant (ID) pour retrouver les éléments.',
-  unenable_to_update_value:   'Impossible d’actualiser la donnée de type "%s"'
+  id_column_required:         t('commands.update.errors.id_column_required'),
+  unenable_to_update_value:   t('commands.update.errors.unenable_to_update_value')
 })
 # === BUILD ===
 ERRORS[:build].merge!({
-  # Général
-  thing_required:       'Une chose à construire est requise (après `scriv build`)',
-  invalid_thing:        'Jusqu’à preuve du contraire, la chose "%s" n’est pas constructible.',
+  thing_required:       t('commands.build.errors.thing_required'),
+  invalid_thing:        t('commands.build.errors.invalid_thing'),
 })
 
 NOTICES.key?(:build) || NOTICES.merge!(build: Hash.new)
 NOTICES[:build].merge!(
-  config_file_success: 'Le fichier config "%s" a été construit avec succès. Vous pouvez le voir en ouvrant le dossier du projet (`scriv open folder`) ou en ouvrant directement le fichier à l’aide de `scriv open config%s`'
+  config_file_success: t('commands.build.notices.config_file_success')
 )
 
 class Project

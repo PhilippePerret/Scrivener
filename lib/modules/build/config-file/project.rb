@@ -30,7 +30,7 @@ module BuildConfigFileModule
   end
 
   def build_new_config_file
-    Scrivener.require 'lib/modules/set/Project/setters'
+    Scrivener.require 'lib/modules/set/Project/setters_project'
     if CLI::options[:readable]
       # On doit lire déjà toutes les propriétés uen fois pour
       # voir la longueur à adopter

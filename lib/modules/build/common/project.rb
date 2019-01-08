@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # encoding: UTF-8
 =begin
   Module pour la commande 'build'
@@ -5,10 +6,10 @@
 
 class Scrivener
 class Project
-  BUILDABLE_THINGS = {documents:    {hname: 'documents'},
-                      tdm:          {hname: 'table des matières'},
-                      metadatas:    {hname: 'métadonnées'},
-                      :'config-file' =>  {hname: 'Fichier de configuration'}
+  BUILDABLE_THINGS = {documents:          {hname: t('document.min.plur')},
+                      tdm:                {hname: t('table_of_contents.min.plur')},
+                      metadatas:          {hname: t('metadata.min.plur')},
+                      :'config-file' =>   {hname: t('config_file.tit.sing')}
                     }
 end #/Project
 end #/Scrivener

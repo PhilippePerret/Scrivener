@@ -10,11 +10,10 @@
   des propriétés MODIFIABLE_PROPERTIES.
 
 =end
+require_relative '../setters_before'
+
 class Scrivener
 class Project
-
-  # Liste des méthodes, pour l'aide
-  MODIFIABLE_PROPERTIES = Hash.new
 
   # Différents textes qu'on peut trouver pour différentes propriétés
   DIVEXPLI = {
@@ -60,11 +59,6 @@ class Project
     ui_common.editor1.add_historique([chapitre_trois, second_chapitre, premier_chapitre], {last_is_current: true})
 
     ui_common.save
-  end
-
-  def self.add_modpro h
-    MODIFIABLE_PROPERTIES.key?(h.keys.first) && raise('LA CLÉ %s existe déjà !' % [h.keys.first])
-    MODIFIABLE_PROPERTIES.merge!(h)
   end
 
   QUESTIONS = {

@@ -147,7 +147,7 @@ module TextAnalyzerOutputHelpers
     # Entête de la ligne d'affichage des proximités
     def header(options)
       tbltitre = '%{des} %{prox} (%{sorteds} %{type_classement})' % {
-        des: options[:limit] == Float::INFINITY ? t('all_the.fem.cap') : ('%s %s' % [options[:limit], t('first.fem.plur.cap')]),
+        des: options[:limit] == Float::INFINITY ? t('all_the.fem.cap') : ('%s %s' % [options[:limit], t('first.fem.cap.plur')]),
         type_classement: self.class.classement_name(options),
         prox: t('proximity.cap.plur'),
         sorteds: t('sorted.plur')

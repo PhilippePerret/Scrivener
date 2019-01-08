@@ -48,6 +48,16 @@ en:
     cap:
       sing: CANON
       plur: CANONS
+  config_file:
+    min:
+      sing: config file
+      plur: config files
+    tit:
+      sing: Config File
+      plur: Config Files
+    # cap:
+    #   sing: CONFIG FILE
+    #   plur: CONFIG FILES
   count:
     min:
       sing: count
@@ -69,6 +79,19 @@ en:
       sing: DISTANCE
       plur: DISTANCES
     abbr: Dist.
+  document:
+    min:
+      sing: document
+      plur: documents
+    tit:
+      sing: Document
+      plur: Documents
+    cap:
+      sing: DOCUMENT
+      plur: DOCUMENTS
+    abbr:
+      sing: Doc
+      plur: Docs
   Distance_average:   Average distance
   Dist_average_abbr:  Aver.Dist.
   first:
@@ -114,6 +137,16 @@ en:
     cap:
       sing: OFFSET
       plur: OFFSETS
+  metadata:
+    min:
+      sing: metadata
+      plur: metadatas
+    tit:
+      sing: MetaData
+      plur: MetaDatas
+    cap:
+      sing: METADATA
+      plur: METADATAS
   number:
     min:
       sing: number
@@ -161,7 +194,19 @@ en:
     cap:
       sing: TABLE
       plur: TABLES
-  TOUTES_LES:         ALL
+  table_of_contents:
+    min:
+      sing: table of contents
+      plur: tables of contents
+    tit:
+      sing: Table Of Contents
+      plur: Tables Of Contents
+    cap:
+      sing: TABLE OF CONTENTS
+      plur: TABLES OF CONTENTS
+    abbr:
+      sing: ToC
+      plur: ToCs
   word:
     min:
       sing: word

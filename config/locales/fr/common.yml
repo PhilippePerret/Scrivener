@@ -48,6 +48,16 @@ fr:
     cap:
       sing: CANON
       plur: CANONS
+  config_file:
+    min:
+      sing: fichier de configuration
+      plur: fichiers de configuration
+    tit:
+      sing: Fichier de configuration
+      plur: Fichiers de configuration
+    # cap:
+    #   sing: FICHIER DE CONFIGURATION
+    #   plur: FICHIERS DE CONFIGURATION
   count:
     min:
       sing: nombre
@@ -69,6 +79,19 @@ fr:
       sing: DISTANCE
       plur: DISTANCES
     abbr: Dist.
+  document:
+  min:
+    sing: document
+    plur: documents
+  tit:
+    sing: Document
+    plur: Documents
+  cap:
+    sing: DOCUMENT
+    plur: DOCUMENTS
+  abbr:
+    sing: Doc
+    plur: Docs
   Distance_average:   Distance moyenne
   Dist_average_abbr:  Dist.moy.
   first:
@@ -114,6 +137,16 @@ fr:
     cap:
       sing: DÉCALAGE
       plur: DÉCALAGES
+  metadata:
+    min:
+      sing: métadonnée
+      plur: métadonnées
+    tit:
+      sing: Métadonnée
+      plur: Métadonnées
+    cap:
+      sing: MÉTADONNÉE
+      plur: MÉTADONNÉE
   number:
     min:
       sing: nombre
@@ -160,7 +193,20 @@ fr:
     cap:
       sing: TABLE
       plur: TABLES
-  TOUTES_LES: TOUTES LES
+  table_of_contents:
+  min:
+    sing: table des matières
+    plur: tables des matières
+  tit:
+    sing: Table des matières
+    plur: Tables des matières
+  cap:
+    sing: TABLE DES MATIÈRES
+    plur: TABLES DES MATIÈRES
+  abbr:
+    sing: TdM
+    plur: TDMs
+
   word:
     min:
       sing: mot
