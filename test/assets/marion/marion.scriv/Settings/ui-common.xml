@@ -19,7 +19,7 @@
         <Collapse>CustomMetaData</Collapse>
         <FootnoteNumbers Prompt='No'>No</FootnoteNumbers>
     </Inspector>
-    <Split>Horizontal</Split>
+    <Split>None</Split>
     <BinderAffects>Current</BinderAffects>
     <Labels>
         <Binder FullWidth='No'>No</Binder>
@@ -150,15 +150,8 @@
             <View>
                 <ShowHeader>Yes</ShowHeader>
                 <ShowFooter>Yes</ShowFooter>
-                <GroupsViewMode>Scrivenings</GroupsViewMode>
-                <CurrentViewMode>Scrivenings</CurrentViewMode>
+                <GroupsViewMode>Corkboard</GroupsViewMode>
                 <SelectionAffects>None</SelectionAffects>
-                <Content>
-                    <ItemID>7495D5CA-657E-4997-9A5C-D248B0591A75</ItemID>
-                </Content>
-                <NavigationHistory CurrentIndex='0'>
-                    <HistoryItem Type='BinderItems' ViewMode='Scrivenings'>7495D5CA-657E-4997-9A5C-D248B0591A75</HistoryItem>
-                </NavigationHistory>
             </View>
             <Text>
                 <ShowRuler>No</ShowRuler>

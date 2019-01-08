@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<ScrivenerProject Identifier='05F9332E-5DC1-466A-B165-AC1F2047BE24' Version='2.0' Creator='SCRMAC-3.1.1-9852' Device='MacBook-Air-de-Philippe' Author='Philippe Perret' Modified='2019-01-07 08:58:35 +0300' ModID='32F3EBB3-F33A-4CA7-B5F9-019F7BB0DDB0'
+<ScrivenerProject Identifier='05F9332E-5DC1-466A-B165-AC1F2047BE24' Version='2.0' Creator='SCRMAC-3.1.1-9852' Device='MacBook-Air-de-Philippe' Author='Philippe Perret' Modified='2019-01-06 08:24:25 +0300' ModID='3E86F39B-3754-4777-A5E9-7E264E88B196'
 >
     <Binder
   >
@@ -364,11 +364,11 @@
         <SessionTarget Type='Words' CountDraftOnly='Yes' AllowNegatives='Yes' ResetType='Time' ResetTime='00:00' DeterminedFromDeadline='No' WritingDays='' CanWriteOnDeadlineDate='No'
     >0</SessionTarget
     >
-        <PreviousSession Words='0' Characters='0' Date='2019-01-07 08:45:37 +0300'
+        <PreviousSession Words='0' Characters='0' Date='2019-01-06 08:23:42 +0300'
     />
     </ProjectTargets
   >
-    <RecentWritingHistory Date='2019-01-07 00:00:00 +0300'
+    <RecentWritingHistory Date='2019-01-06 00:00:00 +0300'
   >
         <DraftWordCount
     >0</DraftWordCount

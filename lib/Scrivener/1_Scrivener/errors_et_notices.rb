@@ -19,6 +19,8 @@ ERRORS.key?(:args) || ERRORS.merge!(args: Hash.new)
 # ERRORS[:args].merge!(
 #
 # )
+# === ERREURS AVEC XML ===
+# Cf. dans xml_module
 # === ERREURS AVEC LES BINDER-ITEMS ===
 ERRORS.key?(:binder_item) || ERRORS.merge!(binder_item: Hash.new)
 ERRORS[:binder_item].merge!(

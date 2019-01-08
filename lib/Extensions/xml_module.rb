@@ -3,6 +3,12 @@ module XMLModule
 
   class XML
 
+    ERRORS = Hash.new
+    ERRORS.merge!(
+      xpath_node_unfound: 'Impossible de trouver le nœud "%s" (par xpath, avec get_xpath)'
+    )
+
+
     class << self
       # Retourne l'enfant +tag+ de +parent+ en le créant si nécessaire
       # Note : depuis déc 2018, peut créer un path complet 'path/to/node'
@@ -115,12 +121,18 @@ module XMLModule
 
     # Pour obtenir facilement le texte de l'élément
     def get_xpath xpath
-      REXML::XPath.first(docxml, xpath).text
+      return get_node(xpath).text
     end
     # Pour définir un élément, par l'xpath
     def set_xpath xpath, value
-      REXML::XPath.first(docxml, xpath).text = value
+      get_node(xpath).text = value
       @modified = true
+    end
+
+    def get_node(xp)
+      n = xpath(xp)
+      n != nil || raise(ERRORS[:xpath_node_unfound] % xp)
+      return n
     end
 
     # Pour ajouter un noeud au xpath +xpath+ avec les données +node_data+ qui
