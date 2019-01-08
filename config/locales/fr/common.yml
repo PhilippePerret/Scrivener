@@ -1,0 +1,173 @@
+fr:
+  after: après
+  all:
+    min:
+      sing: tout
+      plur: tous
+      fem:
+        sing: toute
+        plur: toutes
+    tit:
+      sing: Tout
+      plur: Tous
+      fem:
+        sing: Toute
+        plur: Toutes
+    cap:
+      sing: TOUT
+      plur: TOUS
+      fem:
+        sing: TOUTE
+        plur: TOUTES
+  all_the:
+    min: tous les
+    tit: Tous les
+    cap: TOUS LES
+    fem:
+      min: toutes les
+      tit: Toutes les
+      cap: TOUTES LES
+  analysis:
+    min:
+      sing: analyse
+      plur: analyse
+    tit:
+      sing: Analyse
+      plur: Analyse
+    cap:
+      sing: ANALYSE
+      plur: ANALYSE
+  before: avant
+  canon:
+    min:
+      sing: canon
+      plur: canons
+    tit:
+      sing: Canon
+      plur: Canons
+    cap:
+      sing: CANON
+      plur: CANONS
+  count:
+    min:
+      sing: nombre
+      plur: nombres
+    tit:
+      sing: Nombre
+      plur: Nombres
+    cap:
+      sing: NOMBRE
+      plur: NOMBRES
+  distance:
+    min:
+      sing: distance
+      plur: distances
+    tit:
+      sing: Distance
+      plur: Distances
+    cap:
+      sing: DISTANCE
+      plur: DISTANCES
+    abbr: Dist.
+  Distance_average:   Distance moyenne
+  Dist_average_abbr:  Dist.moy.
+  first:
+    min:
+      sing: premier
+      plur: premiers
+    tit:
+      sing: Premier
+      plur: Premiers
+    cap:
+      sing: PREMIER
+      plur: PREMIERS
+    fem:
+      min:
+        sing: première
+        plur: premières
+      tit:
+        sing: Première
+        plur: Premières
+      cap:
+        sing: PREMIÈRE
+        plur: PREMIÈRES
+  index:
+    min:
+      sing: index
+      plur: index
+    tit:
+      sing: Index
+      plur: Index
+    cap:
+      sing: INDEX
+      plur: INDEX
+  OF:                 DE
+  OFs:                DES
+  OF_date:            DU
+  offset:
+    min:
+      sing: décalage
+      plur: décalages
+    tit:
+      sing: Décalage
+      plur: Décalages
+    cap:
+      sing: DÉCALAGE
+      plur: DÉCALAGES
+  number:
+    min:
+      sing: nombre
+      plur: nombres
+    tit:
+      sing: Nombre
+      plur: Nombres
+    cap:
+      sing: NOMBRE
+      plur: NOMBRES
+    abbr:
+      min: nomb.
+      tit: Nomb.
+      cap: NOMB.
+  proximity:
+    min:
+      sing: proximité
+      plur: proximités
+    tit:
+      sing: Proximité
+      plur: Proximités
+    cap:
+      sing: PROXIMITÉ
+      plur: PROXIMITÉS
+    abbr:
+      min: prox.
+      tit: Prox.
+      cap: PROX.
+  sorted:
+    alphabetical:         alphabétiquement
+    by:                   classés par
+    by_occurences_count:  by occurences count
+    by_proxs_count:       par nombre de proximités
+    by_words_count:       par nombre de mots
+    nearest_to_farest:    de la plus proche à la plus éloignée
+    plur:                 classés
+  table:
+    min:
+      sing: table
+      plur: tables
+    tit:
+      sing: Table
+      plur: Tables
+    cap:
+      sing: TABLE
+      plur: TABLES
+  TOUTES_LES: TOUTES LES
+  word:
+    min:
+      sing: mot
+      plur: mots
+    tit:
+      sing: Mot
+      plur: Mots
+    cap:
+      sing: MOT
+      plur: MOTS

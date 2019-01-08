@@ -1,0 +1,174 @@
+en:
+  after: after
+  all:
+    min:
+      sing: all
+      plur: all
+      fem:
+        sing: all
+        plur: all
+    tit:
+      sing: all
+      plur: all
+      fem:
+        sing: all
+        plur: all
+    cap:
+      sing: ALL
+      plur: ALL
+      fem:
+        sing: ALL
+        plur: ALL
+  all_the:
+    min: all the
+    tit: All the
+    cap: ALL THE
+    fem:
+      min: all the
+      tit: All the
+      cap: ALL THE
+  analysis:
+    min:
+      sing: analysis
+      plur: analysis
+    tit:
+      sing: Analysis
+      plur: Analysis
+    cap:
+      sing: ANALYSIS
+      plur: ANALYSIS
+  before: before
+  canon:
+    min:
+      sing: canon
+      plur: canons
+    tit:
+      sing: Canon
+      plur: Canons
+    cap:
+      sing: CANON
+      plur: CANONS
+  count:
+    min:
+      sing: count
+      plur: counts
+    tit:
+      sing: Count
+      plur: Counts
+    cap:
+      sing: COUNT
+      plur: COUNTS
+  distance:
+    min:
+      sing: distance
+      plur: distances
+    tit:
+      sing: Distance
+      plur: Distances
+    cap:
+      sing: DISTANCE
+      plur: DISTANCES
+    abbr: Dist.
+  Distance_average:   Average distance
+  Dist_average_abbr:  Aver.Dist.
+  first:
+    min:
+      sing: first
+      plur: first
+    tit:
+      sing: First
+      plur: First
+    cap:
+      sing: FIRST
+      plur: FIRST
+    fem:
+      min:
+        sing: first
+        plur: first
+      tit:
+        sing: First
+        plur: First
+      cap:
+        sing: FIRST
+        plur: FIRST
+  index:
+    min:
+      sing: index
+      plur: index
+    tit:
+      sing: Index
+      plur: Index
+    cap:
+      sing: INDEX
+      plur: INDEX
+  OF:                 OF
+  OFs:                OF
+  OF_date:            OF
+  offset:
+    min:
+      sing: offset
+      plur: offsets
+    tit:
+      sing: Offset
+      plur: Offsets
+    cap:
+      sing: OFFSET
+      plur: OFFSETS
+  number:
+    min:
+      sing: number
+      plur: numbers
+    tit:
+      sing: Number
+      plur: Numbers
+    cap:
+      sing: NUMBER
+      plur: NUMBERS
+    abbr:
+      min: num.
+      tit: Num.
+      cap: NUM.
+  PREMIERES:          FIRST
+  proximity:
+    min:
+      sing: proximity
+      plur: proximities
+    tit:
+      sing: Proximity
+      plur: Proximities
+    cap:
+      sing: PROXIMITY
+      plur: PROXIMITIES
+    abbr:
+      min: prox.
+      tit: Prox.
+      cap: PROX.
+  sorted:
+    alphabetical:         alphabetical
+    by:                   sorted by
+    by_occurences_count:  par nombre d’occurences
+    by_proxs_count:       by proximities count
+    by_words_count:       by words count
+    nearest_to_farest:    from nearest to farest
+    plur:                 sorted
+  table:
+    min:
+      sing: table
+      plur: tables
+    tit:
+      sing: Table
+      plur: Tables
+    cap:
+      sing: TABLE
+      plur: TABLES
+  TOUTES_LES:         ALL
+  word:
+    min:
+      sing: word
+      plur: words
+    tit:
+      sing: Word
+      plur: Words
+    cap:
+      sing: WORD
+      plur: WORDS

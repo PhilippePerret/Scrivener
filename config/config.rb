@@ -5,7 +5,7 @@ MODE_DEVELOPPEMENT = File.basename(Dir.home) == 'philippeperret'
 CLI.debug_output = :log
 
 # Langue utilisée par défaut
-ENV['SCRIV_LANG'] = 'fr'
+ENV['SCRIV_LANG'] ||= 'fr'
 
 ENV['SCRIV_EDITOR'] = 'TextMate'
 # ENV['SCRIV_EDITOR'] = 'vim'
@@ -20,5 +20,5 @@ TREE_TAGGER_ABBREVIATES = File.join(FOLDER_TREE_TAGGER_PATH,'lib','french-abbrev
 
 # I18n.load_path << Dir[File.expand_path("config/locales") + "/*.yml"]
 I18n.load_path << Dir[File.expand_path("config/locales") + "/**/*.yml"]
-# I18n.default_locale = ENV['SCRIV_LANG'].to_sym # (note that `en` is the default!)
-I18n.default_locale = :en # pour tester en anglais
+I18n.available_locales = [:en, :fr]
+I18n.default_locale = ENV['SCRIV_LANG'].to_sym # (note that `en` is the default!)

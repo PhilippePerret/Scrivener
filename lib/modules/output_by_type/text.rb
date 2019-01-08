@@ -5,12 +5,11 @@
 module TextAnalyzerOutputHelpers
 
   class TextAnalyzer::Analyse::TableResultats::Output
-
     def ecrit_date_analyse
       ls = ['']
       ls << CLI.separator(return: false, tab: '  ', char: '=').jaune
-      ls << ('    %s' % [analyse.title.upcase]).jaune
-      ls << ('    ANALYSE DU %s' % Time.now.to_i.as_human_date(true, true)).jaune
+      ls << (INDENT*2 + analyse.title.upcase).jaune
+      ls << INDENT*2 + t('analysis.cap.sing OF_date %s', [Time.now.to_i.as_human_date(true, true)]).jaune
       ls << ls[1]
       ls << ''
       ecrit ls.join(String::RC)
@@ -37,8 +36,8 @@ module TextAnalyzerOutputHelpers
 
   def entete_table_nombres
     self.class.table_full_header({
-      project_title:  analyse.title.titleize,
-      table_title:    'TABLE DES NOMBRES'
+      project_title:  analyse.title,
+      table_title:    t('table.cap.sing OFs number.cap.plur')
       })
   end
 
@@ -53,12 +52,14 @@ module TextAnalyzerOutputHelpers
 
     def header(options)
       @header ||= begin
-        tbltitre = '%{des} CANONS (classés %{type_classement})' % {
-          des: options[:limit] == Float::INFINITY ? 'TOUS LES' : ('%s PREMIERS' % options[:limit]),
-          type_classement: self.class.classement_name(options)
+        tbltitre = '%{des} %{canons} (%{sorteds} %{type_classement})' % {
+          des: options[:limit] == Float::INFINITY ? t('all_the.cap') : ('%s %s' % [options[:limit], t('first.cap.plur')]),
+          type_classement: self.class.classement_name(options),
+          canons: t('canon.cap.plur'),
+          sorteds: t('sorted.plur')
         }
         outputClass.table_full_header({
-          project_title: analyse.title.titleize,
+          project_title: analyse.title,
           table_title:   tbltitre,
           header_labels:  canons_header_labels
           })
@@ -66,12 +67,12 @@ module TextAnalyzerOutputHelpers
     end
 
     def canons_header_labels
-      '  %s | %s | %s | %s | %s |' % [
-        ' Canon '.ljust(31),
-        ' x '. ljust(4),
-        'Prox.'.ljust(5),
+      '   %s  |  %s  | %s |   %s  | %s |' % [
+        t('canon.tit.sing').ljust(31),
+        'x'. ljust(4),
+        t('proximity.abbr.sing').ljust(5),
         ' % '.ljust(6),
-        'Dist.moy'.ljust(8)
+        t('Dist_average_abbr').ljust(8)
       ]
     end
 
@@ -129,7 +130,7 @@ module TextAnalyzerOutputHelpers
       @formated_moyenne_distance ||= begin
         moyenne_distances.to_s.rjust(8)
       rescue Exception => e
-        '[ERR. CALC: %s]' % e.message
+        '[CALC. ERR.: %s]' % e.message
       end
     end
 
@@ -145,25 +146,28 @@ module TextAnalyzerOutputHelpers
 
     # Entête de la ligne d'affichage des proximités
     def header(options)
-      tbltitre = '%{des} PROXIMITÉS (classés %{type_classement})' % {
-        des: options[:limit] == Float::INFINITY ? 'TOUTES LES' : ('%s PREMIÈRES' % options[:limit]),
-        type_classement: self.class.classement_name(options)
+      tbltitre = '%{des} %{prox} (%{sorteds} %{type_classement})' % {
+        des: options[:limit] == Float::INFINITY ? t('all_the.fem.cap') : ('%s %s' % [options[:limit], t('first.fem.plur.cap')]),
+        type_classement: self.class.classement_name(options),
+        prox: t('proximity.cap.plur'),
+        sorteds: t('sorted.plur')
       }
       outputClass.table_full_header({
-        project_title:  options[:analyse].title.titleize,
+        project_title:  options[:analyse].title,
         table_title:    tbltitre,
         header_labels:  proximites_header_labels
       })
     end
 
+
     def proximites_header_labels
-      '  %s |%s |%s |%s|%s |%s' % [
-        ' '           .ljust(5),
-        ' ID '        .ljust(8),
-        ' Mot avant'  .ljust(31),
-        ' dist.'      .ljust(5),
-        ' Mot après'  .ljust(31),
-        ' Décalages'  .ljust(16)
+      INDENT+' %s | %s | %s | %s| %s | %s' % [
+        ''                .ljust(5),
+        'ID '             .ljust(8),
+        t('word.tit.sing before')  .ljust(31),
+        t('distance.abbr.sing').ljust(5),
+        t('word.tit.sing after')   .ljust(31),
+        t('offset.tit.plur').ljust(16)
       ]
     end
 
@@ -214,12 +218,14 @@ module TextAnalyzerOutputHelpers
 
     # Entête de la ligne d'affichage des proximités
     def header(options)
-      tbltitre = '%{des} MOTS (classés %{type_classement})' % {
-        des: options[:limit] == Float::INFINITY ? 'TOUS LES' : ('%s PREMIERS' % options[:limit]),
-        type_classement: self.class.classement_name(options)
+      tbltitre = '%{des} %{words} (%{sorteds} %{type_classement})' % {
+        des: options[:limit] == Float::INFINITY ? t('all_the.cap') : ('%s %s' % [options[:limit], t('first.cap.plur')]),
+        type_classement: self.class.classement_name(options),
+        words: t('word.cap.plur'),
+        sorteds: t('sorted.plur')
       }
       outputClass.table_full_header({
-        project_title: analyse.title.titleize,
+        project_title: analyse.title,
         table_title:   tbltitre,
         header_labels:  mots_header_labels
         })
@@ -227,10 +233,10 @@ module TextAnalyzerOutputHelpers
 
     def mots_header_labels
       '    %{index} | %{mot} | %{occ} | %{pindex} |' % {
-        index:    'Index'     .ljust(6),
-        mot:      'Mot'       .ljust(30),
-        occ:      'Nombre'    .ljust(7),
-        pindex:   '% '        .rjust(8)
+        index:    t('index.tit.sing') .ljust(6),
+        mot:      t('word.tit.sing')  .ljust(30),
+        occ:      t('count.tit.sing') .ljust(7),
+        pindex:   '% '       .rjust(8)
       }
     end
 

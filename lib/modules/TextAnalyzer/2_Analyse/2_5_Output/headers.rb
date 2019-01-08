@@ -10,11 +10,13 @@ class Proximite
   def self.classement_name options
     case options[:sorted_by]
     when :distance
-      'de la plus proche à la plus éloignée'
+      t('sorted.nearest_to_farest')
     else
-      'alphabétiquement'
+      t('alphabetical')
     end
   end
+
+
 
 end #/Proximite
 end #/TableResultats
@@ -29,11 +31,11 @@ class Canon
   def self.classement_name options
     case options[:sorted_by]
     when :mots_count
-      'par nombre de mots'
+      t('sorted.by_words_count')
     when :proximites_count, :prox_count
-      'par nombre de proximités'
+      t('sorted.by_proxs_count')
     else # :alpha
-      'alphabétiquement'
+      t('sorted.alphabetical')
     end
   end
 
@@ -46,15 +48,14 @@ class TextAnalyzer
 class Analyse
 class WholeText
 class Mot
-
   def self.classement_name options
     case options[:sorted_by]
     when :mots_count, :count
-      'par nombre d’occurences'
+      t('sorted.by_occurences_count')
     when :proximites_count, :prox_count
-      'par nombre de proximités'
+      t('sorted.by_proxs_count')
     else # :alpha
-      'alphabétiquement'
+      t('sorted.alphabetical')
     end
   end
 

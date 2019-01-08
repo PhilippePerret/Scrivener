@@ -35,11 +35,23 @@ require 'test/unit'
 # Il faut requérir tous les requirements de l'application, notamment pour
 # les données enregistrées dans les fichiers Marshal
 require './lib/required'
+
 CLI.init # notamment pour que CLI.options ne soit pas nil
 
 # Pour CLI.mode_test?
 ENV['CLI_MODE_TEST'] = 'true'
 
+# Pour changer la langue de l'interface
+def set_lang lg
+  # Noter que cette variable environnement affectera aussi les appels
+  # à l'application
+  ENV['SCRIV_LANG'] = lg.to_s
+  # Pour que les messages tests soient synchronisés avec l'application
+  I18n.locale = lg.to_sym
+end
+
+# On travaille toujours en français
+set_lang(:fr)
 
 def stop_mode_test
   # ENV['CLI_MODE_TEST'] = nil
