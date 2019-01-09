@@ -1,4 +1,12 @@
 fr:
   projects:
+    # === INVITES ET QUESTIONS ===
+    invites:
+      project_to_choose: "Projet à choisir (sa lettre — \"q\" pour renoncer)"
+    # === MESSAGES ===
+    messages:
+      last_is_current: (le dernier projet — « %{title} » — est le projet courant)
+      project_chosen:  "Le projet « %{title} » a été mis en dernier projet. Vous pouvez utiliser les commandes `scriv` sans indiquer de chemin (de projet)."
+    # === ERREURS ===
     errors:
       none: 'Aucun projet n’a été encore enregistré par la commande `scriv`, désolé.'

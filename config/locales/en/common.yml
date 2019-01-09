@@ -124,9 +124,57 @@ en:
     cap:
       sing: INDEX
       plur: INDEX
-  OF:                 OF
-  OFs:                OF
-  OF_date:            OF
+  last:
+    min:
+      sing: last
+      plur: last
+    tit:
+      sing: Last
+      plur: Last
+    cap:
+      sing: LAST
+      plur: LAST
+    fem:
+      min:
+        sing: last
+        plur: last
+      tit:
+        sing: Last
+        plur: Last
+      cap:
+        sing: LAST
+        plur: LAST
+  list:
+    min:
+      sing: list
+      plur: lists
+    tit:
+      sing: List
+      plur: Lists
+    cap:
+      sing: LIST
+      plur: LISTS
+  of:
+    min:
+      sing: of
+      plur: of
+    tit:
+      sing: Of
+      plur: Of
+    cap:
+      sing: OF
+      plur: OF
+    fem:
+      min:
+        sing: of
+        plur: of
+      tit:
+        sing: Of
+        plur: Of
+      cap:
+        sing: OF
+        plur: OF
+  OF_date: OF
   offset:
     min:
       sing: offset
@@ -161,7 +209,20 @@ en:
       min: num.
       tit: Num.
       cap: NUM.
-  PREMIERES:          FIRST
+  project:
+    min:
+      sing: project
+      plur: projects
+    tit:
+      sing: Project
+      plur: Projects
+    cap:
+      sing: PROJECT
+      plur: PROJECTS
+    abbr:
+      min: proj.
+      tit: Proj.
+      cap: PROJ.
   proximity:
     min:
       sing: proximity

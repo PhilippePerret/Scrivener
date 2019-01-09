@@ -1,0 +1,12 @@
+en:
+  projects:
+    # === INVITES ET QUESTIONS ===
+    invites:
+      project_to_choose: "Choose project (its letter or \"q\" to abort)"
+    # === MESSAGES ===
+    messages:
+      last_is_current: "(last project in the list — \"%{title}\" — is the current project)"
+      project_chosen:  "Project \"%{title}\" is current. You can use `scriv` command without path (without project)."
+    # === ERREURS ===
+    errors:
+      none: 'You don’t have any project with `scriv`, sorry.'

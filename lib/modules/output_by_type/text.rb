@@ -37,7 +37,7 @@ module TextAnalyzerOutputHelpers
   def entete_table_nombres
     self.class.table_full_header({
       project_title:  analyse.title,
-      table_title:    t('table.cap.sing OFs number.cap.plur')
+      table_title:    t('table.cap.sing of.cap.plur number.cap.plur')
       })
   end
 

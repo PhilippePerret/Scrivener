@@ -80,18 +80,18 @@ fr:
       plur: DISTANCES
     abbr: Dist.
   document:
-  min:
-    sing: document
-    plur: documents
-  tit:
-    sing: Document
-    plur: Documents
-  cap:
-    sing: DOCUMENT
-    plur: DOCUMENTS
-  abbr:
-    sing: Doc
-    plur: Docs
+    min:
+      sing: document
+      plur: documents
+    tit:
+      sing: Document
+      plur: Documents
+    cap:
+      sing: DOCUMENT
+      plur: DOCUMENTS
+    abbr:
+      sing: Doc
+      plur: Docs
   Distance_average:   Distance moyenne
   Dist_average_abbr:  Dist.moy.
   first:
@@ -124,8 +124,56 @@ fr:
     cap:
       sing: INDEX
       plur: INDEX
-  OF:                 DE
-  OFs:                DES
+  last:
+    min:
+      sing: dernier
+      plur: derniers
+    tit:
+      sing: Dernier
+      plur: Derniers
+    cap:
+      sing: DERNIER
+      plur: DERNIERS
+    fem:
+      min:
+        sing: dernière
+        plur: dernières
+      tit:
+        sing: Dernière
+        plur: Dernières
+      cap:
+        sing: DERNIÈRE
+        plur: DERNIÈRES
+  list:
+    min:
+      sing: liste
+      plur: listes
+    tit:
+      sing: Liste
+      plur: Listes
+    cap:
+      sing: LISTE
+      plur: LISTES
+  of:
+    min:
+      sing: du
+      plur: des
+    tit:
+      sing: Du
+      plur: Des
+    cap:
+      sing: DU
+      plur: DES
+    fem:
+      min:
+        sing: de la
+        plur: des
+      tit:
+        sing: De la
+        plur: Des
+      cap:
+        sing: DE LA
+        plur: DES
   OF_date:            DU
   offset:
     min:
@@ -161,6 +209,20 @@ fr:
       min: nomb.
       tit: Nomb.
       cap: NOMB.
+  project:
+    min:
+      sing: projet
+      plur: projets
+    tit:
+      sing: Projet
+      plur: Projets
+    cap:
+      sing: PROJET
+      plur: PROJETS
+    abbr:
+      min: proj.
+      tit: Proj.
+      cap: PROJ.
   proximity:
     min:
       sing: proximité
