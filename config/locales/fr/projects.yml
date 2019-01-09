@@ -1,0 +1,4 @@
+fr:
+  projects:
+    errors:
+      none: 'Aucun projet n’a été encore enregistré par la commande `scriv`, désolé.'

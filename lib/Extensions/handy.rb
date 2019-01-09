@@ -4,6 +4,12 @@
   Méthodes raccourcies pratiques
 =end
 
+# Raccourci pour 'write I18n translate'
+# Permet d'écrire un message localisé à l'écran
+def wt pth, template_values = nil
+  puts INDENT + t(pth, template_values)
+end
+
 # Pour obtenir une traduction facilement avec la méthode `t`
 # On peut envoyer une des paths séparées par des espaces, chaque
 # path déduite sera évaluée et réunis par des espaces à nouveau.

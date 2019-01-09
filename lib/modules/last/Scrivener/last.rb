@@ -2,15 +2,14 @@
 # encoding: UTF-8
 class Scrivener
 class << self
-
   LINE_LAST_PROJET = '    %s. %s %s'
   # = main =
   #
   # Permet de récupérer la liste des derniers projets
   def exec_last_projects
-    File.exist?(Scrivener.last_projects_path_file) || begin
-      puts INDENT+'Aucun projet n’a été encore enregistré par la commande `scriv`, désolé.'
-      return
+    CLI.debug_entry
+    any_project? || begin
+      return wt('projects.errors.none')
     end
     lines = Array.new
     lines << INDENT+'LISTE DES DERNIERS PROJETS'
@@ -47,6 +46,12 @@ class << self
   end
   def title_for(dprojet)
     dprojet[:title] || dprojet[:path].split(File::SEPARATOR)[-2..-1].join(File::SEPARATOR)
+  end
+
+  # Retourne true s'il y a des projets précédents (le fichier existe et
+  # il contient des projets)
+  def any_project?
+    File.exist?(Scrivener.last_projects_path_file) && last_projects_data.any?
   end
 
 end #/<< self

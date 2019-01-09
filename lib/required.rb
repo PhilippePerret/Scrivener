@@ -10,9 +10,17 @@ APPFOLDER = File.expand_path(File.dirname(__dir__))
 HOME_FOLDER = File.join(Dir.home,'.scriv')
 `mkdir -p "#{HOME_FOLDER}"` # créé au besoin
 
-[ File.join('lib','Extensions'),
-  File.join('lib','Scrivener'),
-  'config'].each do |relpath|
+[
+  File.join('lib','Extensions'),
+  File.join('lib','Scrivener')
+].each do |relpath|
   fpath = File.join(APPFOLDER,relpath,'**','*.rb')
   Dir[fpath].each{|m|require m}
+end
+
+[
+  'config/config',
+  'config/environment'
+].each do |relpath|
+  require File.join(APPFOLDER,relpath.split('/'))
 end

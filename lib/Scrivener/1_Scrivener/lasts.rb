@@ -26,7 +26,8 @@ class << self
   #               projet courant.
   def save_project_data data
     CLI.debug_entry
-    data[:path] || return
+    data[:path]   || return
+    data[:title]  || return
     data[:path] = File.expand_path(data[:path])
     data.merge!(saved_at: Time.now)
     # Il ne faut pas répéter plusieurs fois un même projet
@@ -50,10 +51,15 @@ class << self
   def last_projects_data
     @last_projects_data ||= get_last_projects_data
   end
+
+  # On récupère la liste des derniers projets dans le fichier se trouvant
+  # dans le dossier ./scriv dans le $HOME de l'utilisateur. Un check est
+  # fait pour rejeter les projets dont le :title est nil, mais maintenant
+  # ils ne devraient plus pouvoir être enregistrés.
   def get_last_projects_data
     CLI.debug_entry
     if File.exists?(last_projects_path_file) && File.stat(last_projects_path_file).size > 0
-      File.open(last_projects_path_file,'rb'){|f| Marshal.load(f)}
+      File.open(last_projects_path_file,'rb'){|f| Marshal.load(f)}.reject{|dp| dp[:title].nil?}
     else
       Array.new
     end
