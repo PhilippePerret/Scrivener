@@ -25,4 +25,4 @@ I18n.available_locales = [:en, :fr, :de]
 I18n.default_locale = ENV['SCRIV_LANG'].to_sym # (note that `en` is the default!)
 
 
-puts '= LANG: %s' % ENV['SCRIV_LANG']
+# puts '= LANG: %s' % ENV['SCRIV_LANG']

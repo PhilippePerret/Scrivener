@@ -4,8 +4,12 @@
 class Scrivener
 class << self
 
-  def set_lang
-    puts "Je vais définir la langue"
+  def set_lang value
+    if I18n.available_locales.include?(value.to_sym)
+      self.preferences.set({lang: value}, {save: true})
+    else
+      raise ArgumentError, t('preferences.errors.unavailable_language')
+    end
   end
 
 end #/ << self

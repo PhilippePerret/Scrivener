@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 # encoding: UTF-8
+=begin
+  DESCRIPTION MODULE
+=end
 class Scrivener
-class Project
+class << self
 
-end #/Project
+
+end #/<< self
 end #/Scrivener
