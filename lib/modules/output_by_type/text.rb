@@ -70,9 +70,9 @@ module TextAnalyzerOutputHelpers
       '   %s  |  %s  | %s |   %s  | %s |' % [
         t('canon.tit.sing').ljust(31),
         'x'. ljust(4),
-        t('proximity.abbr.sing').ljust(5),
+        t('proximity.abbr.tit').ljust(5),
         ' % '.ljust(6),
-        t('Dist_average_abbr').ljust(8)
+        t('average.distance.tit').ljust(8)
       ]
     end
 
@@ -165,7 +165,7 @@ module TextAnalyzerOutputHelpers
         ''                .ljust(5),
         'ID '             .ljust(8),
         t('word.tit.sing before')  .ljust(31),
-        t('distance.abbr.sing').ljust(5),
+        t('average.distance.abbr').ljust(5),
         t('word.tit.sing after')   .ljust(31),
         t('offset.tit.plur').ljust(16)
       ]

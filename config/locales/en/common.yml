@@ -78,7 +78,10 @@ en:
     cap:
       sing: DISTANCE
       plur: DISTANCES
-    abbr: Dist.
+    abbr:
+      min: dist.
+      tit: Dist.
+      cap: DIST.
   document:
     min:
       sing: document
@@ -92,8 +95,6 @@ en:
     abbr:
       sing: Doc
       plur: Docs
-  Distance_average:   Average distance
-  Dist_average_abbr:  Aver.Dist.
   first:
     min:
       sing: first
@@ -114,6 +115,10 @@ en:
       cap:
         sing: FIRST
         plur: FIRST
+  help:
+    min:    help
+    tit:    Help
+    cap:    HELP
   index:
     min:
       sing: index
@@ -240,7 +245,7 @@ en:
   sorted:
     alphabetical:         alphabetical
     by:                   sorted by
-    by_occurences_count:  par nombre d’occurences
+    by_occurences_count:  by count
     by_proxs_count:       by proximities count
     by_words_count:       by words count
     nearest_to_farest:    from nearest to farest
@@ -268,6 +273,14 @@ en:
     abbr:
       sing: ToC
       plur: ToCs
+  with:
+    min: with
+    tit: With
+    cap: WITH
+  without:
+    min: without
+    tit: Without
+    cap: WITHOUT
   word:
     min:
       sing: word

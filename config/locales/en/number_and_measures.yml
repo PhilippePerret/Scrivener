@@ -1,0 +1,32 @@
+en:
+  count:
+    canons:   'Canons count'
+    pages:    'Pages count'
+    proxs:    'Proximities count'
+    signs:    'Characters count'
+    words:
+      all:        'Words count'
+      different:  'Different words count'
+      uniq:       'Uniq words count'
+      total:      'Total word count'
+  average:
+    distance:
+      min:  'average distance (signs)'
+      tit:  'Average distance (signs)'
+      abbr: Aver.Dist.
+  unit:
+    sign:   'sign%{s}'
+    signs:
+      min:  'signs'
+      tit:  Signs
+      cap:  SIGNS
+    word:   'word%{s}'
+    words:
+      min: 'words'
+      tit: Words
+      cap: WORDS
+    page:   'page%{s}'
+    pages:
+      min:  'pages'
+      tit:  Pages
+      cap:  PAGES

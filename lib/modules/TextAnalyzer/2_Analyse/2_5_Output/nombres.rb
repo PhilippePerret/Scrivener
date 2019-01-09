@@ -7,12 +7,8 @@ class Analyse
 class TableResultats
 class Output
 
-  AIDES = {
-    proximites:     'Le premier nombre comptabilise toutes les proximités. Le second présente le pourcentage de proximités par rapport au nombre total de mots.',
-    tranches_proxs: 'Les proximités sont présentées par tranches de nombre de signes avec deux nombres. Le premier comptabilise seulement les proximités « communes », c’est-à-dire inférieures à 1500 signes. Le second chiffre comptabilise toutes les proximités.',
-    eloignement:    'La moyenne d’éloignement entre deux mots identiques (ou similaires) ne concerne que les proximités',
-    canons:         'Les "canons" sont les formes canoniques ("prendre" est le canon de "prends" et "pris").'
-  }
+  # Grand retrait
+  GRET = INDENT*3
 
   # Construit et retourne la table de tous les nombres
   #
@@ -28,39 +24,37 @@ class Output
     # tbr est analyse.table_resultats
     tbr   = self.data # passé à l'instanciation'
 
+    # Employés plusieurs fois
+    mots_count = wtx.mots.count
+    pages_count_by_sign = wtx.pages_count(:signes)
+    pages_count_by_word = wtx.pages_count(:mots)
+
     liste_nombres = [
-      ['N de caractères',         wtx.length, {u: 'signe%{s}'}],
-      ['N total de mots',         wtx.mots.count, {u: 'mot%{s}'}],
-      ['R1 sans proximités',      wtx.mots.hors_proximites.count, {after: wtx.mots.hors_proximites.pct, color: :bleu}],
-      ['R1 en proximités',        wtx.mots.en_proximites.count, {after: wtx.mots.en_proximites.pct, color: :rouge}],
-      ['N de pages estimé',       wtx.pages_count, {u: 'page%{s}'}],
-      ['R1 suivant signes (1500/p.)', wtx.pages_count(:signes), {u: 'page%{s}'}],
-      ['R1 suivant mots   (250/p.)',  wtx.pages_count(:mots), {u: 'page%{s}'}],
-      ['N de mots différents',    tbr.mots.differents.count, {color: :bleu, after: tbr.mots.differents.pct}],
-      # ['N de mots similaires',    tbr.mots.similaires.count],
-      ['N de mots uniques',       tbr.mots.uniques.count, {after: tbr.mots.uniques.pct}],
-      ['N de canons',             tbr.canons.nombre, {after: tbr.canons.pourcentage, aide: :canons}],
-      ['R1 avec proximités',     tbr.canons.en_proximites.count,   {after: tbr.canons.en_proximites.pct}],
-      ['R1 sans proximités',     tbr.canons.hors_proximites.count, {after: tbr.canons.hors_proximites.pct}],
-      ['N de proximités',         tbr.proximites.count, {color: :rouge, after: tbr.proximites.pourcentage, aide: :proximites}],
+      [t('count.signs'), wtx.length, {u: t('unit.sign', {s: wtx.length.s})}],
+      [t('count.words.total'), mots_count, {u: t('unit.word', {s: mots_count.s})}],
+      [GRET+t('without.min proximity.min.plur'), wtx.mots.hors_proximites.count, {after: wtx.mots.hors_proximites.pct, color: :bleu}],
+      [GRET+t('with.min proximity.min.plur'), wtx.mots.en_proximites.count, {after: wtx.mots.en_proximites.pct, color: :rouge}],
+      [t('count.pages'), wtx.pages_count, {u: t('unit.page', {s: wtx.pages_count.s})}],
+      [GRET+t('with.min unit.signs.min')+' (1500/p.)', pages_count_by_sign, {u: t('unit.page', {s: pages_count_by_sign.s})}],
+      [GRET+t('with.min unit.words.min')+' (250/p.)', pages_count_by_word, {u: t('unit.page', {s: pages_count_by_word.s})}],
+      [t('count.words.different'), tbr.mots.differents.count, {color: :bleu, after: tbr.mots.differents.pct}],
+      [t('count.words.uniq'), tbr.mots.uniques.count, {after: tbr.mots.uniques.pct}],
+      [t('count.canons'), tbr.canons.nombre, {after: tbr.canons.pourcentage, aide: :canons}],
+      [GRET+t('with.min proximity.min.plur'), tbr.canons.en_proximites.count,   {after: tbr.canons.en_proximites.pct}],
+      [GRET+t('without.min proximity.min.plur'), tbr.canons.hors_proximites.count, {after: tbr.canons.hors_proximites.pct}],
+      [t('count.proxs'), tbr.proximites.count, {color: :rouge, after: tbr.proximites.pourcentage, aide: :proximities}],
     ]
     tbr.proximites_par_tranches.each do |tranche, dtranche|
-      liste_nombres << ['R1 < %i' % tranche, dtranche[:common], {after: (' %i' % dtranche[:all]), aide: (tranche == 250 ? :tranches_proxs : nil)}]
+      liste_nombres << [GRET+'< %i' % tranche, dtranche[:common], {after: (' %i' % dtranche[:all]), aide: (tranche == 250 ? :tranches_proxs : nil)}]
     end
     liste_nombres += [
-      ['R1 Éloignement moyen (signes)',         tbr.moyenne_eloignements_common, {after: ' %i' % tbr.moyenne_eloignements, aide: :eloignement}],
+      [GRET+t('average.distance.tit'), tbr.moyenne_eloignements_common, {after: ' %i' % tbr.moyenne_eloignements, aide: :distance}],
     ]
 
     # L'entête
     ecrit entete_table_nombres
     # Chaque nombre est affiché
     liste_nombres.each do |lib, nombre, sopts|
-      case lib[0..1]
-      when 'N ' then lib = '  Nombre%s' % [lib[1..-1]]
-      when 'M ' then lib = '  Moyenne%s' % [lib[1..-1]]
-      when '% ' then lib = '  Pourcentage%s' % [lib[1..-1]]
-      when 'R1' then lib = ' ' * 6 + lib[3..-1]
-      end
       ecrit line_nombre('  %s' % lib, nombre, sopts || Hash.new)
     end
     ecrit CLI.separator(return: false, tab: '  ')
@@ -71,21 +65,24 @@ class Output
   end
   # /table_nombres
 
-  def messages_aide
-    '
 
-  AIDE
-  ====
-%s
-    ' % [@aide.join(String::RC)]
+  def messages_aide
+    helpcap = t('help.cap')
+    INDENT + [
+      String::RC*3,
+      helpcap,
+      ('=' * helpcap.length),
+      *@aide
+    ].join(String::RC + INDENT)
   end
+
   def line_nombre label, valeur, options = nil
     @indice_aide ||= 0
     @aide ||= Array.new
     if options[:aide]
       @indice_aide += 1
       label.concat(' ' + @indice_aide.to_expo)
-      @aide << '  (%i) %s' % [@indice_aide, AIDES[options[:aide]]]
+      @aide << INDENT+'(%i) %s' % [@indice_aide, t('helps.table_counts.%s' % options[:aide])]
     end
     valeur_init = valeur.to_i
     valeur = valeur.to_s.rjust(7)

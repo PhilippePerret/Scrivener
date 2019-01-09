@@ -1,0 +1,8 @@
+en:
+  helps:
+    # = POUR L'EXPLICATION DES TABLES DE NOMBRES =
+    table_counts:
+      proximities:    'The first number counts all the proximities. The second one shows the pourcentage against the total words count.'
+      tranches_proxs: 'Proximities display by tranches of signs count. First one shows regular proximities (i.e. < 1500 signs). Second one shows all proximities.'
+      distance:       'The average distance between two similar or identical words concerns only proximities.'
+      canons:         'The "canons" are canonical forms of words ("take" is the canon of "took" and "taken").'

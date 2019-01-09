@@ -1,8 +1,11 @@
 # encoding: UTF-8
 #
 # Extension classe Fixnum
-# Version: 2.0.4
+# Version: 2.0.5
 #
+# Note version 2.0.5
+#   Ajout de la méthode `s` pour mettre un 's' quand il y a plusieurs
+#   valeurs.
 # Note version 2.0.4
 #   Ajout de la méthode d'instance `or_nil` qui retourne nil lorsque la
 #  valeur est 0 (zéro)
@@ -28,10 +31,17 @@ class Fixnum
     'sept', 'oct', 'nov', 'déc']
 
 
+  # Permet de déterminer s'il faut un "s" ou non en cas de
+  # pluriel (attention : fonctionne pour les mots courants, en seulement
+  # dans certaines langues)
+  def s
+    self > 1 ? 's' : ''
+  end
+
   def or_nil
     self == 0 ? nil : self
   end
-  
+
   # 12.to_expo doit retourner ⁽¹²⁾
   def to_expo
     s = self.to_s.split('').collect{|l| String::CHIFFRE_HAUT[l.to_i]}.join('')

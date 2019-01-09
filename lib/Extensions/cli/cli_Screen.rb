@@ -19,7 +19,7 @@ class << self
   # +line+ Numéro de ligne où il faut écrire le texte
   def write_slowly str, line = nil, column = nil
     line && goto(line,column)
-    if CLI.mode_interactif? && !CLI.options[:no_slowly]
+    if CLI.mode_interactif? && !CLI.options[:no_slowly] && !CLI.options[:fast]
       print '  '
       str.split('').each do |let|
         print let

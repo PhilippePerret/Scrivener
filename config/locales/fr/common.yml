@@ -78,7 +78,10 @@ fr:
     cap:
       sing: DISTANCE
       plur: DISTANCES
-    abbr: Dist.
+    abbr:
+      min: dist.
+      tit: Dist.
+      cap: DIST.
   document:
     min:
       sing: document
@@ -92,8 +95,6 @@ fr:
     abbr:
       sing: Doc
       plur: Docs
-  Distance_average:   Distance moyenne
-  Dist_average_abbr:  Dist.moy.
   first:
     min:
       sing: premier
@@ -114,6 +115,10 @@ fr:
       cap:
         sing: PREMIÈRE
         plur: PREMIÈRES
+  help:
+    min:    aide
+    tit:    Aide
+    cap:    AIDE
   index:
     min:
       sing: index
@@ -256,19 +261,26 @@ fr:
       sing: TABLE
       plur: TABLES
   table_of_contents:
-  min:
-    sing: table des matières
-    plur: tables des matières
-  tit:
-    sing: Table des matières
-    plur: Tables des matières
-  cap:
-    sing: TABLE DES MATIÈRES
-    plur: TABLES DES MATIÈRES
-  abbr:
-    sing: TdM
-    plur: TDMs
-
+    min:
+      sing: table des matières
+      plur: tables des matières
+    tit:
+      sing: Table des matières
+      plur: Tables des matières
+    cap:
+      sing: TABLE DES MATIÈRES
+      plur: TABLES DES MATIÈRES
+    abbr:
+      sing: TdM
+      plur: TDMs
+  with:
+    min: avec
+    tit: Avec
+    cap: AVEC
+  without:
+    min: sans
+    tit: Sans
+    cap: SANS
   word:
     min:
       sing: mot

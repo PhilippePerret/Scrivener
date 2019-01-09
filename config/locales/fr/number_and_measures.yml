@@ -1,0 +1,32 @@
+fr:
+  count:
+    canons:   'Nombre de canons'
+    pages:    'Nombre de pages'
+    proxs:    'Nombre de proximités'
+    signs:    'Nombre de caractères'
+    words:
+      all:        'Nombre de mots'
+      different:  'Nombre de mots différents'
+      uniq:       'Nombre de mots uniques'
+      total:      'Nombre total de mots'
+  average:
+    distance:
+      min:  'distance moyenne (signes)'
+      tit:  'Distance moyenne (signes)'
+      abbr: Dist.moy.
+  unit:
+    sign:   'signe%{s}'
+    signs:
+      min:  'signes'
+      tit:  Signes
+      cap:  SIGNES
+    word:   'mot%{s}'
+    words:
+      min: 'mots'
+      tit: Mots
+      cap: MOTS
+    page:   page%{s}
+    pages:
+      min:  'pages'
+      tit:  Pages
+      cap:  PAGES

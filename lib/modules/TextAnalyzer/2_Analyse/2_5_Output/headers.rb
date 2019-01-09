@@ -12,7 +12,7 @@ class Proximite
     when :distance
       t('sorted.nearest_to_farest')
     else
-      t('alphabetical')
+      t('sorted.alphabetical')
     end
   end
 
