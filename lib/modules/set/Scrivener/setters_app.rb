@@ -19,7 +19,8 @@ class << self
       wt('notices.change_lang_ok', nil, {air: true, color: :bleu})
       puts "-- ENV['SCRIV_LANG'] a été mis à #{ENV['SCRIV_LANG'].inspect}"
     else
-      raise ArgumentError, t('preferences.errors.unavailable_language', {lang: value})
+      # Raise translation
+      rt('preferences.errors.unavailable_language', {lang: value}, ArgumentError)
     end
   end
 

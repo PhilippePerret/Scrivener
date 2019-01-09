@@ -16,6 +16,15 @@ def wt pth, template_values = nil, options = nil
   puts INDENT + msg
 end
 
+# Raccourci pour 'raise I18n translation'
+#
+def rt pth, template_values = nil, errClass = nil
+  options ||= Hash.new
+  msg = t(pth, template_values)
+  errClass ||= StandardError
+  raise errClass, msg
+end
+
 # Pour obtenir une traduction facilement avec la méthode `t`
 # On peut envoyer une des paths séparées par des espaces, chaque
 # path déduite sera évaluée et réunis par des espaces à nouveau.
