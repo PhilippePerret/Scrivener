@@ -8,12 +8,17 @@
 # Permet d'écrire un message localisé à l'écran
 # +options+
 #   :air      Si true, on ajoute de l'air autour du message
+#   :indent   Si false, on ne met pas d'indentation (true par défaut)
 def wt pth, template_values = nil, options = nil
   options ||= Hash.new
+  # msg = String.new(t(pth, template_values))
   msg = t(pth, template_values)
   options[:color] && msg = msg.send(options[:color])
-  options[:air] && msg = String::RC * 2 + INDENT + msg + String::RC * 3
-  puts INDENT + msg
+  options[:indent] === false || begin
+    msg.prepend(INDENT).gsub!(/(\r?\n)/,  '\1' + INDENT)
+  end
+  options[:air] && msg = String::RC * 2 + msg + String::RC * 3
+  puts msg
 end
 
 # Raccourci pour 'raise I18n translation'

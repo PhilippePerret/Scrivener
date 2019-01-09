@@ -1,0 +1,15 @@
+en:
+  projects:
+    pannels:
+      infos: |
+        %{separation}
+          Full Title  : %{full_title}
+          Short Title : %{short_title}
+          Authors     : %{authors}
+          Path        : %{access}
+        %{separation}
+          Created at (scriv) : %{created_at}
+          Last save at       : %{saved_at}
+        %{separation}
+          Last command ran on it : %{command} %{options}
+        %{separation}

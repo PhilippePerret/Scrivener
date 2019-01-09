@@ -10,7 +10,7 @@ class Project
     def exec_infos_last_projet
       d = Scrivener.last_project_data
       if d.empty?
-        puts 'Aucun projet n’a été analysé pour le moment. Utilisez `scriv -h` pour obtenir de l’aide ou même `scriv` seul.'
+        return wt('projects.errors.none')
       else
         project.display_infos(d)
       end
@@ -23,25 +23,8 @@ class Project
   #   MÉTHODES D'INSTANCE
 
   def display_infos(last_data)
-    puts '
-
-
-    %{separation}
-      Titre complet : %{full_title}
-      Titre court   : %{short_title}
-      Auteurs       : %{authors}
-      Accès         : %{access}
-    %{separation}
-      Date création scriv     : %{created_at}
-      Date d’enregistrement   : %{saved_at}
-    %{separation}
-      Dernière commande jouée : %{command} %{options}
-    %{separation}
-
-
-    
-    ' % {
-      separation:   '-'*80,
+    tempvalues = {
+      separation:   '-'*(self.path.relative_path.length + 18),
       full_title:   self.title || '---',
       short_title:  self.title_abbreviated || '---',
       authors:      get_authors_or_neant,
@@ -51,6 +34,7 @@ class Project
       command:      last_data[:last_command],
       options:      last_data[:options].collect{|o, v| "--#{o}[=#{v.inspect}]"}.join
     }
+    wt('projects.pannels.infos', tempvalues, {air: true})
   end
 
   def get_authors_or_neant

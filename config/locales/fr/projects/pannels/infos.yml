@@ -1,0 +1,15 @@
+fr:
+  projects:
+    pannels:
+      infos: |
+        %{separation}
+          Titre complet : %{full_title}
+          Titre court   : %{short_title}
+          Auteurs       : %{authors}
+          Accès         : %{access}
+        %{separation}
+          Date création (scriv) : %{created_at}
+          Date d’enregistrement : %{saved_at}
+        %{separation}
+          Dernière commande jouée : %{command} %{options}
+        %{separation}
