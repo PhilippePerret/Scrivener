@@ -20,7 +20,7 @@ class Preferences
   #   :save     Enregistre les préférences si true
   def set hdata, options = nil
     options ||= Hash.new
-    data.merge!(hdata)
+    @data = data.merge(hdata)
     save if options[:save]
   end
 
@@ -56,6 +56,12 @@ class Preferences
 
   def file_path
     @file_path ||= File.join(HOME_FOLDER,'prefs.yaml')
+  end
+
+  # Pour les tests
+  def reset
+    @data       = nil
+    @file_path  = nil
   end
 
 end #/Preferences

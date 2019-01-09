@@ -6,8 +6,14 @@
 
 # Raccourci pour 'write I18n translate'
 # Permet d'écrire un message localisé à l'écran
-def wt pth, template_values = nil
-  puts INDENT + t(pth, template_values)
+# +options+
+#   :air      Si true, on ajoute de l'air autour du message
+def wt pth, template_values = nil, options = nil
+  options ||= Hash.new
+  msg = t(pth, template_values)
+  options[:color] && msg = msg.send(options[:color])
+  options[:air] && msg = String::RC * 2 + INDENT + msg + String::RC * 3
+  puts INDENT + msg
 end
 
 # Pour obtenir une traduction facilement avec la méthode `t`
@@ -33,11 +39,13 @@ def t pth, template_values = nil
       end
     end.join(' ') % (template_values || [])
   else
-    translate_with_i18n_and_eval(pth)
+    translate_with_i18n_and_eval(pth, template_values)
   end
 end
 
-def translate_with_i18n_and_eval(pth)
-  str = I18n.translate(pth)
-  str.match(/#\{/) ? eval("%Q{#{str}}") : str
+def translate_with_i18n_and_eval(pth, template_values = nil)
+  str = String.new(I18n.translate(pth))
+  str.match(/#\{/) && str = eval("%Q{#{str}}")
+  str.match(/\%\{/) && str = str % template_values
+  return str
 end

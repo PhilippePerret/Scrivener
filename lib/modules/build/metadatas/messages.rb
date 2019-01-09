@@ -35,7 +35,7 @@ def raise_code_yaml_invalid(spec_err)
 end
 # ---------------------------------------------------------------------
 def lang
-  (ENV['SCRIV_LANG'] || :fr).to_sym
+  @lang ||= ENV['SCRIV_LANG'].to_sym
 end
 def raise_err_with(err_id, *args)
   err = ERRORS[:build][:custom_metadatas][err_id]

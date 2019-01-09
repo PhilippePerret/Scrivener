@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+# encoding: UTF-8
 
 # MODE_DEVELOPPEMENT = false
 MODE_DEVELOPPEMENT = File.basename(Dir.home) == 'philippeperret'
@@ -6,7 +8,7 @@ CLI.debug_output = :log
 
 # Langue utilisée par défaut
 # TODO La prendre des préférences utilisateur
-ENV['SCRIV_LANG'] ||= 'fr'
+ENV['SCRIV_LANG'] ||= (Scrivener.preferences[:lang] || 'en').to_s
 # ENV['SCRIV_LANG'] ||= 'en'
 
 ENV['SCRIV_EDITOR'] = 'TextMate'

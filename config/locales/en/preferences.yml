@@ -1,4 +1,4 @@
-fr:
+en:
   preferences:
     errors:
-      unavailable_language: 'Unavailable language, sorry.'
+      unavailable_language: 'Sorry, "%{lang}" is an unavailable language.'

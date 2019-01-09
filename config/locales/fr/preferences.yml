@@ -1,4 +1,4 @@
 fr:
   preferences:
     errors:
-      unavailable_language: 'Désolé, mais cette langue n’est pas (encore) connue de la commande `scriv`.'
+      unavailable_language: 'Désolé, mais la langue "%{lang}" n’est pas (encore) connue de la commande `scriv`.'

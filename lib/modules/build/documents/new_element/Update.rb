@@ -58,7 +58,7 @@ class Update
     end
   end
   def lang
-    @lang ||= :fr
+    @lang ||= Scrivener.lang
   end
 
   def custom_metadata?
