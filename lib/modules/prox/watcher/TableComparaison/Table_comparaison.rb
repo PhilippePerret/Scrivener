@@ -56,7 +56,7 @@ class TableComparaison
   def display_changes_in wnd
     wnd.clear
     if added_proximites.empty? && fixed_proximites.empty?
-      wnd.affiche(' -- Aucun changement --')
+      wnd.affiche(@any_changement ||= (' -- %s --' % [t('notices.any_change')]))
     else
       added_proximites.each do |iprox|
         pmot = iprox.mot_avant

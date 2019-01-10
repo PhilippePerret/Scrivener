@@ -29,9 +29,10 @@ class Project
 
   # Afficher dans l'ordre la liste des binder-items par densité
   ENTETE_BINDER_ITEM_LISTE_DENSITE = '
-|  N°  | Prox. | Longueur  | Long/prox |    ‰   |   Offset   | Titre
+| N°   | %s | %s | %s/%s |    ‰   |   Offset   | %s
 
-  '
+  ' % [t('proximity.abbr.tit'), t('length.tit.sing'), t('length.abbr.tit'), t('proximity.abbr.min'), t('title.tit.sing')]
+
   LINE_BINDER_ITEM_DENSITE = '| %{findex} | %{nombre_proximites} | %{flength}  |  %{frapport}  | %{pour_mille}‰ |  %{foffset_start}  | %{ftitle}'
   def display_binder_items_by_densites
     # Pour conserver la longueur de la plus longue ligne
@@ -46,8 +47,8 @@ class Project
     liste = self.analyse.table_resultats.sorted_binder_items
     CLI.options[:mintomax] && liste = liste.reverse
     liste.each do |uuid|
-
-      raise "Il faut corriger ici pour prendre les documents dans le projet, pas dans l'analyse où ils ne doivent normalement pas être vraiment définis (contrairemetn à leur version simple-texte)"
+      # TODO
+      raise "CODE TO IMPLEMENT"
       bi_data = self.tablooo_proximites[:binder_items][uuid]
       bi_data[:densite] || next
 

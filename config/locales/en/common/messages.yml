@@ -1,3 +1,12 @@
 en:
   notices:
+    abort_:         'Abort…'
+    change_lang_ok: 'OK, let’s speak english, now!'
     cancel_changes: 'Canceling changes…'
+    any_change:     'Any change'
+  # === QUESTIONS ===
+  questions:
+    restart_from_beginning: 'Restart from beginning?'
+    which_editor: "Which editor to open the file \"%{pth}\"?"
+    proceed_changes: "Proceed theses changes?"
+  test: 'That is a test!'

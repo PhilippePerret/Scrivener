@@ -1,0 +1,24 @@
+fr:
+  commands:
+    proximity:
+      questions:
+        replace_word_by_word:     'Faut-il vraiment remplacer « %{old} » par « %{new} » ?'
+        redo_from_top:            'Nous avons atteint la fin de la liste. Reprendre au début ?'
+      confirms:
+        remove_proximity:         'Confirmer la suppression de la proximité courante en jouant ENTRÉE'
+        remove_all_word_occurences: 'Confirmer la suppression de TOUTES les occurences du mot courant en jouant ENTRÉE'
+      notices:
+        first_prox:               'C’est la toute première proximité. Il n’y en a pas avant.'
+        word_replaced:            'Mot remplacé avec succès !'
+        prox_will_be_ignored:     'Cette proximité sera ignorée.'
+        file_created_in_project:  'Le fichier « %{name} » a été créé dans le projet, dans le dossier « Proximités ».'
+        opt_with_only_calculs:    "Avec --only_calculs, il faut ajouter une option pour voir une liste (--segments, --proximites, etc.)"
+      errors:
+        new_prox_between_words_failed: 'Un problème est survenu, la nouvelle proximité n’a pas pu être créée entre le mot «%{pword}» (à %{offpword}) et le mot «%{nword}» (à %{offnword})…'
+        cant_create_prox_file:  'Malheureusement, le fichier des proximités ne semble pas avoir pu être créé dans le projet…'
+        colors_tag_failed:      'La balise des couleurs n’a pas pu être placée…'
+      interactions:
+        modify_word_before:     'Modifier le mot avant'
+        modify_word_after:      'Modifier le mot après'
+        ignore_proximity:       'Ignorer cette proximité'
+        replace_word_with:      'Par quoi remplacer le %{which} mot « %{word} » : '

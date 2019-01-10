@@ -22,11 +22,6 @@ class Table
       CLI.debug_entry
       @table_comparaison = table_comp
 
-      CLI.verbose(true)
-      debug "--- self table : #{self.inspect}"
-      debug "--- @table_comparaison = #{@table_comparaison.inspect}"
-      CLI.verbose(false)
-
       # Mots qui n'appartiennent qu'à la table courante
       self.mots_propres = Array.new
       # Proximités qui n'appartiennent qu'à la table courante

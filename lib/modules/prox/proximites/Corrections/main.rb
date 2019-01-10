@@ -13,14 +13,20 @@ class Proximite
   # ici que ça se fait.
   # On peut aussi demander à ignorer la proximité.
   def cli_correction_proximite console
-    console.msg('p: Modifier le mot avant | n: Modifier le mot après | i: Ignorer cette proximité | q: Renonce')
+    @invite_que_faire ||= 'p: %s | n: %s | i: %s | q: %s' % [
+      t('commands.proximity.interactions.modify_word_before'),
+      t('commands.proximity.interactions.modify_word_after'),
+      t('commands.proximity.interactions.ignore_proximity'),
+      t('cancel.tit')
+    ]
+    console.msg(@invite_que_faire)
     touche = console.wait_for_commande
     case touche
     when 'q' then return
     when 'n', 'p'
       change_next_mot = (touche == 'n')
       old_mot = change_next_mot ? self.mot_apres.real : self.mot_avant.real
-      incipit = 'Par quoi remplacer le %s mot « %s » : ' % [(change_next_mot ? 'second' : 'premier'), old_mot]
+      incipit = t('commands.proximity.interactions.replace_word_with', {which: (change_next_mot ? 'second' : 'premier'), word: old_mot})
       new_mot = ''
       begin
         console.msg(incipit + new_mot)
@@ -31,16 +37,16 @@ class Proximite
           new_mot += skey
         end
       end while skey != 10
-      if console.confirmation?('Faut-il vraiment remplacer « %s » par « %s » ?' % [old_mot, new_mot])
+      if console.confirmation?( t('commands.proximity.questions', {old: old_mot, new: new_mot}))
         key_mot = change_next_mot ? :new_mot_apres : :new_mot_avant
         if fix(key_mot => new_mot)
-          console.msg('Mot remplacé avec succès !')
+          console.msg(t('commands.proximity.notices.word_replaced'))
           project.set_modified
         end
       end
     when 'i'
       fix(ignore: true)
-      console.msg('Cette proximité sera ignorée.', :info)
+      console.msg(t('commands.proximity.notices.prox_will_be_ignored'), :info)
     end
     # if console.confirmation?('Pour confirmer la correction, presser la touche ENTRÉE')
     #   msg('Il faut implémenter la correction', {type: :warning, sleep: 4})
@@ -62,13 +68,13 @@ class Proximite
       project.analyse.table_resultats.nombre_proximites_ignored += 1
       return # pour ne pas marquer corrigé
     elsif attrs[:new_mot_avant]
-      debug("= Changement du mot AVANT (#{attrs[:new_mot_avant].inspect})")
+      debug("= Change BEFORE WORD (#{attrs[:new_mot_avant].inspect})")
       mot_avant.remplace_par(attrs[:new_mot_avant])
     elsif attrs[:new_mot_apres]
-      debug("= Changement du mot APRÈS (#{attrs[:new_mot_apres].inspect})")
+      debug("= Change AFTER WORD (#{attrs[:new_mot_apres].inspect})")
       mot_apres.remplace_par(attrs[:new_mot_apres])
     else
-      debug('Rien n’est demandé dans fix avec %s' % attrs.inspect)
+      debug('Nothing asks with %s' % attrs.inspect)
       return
     end
 
@@ -98,17 +104,17 @@ class ProxMot
     old_canon = "#{canon}".freeze
     # NOTE PEUT-ÊTRE QUE MAINTENANT C'EST LE lemma QU'IL FAUT PRENDRE
 
-    debug "old_canon de #{real} : #{old_canon}"
+    # debug "old_canon de #{real} : #{old_canon}"
 
     # La grande table des proximités
     table = project.analyse.table_resultats
 
     old_index = table.mots[old_canon].items.index(self)
-    debug('= Index de l’ancien mot dans la liste des items du canonique : %i' % old_index)
+    # debug('= Old mot index in canons item list : %i' % old_index)
     old_mot_avant = table.mots[old_canon].items[old_index - 1]
-    debug('= Mot qui précède : %s' % old_mot_avant.inspect)
+    # debug('= Previous word : %s' % old_mot_avant.inspect)
     old_mot_apres = table.mots[old_canon].items[old_index + 1]
-    debug('= Mot qui suit : %s' % old_mot_apres.inspect)
+    # debug('= Next word : %s' % old_mot_apres.inspect)
 
     # Détruire les proximités qui peuvent exister
     # Si un mot précédent existe (proche ou pas)
@@ -124,9 +130,9 @@ class ProxMot
           iprox = self.proximite_avant
           iprox.destroy
         else
-          debug 'ERREUR : Les deux ID suivants devraient être identiques (%s:%i)' % [__FILE__, __LINE__]
-          debug '= ID de la proximité "avant" du mot courant (proximite_avant_id) : %i' % proximite_avant_id
-          debug '= ID de la proximité "après" du mot précédant : %i' % old_mot_avant.proximite_apres_id
+          # debug 'ERREUR : Les deux ID suivants devraient être identiques (%s:%i)' % [__FILE__, __LINE__]
+          # debug '= ID de la proximité "avant" du mot courant (proximite_avant_id) : %i' % proximite_avant_id
+          # debug '= ID de la proximité "après" du mot précédant : %i' % old_mot_avant.proximite_apres_id
           return
         end
       end
@@ -142,9 +148,9 @@ class ProxMot
           iprox = self.proximite_apres
           iprox.destroy
         else
-          debug 'ERREUR : Les deux ID suivants devraient être identiques (%s:%i)' % [__FILE__, __LINE__]
-          debug '= ID de la proximité "apres" du mot courant (proximite_apres_id) : %i' % proximite_apres_id
-          debug '= ID de la proximité "avant" du mot suivant : %i' % old_mot_apres.proximite_avant_id
+          # debug 'ERREUR : Les deux ID suivants devraient être identiques (%s:%i)' % [__FILE__, __LINE__]
+          # debug '= ID de la proximité "apres" du mot courant (proximite_apres_id) : %i' % proximite_apres_id
+          # debug '= ID de la proximité "avant" du mot suivant : %i' % old_mot_apres.proximite_avant_id
           return false
         end
       end
@@ -154,15 +160,15 @@ class ProxMot
     self.real = new_mot
     project.analyse.segments[self.index][:seg] = new_mot
     project.analyse.set_modified
-    debug "= New canonique de #{real} : #{canonique}"
-    debug "= old_canon : #{old_canon}"
+    # debug "= New canonique de #{real} : #{canonique}"
+    # debug "= old_canon : #{old_canon}"
 
     # Si le mot a changé de mot canonique, on doit le retirer de
     # sa liste et la mettre dans la nouvelle
     # Sinon, il n'y a rien à faire
     new_canonique = canonique
     if old_canon != new_canonique
-      debug('= Mots canoniques différents (%s ≠ %s)' % [old_canon, new_canonique])
+      # debug('= Mots canoniques différents (%s ≠ %s)' % [old_canon, new_canonique])
       # Retirer le mot de :
       # table.mots[canonique][:items]
       # … et le mettre dans
@@ -173,7 +179,7 @@ class ProxMot
       # Rien à faire si un des deux n'existe pas
       if old_mot_avant.nil? && old_mot_apres.nil?
         # Rien à faire, normalement, ça ne devrait pas pouvoir arriver
-        debug('! Il n’y a ni mot précédant ni mot suivant… C’est impossible, normalement')
+        # debug('! Il n’y a ni mot précédant ni mot suivant… C’est impossible, normalement')
         return false
       end
 
@@ -181,18 +187,17 @@ class ProxMot
         # <= Les deux mots existent
         # =>  Il faut vérifier leur proximité. S'ils sont proches, il faut
         #     créer une proximité pour les lier.
-        debug('* Vérification de la proximité entre le mot précédent et le mot suivant…')
+        # debug('* Vérification de la proximité entre le mot précédent et le mot suivant…')
         if old_mot_apres.trop_proche_de?(old_mot_avant)
-          debug '= Les deux mots autour sont trop proches. => Il faut créer une nouvelle proximité'
+          # debug '= Les deux mots autour sont trop proches. => Il faut créer une nouvelle proximité'
           new_prox = Proximite.create(project, old_mot_avant, old_mot_apres)
           if new_prox.is_a?(Proximite)
             project.analyse.table_resultats.nombre_proximites_added += 1
           else
-            raise 'Un problème est survenu, la nouvelle proximité n’a pas pu être créée entre le mot «%s» (à %i) et le mot «%s» (à %i)…' %
-              [old_mot_avant.real, old_mot_avant.offset, old_mot_apres.real, old_mot_apres.offset]
+            rt('commands.prox.errors.new_prox_between_words_failed', {pword: old_mot_avant.real, offpword: old_mot_avant.offset, nword: old_mot_apres.real, offnword: old_mot_apres.offset})
           end
-        else
-          debug '= Les deux mots autour sont assez loin. Pas de nouvelle proximité.'
+        # else
+        #   debug '= Les deux mots autour sont assez loin. Pas de nouvelle proximité.'
         end
       end
     else
@@ -209,14 +214,6 @@ class ProxMot
     # Pour placer le mot dans
     # Faut-il créer une nouvelle liste canonique ?
     le_mot_canonique_existe_deja = project.analyse.table_resultats.mots.key?(canonique)
-    if le_mot_canonique_existe_deja
-      # <= le mot canonique existe déjà
-      debug('= Le mot canonique «%s» existe déjà.' % canonique)
-    else
-      # <= Le mot canonique n'existe pas
-      debug('= Le mot canonique «%s» n’existe pas. => il faut le créer' % canonique)
-      # note : ce sera fait dans `Scrivener::Project#add_mot`
-    end
 
     # On ajoute le mot au projet en créant la table canonique si besoin
     project.add_mot_in(self, project.analyse.table_resultats)
@@ -224,16 +221,16 @@ class ProxMot
     if le_mot_canonique_existe_deja
       # <= La table canonique existait déjà
       # => Il faut checker la proximité
-      debug('= Le mot canonique existait, il faut checker la proximité du nouveau mot.')
+      # debug('= Le mot canonique existait, il faut checker la proximité du nouveau mot.')
       index_mot = project.analyse.table_resultats.mots[canonique].items.index(self)
       if index_mot > 0
         # <= Le mot n'est pas le premier
         # => Il faut checker avec le précédent
         mot_precedent = project.analyse.table_resultats.mots[canonique].items[index_mot - 1]
-        debug('* Vérification de la proximité du mot d’offset %i avec le précédent (offset %i)' % [self.offset, mot_precedent.offset])
+        # debug('* Vérification de la proximité du mot d’offset %i avec le précédent (offset %i)' % [self.offset, mot_precedent.offset])
         if self.trop_proche_de?(mot_precedent)
           Proximite.create(project, mot_precedent, self)
-          debug('  = Le mot est trop proche => création d’une nouvelle proximité')
+          # debug('  = Le mot est trop proche => création d’une nouvelle proximité')
         end
       end
       if index_mot < project.analyse.table_resultats.mots[canonique].items.count - 1
@@ -244,13 +241,7 @@ class ProxMot
           Proximite.create(project, self, mot_suivant)
         end
       end
-    else
-      # <= La table canonique n'existait pas
-      # => Inutile de tester la proximité
-      debug('= Pas d’autres mots dans la table canonique => aucune proximité à checker')
     end
-
-
 
     return true
   end

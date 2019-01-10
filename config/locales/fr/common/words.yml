@@ -65,6 +65,14 @@ fr:
     # cap:
     #   sing: FICHIER DE CONFIGURATION
     #   plur: FICHIERS DE CONFIGURATION
+  corrected:
+    min:
+      sing: corrigé
+      plur: corrigés
+    fem:
+      cap:
+        sing: CORRIGÉE
+        plur: CORRIGÉES
   count:
     min:
       sing: nombre
@@ -153,6 +161,16 @@ fr:
     cap:
       sing: INDEX
       plur: INDEX
+  indice:
+    min:
+      sing: indice
+      plur: indices
+    tit:
+      sing: Indice
+      plur: Indices
+    cap:
+      sing: INDICE
+      plur: INDICES
   last:
     min:
       sing: dernier
@@ -173,6 +191,15 @@ fr:
       cap:
         sing: DERNIÈRE
         plur: DERNIÈRES
+  length:
+    min:
+      sing: longueur
+      plur: longueurs
+    tit:
+      sing: Longueur
+      plur: Longueurs
+    abbr:
+      tit: Long.
   list:
     min:
       sing: liste
@@ -237,7 +264,7 @@ fr:
     abbr:
       min: nomb.
       tit: Nomb.
-      cap: NOMB.
+      cap: NB.
   numero:
     min:
       sing: numéro
@@ -286,6 +313,23 @@ fr:
       min: prox.
       tit: Prox.
       cap: PROX.
+  rest:
+    min:
+      sing: reste
+      plur: restes
+    cap:
+      sing: RESTE
+      plur: RESTES
+  segment:
+    min:
+      sing: segment
+      plur: segments
+    tit:
+      sing: Segment
+      plur: Segments
+    cap:
+      sing: SEGMENT
+      plur: SEGMENTS
   sorted:
     alphabetical:         alphabétiquement
     by:                   classés par
@@ -331,6 +375,16 @@ fr:
     tit:
       sing: Objectif
       plur: Objectifs
+  total:
+    min:
+      sing: total
+      plur: totaux
+    tit:
+      sing: Total
+      plur: Totaux
+    cap:
+      sing: TOTAL
+      plur: TOTAUX
   with:
     min: avec
     tit: Avec
@@ -349,6 +403,16 @@ fr:
     cap:
       sing: MOT
       plur: MOTS
+  generic_word:
+    min: 'mot générique'
+    tit: 'Mot générique'
+  canonical_word:
+    min:
+      sing: 'terme canonique'
+    tit:
+      sing: 'Terme canonique'
+    cap:
+      sing: 'TERME CANONIQUE'
   written:
     min:
       sing: écrit

@@ -26,8 +26,17 @@ class << self
 
   def prepare_header_up_window win
     win.clear # pour passer en fond blanc
-    # entete_label = "PROXIMITÉ | NB TOTAL | CORRIGÉ |  RESTE  | TERME CANONIQUE | INDICE P. | NB P. DU MOT |"
-    entete_label = "PROXIMITÉ | TERME CANONIQUE | INDICE PROX | NB PROX DU MOT |  | TOTAL PROX | CORRIGÉES |  RESTE  |"
+    entete_label = "%{proximite} | %{canonical_term} | %{indice} %{prox} | %{nb} %{prox} %{mot} |  | %{total} %{prox} | %{corrected} |  %{reste}  |" % {
+      proximite: t('proximity.cap.sing'),
+      canonical_term: t('canonical_word.cap.sing'),
+      indice: t('indice.cap.sing'),
+      prox: t('proximity.abbr.cap'),
+      nb: t('number.abbr.cap'),
+      mot: t('word.cap.sing'),
+      total: t('total.cap.sing')
+      corrected: t('corrected.fem.cap.plur'),
+      reste: t('rest.cap.sing')
+    }
     win.affiche(entete_label, line: 0, style: :bleu_sur_blanc)
     @ligne_sous_header_infos = '–'*entete_label.length
     win.affiche(@ligne_sous_header_infos, line: 2, style: :bleu_sur_blanc)
@@ -66,13 +75,7 @@ class << self
   end
 
   def panneau_nomenclature
-    <<-EOT
-    Espace (ou toute autre touche non fonctionnelle) : proximité suivante
-    j : proximité précédente          l/n  : mot suivant      p : mot précédent
-    x : supprimer proximité courante        X : supprimer le mot courant
-    c : corriger la proximité courante
-    q : finir
-    EOT
+    t('projects.pannels.proximities.ui_interaction')
   end
 
 

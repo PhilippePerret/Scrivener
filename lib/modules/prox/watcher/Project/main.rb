@@ -28,7 +28,8 @@ class Project
   def options_conformes
     self.watched_document_title = CLI.options[:document]
     watched_document_title || begin
-      raise_unfound_binder_item('Il faut indiquer le nom (ou le début du nom du document) à l’aide de l’option `-doc/--document="<nom>"`.')
+      raise_unfound_binder_item(t('app.errors.doc_title_required'))
+      raise_unfound_binder_item()
     end
   end
   # /options_conformes

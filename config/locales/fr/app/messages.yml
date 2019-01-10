@@ -1,5 +1,9 @@
 fr:
   app:
+    errors:
+      doc_title_required: 'Il faut indiquer le nom (ou le début du nom du document) à l’aide de l’option `-doc/--document="<nom>"`.'
     messages:
       actions:
         make_sure_project_is_closed: "Assurez-vous que le projet soit bien fermé dans Scrivener."
+    warning:
+      project_must_be_closed: "project must not be opened in Scrivener"

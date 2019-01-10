@@ -1,0 +1,10 @@
+fr:
+  projects:
+    pannels:
+      proximities:
+        ui_interaction: |
+          Espace (ou toute autre touche non fonctionnelle) : proximité suivante
+          j : proximité précédente          l/n  : mot suivant      p : mot précédent
+          x : supprimer proximité courante        X : supprimer le mot courant
+          c : CORRIGER LA PROXIMITÉ COURANTE
+          q : quitter

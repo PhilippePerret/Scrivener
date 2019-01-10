@@ -32,7 +32,7 @@ class Project
         Scrivener::Project.exec_data_projet(self)
       else
         unless output_proximites
-          puts ' Abandon…'.rouge
+          wt('notices.abort_', nil, {color: :rouge})
         end
       end
     end
@@ -59,15 +59,15 @@ class Project
       something_is_displayed = false
       if CLI.options[:segments]
         # LAISSER CES puts ! Ils font partie du programme
-        puts "\n\n\n---- SEGMENTS: \n#{analyse.segments.inspect}"
+        puts "\n\n\n---- #{t('segment.cap.plur')}: \n#{analyse.segments.inspect}"
         something_is_displayed = true
       end
       if CLI.options[:proximites]
         # LAISSER CES puts ! Ils font partie du programme
-        puts "\n\n\n---- PROXIMITÉS: "
+        puts "\n\n\n---- #{t('proximity.cap.plur')}: "
         something_is_displayed = true
       end
-      something_is_displayed || puts("Avec --only_calculs, il faut ajouter une option pour voir une liste (--segments, --proximites, etc.)".rouge)
+      something_is_displayed || wt('commands.proximity.notices.opt_with_only_calculs', nil, {color: :rouge})
     else
       analyse.output.all unless CLI.options[:no_output]
     end

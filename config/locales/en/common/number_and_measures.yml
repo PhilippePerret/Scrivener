@@ -31,3 +31,9 @@ en:
       min:  'pages'
       tit:  Pages
       cap:  PAGES
+      number:
+        min:
+          sing: 'numéro de page'
+          plur: 'numéros de page'
+        mini:
+          sing: '𝑝𝑎𝑔𝑒𝑠 𝑛𝑢𝑚.'

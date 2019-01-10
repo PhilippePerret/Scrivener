@@ -49,7 +49,7 @@ class Project
     CLI.debug_exit
   end
 
-  TEMP_PROX_AFF = '%{pmot} [%{offset} in « %{doc} »] <- %{dist_cars}|%{dist_mots} mots -> %{mark_nmot}'
+  TEMP_PROX_AFF = '%{pmot} [%{offset} in « %{doc} »] <- %{dist_cars}|%{dist_mots} %{u_mot} -> %{mark_nmot}'
 
   def compose_proxi_display_for iprox
     pmot = iprox.mot_avant.real
@@ -61,7 +61,8 @@ class Project
       offset:     iprox.mot_avant.relative_offset,
       doc:        iprox.mot_avant.binder_item.title,
       dist_cars:  iprox.distance,
-      dist_mots:  iprox.distance / 6
+      dist_mots:  iprox.distance / 6,
+      u_mot:      t('unit.words.min')
     }
     return str.ljust(largeur_colonne_proxi)
   end
@@ -103,7 +104,7 @@ class Project
     else
       nombre_proximites = '---'
     end
-    write_state('Nombre de proximités : %s' % [nombre_proximites.to_s])
+    write_state('%s : %s' % [t('count.proxs'), nombre_proximites.to_s])
   end
   # /display_header_infos
 
@@ -158,7 +159,7 @@ class Project
     nombre_lignes   = Curses.lines
     nombre_colonnes = Curses.cols
 
-    debug("Nombre de lignes/colonnes dans l'écran : #{nombre_lignes}/#{nombre_colonnes}")
+    # debug("Nombre de lignes/colonnes dans l'écran : #{nombre_lignes}/#{nombre_colonnes}")
 
     sup_lines_state     = 9
     sup_lines_log       = 7
@@ -167,14 +168,14 @@ class Project
     nombre_lines_state  = sup_lines_state - sup_lines_log
     nombre_lines_log    = 7
     nombre_lines_proxi  = nombre_lignes - sup_lines_state - 1
-    debug('* Instanciation des trois fenêtres…')
+    # debug('* Instanciation des trois fenêtres…')
     self.winproxi = Curses::Console::Window.new(nombre_lines_proxi, top: 0)
     self.winstate = Curses::Console::Window.new(nombre_lines_state, top: top_window_state)
     winstate.clear
     self.winlog   = Curses::Console::Window.new(nombre_lines_log, top: top_window_log)
     winlog.clear
     winlog.cwindow.setpos(0,0)
-    debug('= Les trois fenêtres ont été instanciées avec succès.')
+    # debug('= Les trois fenêtres ont été instanciées avec succès.')
 
     self.display_inited = true
     CLI.debug_exit

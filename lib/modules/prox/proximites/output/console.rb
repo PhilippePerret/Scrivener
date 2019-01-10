@@ -28,7 +28,7 @@ class << self
   end
 
   def output(tableau)
-    CLI.dbg("-> Scrivener::Project::Console#output (#{Scrivener.relative_path(__FILE__,__LINE__).gris})")
+    CLI.debug_entry
 
     self.tableau = tableau
 
@@ -83,7 +83,7 @@ class << self
       # ----------------------------
       # Rappel : ils sont tous consignés dans la constante POINTEURS. Cf. le
       # module de même nom.
-      debug('* Initialisation des pointeurs…')
+      # debug('* Initialisation des pointeurs…')
       init_pointeurs
 
 
@@ -92,9 +92,9 @@ class << self
       # tous les mots/ponctuations ?
 
       # On prend le tout premier mot
-      debug('* Récupération du tout premier mot avec proximités…')
+      # debug('* Récupération du tout premier mot avec proximités…')
       pointe_premier_mot_avec_proximites
-      debug('= POINTEURS = %s' % POINTEURS.inspect)
+      # debug('= POINTEURS = %s' % POINTEURS.inspect)
 
       while # tant qu'on ne procède pas à la fin
 
@@ -113,7 +113,7 @@ class << self
           else
             # <= Il n'y a pas de mot suivant avec des proximités
             # => On propose soit de s'arrêter, soit de passer à la suite
-            if confirmation?('Nous avons atteint la fin de la liste. Reprendre au début ?', ['o', 'y'], ['o', 'y', 'n'])
+            if confirmation?(t('commands.proximity.questions.redo_from_top'), ['o', 'y'], ['o', 'y', 'n'])
               reset_pointeurs_pour_mot_at(0)
             else
               break
@@ -159,7 +159,7 @@ class << self
       debug(e)
       winup.affiche(e.message)
       winup.affiche(String::RC + e.backtrace[0..1].join(String::RC))
-      winup.affiche(String::RC + 'Voir la suite dans le log de débug', :rouge_sur_blanc)
+      winup.affiche(String::RC + 'Suite in debug.log', :rouge_sur_blanc)
       sleep 4
     end
 
@@ -167,7 +167,7 @@ class << self
     # TODO : lorsqu'on pourra régler la sauvegarde automatique, on pourra
     # le faire sans demander
     if project.modified?
-      if confirmation?('Le projet a été modifié. Dois-je le sauver ?', ['o','y'], ['o','y', 'n'])
+      if confirmation?(t('projects.questions.save_project_modified'), ['o','y'], ['o','y', 'n'])
         project.save
       end
     end

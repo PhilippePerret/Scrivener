@@ -28,7 +28,7 @@ class << self
         # => On peut remonter au mot précédent
         start_at_fin = true
         unless cherche_mot_precedent_avec_proximites(start_at_fin)
-          msg('C’est la toute première proximité. Il n’y en a pas avant.', :warning)
+          msg('commands.proximity.notices.first_prox', :warning)
         end
       end
     when 'p'
@@ -42,15 +42,15 @@ class << self
     when 'x'
       # Supprimer correction courant
       #
-      if confirmation?('Confirmer la suppression de la proximité courante en jouant ENTRÉE')
+      if confirmation?(t('commands.proximity.confirms.remove_proximity'))
         iprox.fix(ignore: true)
-        msg('Cette proximité sera ignorée.', :info)
+        msg(t('commands.proximity.notices.prox_will_be_ignored'), :info)
         reset_pointeurs_pour_mot_at(POINTEURS[:mot] + 1)
       end
     when 'X'
       # Supprimer tout le mot
-      if confirmation?('Confirmer la suppression de TOUTES les occurences du mot courant en jouant ENTRÉE')
-        msg('TODO: Implémenter la procédure de suppression de tout un mot', :info)
+      if confirmation?(t('commands.proximity.confirms.remove_all_word_occurences'))
+        msg('TODO: Implementation of word removing', :info)
       end
     else
       # Dans tous les autres cas, on passe à la proximité suivante
@@ -64,7 +64,8 @@ class << self
         # => On doit passer au mot suivant (ou proposer de revenir au début
         #    s'il n'y a plus de mots après avec des proximités)
         unless cherche_mot_suivant_avec_proximites
-          if confirmation?('Reprendre au début ?', ['o', 'y'], ['o','y', 'n'])
+
+          if confirmation?(t('questions.restart_from_beginning'), ['o', 'y'], ['o','y', 'n'])
             pointe_premier_mot_avec_proximites
           else
             return false # s'arrêter là

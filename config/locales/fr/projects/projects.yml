@@ -10,3 +10,7 @@ fr:
     # === ERREURS ===
     errors:
       none: 'Aucun projet n’a été encore enregistré par la commande `scriv`, désolé.'
+    # === QUESTIONS ===
+    questions:
+      open_the_project:       'Voulez-vous ouvrir votre projet ?'
+      save_project_modified:  'Le projet a été modifié. Dois-je le sauver ?'

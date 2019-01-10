@@ -8,7 +8,7 @@ class Project
     CLI.debug_entry
 
     # Écrit un message d'attente à l'écran
-    write_log('* check proximités…', :gris_clair, true)
+    write_log('* check…', :gris_clair, true)
     # p "*** Je vais check proximités in watched binder items"
     # sleep 1
     check_proximites_in_watched_binder_items

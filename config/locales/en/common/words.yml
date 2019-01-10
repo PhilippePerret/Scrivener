@@ -66,6 +66,14 @@ en:
     # cap:
     #   sing: CONFIG FILE
     #   plur: CONFIG FILES
+  corrected:
+    min:
+      sing: corrected
+      plur: corrected
+    fem:
+      cap:
+        sing: CORRECTED
+        plur: CORRECTED
   count:
     min:
       sing: count
@@ -154,6 +162,16 @@ en:
     cap:
       sing: INDEX
       plur: INDEX
+  indice:
+    min:
+      sing: index
+      plur: index
+    tit:
+      sing: Index
+      plur: Index
+    cap:
+      sing: INDEX
+      plur: INDEX
   last:
     min:
       sing: last
@@ -174,6 +192,15 @@ en:
       cap:
         sing: LAST
         plur: LAST
+  length:
+    min:
+      sing: length
+      plur: lengths
+    tit:
+      sing: Length
+      plur: Lengths
+    abbr:
+      tit: Len.
   list:
     min:
       sing: list
@@ -236,9 +263,9 @@ en:
       sing: NUMBER
       plur: NUMBERS
     abbr:
-      min: num.
-      tit: Num.
-      cap: NUM.
+      min: nb.
+      tit: Nb.
+      cap: NB.
   numero:
     min:
       sing: numero
@@ -287,6 +314,23 @@ en:
       min: prox.
       tit: Prox.
       cap: PROX.
+  rest:
+    min:
+      sing: rest
+      plur: rests
+    cap:
+      sing: REST
+      plur: RESTS
+  segment:
+    min:
+      sing: segment
+      plur: segments
+    tit:
+      sing: Segment
+      plur: Segments
+    cap:
+      sing: SEGMENT
+      plur: SEGMENTS
   sorted:
     alphabetical:         alphabetical
     by:                   sorted by
@@ -332,6 +376,16 @@ en:
     tit:
       sing: Target
       plur: Targets
+  total:
+    min:
+      sing: amount
+      plur: amounts
+    tit:
+      sing: Amount
+      plur: Amounts
+    cap:
+      sing: AMOUNT
+      plur: AMOUTS
   with:
     min: with
     tit: With
@@ -350,6 +404,16 @@ en:
     cap:
       sing: WORD
       plur: WORDS
+  generic_word:
+    min: 'generic word'
+    tit: 'Generic Word'
+  canonical_word:
+    min:
+      sing: 'canonical word'
+    tit:
+      sing: 'Canonical Word'
+    cap:
+      sing: 'CANONICAL WORD'
   written:
     min:
       sing: written

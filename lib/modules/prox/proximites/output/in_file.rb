@@ -29,7 +29,7 @@ class Project
 
     File.unlink(file_txt_with_colortags_path)
 
-    folder_bitem = project.folders.find(title: 'Proximités')
+    folder_bitem = project.folders.find(title: t('proximity.tit.plur'))
     folder_bitem ||= build_folder_proximites_in_scrivener
 
     file_bitem = build_file_proximites_in_scrivener(folder_bitem)
@@ -45,13 +45,13 @@ class Project
 
     if File.exists?(file_bitem.rtf_text_path)
       erase_temporary_files_if_exists
-      puts ('Le fichier « %s » a été créé dans le projet, dans le dossier « Proximités ».' % file_bitem.title).bleu
-      yesOrNo('Voulez-vous ouvrir votre projet ?') && begin
+      wt('commands.proximity.notices.file_created_in_project', {name: file_bitem.title}, {color: :bleu})
+      yesOrNo(t('projects.questions.open_the_project')) && begin
         Scrivener.require_module('open')
         project.open
       end
     else
-      raise('Malheureusement, le fichier des proximités ne semble pas avoir pu être créé dans le projet…')
+      rt('commands.proximity.errors.cant_create_prox_file')
     end
   ensure
     CLI.debug_exit
@@ -59,13 +59,13 @@ class Project
   # /build_proximites_scrivener_file
 
   def build_folder_proximites_in_scrivener
-    project.create_main_folder({title: 'Proximités', after: :draft_folder})
+    project.create_main_folder({title: t('proximity.tit.plur'), after: :draft_folder})
   end
   # /build_folder_proximites_in_scrivener
 
   def build_file_proximites_in_scrivener(folder_bitem)
     folder_bitem.create_binder_item(nil, {
-      title: 'Check du %s' % [Time.now.strftime('%d %m %Y - %H:%M')]
+      title: "Check #{t('of.min.sing')} #{Time.now.strftime('%d %m %Y - %H:%M')}"
     })
   end
   # /build_file_proximites_in_scrivener
@@ -234,7 +234,7 @@ class Project
 
     end
 
-    not_yet_placed && raise('La balise des couleurs n’a pas pu être placée…')
+    not_yet_placed && rt('commands.proximity.errors.colors_tag_failed')
 
   ensure
     ffinal.close

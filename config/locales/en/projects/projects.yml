@@ -10,3 +10,7 @@ en:
     # === ERREURS ===
     errors:
       none: 'You don’t have any project with `scriv`, sorry.'
+    # === QUESTIONS ===
+    questions:
+      open_the_project:       'Would you like to open your project?'
+      save_project_modified:  'The project has been modified. Save it?'

@@ -72,49 +72,50 @@ class Project
     #
     graph = Array.new
     graph << RC * 3
-    tit = "Tableau des densités de proximités"
-    graph <<  TAB + tit
-    graph <<  TAB + '-'*tit.length
+    tit = t('commands.proximity.titles.density_pannel')
+    graph <<  tit
+    graph <<  '-'*tit.length
     graph <<  RC * 2
+    linei = String.new
     (0..15).each do |i|
       h = 15 - i
-      linei = TAB+''
+      linei = ''
       colonnes.each do |icol, valcol|
         linei << (valcol >= h ? '∎' : ' ')
       end
       graph << linei
     end
     col_count = colonnes.count
-    graph << TAB + '–' * col_count
+    graph << '–' * col_count
     # Une colonne sur deux on va mettre le nombre de pages
-    line1000  = TAB+''
-    line100   = TAB+''
-    line10    = TAB+''
-    line1     = TAB+''
+    line1000  = ''
+    line100   = ''
+    line10    = ''
+    line1     = ''
     (0...col_count).step(2).each do |icol|
       nb_chars    = icol * largeur_colonne
       nb_pages    = (nb_chars / 1500) + 1
       rev_pages   = nb_pages.to_s
       if nb_pages > 999
-        line1     << String::CHIFFRE_BAS[rev_pages[0].to_i]
-        line10    << String::CHIFFRE_HAUT[rev_pages[1].to_i]
-        line100   << String::CHIFFRE_BAS[rev_pages[2].to_i]
-        line1000  << String::CHIFFRE_HAUT[rev_pages[3].to_i]
+        line1     += String::CHIFFRE_BAS[rev_pages[0].to_i]
+        line10    += String::CHIFFRE_HAUT[rev_pages[1].to_i]
+        line100   += String::CHIFFRE_BAS[rev_pages[2].to_i]
+        line1000  += String::CHIFFRE_HAUT[rev_pages[3].to_i]
       elsif nb_pages > 99
-        line1     << String::CHIFFRE_BAS[rev_pages[0].to_i]
-        line10    << String::CHIFFRE_HAUT[rev_pages[1].to_i]
-        line100   << String::CHIFFRE_BAS[rev_pages[2].to_i]
-        line1000  << ' '
+        line1     += String::CHIFFRE_BAS[rev_pages[0].to_i]
+        line10    += String::CHIFFRE_HAUT[rev_pages[1].to_i]
+        line100   += String::CHIFFRE_BAS[rev_pages[2].to_i]
+        line1000  += ' '
       elsif nb_pages > 9
-        line1     << String::CHIFFRE_BAS[rev_pages[0].to_i]
-        line10    << String::CHIFFRE_HAUT[rev_pages[1].to_i]
-        line100   << ' '
-        line1000  << ' '
+        line1     += String::CHIFFRE_BAS[rev_pages[0].to_i]
+        line10    += String::CHIFFRE_HAUT[rev_pages[1].to_i]
+        line100   += ' '
+        line1000  += ' '
       else
-        line1     << String::CHIFFRE_BAS[rev_pages[0].to_i]
-        line10    << ' '
-        line100   << ' '
-        line1000  << ' '
+        line1     += String::CHIFFRE_BAS[rev_pages[0].to_i]
+        line10    += ' '
+        line100   += ' '
+        line1000  += ' '
       end
       line1 << ' '
       line10 << ' '
@@ -122,8 +123,9 @@ class Project
       line1000 << ' '
     end
     [line10, line100, line100, line1000].each do |line|
-      if line[2..14].strip == ''
-        line[2..14] = '𝑛𝑢𝑚𝑒𝑟𝑜𝑠 𝑝𝑎𝑔𝑒𝑠'
+      if line[0..12].strip == ''
+        remp = t('unit.pages.number.mini')
+        line[0...remp.length] = remp
         break
       end
     end
@@ -136,10 +138,11 @@ class Project
 
   def output_data_proximites
     get_data_analyse || return
-    puts "\n\n==== DATA DE PROXIMITES ==="
-
+    CLI::Screen.clear
+    wt('commands.proximity.titles.proximities_data')
+    temp = "--- #{t('generic_word')} : %s"
     table_resultats.mots.each do |mot_lemma, data_mot|
-      puts "--- mot générique : #{mot_lemma}"
+      puts temp % mot_lemma
       data_mot.items.each do |imot|
         puts "   - #{imot.real} :: #{imot.offset}"
       end

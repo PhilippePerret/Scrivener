@@ -1,3 +1,12 @@
 fr:
+  test: 'Ceci est un test'
   notices:
+    abort_:         'Abandon…'
+    change_lang_ok: D’accord, parlons français maintenant !
     cancel_changes: 'Modifications abandonnées…'
+    any_change:     'Aucun changement'
+  # === QUESTIONS ===
+  questions:
+    restart_from_beginning: 'Reprendre au début ?' # 'Restart from beginning?'
+    which_editor:           "Avec quel éditeur dois-je ouvrir le fichier \"%{pth}\" ?"
+    proceed_changes:        "Dois-je procéder à ces changements ?"

@@ -1,0 +1,10 @@
+en:
+  projects:
+    pannels:
+      proximities:
+        ui_interaction: |
+          Space (or other non fonctional key) : next proximity
+          j : previous proximity          l/n  : next word      p : previous word
+          x : remove current proximity    X : remove current word
+          c : CORRECT CURRENT PROXIMITY
+          q : quit

@@ -1,5 +1,7 @@
 en:
   app:
+    errors:
+      doc_title_required: 'Document title is required with `-doc/--document="<nom>"` option.'
     messages:
       actions:
         make_sure_project_is_closed: "Make sure the project is not opened in Scrivener"
