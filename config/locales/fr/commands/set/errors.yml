@@ -1,0 +1,6 @@
+fr:
+  commands:
+    set:
+      errors:
+        unknown_set_method: 'La propriété `%{prop}`, si elle existe pour un projet Scrivener, ne peut (encore) être définie avec la commande `set`.'
+        yaml_file_unfound:  'Le fichier YAML "%{pth}" contenant les données à régler est introuvable.'

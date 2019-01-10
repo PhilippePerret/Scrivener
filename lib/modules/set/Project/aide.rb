@@ -16,9 +16,11 @@ class << self
       filtre = (TABLE_EQUIVALENCE_DATA_SET[filtre] || filtre).to_s
       filtre = /#{Regexp.escape(filtre)}/i
     end
-    str_aide =  INDENT + "LISTE DES PROPRIÉTÉS MODIFIABLES#{filtre ? ' (FILTRÉES)'.bleu : ''}\n"
-    str_aide += INDENT + "--------------------------------\n"
-    str_aide += MODIFIABLE_PROPERTIES.collect do |property, dproperty|
+    tit =  "#{t('app.titles.modifiable_property_list')}#{filtre ? " (#{t('filtred.fem.cap.plur')})".bleu : ''}\n"
+    str_aide = Array.new
+    str_aide << tit
+    str_aide << "-" * tit.length
+    MODIFIABLE_PROPERTIES.each do |property, dproperty|
       # Si une commande à été précisée, on filtre seulement celles qui peuvent
       # correspondre.
       filtre && ( property.match(filtre) || next )
@@ -36,14 +38,14 @@ class << self
                             when Hash
                               String::RC +
                               dproperty[:values].collect do |val, facons|
-                                '        Pour %s : %s' % [val, facons.pretty_join]
+                                '        %s %s : %s' % [t('for.tit'), val, facons.pretty_join]
                               end.join(String::RC)
                             end
                           else
                             '---'
                           end
       dproperty.merge!(:valeurs_possibles => if dproperty.key?(:values)
-        String::RC + '    Valeurs  : ' + values_possibles
+        String::RC + "  #{'value.tit.plur'}  : " + values_possibles
         else '' end
       )
       if dproperty.key?(:in_yaml_file)
@@ -53,58 +55,35 @@ class << self
       end
 
       if dproperty.key?(:only_in_yaml_file)
-        dproperty[:variante] += " #{'(seulement dans un fichier YAML)'.rouge}"
+        dproperty[:variante] += " (#{t('files.notices.only_in_yaml_file', nil, {color: :rouge})})"
       end
       if dproperty.key?(:exemple) && dproperty[:exemple]
         # dproperty[:exemple] = String::RC + INDENT * 2 + 'Exemple  :' +
         dproperty[:exemple] = ('scriv set "~/projets/pj.scriv" ' + dproperty[:exemple]).jaune
-        dproperty[:exemple].prepend(String::RC + INDENT * 2 + 'Exemple  : ')
+        dproperty[:exemple].prepend(String::RC + INDENT * 2 + "#{t('example.tit.sing')}  : ")
       else
         dproperty[:exemple] = ''
       end
 
-      '
+      str_aide << '
   %{property} / %{variante}
 
-    Fonction : %{description}%{exemple}%{valeurs_possibles}%{in_yaml_file}
-      ' % dproperty.merge(property: (dproperty[:real] || property).to_s.jaune)
-    end.compact.join(String::RC)
+    %{fct} : %{description}%{exemple}%{valeurs_possibles}%{in_yaml_file}
+      ' % dproperty.merge({ property: (dproperty[:real] || property).to_s.jaune,
+                            fct: t('function.tit.sing')
+      })
+    end
 
-    str_aide += "
+    str_aide << t('helps.set.mode_utilisation')
 
-  MODE D’UTILISATION
-  ------------------
-
-    Deux modes d’utilisation permettent de définir ces propriétés :
-    * mode en ligne de commande, où plusieurs propriétés peuvent
-      être définies en même temps. Par exemple :
-      #{'scriv set notes_zoom=2 target=4000m inspector_visible=n'.jaune}
-    * mode fichier, à l'aide d'un fichier YAML contenant les don-
-      à modifier et leurs valeurs. Il suffit de faire des lignes de
-      définition telles que :
-        #{'<propriété>: <valeur>'}
-      … où `<propriété>` est la propriété listée ci-dessus. Par
-      exemple, le fichier pourrait contenir :
-        classeur_visible:    oui
-        inspecteur_visible:  non
-        zoom_notes:          300%
-        zoom_editeur1:       150%
-      Il suffit ensuite de jouer la commande :
-        #{'scriv set --from=mon/fichier.yaml'.jaune}
-      … pour que les données soient modifiées.
-      La commande #{'`scriv build config-file`'.jaune} permet de partir
-      d'un modèle contenant toutes les valeurs possibles. Ajouter
-      l'option `--name=nom_fichier` pour définir un nom de fichier
-      propre, dans le cas où plusieurs fichier de configurations se-
-      raient envisagés.
-    "
+    INDENT + str_aide.join(String::RC + INDENT)
   end
   # /aide_commande_set
 
 
   def compile_output_valid_values
     XMLCompile::OUTPUT_FORMATS.collect do |kfmt, dformat|
-      '%s pour %s' % [kfmt.to_s.inspect, dformat[:hname]]
+      '%s %s %s' % [kfmt.to_s.inspect, t('for.min'), dformat[:hname]]
     end
   end
   # /compile_output_valid_values

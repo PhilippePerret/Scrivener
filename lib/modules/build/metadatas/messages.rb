@@ -24,9 +24,6 @@ DESIGNATIONS = {
 }
 
 class Project
-def raise_yaml_file_unfound(pth)
-  raise_err_with(:yaml_file_unfound, pth)
-end
 def raise_no_code_yaml
   raise_err_with(:no_yaml_code)
 end

@@ -20,7 +20,7 @@ class Project
           puts INDENT_TIRET + e.message.rouge
         end
       else
-        puts INDENT_TIRET + (ERRORS[:unknown_method] % key).rouge
+        wt('commands.set.errors.unknown_set_method', {prop: key}, {color: :rouge})
       end
     end
   end

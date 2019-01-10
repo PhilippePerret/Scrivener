@@ -128,6 +128,21 @@ en:
   the_editor:
     min:  "the editor"
     tit:  "The editor"
+  example:
+    min:
+      sing: example
+      plur: examples
+    tit:
+      sing: Example
+      plur: Examples
+  filtred:
+    min:
+      sing: filtred
+      plur: filtred
+    fem:
+      cap:
+        sing: FILTRED
+        plur: FILTRED
   first:
     min:
       sing: first
@@ -148,6 +163,17 @@ en:
       cap:
         sing: FIRST
         plur: FIRST
+  for:
+    min: for
+    tit: For
+    cap: FOR
+  function:
+    min:
+      sing: function
+      plur: functions
+    tit:
+      sing: Function
+      plur: Functions
   help:
     min:    help
     tit:    Help
@@ -386,6 +412,16 @@ en:
     cap:
       sing: AMOUNT
       plur: AMOUTS
+  value:
+    min:
+      sing: value
+      plur: values
+    tit:
+      sing: Value
+      plur: Values
+    cap:
+      sing: VALUE
+      plur: VALUES
   with:
     min: with
     tit: With

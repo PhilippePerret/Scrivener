@@ -60,7 +60,7 @@ module BuildMetadatasModule
   def define_yaml_file
     pth = pth_init = CLI.options[:from]
     pth = File.join(project.folder, pth) unless File.exist?(pth)
-    File.exist?(pth) || raise_yaml_file_unfound(pth_init)
+    File.exist?(pth) || rt('commands.set.errors.yaml_file_unfound', {pth: pth_init})
     return pth
   end
   # /define_yaml_file

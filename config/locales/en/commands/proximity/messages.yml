@@ -15,7 +15,7 @@ en:
         file_created_in_project:  '"%{name}" file has been created in project, in "Proximities" folder.'
         opt_with_only_calculs:    "With --only_calculs option, you must add an other option to see the list (--segments, --proximites, etc.)"
       errors:
-        new_prox_between_words_failed:  'A problem occured, can't create the new proximity between "%{pword}" (à %{offpword}) et "%{nword}" (à %{offnword})…'
+        new_prox_between_words_failed:  'A problem occured, can’t create the new proximity between "%{pword}" (at %{offpword}) and "%{nword}" (at %{offnword})…'
         cant_create_prox_file:          'Unfortunately, proximities file seems to not exist in project folder…'
         colors_tag_failed:              'Can’t set the colors tag…'
       interactions:

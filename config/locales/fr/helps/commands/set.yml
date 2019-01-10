@@ -1,0 +1,30 @@
+en:
+  helps:
+    set:
+      mode_utilisation: |
+      
+        MODE D'UTILISATION
+        ------------------
+
+          Deux modes d’utilisation permettent de définir ces propriétés :
+          * mode en ligne de commande, où plusieurs propriétés peuvent
+            être définies en même temps. Par exemple :
+            #{'scriv set notes_zoom=2 target=4000m inspector_visible=n'.jaune}
+          * mode fichier, à l'aide d'un fichier YAML contenant les don-
+            à modifier et leurs valeurs. Il suffit de faire des lignes de
+            définition telles que :
+              #{'<propriété>: <valeur>'}
+            … où `<propriété>` est la propriété listée ci-dessus. Par
+            exemple, le fichier pourrait contenir :
+              classeur_visible:    oui
+              inspecteur_visible:  non
+              zoom_notes:          300%
+              zoom_editeur1:       150%
+            Il suffit ensuite de jouer la commande :
+              #{'scriv set --from=mon/fichier.yaml'.jaune}
+            … pour que les données soient modifiées.
+            La commande #{'`scriv build config-file`'.jaune} permet de partir
+            d'un modèle contenant toutes les valeurs possibles. Ajouter
+            l'option `--name=nom_fichier` pour définir un nom de fichier
+            propre, dans le cas où plusieurs fichier de configurations se-
+            raient envisagés.

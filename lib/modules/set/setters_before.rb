@@ -24,7 +24,7 @@ module ModuleSetValuesWithKeys
       if self.respond_to?(method)
         send(method, value)
       else
-        puts (ERRORS[:unknown_method] % key).rouge
+        wt('commands.set.errors.unknown_set_method', {prop: key}, {color: :rouge})
       end
     end
   end

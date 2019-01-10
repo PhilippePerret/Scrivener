@@ -127,6 +127,21 @@ fr:
   the_editor:
     min:  "l’éditeur"
     tit:  "L’éditeur"
+  example:
+    min:
+      sing: exemple
+      plur: exemples
+    tit:
+      sing: Exemple
+      plur: Exemples
+  filtred:
+    min:
+      sing: filtré
+      plur: filtrés
+    fem:
+      cap:
+        sing: FILTRÉE
+        plur: FILTRÉES
   first:
     min:
       sing: premier
@@ -147,6 +162,17 @@ fr:
       cap:
         sing: PREMIÈRE
         plur: PREMIÈRES
+  for:
+    min: pour
+    tit: Pour
+    cap: POUR
+  function:
+    min:
+      sing: fonction
+      plur: fonctions
+    tit:
+      sing: Fonction
+      plur: Fonctions
   help:
     min:    aide
     tit:    Aide
@@ -385,6 +411,16 @@ fr:
     cap:
       sing: TOTAL
       plur: TOTAUX
+  value:
+    min:
+      sing: valeur
+      plur: valeurs
+    tit:
+      sing: Valeur
+      plur: Valeurs
+    cap:
+      sing: VALEUR
+      plur: VALEURS
   with:
     min: avec
     tit: Avec

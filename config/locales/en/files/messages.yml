@@ -1,0 +1,4 @@
+en:
+  files:
+    notices:
+      only_in_yaml_file: 'Only in a YAML file'
