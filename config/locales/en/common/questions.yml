@@ -1,3 +1,4 @@
 en:
   questions:
     which_editor: "Which editor to open the file \"%{pth}\"?"
+    proceed_changes: "Proceed theses changes?"

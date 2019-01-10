@@ -1,6 +1,12 @@
 fr:
   commands:
     build:
-      update:
-        notices:
-          no_modification_tdm: 'Aucune modification de la table des matières n’est à opérer.'
+      notices:
+        config_file_success: 'Le fichier config "%s" a été construit avec succès. Vous pouvez le voir en ouvrant le dossier du projet (`scriv open folder`) ou en ouvrant directement le fichier à l’aide de `scriv open config%s`'
+        tdm_build: 'Table des matières construite dans le fichier « %{filename} » du dossier du projet. Astuce : vous pouvez l’ouvrir après la construction en ajoutant l’option `--open` à la commande.'
+    update:
+      notices:
+        no_modification_tdm: 'No change of the table of contents to operate.'
+      errors:
+        id_column_require: 'Pour actualiser un projet, il faut impérativement une colonne d’identifiant (ID) pour retrouver les éléments.'
+        unenable_to_update_value: 'Impossible d’actualiser la donnée de type "%s"'

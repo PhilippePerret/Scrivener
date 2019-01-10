@@ -13,7 +13,7 @@ class Project
     input_file_exist_or_raise
     labels_are_ok_or_raise
     liste_modifications = get_targets_to_modify
-    liste_modifications.count > 0 || return(wt('commands.build.update.notice.no_modification_tdm'))
+    liste_modifications.count > 0 || return(wt('commands.update.notices.no_modification_tdm'))
     if confirme_modifications(liste_modifications)
       proceed_target_modifications(liste_modifications)
     else
@@ -37,10 +37,15 @@ class Project
     wt('app.messages.actions.make_sure_project_is_closed', nil, {color: :rouge})
     arr.each do |bitem, target|
       s = SWP.new(target)
-      s = '%s %s (%s mots, %s pages)' % [" #{s.signs}".rjust(7,'.'), t('unit.signs.min') s.mots, s.pages_real_round]
+      s = ' %{nb_sg} %{u_sg} (%{nb_wd} %{u_wd}, %{nb_pg} %{u_pg})' % {
+        nb_sg: " #{s.signs}".rjust(7,'.'),
+        u_sg: t('unit.sg.min'),
+        nb_wd: s.mots, u_wd: t('unit.words.min'),
+        nb_pg:  s.pages_real_round, u_pg: t('unit.pages.min')
+      }
       puts '  %s %s%s' % [t('document.tit.sing'), bitem.title[0..50].inspect.ljust(50,'.'), s]
     end
-    return yesOrNo('Procéder à ces changements (%s)' % ['le projet doit être fermé'.rouge])
+    return yesOrNo('% (%)' % [t('questions.proceed_changes', t('app.warning.project_must_be_closed').rouge]))
   end
 
   def get_targets_to_modify
@@ -52,10 +57,10 @@ class Project
       catch :no_traitement do
         if titre.start_with?('> ')
           titre = titre[2..-1].strip
-          CLI.dbg('DOSSIER=>NON TRAITÉ : je ne traite pas «%s»' % [titre])
+          CLI.dbg('FOLDER=>NO TREATMENT : «%s»' % [titre])
           throw(:no_traitement)
         elsif target.nil?
-          CLI.dbg('NON DEFINED TARGET: pas d’objectif défini pour «%s»' % [titre])
+          CLI.dbg('NON DEFINED TARGET pour «%s»' % [titre])
           throw(:no_traitement)
         end
         bitem = self.binder_item_by_title(titre) || begin

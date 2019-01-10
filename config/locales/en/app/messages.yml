@@ -3,3 +3,5 @@ en:
     messages:
       actions:
         make_sure_project_is_closed: "Make sure the project is not opened in Scrivener"
+    warning:
+      project_must_be_closed: "project must not be opened in Scrivener"
