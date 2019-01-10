@@ -1,5 +1,16 @@
 fr:
   helps:
+    # = LES MESSAGES D'AIDE EN GÉNÉRAL =
+    notices:
+      scriv_command: pour obtenir de l’aide, taper `scriv %{cmd} --help`
+
+    # = Pour les TABLES DES MATIÈRES =
+    tdm:
+      may_be_in_file: |
+        On peut également construire la table des matières dans un
+        fichier en ajoutant l’option `--output=<format>` où <format>
+        peut être "csv", "text", "html" ou "scrivener".
+
     # = POUR L'EXPLICATION DES TABLES DE NOMBRES =
     table_counts:
       proximities:    'Le premier nombre comptabilise toutes les proximités. Le second présente le pourcentage de proximités par rapport au nombre total de mots.'

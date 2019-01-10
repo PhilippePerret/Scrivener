@@ -1,6 +1,7 @@
 fr:
   count:
     canons:   'Nombre de canons'
+    elements: 'Nombre d’éléments'
     pages:    'Nombre de pages'
     proxs:    'Nombre de proximités'
     signs:    'Nombre de caractères'

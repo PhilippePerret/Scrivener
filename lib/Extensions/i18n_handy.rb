@@ -1,8 +1,16 @@
 # frozen_string_literal: true
 # encoding: UTF-8
 =begin
-  Méthodes raccourcies pratiques
+  Méthodes raccourcies pratiques pour l'utilisation des locales
+
+Version 0.1.3
+
+# Version 0.1.3
+#   Possibilité de mettre n'importe quel délimiteur entre plusieurs
+#   path envoyées par t('path1<del>path2<del>path3')
+#
 =end
+require 'i18n'
 
 # Raccourci pour 'write I18n translate'
 # Permet d'écrire un message localisé à l'écran
@@ -12,7 +20,7 @@
 def wt pth, template_values = nil, options = nil
   options ||= Hash.new
   # msg = String.new(t(pth, template_values))
-  msg = t(pth, template_values)
+  msg = t(pth, template_values, options)
   options[:color] && msg = msg.send(options[:color])
   options[:indent] === false || begin
     msg.prepend(INDENT).gsub!(/(\r?\n)/,  '\1' + INDENT)
@@ -43,15 +51,21 @@ end
 #   t('ma.la chose.table %s', ['est rouge'])
 #   => "La table est rouge"
 #
-def t pth, template_values = nil
-  if pth.match(/ /)
-    pth.split(' ').collect do |e|
+# +options+
+#   :delimitor    Le délimiteur de mots lorsque plusieur path de locales
+#                 sont transmises. Par défaut, c'est l'espace.
+#
+def t pth, template_values = nil, options = nil
+  options ||= Hash.new
+  options[:delimitor] || options.merge!(delimitor: ' ')
+  if pth.match(/#{Regexp.escape(options[:delimitor])}/)
+    pth.split(options[:delimitor]).collect do |e|
       if e.start_with?('%')
         e
       else
         translate_with_i18n_and_eval(e)
       end
-    end.join(' ') % (template_values || [])
+    end.join(options[:delimitor]) % (template_values || [])
   else
     translate_with_i18n_and_eval(pth, template_values)
   end

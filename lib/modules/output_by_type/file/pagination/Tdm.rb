@@ -6,10 +6,12 @@ module ModuleFormatageTdm
     # format voulu.
     def output_table_of_content
       # Et pour le moment, on l'affichage comme ça
-      ecrit  String::RC * 3 +
-             lines.join(RET) +
-             String::RC * 3 +
-             '(pour obtenir de l’aide, taper `scriv %s --help`)' % [CLI.command_init]
+      strtdm = [
+        *lines,
+        String::RC * 2,
+        '(%s)' % [t('helps.notices.scriv_command', {cmd: CLI.command_init})]
+      ].join(String::RC)
+      ecrit(strtdm)
     end
 
     # Pour ajouter les lignes de titre

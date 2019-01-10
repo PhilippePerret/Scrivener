@@ -1,5 +1,16 @@
 en:
   helps:
+    # = LES MESSAGES D'AIDE EN GÉNÉRAL =
+    notices:
+      scriv_command: "use `scriv %{cmd} --help` command to obtain help"
+
+    # = Pour les TABLES DES MATIÈRES =
+    tdm:
+      may_be_in_file: |
+        You can also build the table of contents in a file by
+        adding the `--output=<format>` option where <format>
+        may be "csv", "text", "html" or "scrivener".
+
     # = POUR L'EXPLICATION DES TABLES DE NOMBRES =
     table_counts:
       proximities:    'The first number counts all the proximities. The second one shows the pourcentage against the total words count.'

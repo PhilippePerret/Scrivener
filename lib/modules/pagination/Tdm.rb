@@ -124,7 +124,7 @@ class Project
     #
     def build_table_of_content
       define_elements
-      verbose_line('Nombre d’éléments', elements.count)
+      verbose_line(t('count.elements'), elements.count)
       define_mesures
       [
         :title_width, :obj_page_number_width, :obj_last_page_number,

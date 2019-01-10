@@ -20,7 +20,7 @@ module ModuleFormatageTdm
 <html lang="fr" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>#{projet.title} - Table des matières</title>
+    <title>#{projet.title} - #{t('table_of_contents.tit.sing')}</title>
     <style>#{css_styles}</style>
   </head>
   <body>
@@ -30,7 +30,7 @@ module ModuleFormatageTdm
       <<-HTML
 </div><!-- div#tdm -->
 <div class="footer">
-  #{'(pour obtenir de l’aide, taper `scriv %s --help` en console)' % [CLI.command_init]}
+  #{"(#{t('helps.notices.scriv_command', {cmd: CLI.command_init})})"}
 </div>
 </body></html>
       HTML
@@ -39,7 +39,7 @@ module ModuleFormatageTdm
     # Pour ajouter les lignes de titre
     def add_lines_titre
       lines << '<div class="titre">%s</div>' % [projet.title.upcase]
-      lines << '<div class="stitre">Table des matières</div>'
+      lines << '<div class="stitre">#{t('table_of_contents.tit.sing')}</div>'
       lines << '<div class="infosdata">Produite le %s</div>' % [Time.now.to_i.as_human_date(false, true, {del_time: 'à'})]
       lines << '<div id="tdm">'
       lines << table_libelles
@@ -47,16 +47,16 @@ module ModuleFormatageTdm
 
     def table_libelles
       '<div class="labels tdm-item">' +
-        '<span class="titre">Titre</span>' +
-        '<span class="pagewri">Num.<br>page</span>' +
-        '<span class="pageobj">Object.</span>' +
+        '<span class="titre">'+t('titre.tit.sing')+'</span>' +
+        '<span class="pagewri">'+t('numero.abbr.tit')+'<br>'+t('page.min.sing')+'</span>' +
+        '<span class="pageobj">'+t('target.tit.sing')+'</span>' +
         '<span class="sep"></span>' +
-        '<span class="signs_wri">écrit</span>' +
-        '<span class="signs_obj">objectif</span>' +
-        '<span class="state">état</span>' +
+        '<span class="signs_wri">'+t('written.min.sing')+'</span>' +
+        '<span class="signs_obj">'+t('target.min.sing')+'</span>' +
+        '<span class="state">'+t('state.min.sing')+'</span>' +
         '<span class="diff">diff.</span>' +
-        '<span class="pages">pages</span>' +
-        '<span class="cumul_pages">cumul</span>' +
+        '<span class="pages">'+t('unit.pages')+'</span>' +
+        '<span class="cumul_pages">'+t('cumul.min.sing')+'</span>' +
       '</div>'
     end
     def css_styles

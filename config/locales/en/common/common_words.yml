@@ -76,6 +76,20 @@ en:
     cap:
       sing: COUNT
       plur: COUNTS
+  cumul:
+    min:
+      sing: cumulative
+      plur: cumulatives
+    tit:
+      sing: Cumulative
+      plur: Cumulatives
+  difference:
+    min:
+      sing: difference
+      plur: differences
+    tit:
+      sing: Difference
+      plur: Differences
   distance:
     min:
       sing: distance
@@ -225,6 +239,26 @@ en:
       min: num.
       tit: Num.
       cap: NUM.
+  numero:
+    min:
+      sing: numero
+      plur: numero
+    tit:
+      sing: Numero
+      plur: Numeros
+    cap:
+      sing: NUMERO
+      plur: NUMEROS
+    abbr:
+      min: num.
+      tit: Num.
+  numero_page:
+    min:
+      sing: page number
+      plur: page numbers
+    tit:
+      sing: Page number
+      plur: Page numbers
   project:
     min:
       sing: project
@@ -261,6 +295,13 @@ en:
     by_words_count:       by words count
     nearest_to_farest:    from nearest to farest
     plur:                 sorted
+  state:
+    min:
+      sing: state
+      plur: states
+    tit:
+      sing: State
+      plur: States
   table:
     min:
       sing: table
@@ -284,6 +325,13 @@ en:
     abbr:
       sing: ToC
       plur: ToCs
+  target:
+    min:
+      sing: target
+      plur: targets
+    tit:
+      sing: Target
+      plur: Targets
   with:
     min: with
     tit: With
@@ -302,3 +350,10 @@ en:
     cap:
       sing: WORD
       plur: WORDS
+  written:
+    min:
+      sing: written
+      plur: written
+    tit:
+      sing: Written
+      plur: Written

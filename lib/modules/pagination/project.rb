@@ -15,7 +15,6 @@
 class Scrivener
   NOTICES.merge!(
     tdm_built: 'Table des matières construite dans le fichier « %s » du dossier du projet. Astuce : vous pouvez l’ouvrir après la construction en ajoutant l’option `--open` à la commande.',
-    tdm_maybe_in_file: 'On peut également construire la table des matières dans un fichier en ajoutant l’option `--output=<format>` ou <format> peut être "csv", "text", "html" ou "scrivener".'
   )
 class Project
 
@@ -43,7 +42,7 @@ class Project
       elsif tdm.tdm_file_path
         puts (NOTICES[:tdm_built] % File.basename(tdm.tdm_file_path)).bleu
       else
-        puts (NOTICES[:tdm_maybe_in_file])
+        wt('helps.tdm.may_be_in_file', nil, {air: true})
       end
     end
   end

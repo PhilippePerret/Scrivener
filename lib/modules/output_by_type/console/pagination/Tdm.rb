@@ -5,24 +5,21 @@ module ModuleFormatageTdm
     # Méthode principale qui va sortir la table des matières dans le
     # format voulu.
     def output_table_of_content
-      # Et pour le moment, on l'affichage comme ça
-      ecrit  String::RC * 3 +
-             lines.join(RET) +
-             String::RC * 3 +
-             '(pour obtenir de l’aide, taper `scriv %s --help`)' % [CLI.command_init]
+      CLI::Screen.clear
+      puts INDENT + [
+        *lines,
+        String::RC * 2,
+        '(%s)' % [t('helps.notices.scriv_command', {cmd: CLI.command_init})]
+      ].join(String::RC + INDENT)
 
     end
 
     # Pour ajouter les lignes de titre
     def add_lines_titre
-      lines << '  ' + projet.title.upcase
-      lines << '  ='.ljust(lines[0].length, '=')
-      lines << '  TABLE DES MATIÈRES'
+      lines << projet.title.upcase
+      lines << '=' * lines[0].length
+      lines << t('table_of_contents.cap.sing')
       lines << ''
-    end
-
-    def ecrit line
-      puts line
     end
 
 

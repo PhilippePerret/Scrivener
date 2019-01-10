@@ -75,6 +75,20 @@ fr:
     cap:
       sing: NOMBRE
       plur: NOMBRES
+  cumul:
+    min:
+      sing: cumul
+      plur: cumuls
+    tit:
+      sing: Cumul
+      plur: Cumuls
+  difference:
+    min:
+      sing: différence
+      plur: différences
+    tit:
+      sing: Différence
+      plur: Différences
   distance:
     min:
       sing: distance
@@ -224,6 +238,26 @@ fr:
       min: nomb.
       tit: Nomb.
       cap: NOMB.
+  numero:
+    min:
+      sing: numéro
+      plur: numéro
+    tit:
+      sing: Numéro
+      plur: Numéros
+    cap:
+      sing: NUMÉRO
+      plur: NUMÉROS
+    abbr:
+      min: num.
+      tit: Num.
+  numero_page:
+    min:
+      sing: numéro de page
+      plur: numéros de page
+    tit:
+      sing: Numéro de page
+      plur: Numéros de page
   project:
     min:
       sing: projet
@@ -260,6 +294,13 @@ fr:
     by_words_count:       par nombre de mots
     nearest_to_farest:    de la plus proche à la plus éloignée
     plur:                 classés
+  state:
+    min:
+      sing: état
+      plur: états
+    tit:
+      sing: État
+      plur: États
   table:
     min:
       sing: table
@@ -283,6 +324,13 @@ fr:
     abbr:
       sing: TdM
       plur: TDMs
+  target:
+    min:
+      sing: objectif
+      plur: objectifs
+    tit:
+      sing: Objectif
+      plur: Objectifs
   with:
     min: avec
     tit: Avec
@@ -301,3 +349,10 @@ fr:
     cap:
       sing: MOT
       plur: MOTS
+  written:
+    min:
+      sing: écrit
+      plur: écrits
+    tit:
+      sing: Écrit
+      plur: Écrits

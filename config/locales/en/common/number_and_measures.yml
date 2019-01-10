@@ -1,6 +1,7 @@
 en:
   count:
     canons:   'Canons count'
+    elements: 'Elements count'
     pages:    'Pages count'
     proxs:    'Proximities count'
     signs:    'Characters count'
@@ -25,7 +26,7 @@ en:
       min: 'words'
       tit: Words
       cap: WORDS
-    page:   'page%{s}'
+    page:  'page%{s}'
     pages:
       min:  'pages'
       tit:  Pages

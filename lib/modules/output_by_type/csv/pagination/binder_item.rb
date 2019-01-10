@@ -2,8 +2,9 @@
 module ModuleFormatageTdm
 
   class Scrivener::Project::TDM
-    TDM_LABELS_SIMPLE = 'Titre;numéro page;objectif page'
-    TDM_LABELS        = "#{TDM_LABELS_SIMPLE};Signes;Objectif;État;Différence;Nombre pages;Cumul nombre pages"
+    TDM_LABELS_SIMPLE = [t('titre.tit.sing'), t('numero_page.min.sing'), t('target.min.sing page.min.sing')].join(';')
+    # TDM_LABELS_SIMPLE = 'Titre;numéro page;objectif page'
+    TDM_LABELS = "#{TDM_LABELS_SIMPLE}" + t('unit.signs.tit;target.tit.sing;state.tit.sing;difference.tit.sing;count.pages;cumul.tit.sing', nil, {delimitor: ';'})
   end #/Scrivener::Project::TDM
   class Scrivener::Project::BinderItem
     TDM_LINE        = '%{ftitle};%{fpage_by_wri};%{fpage_by_obj};%{fsigns};%{fobjectif};%{fstate};%{fdiff};%{fpages};%{fcumul_pages}'
