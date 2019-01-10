@@ -137,7 +137,7 @@ class Project
   def raise_unfound_binder_item msg
     msg = [msg.rouge]
     all_titles.each do |tit|
-      msg << '  - %s' % tit
+      msg << INDENT+('- %s' % tit)
     end
     msg << NOTICES[:maybe_only_leading_doctitle]
     raise msg.join(String::RC)

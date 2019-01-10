@@ -1,0 +1,38 @@
+en:
+  scriv:
+    project_file:
+      min:  project file
+      tit:  Project file
+      cap:  PROJECT FILE
+    scrivx_file:
+      min:  scrivx file
+      tit:  Scrivx file
+      cap:  SCRIVX FILE
+    project_folder:
+      min:  project folder
+      tit:  Project folder
+      cap:  PROJECT FOLDER
+    config_file:
+      min:  config file
+      tit:  Config file
+      cap:  CONFIG FILE
+    hidden_folder:
+      min:  .scriv hidden folder
+      tit:  .scriv hidden folder
+      cap:  .scriv HIDDEN FOLDER
+    lemma_file:
+      min:  lemmatization file
+      tit:  Lemmatization file
+      cap:  LEMMATIZATION FILE
+    prox_prefs_file:
+      min:  proximities preferences file
+      tit:  Proximities preferences file
+      cap:  PROXIMITIES PREFERENCES FILE
+    abbreviations_file:
+      min:  abbreviations file
+      tit:  Abbreviations file
+      cap:  ABBREVIATIONS FILE
+    tdm_file:
+      min:  table of contents file
+      tit:  Table of contents file
+      cap:  TABLE OF CONTENTS FILE

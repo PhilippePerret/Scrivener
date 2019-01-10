@@ -1,0 +1,38 @@
+fr:
+  scriv:
+    project_file:
+      min:  fichier du projet
+      tit:  Fichier du projet
+      cap:  FICHIER DU PROJET
+    scrivx_file:
+      min:  fichier scrivx
+      tit:  Fichier Scrivx
+      cap:  FICHIER SCRIVX
+    project_folder:
+      min:  dossier du projet
+      tit:  Dossier du projet
+      cap:  DOSSIER DU PROJET
+    config_file:
+      min:  fichier de configuration
+      tit:  Fichier de configuration
+      cap:  FICHIER DE CONFIGURATION
+    hidden_folder:
+      min:  dossier caché .scriv
+      tit:  Dossier caché .scriv
+      cap:  DOSSIER CACHÉ .scriv
+    lemma_file:
+      min:  fichier de lemmatisation
+      tit:  Fichier de lemmatisation
+      cap:  FICHIER DE LEMMATISATION
+    prox_prefs_file:
+      min:  fichier des préférences de proximités du projet
+      tit:  Fichier des préférences de proximités du projet
+      cap:  FICHIER DES PRÉFÉRENCES DE PROXIMITÉS DU PROJET
+    abbreviations_file:
+      min:  fichier des abbréviations
+      tit:  Fichier des abbréviations
+      cap:  FICHIER DES ABBRÉVIATIONS
+    tdm_file:
+      min:  fichier table des matières
+      tit:  Fichier table des matières
+      cap:  FICHIER TABLE DES MATIÈRES

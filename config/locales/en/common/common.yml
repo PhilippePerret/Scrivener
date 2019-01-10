@@ -38,6 +38,10 @@ en:
       sing: ANALYSIS
       plur: ANALYSIS
   before: before
+  cancel:
+    min:  cancel
+    tit:  Cancel
+    cap:  CANCEL
   canon:
     min:
       sing: canon
@@ -48,6 +52,10 @@ en:
     cap:
       sing: CANON
       plur: CANONS
+  choisir:
+    min:  choose
+    tit:  Choose
+    cap:  CHOOSE
   config_file:
     min:
       sing: config file
@@ -95,6 +103,9 @@ en:
     abbr:
       sing: Doc
       plur: Docs
+  the_editor:
+    min:  "the editor"
+    tit:  "The editor"
   first:
     min:
       sing: first

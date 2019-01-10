@@ -17,84 +17,47 @@ class Project
   # Tous les textes d'aide en fonction du fichier/dossier à ouvrir, dans
   # le cas d'une ouverture OK ou d'une absence du dossier/fichier
   AIDES_OPEN = {
-    projet: {
-      found:    nil,
-      unfound:  'Vous avez dû détruire votre projet depuis votre dernière utilisation de la commande scriv.',
-      no_vim:   true
-    },
-    folder: {
-      found:    nil,
-      unfound:  'Ça ne devrait pas pouvoir se produire. Vous avez dû détruire le projet depuis votre dernière utilisation de commande scriv.',
-      no_vim:   true
-    },
-    config: {
-      found:    nil,
-      unfound:  'Pour en créer un, utilisez `scriv build config-file. Ces fichiers contiennent des configurations de l’application qu’il suffit de charger avec `scriv set --from=NAME`.',
-      no_vim:   false,
-    },
-    lemma: {
-      found:    'Ce fichier contient la lémmatisation du texte principal du projet.',
-      unfound:  'Ce fichier ne peut qu’exister après une analyse du texte.'
-    },
-    prox: {
-      found:    nil,
-      unfound:  'Pour créer ce fichier, ajouter l’option `--create` à cette commande.',
-      default_contents: '100%{rc}%{tb}PROTAGONISTE%{rc}%{tb}ANTAGONISTE' % {rc: String::RC, tb: "\t"}
-    },
-    abbrs: {
-      found:    'Pour modifier ce fichier, utilisez plutôt la commande `scriv lemma` (qui produira une copie du fichier original).',
-      unfound:  'Ce fichier devrait absolument exister, puisqu’il fait partie de TreeTagger… Son absence produira une erreur fatale.'
-    },
-    scriv: {
-      found:    'Ce dossier contient tous les fichiers créés lors de l’analyse (de proximités) du projet.',
-      unfound:  'Il faut lancer la recherche de proximité au moins une fois pour que ce dossier existe.',
-      no_vim:   true
-    },
-    tdm: {
-      found:    'Cette table des matières est exportée avec la commande `pagination` (`scriv pagination --output=csv`). Si c’est un fichier .csv, il permet de redéfinir les objectifs et la table des matières du projet. On peut utiliser le format `numbers` pour travailler avec l’application de même nom puis exporter en CSV.',
-      unfound:  'Pour qu’il existe, il faut exporter au format .csv une table des matières depuis Calc, Excel ou autre tableur. On peut également exporter la table des matières du projet courant à l’aide de la commande `scriv pagination --output=csv`.'
-    },
-    scrivx: {
-      found:    'C’est le fichier caché principal du projet. %s' % ['Vous ne devez le modifier que si vous savez parfaitement ce que vous faites.'.rouge],
-      unfound:  'Bizarrement, ce fichier indispensable est introuvable.'
-    }
+    prox:   { creatable:    true },
+    scriv:  { no_vim:       true },
+    scrivx: { with_confirm: true }
+
   }
   # ---------------------------------------------------------------------
   #   MÉTHODES D'INSTANCE
 
   def open what = nil
     opts = Hash.new
-    CLI.options[:vim] && opts.merge!(vim: true)
+    CLI.options[:vim] && opts.merge!(vim: '% vim' % [t('with.min')])
     case what
     when nil
       opts.merge!(tip: :projet)
-      open_if_exists(path, 'fichier du projet', opts)
+      open_if_exists(path, t('scriv.project_file.min'), opts)
     when 'scrivx', 'xfile'
       opts.merge!(tip: :scrivx, with_confirm: true)
-      open_if_exists(xfile_path, 'fichier scrivx', opts)
+      open_if_exists(xfile_path, t('scriv.scrivx_file.min'), opts)
     when 'folder' # le dossier contenant le projet
       opts.merge!(tip: :folder)
-      open_if_exists(folder, 'dossier du projet', opts)
+      open_if_exists(folder, t('scriv.project_folder.min'), opts)
     when 'config', 'config-file'
       opts.merge!(tip: :config)
-      open_if_exists(get_config_path, 'fichier de configuration', opts)
+      open_if_exists(get_config_path, t('scriv.config_file.min'), opts)
     when 'folder-scriv'
       opts.merge!(tip: :scriv)
-      open_if_exists(hidden_folder, 'dossier du projet', opts)
+      open_if_exists(hidden_folder, t('scriv.hidden_folder.min'), opts)
     when 'lemma', 'lemmatisation'
       opts.merge!(tip: :lemma)
-      open_if_exists(lemma_data_path, 'fichier de lemmatisation', opts)
+      open_if_exists(lemma_data_path, t('scriv.lemma_file.min'), opts)
     when 'proximites', 'prox'
       opts.merge!(tip: :prox)
-      open_if_exists(custom_proximites_file_path, 'fichier des proximités propres au projet', opts)
+      open_if_exists(custom_proximites_file_path, t('scriv.prox_prefs_file.min'), opts)
     when 'abbr', 'abbrs', 'abbreviations'
       opts.merge!(tip: :abbr)
-      open_if_exists(TREE_TAGGER_ABBREVIATES, 'fichier des abbréviations', opts)
+      open_if_exists(TREE_TAGGER_ABBREVIATES, t('scriv.abbreviations_file.min'), opts)
     when 'tdm', 'toc'
       opts.merge!(tip: :tdm)
-      open_if_exists(tdm_file_path(CLI.options[:format]), 'fichier table des matières', opts)
+      open_if_exists(tdm_file_path(CLI.options[:format]), t('scriv.tdm_file.min'), opts)
     else
-      puts "L'objet à ouvrir `#{what}` est inconnu…".rouge
+      puts t('commands.open.errors.unknown_object', {what: what}).rouge
     end
   end
   # /open
@@ -105,19 +68,20 @@ class Project
   def open_if_exists chemin, msg = nil, options
 
     if !File.exists?(chemin) && CLI.options[:create]
-      if AIDES_OPEN[options[:tip]][:default_contents]
-        File.open(chemin,'wb'){|f| f.write(AIDES_OPEN[options[:tip]][:default_contents])}
+      if AIDES_OPEN[options[:tip]][:creatable]
+        File.open(chemin,'wb'){|f| f.write(t('commands.open.%s.default_contents' % [options[:tip]]))}
       else
-        puts ('Le %s ne peut pas être créé avec l’option --create…' % msg).rouge
+        puts (t('commands.open.errors.not_creatable', {what: msg})).rouge
       end
     end
 
     if File.exists?(chemin)
       options ||= Hash.new
       if options[:with_confirm]
-        yesOrNo('Êtes-vous certain de vouloir ouvrir le %s ?' % msg) || return
+        yesOrNo( t('commands.open.questions.want_open', {what: msg})) || return
       end
-      puts ('* Ouverture du %s%s… (%s)' % [msg, options[:vim] ? ' avec Vim' : '', chemin]).bleu
+      datawt = {what: msg, with_vim: (options[:vim] || ''), pth: chemin}
+      wt('commands.open.opening', datawt, {color: :bleu})
       if options[:tip] == :scrivx
         # Ouverture du fichier scrivx
         open_with_an_editor(chemin)
@@ -126,16 +90,16 @@ class Project
       else
         `open "#{chemin}"`
         unless AIDES_OPEN[options[:tip]][:no_vim] || options[:vim]
-          puts "(ajouter l'option `--vim` pour ouvrir le fichier avec Vim)"
+          wt('commands.open.notices.add_vim_option')
         end
       end
-      puts AIDES_OPEN[options[:tip]][:found]
+      tip = t('commands.open.%s.found' % options[:tip])
+      puts tip unless tip.nil?
     else
       # Quand le fichier n'existe pas ou est introuvable
-      puts ('Il n’existe pas de %s pour ce projet (%s).' % [msg, chemin]).rouge
-      unless AIDES_OPEN[options[:tip]][:unfound].nil?
-        puts AIDES_OPEN[options[:tip]][:unfound].rouge
-      end
+      wt('commands.open.errors.file_unfound', {what: msg, pth: chemin}, {color: :rouge})
+      tip = t('commands.open.%s.unfound' % options[:tip])
+      puts tip.rouge unless tip.nil?
     end
   end
   # /open_if_exists
@@ -156,14 +120,14 @@ class Project
     end
     editors << 'TextEdit'
     if editors.count > 1
-      puts "Avec quel éditeur dois-je ouvrir le fichier ?"
+      wt('questions.which_editor', {pth: chemin.relative_path})
       expected_keys = Array.new
       editors.each.with_index do |e, idx|
         puts '    %i : %s' % [idx + 1, e]
         expected_keys << (idx+1).to_s
       end
-      puts '    q : abandonner'
-      choix = getc('Choisir l’éditeur…', {expected_keys: expected_keys << 'q'})
+      puts '    q : %s' % [t('cancel.min')]
+      choix = getc(t('choose.tit the_editor.min') + '…', {expected_keys: expected_keys << 'q'})
       choix != 'q' || return
       editor_index = choix.to_i - 1
     else

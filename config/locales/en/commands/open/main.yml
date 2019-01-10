@@ -1,0 +1,44 @@
+en:
+  commands:
+    open:
+      notices:
+        opening:        '* Opening %{what}%{with_vim}… (%{pth})'
+        add_vim_option: "(add `--vim` option to open the file with Vim)"
+      questions:
+        want_open:      'Are you sure you want to open the %{what} ?'
+      errors:
+        unknown_object: "\"%{what}\" object to open is unknown… What do you mean?…"
+        not_creatable:  'A %{what} can’t be created with --create option…'
+        file_unfound:   'No %{what} for this project (at: %{path}).'
+      help:
+        projet:
+          found:    null
+          unfound:  'You would have destroy your Scrivener project until your last use of the scriv command. I can’t find it.'
+        folder:
+          found:    null
+          unfound: 'Ça ne devrait pas pouvoir se produire. Vous avez dû détruire le projet depuis votre dernière utilisation de commande scriv.'
+        config:
+          found:    null
+          unfound:  'To create a config-file, use the `scriv build config-file` command. This files contain configurations that you can easily launch with `scriv set --from=NAME` command.'
+        lemma:
+          found:    'This file contains the lemmatization of main text.'
+          unfound:  'This file exists only after a first analysis of the text.'
+        prox:
+          found:    null
+          unfound:  'To create this file, add `--create` option to this command.'
+          default_contents: |
+            100%
+              PROTAGONIST
+              ANTAGONISTE
+        abbrs:
+          found:    'To modify this file, prefer to use the "scriv lemma" command (which make a backup of the original file).'
+          unfound:  'Hum… This file must exist… It’s a part of TreeTagger distribution… No analysis without it.'
+        scriv:
+          found:    'This folder contains all the files created during the text analysis.'
+          unfound:  'Run an analysis (`scriv prox`) to build this folder.'
+        tdm:
+          found:    'This table of contents is exporteed with `pagination` command (`scriv pagination --output=csv`). With a csv file, you can redefine targets and table of contents of the project. You can use Numbers app then export the document to CSV.'
+          unfound:  'You must export a csv file  from Calc, Excel or Numbers. You can also export the table of contents of current project with `scriv pagination --output=csv` command and modify this file in a tierce application.'
+        scrivx:
+          found:    'It’s the main hidden file of a Scrivener project. Modify it only if you know what you’re doing.'
+          unfound:  'Strangely, this mandatory file doesn’t exist…'

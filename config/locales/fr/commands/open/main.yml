@@ -1,0 +1,41 @@
+fr:
+  commands:
+    open:
+      notices:
+        opening:        '* Ouverture du %{what}%{with_vim}… (%{pth})'
+        add_vim_option: "(ajouter l'option `--vim` pour ouvrir le fichier avec Vim)"
+      questions:
+        want_open:      'Êtes-vous certain de vouloir ouvrir le %{what} ?'
+      errors:
+        unknown_object: "L'objet à ouvrir « »%{what} » est inconnu…"
+        not_creatable:  'Le %{what} ne peut pas être créé avec l’option --create…'
+        file_unfound:   'Il n’existe pas de %{what} pour ce projet (%{path}).'
+      help:
+        projet:
+          found:    null
+          unfound:  'Vous avez dû détruire votre projet depuis votre dernière utilisation de la commande scriv.'
+        config:
+          found:    null
+          unfound:  'Pour en créer un, utilisez `scriv build config-file. Ces fichiers contiennent des configurations de l’application qu’il suffit de charger avec `scriv set --from=NAME`.'
+        lemma:
+          found:    'Ce fichier contient la lémmatisation du texte principal du projet.'
+          unfound:  'Ce fichier ne peut qu’exister après une analyse du texte.'
+        prox:
+          found:    null
+          unfound:  'Pour créer ce fichier, ajouter l’option `--create` à cette commande.'
+          default_contents: |
+            100%
+              PROTAGONIST
+              ANTAGONISTE
+        abbrs:
+          found:    'Pour modifier ce fichier, utilisez plutôt la commande "scriv lemma" (qui produira une copie du fichier original).'
+          unfound:  'Ce fichier devrait absolument exister, puisqu’il fait partie de TreeTagger… Son absence produira une erreur fatale.'
+        scriv:
+          found:    'Ce dossier contient tous les fichiers créés lors de l’analyse (de proximités) du projet.'
+          unfound:  'Il faut lancer la recherche de proximité au moins une fois pour que ce dossier existe.'
+        tdm:
+          found:    'Cette table des matières est exportée avec la commande `pagination` (`scriv pagination --output=csv`). Si c’est un fichier .csv, il permet de redéfinir les objectifs et la table des matières du projet. On peut utiliser le format `numbers` pour travailler avec l’application de même nom puis exporter en CSV.'
+          unfound:  'Pour qu’il existe, il faut exporter au format .csv une table des matières depuis Calc, Excel ou autre tableur. On peut également exporter la table des matières du projet courant à l’aide de la commande `scriv pagination --output=csv`.'
+        scrivx:
+          found:    'C’est le fichier caché principal du projet. Vous ne devez le modifier que si vous savez parfaitement ce que vous faites.'
+          unfound:  'Bizarrement, ce fichier indispensable est introuvable.'

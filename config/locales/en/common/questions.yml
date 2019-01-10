@@ -1,0 +1,3 @@
+en:
+  questions:
+    which_editor: "Which editor to open the file \"%{pth}\"?"
