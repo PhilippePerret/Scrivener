@@ -1,0 +1,25 @@
+en:
+  commands:
+    proximity:
+      questions:
+        replace_word_by_word:     'Replace "%{old}" with "%{new}"?'
+        redo_from_top:            'Nous avons atteint la fin de la liste. Reprendre au début ?'
+        redo_from_top:            'list bottom reached. Restart from the beginning?'
+      confirms:
+        remove_proximity:           'Confirm the removing of the current prox with ENTER KEY.'
+        remove_all_word_occurences: 'Confirm the removing of ALL the occurences of current word with ENTER KEY'
+      notices:
+        first_prox:               'It’s the very first proximity. Any one before.'
+        word_replaced:            'Word replaced successfully!'
+        prox_will_be_ignored:     'This proximity will be ignored'
+        file_created_in_project:  '"%{name}" file has been created in project, in "Proximities" folder.'
+        opt_with_only_calculs:    "With --only_calculs option, you must add an other option to see the list (--segments, --proximites, etc.)"
+      errors:
+        new_prox_between_words_failed:  'A problem occured, can't create the new proximity between "%{pword}" (à %{offpword}) et "%{nword}" (à %{offnword})…'
+        cant_create_prox_file:          'Unfortunately, proximities file seems to not exist in project folder…'
+        colors_tag_failed:              'Can’t set the colors tag…'
+      interactions:
+        modify_word_before:             'Modify previous word'
+        modify_word_after:              'Modify next word'
+        ignore_proximity:               'Ignore this proximity'
+        replace_word_with:              'Replace %{which} word "%{word}" with'

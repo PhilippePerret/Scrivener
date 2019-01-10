@@ -1,0 +1,7 @@
+en:
+  commands:
+    proximity:
+      # = LES TITRES =
+      titles:
+        density_pannel:   "Proximities Density Pannel"
+        proximities_data: "PROXIMITIES DATA"
