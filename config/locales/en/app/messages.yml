@@ -7,3 +7,17 @@ en:
         make_sure_project_is_closed: "Make sure the project is not opened in Scrivener"
     warning:
       project_must_be_closed: "project must not be opened in Scrivener"
+
+    targets:
+      errors:
+        bad_value: 'La valeur pour l’objectif est invalides (bon : "6p", "6pages", "3m", "3mots", "12w", "12words", "126", "126c", "126chars")'
+  # Pour les objets suffisants différents qui ne peuvent rentrer en
+  # colision avec des objets commun
+  notices:
+    ask_for_compile_help: '(ask help with `scriv set compile_output -h`)'
+  errors:
+    only_values: 'Les seules valeurs possibles pour %{var} sont : %{values}.'
+    unable_to_find_factor_with: 'Unable to calc factor value with from %{value}. I need either the factor itself (p.e. `1.5`), either a pourcentage (p.e. `130%%`), either a pourcentage without unit (p.e. `400`).'
+  binder_items:
+    errors:
+      binder_item_required: 'Binder-item required.'

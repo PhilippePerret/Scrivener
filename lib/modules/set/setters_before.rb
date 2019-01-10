@@ -95,7 +95,7 @@ module ModuleSetValuesWithKeys
     when /^[0-9]{2,3}%$/
       (value[0...-1].to_f / 100).pretty_round
     else
-      raise(ERRORS[:unable_to_find_factor_with] % [value.inspect, '%'])
+      rt('errors.unable_to_find_factor_with', {value: value.inspect}, ArgumentError)
     end.to_f
   end
 

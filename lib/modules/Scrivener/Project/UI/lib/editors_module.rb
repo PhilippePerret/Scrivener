@@ -28,7 +28,7 @@ module EditorsModule
     # NOTE Ne surtout pas l'inclure dans l'historique.
     def content= bitems
       bitems.is_a?(Array) || bitems = [bitems]
-      bitems.first.is_a?(Scrivener::Project::BinderItem) || raise(Scrivener::ERRORS[:binder_item_required])
+      bitems.first.is_a?(Scrivener::Project::BinderItem) || rt('binder_items.errors.binder_item_required', nil, ArgumentError)
       if main?
         ui_common.binder.unselect_all
         bitems.each { |bitem| ui_common.binder.select(bitem, true) }

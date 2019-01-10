@@ -480,7 +480,7 @@ class Project
   def set_compile_output value
     value === nil && return
     # Value doit être 'print' ou 'pdf'
-    dvalue = XMLCompile::OUTPUT_FORMATS[value.downcase.to_sym] || raise(ERRORS[:valeurs_possibles] % ['compile_output', '(demande l’aide avec `scriv set compile_output -h`)'])
+    dvalue = XMLCompile::OUTPUT_FORMATS[value.downcase.to_sym] || rt('errors.only_values', {var: 'compile_output', values: t('notices.ask_for_compile_help')})
     compile_xml.set_xpath('//CurrentFileType', dvalue[:value])
     confirme(:compile_output, dvalue[:hname])
   end

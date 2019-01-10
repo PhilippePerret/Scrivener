@@ -65,7 +65,7 @@ class SWP # Pour Signs-Words-Pages
         return $1.to_i
       else
         if raise_if_not_value
-          raise(ERRORS[:bad_objectif_value])
+          rt('app.targets.errors.bad_value', nil, ArgumentError)
         else
           return nil
         end

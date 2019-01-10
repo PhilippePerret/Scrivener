@@ -86,7 +86,7 @@ class Project
         end
         # Ajoute un dossier ouvert
         def close_folder bitem
-          bitem.is_a?(Scrivener::Project::BinderItem) || raise(ERRORS[:binder_item_required])
+          bitem.is_a?(Scrivener::Project::BinderItem) || rt('binder_items.errors.binder_item_required', nil, ArgumentError)
           node.elements['ExpandedItems'] || return
           if n.text == bitem.uuid
             n.parent.delete(n)
@@ -101,7 +101,7 @@ class Project
         end
         # Retire un dossier ouvert (donc le referme)
         def open_folder bitem
-          bitem.is_a?(Scrivener::Project::BinderItem) || raise(ERRORS[:binder_item_required])
+          bitem.is_a?(Scrivener::Project::BinderItem) || rt('binder_items.errors.binder_item_required', nil, ArgumentError)
           XML.get_or_add(node, 'ExpandedItems').
             add_element('ItemID').text = bitem.uuid
           set_modified
@@ -110,7 +110,7 @@ class Project
         # Si +keep+ est true, on garde la sélection courante pour faire une
         # sélection multiple.
         def select bitem, keep = false
-          bitem.is_a?(Scrivener::Project::BinderItem) || raise(ERRORS[:binder_item_required])
+          bitem.is_a?(Scrivener::Project::BinderItem) || rt('binder_items.errors.binder_item_required', nil, ArgumentError)
           keep || unselect_all
           XML.get_or_add(node,'Selection').add_element('ItemID').text=bitem.uuid
           set_modified
@@ -119,7 +119,7 @@ class Project
         # Noter que si l'élément n'était pas sélectionné, rien n'est produit,
         # pas d'erreur
         def unselect bitem
-          bitem.is_a?(Scrivener::Project::BinderItem) || raise(ERRORS[:binder_item_required])
+          bitem.is_a?(Scrivener::Project::BinderItem) || rt('binder_items.errors.binder_item_required', nil, ArgumentError)
           node.elements['Selection']        || return
           node.elements['Selection/ItemID'] || return
           ui_common.xpath('/UIStates/Binder/Selection').elements.each('ItemID') do |n|
@@ -162,11 +162,11 @@ class Project
       # ---------------------------------------------------------------------
       #   INSPECTEUR
       class Inspector
-        ONGLETS = { notes: 'Notes',
-                    bookmarks: 'Bookmarks',
-                    metadata: 'MetaData',
-                    snapshots: 'Snapshots',
-                    comments: 'Comments'
+        ONGLETS = { notes:      'Notes',
+                    bookmarks:  'Bookmarks',
+                    metadata:   'MetaData',
+                    snapshots:  'Snapshots',
+                    comments:   'Comments'
                   }
         attr_accessor :ui_common
         def initialize uicommon
