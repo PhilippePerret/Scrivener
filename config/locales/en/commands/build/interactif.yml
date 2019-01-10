@@ -1,5 +1,5 @@
 en:
-  command:
+  commands:
     build:
       notices:
         config_file_success: 'Le fichier config "%s" a été construit avec succès. Vous pouvez le voir en ouvrant le dossier du projet (`scriv open folder`) ou en ouvrant directement le fichier à l’aide de `scriv open config%s`'

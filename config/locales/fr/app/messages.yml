@@ -1,0 +1,5 @@
+fr:
+  app:
+    messages:
+      actions:
+        make_sure_project_is_closed: "Assurez-vous que le projet soit bien fermé dans Scrivener."

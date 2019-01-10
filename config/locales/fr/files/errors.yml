@@ -1,0 +1,4 @@
+fr:
+  files:
+    errors:
+      imported_file_unfound: 'Impossible de trouver le fichier à importer « %{pth} ».'

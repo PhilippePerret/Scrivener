@@ -1,0 +1,8 @@
+en:
+  commands:
+    build:
+      errors:
+        thing_required: 'A "buildable" thing is required (after `scriv build` string)'
+        invalid_thing:  'The "%{thing}" element is not a buildable thing.'
+        label_target_required:  'The "Target" label (aka column) must be defined in the file so to be imported.'
+        title_label_required:   'The "Title" label (aka column) is required to import the file data.'

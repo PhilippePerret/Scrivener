@@ -9,11 +9,6 @@ ERRORS[:update].merge!({
   id_column_required:         t('commands.update.errors.id_column_required'),
   unenable_to_update_value:   t('commands.update.errors.unenable_to_update_value')
 })
-# === BUILD ===
-ERRORS[:build].merge!({
-  thing_required:       t('commands.build.errors.thing_required'),
-  invalid_thing:        t('commands.build.errors.invalid_thing'),
-})
 
 NOTICES.key?(:build) || NOTICES.merge!(build: Hash.new)
 NOTICES[:build].merge!(
@@ -29,11 +24,7 @@ class << self
   end
 
   def raise_thing_required
-    raise(ERRORS[:build][:thing_required])
-  end
-
-  def raise_invalid_thing(thing)
-    raise(ERRORS[:build][:invalid_thing] % [thing, buildable_things_hlist])
+    rt('commands.build.errors.thing_required')
   end
 
 end #<< self

@@ -39,7 +39,7 @@ else
       # Cette "thing" est-elle valide
       thing || raise_thing_required
       thing = thing.strip.downcase.to_sym
-      is_thing?(thing)  || raise_invalid_thing(thing)
+      is_thing?(thing)  || rt('commands.build.errors.invalid_thing', {thing: thing})
       Scrivener.require_module('build/%s' % thing)
 
       # On peut lancer l'opération

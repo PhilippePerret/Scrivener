@@ -1,0 +1,6 @@
+en:
+  commands:
+    build:
+      update:
+        notices:
+          no_modification_tdm: 'No change of the table of contents to operate.'

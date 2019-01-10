@@ -1,0 +1,6 @@
+fr:
+  commands:
+    build:
+      update:
+        notices:
+          no_modification_tdm: 'Aucune modification de la table des matières n’est à opérer.'

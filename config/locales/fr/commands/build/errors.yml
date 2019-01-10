@@ -1,0 +1,8 @@
+fr:
+  commands:
+    build:
+      errors:
+        thing_required: 'Une chose à construire est requise (après `scriv build`)'
+        invalid_thing:  'Jusqu’à preuve du contraire, l’élément "%{thing}" n’est pas constructible.'
+        label_target_required:  'Le label (colonne) "Objectif" (ou "Target") doit être défini dans le fichier pour pouvoir être importé.'
+        title_label_required:   'Le label (colonne) "Titre" (ou "Title") est requis dans le fichier à importer.'

@@ -1,0 +1,5 @@
+en:
+  app:
+    messages:
+      actions:
+        make_sure_project_is_closed: "Make sure the project is not opened in Scrivener"

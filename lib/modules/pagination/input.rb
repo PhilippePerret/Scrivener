@@ -3,13 +3,8 @@
 
 =end
 class Scrivener
-  ERRORS.merge!({
-    imported_file_unfound:    'Impossible de trouver le fichier à importer « %s ».',
-    label_objectif_required:  'Le label (colonne) "Objectif" (ou "Target") doit être défini dans le fichier pour pouvoir être importé.',
-    label_titre_required:     'Le label (colonne) "Titre" (ou "Title") est requis dans le fichier à importer.'
-    })
   NOTICES.merge!(
-    no_modification_tdm:      'Aucune modification de la table des matières n’est à opérer.'
+
   )
 class Project
 
@@ -18,14 +13,11 @@ class Project
     input_file_exist_or_raise
     labels_are_ok_or_raise
     liste_modifications = get_targets_to_modify
-    liste_modifications.count > 0 || begin
-      puts NOTICES[:no_modification_tdm].bleu
-      return
-    end
+    liste_modifications.count > 0 || return(wt('commands.build.update.notice.no_modification_tdm'))
     if confirme_modifications(liste_modifications)
       proceed_target_modifications(liste_modifications)
     else
-      puts 'Abandon des modifications.'.rouge
+      wt('notices.cancel_changes', nil, {color: :rouge})
     end
   end
 
@@ -41,14 +33,12 @@ class Project
 
   # Pour confirmer les modifications à opérer
   def confirme_modifications arr
-    puts String::RC * 3
-    puts "Merci de confirmer la liste des modifications suivantes :".bleu
-    puts "Assurez-vous que le projet soit bien fermé dans Scrivener.".rouge
-    puts ''
+    wt('messages.confirm_changes_to_operate', nil, {color: :bleu, air: true})
+    wt('app.messages.actions.make_sure_project_is_closed', nil, {color: :rouge})
     arr.each do |bitem, target|
       s = SWP.new(target)
-      s = '%s signes (%s mots, %s pages)' % [" #{s.signs}".rjust(7,'.'), s.mots, s.pages_real_round]
-      puts '  Document %s%s' % [bitem.title[0..50].inspect.ljust(50,'.'), s]
+      s = '%s %s (%s mots, %s pages)' % [" #{s.signs}".rjust(7,'.'), t('unit.signs.min') s.mots, s.pages_real_round]
+      puts '  %s %s%s' % [t('document.tit.sing'), bitem.title[0..50].inspect.ljust(50,'.'), s]
     end
     return yesOrNo('Procéder à ces changements (%s)' % ['le projet doit être fermé'.rouge])
   end
@@ -100,12 +90,12 @@ class Project
 
   # Vérifie que le fichier CSV existe ou produit une erreur
   def input_file_exist_or_raise
-    input_file.exist? || raise(ERRORS[:imported_file_unfound] % input_file_path)
+    input_file.exist? || rt('files.errors.imported_file_unfound', {pth: input_file_path})
   end
 
   def labels_are_ok_or_raise
-    index_label_target || raise(ERRORS[:label_objectif_required])
-    index_label_title  || raise(ERRORS[:label_titre_required])
+    index_label_target || rt('commands.build.errors.target_label_required')
+    index_label_title  || rt('commands.build.errors.title_label_required')
   end
 
   # Index du label définissant l'objectif dans le fichier CSV
