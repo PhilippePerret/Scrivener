@@ -5,3 +5,6 @@ en:
       one_path_required:          'A path should be specified.'
       imported_file_unfound:      'Unable to find the "%{pth}" file to import…'
       file_should_be_created:     '"%{pth}" should have been created… It did’nt.'
+  folders:
+    errors:
+      should_be_created:          'Folder « %{pth} » should have been created.'

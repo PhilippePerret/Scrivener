@@ -24,7 +24,7 @@ class << self
       lines << LINE_LAST_PROJET % [findex, ftitle(dprojet), dprojet[:path].relative_path]
     end
     lines << separator
-    lines << ' '*4 + t('projects.messages.last_is_current', {title: title_for(last_projects_data.last)})
+    lines << ' '*4 + t('projects.notices.last_is_current', {title: title_for(last_projects_data.last)})
     lines << ''
 
     # On écrit la liste
@@ -38,7 +38,7 @@ class << self
         t != 'q' || return
         data_projet = last_projects_data[t.ord - 97]
         save_project_data(data_projet)
-        wt('projects.messages.project_chosen', {title: title_for(data_projet)})
+        wt('projects.notices.project_chosen', {title: title_for(data_projet)})
       end
     end
   end

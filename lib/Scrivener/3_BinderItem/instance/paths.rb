@@ -6,8 +6,8 @@ class Scrivener
       # Construction, au besoin, du dossier du fichier dans Data/Files/
       def build_data_file_folder
         `mkdir -p "#{data_file_folder}"`
-        File.exist?(data_file_folder) || raise('Le dossier « %s » aurait dû être créé.' % data_file_folder)
-        CLI.dbg('= Dossier « %s » créé avec succès.' % data_file_folder)
+        File.exist?(data_file_folder) || rt('folders.errors.should_be_created', {pth: data_file_folder})
+        CLI.dbg(t('folders.notices.create_with_success', {pth: data_file_folder})
       end
 
 

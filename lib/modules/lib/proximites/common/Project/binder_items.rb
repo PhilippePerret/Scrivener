@@ -94,7 +94,7 @@ class Project
 
     # Si le binder-item n'a pas été trouvé, on lève une
     # exception
-    self.watched_binder_item || raise_unfound_binder_item(ERRORS[:no_document] % [watched_document_title])
+    self.watched_binder_item || raise_unfound_binder_item(t('documents.errors.no_document_with_heading', {heading_name: watched_document_title}, ArgumentError))
 
     # Sinon, on poursuit
     #
@@ -139,7 +139,7 @@ class Project
     all_titles.each do |tit|
       msg << INDENT+('- %s' % tit)
     end
-    msg << NOTICES[:maybe_only_leading_doctitle]
+    msg << t('documents.notices.may_be_only_leading_doctitle')
     raise msg.join(String::RC)
   end
   # /raise_unfound_binder_item

@@ -68,7 +68,7 @@ class Project
       end
       all_bitems << bitem
     end
-    options[:raise] && raise(ArgumentError, ERRORS[:binder_item][:unfound_with_title] % titseg_init)
+    options[:raise] && rt('documents.errors.no_document_with_heading',{heading_name: titseg_init}, ArgumentError)
     options[:help] === false || ask_for_binder_item_in(all_bitems)
   end
 
@@ -107,18 +107,23 @@ class Project
   # à l'utilisateur d'en choisir un.
   # Returne nil en cas d'annulation.
   def ask_for_binder_item_in(arr_bitems)
-    puts "Merci de choisir un document dans la liste ci-dessous : ".rouge
-    puts String::RC * 2
-    puts "Liste des documents"
-    puts "-------------------"
+    CLI::Screen.clear
+    arr = Array.new
+    arr << t('documents.questions.choose_a_document_in_list', nil, {color: :rouge})
+    arr << ''
+    tit = t('documents.titles.list')
+    arr << tit
+    arr << "-" * tit.length
     allindex = Array.new
     arr_bitems.each_with_index do |bi, idx|
       num = (idx + 1).to_s
       allindex << num
-      puts '  %s : %s' % [num.rjust(4), bi.title]
+      arr << INDENT + '%s : %s' % [num.rjust(4), bi.title]
     end
-    puts String::RC * 3
-    choix = askFor('Document à choisir (ou "q" pour renoncer)', {expected_keys: allindex.push('q')})
+    arr << String::RC * 2
+    puts INDENT + arr.join(String::RC + INDENT)
+
+    choix = askFor(t('documents.invites.document_to_choose'), {expected_keys: allindex.push('q')})
     if choix == 'q'
       return nil
     else

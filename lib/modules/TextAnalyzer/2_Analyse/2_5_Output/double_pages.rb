@@ -68,7 +68,7 @@ class Proximite
     when Scrivener::Project::BinderItem
       self.binder_item = objet
     else
-      raise ERRORS[:unproximable_objet] % objet.class.inspect
+      rt('commands.proximity.errors.unproximable_objet', {class_name: objet.class.to_s})
     end
 
     init_graph
@@ -179,7 +179,7 @@ class Proximite
 
     # Si aucune proximité n'a été trouvée, on peut s'en retourner
     proximites.count > 0 || begin
-      puts ERRORS[:no_proximites].bleu
+      wt('commands.proximity.errors.no_proximities', nil, {color: :bleu})
       return nil
     end
 

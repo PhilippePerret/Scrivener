@@ -5,3 +5,6 @@ fr:
       not_in_yaml_file:   'pas dans un fichier YAML'
     questions:
       open_it:            'Dois-je l’ouvrir ?'
+  folders:
+    notices:
+      create_with_success:  '= Dossier « %{pth} » créé avec succès.'

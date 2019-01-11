@@ -1,0 +1,4 @@
+en:
+  commands:
+    errors:
+      unknown_command: 'Unknown `%{command_name}` command. Use `scriv commands` to get the command list dans `scriv <command> -h` to receive help for a particular command.'

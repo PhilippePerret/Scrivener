@@ -1,0 +1,5 @@
+en:
+  # Les messages système éventuels
+  system:
+    errors:
+      unknown_module_required: 'Unfound module `%{module_name}`…'

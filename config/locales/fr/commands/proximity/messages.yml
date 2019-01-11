@@ -20,6 +20,8 @@ fr:
         cant_create_prox_file:          'Malheureusement, le fichier des proximités ne semble pas avoir pu être créé dans le projet…'
         colors_tag_failed:              'La balise des couleurs n’a pas pu être placée…'
         no_text:                        'Aucun texte à analyser.'
+        no_proximities:                 'Aucune proximité n’est à afficher.'
+        unproximable_objet:             'Je ne sais pas afficher en deux pages les proximités d’un élément de class %{class_name}.'
         distance_null:                  'Dans une proximité, la distance est bizarrement null… (%{iprox})'
       interactions:
         modify_word_before:     'Modifier le mot avant'

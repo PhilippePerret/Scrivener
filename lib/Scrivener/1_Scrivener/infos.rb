@@ -14,7 +14,7 @@ class << self
   def set_lang(lg)
     @lang = lg
   end
-  
+
   # ---------------------------------------------------------------------
   #   Méthodes accessoire
 
@@ -35,7 +35,7 @@ class << self
     command_on_project?(self.command) || return
     Project.must_exist(self.project_path)
     # On peut écrire le path du projet
-    puts 'Projet : %s' % project_path
+    puts '%s%s: %s' % [t('project.tit.sing'), (lang == :fr ? ' ' : '') , project_path]
   end
 
   # Retourne true si la commande est une commande qui s'applique

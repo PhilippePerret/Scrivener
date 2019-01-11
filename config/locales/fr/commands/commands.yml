@@ -1,0 +1,4 @@
+fr:
+  commands:
+    errors:
+      unknown_command: 'La commande `%{command_name}` est inconnue. Utiliser `scriv commands` pour obtenir la liste des commandes et `scriv <command> -h` pour obtenir de l’aide sur une commande particulière.'

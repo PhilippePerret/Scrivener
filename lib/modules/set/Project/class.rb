@@ -11,7 +11,7 @@ class << self
       return project.help_command_set
     end
     if Scrivener.command_on_project?
-      puts NOTICES[:require_project_closed].bleu
+      wt('projects.notices.require_project_closed', nil, {color: :bleu})
       if CLI.options[:from]
         project.set_values_from_file
       else

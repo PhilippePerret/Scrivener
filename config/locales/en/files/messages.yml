@@ -5,3 +5,6 @@ en:
       not_in_yaml_file:   'not in a YAML file'
     questions:
       open_it:            'Open it?'
+  folders:
+    notices:
+      create_with_success:  '= Folder "%{pth}" created with success.'

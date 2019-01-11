@@ -6,9 +6,12 @@ class Scrivener
 
   # Liste des commandes qui ne s'appliquent pas à un projet et qui, donc,
   # n'entrainent pas le contrôle de la validité du projet scrivener
+  #
+  # Note : seulement pour le programme (les :hname ne servent qu'à
+  # expliquer les choses ici)
   NOT_ON_PROJECT_COMMANDS = {
     'check'       => {hname: 'Vérification de l’application'},
-    'help'        => {hname: 'Aide'},
+    'help'        => {hname: t('help.tit.sing')},
     'last'        => {hname: 'Derniers projets utilisés'},
     'commands'    => {hname: 'Liste des commandes'},
     'lemma'       => {hname: 'Données de lemmatisation'},
@@ -33,7 +36,7 @@ class Scrivener
       CLI.analyse_command_line || (return false)# pour 'todo'
       begin
         self.command = CLI.command || 'help'
-        command_exist?(self.command) || raise(ERRORS[:unknown_command] % self.command)
+        command_exist?(self.command) || rt('commands.errors.unknown_command', {command_name: self.command})
         self.project_path = Project.define_project_path_from_command
         test_project_if_command_on_project
         save_current_informations

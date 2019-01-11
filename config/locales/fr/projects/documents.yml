@@ -1,0 +1,14 @@
+fr:
+  documents:
+    titles:
+      list:         'Liste des documents'
+    questions:
+      choose_a_document_in_list:        'Merci de choisir un document dans la liste ci-dessous.'
+    invites:
+      document_to_choose:               'Document à choisir (ou "q" pour renoncer)'
+    notices:
+      may_be_only_leading_doctitle:     'Rappel : vous pouvez indiquer seulement le début du titre du document.'
+    errors:
+      document_of_word_title_required:  'Le titre du document du mot doit être donné (en paramètre : `doc="<début titre>"` ou en option : `-doc="<début titre>"`)'
+      document_title_required:          'Le titre du document est requis (en options : --document="Début du titre")'
+      no_document_with_heading:         'Aucun document dont le nom est ou commence par « %{heading_name} » n’a été trouvé parmi les documents.'

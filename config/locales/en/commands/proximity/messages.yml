@@ -21,6 +21,8 @@ en:
         cant_create_prox_file:          'Unfortunately, proximities file seems to not exist in project folder…'
         colors_tag_failed:              'Can’t set the colors tag…'
         no_text:                        'No text to analyze.'
+        no_proximities:                 'No proximity to display.'
+        unproximable_objet:             'I can’t display on two pages the proximities of an element of class %{class_name}.'
         distance_null:                  'In a proximity instance, distance is weirdly equal to zero… (%{iprox})'
       interactions:
         modify_word_before:             'Modify previous word'

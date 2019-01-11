@@ -39,12 +39,8 @@ class Project
   # qu'on vient dans ce module.
   def define_self_data
     self.mot = CLI.params[:mot]
-    self.watched_document_title = CLI.params[:doc] || CLI.options[:document] || raise_no_document
+    self.watched_document_title = CLI.params[:doc] || CLI.options[:document] || rt('documents.errors.document_of_word_title_required')
     self.watched_binder_items = get_binder_items_around(watched_document_title)
-  end
-
-  def raise_no_document
-    raise(ERRORS[:document_title_required])
   end
 
 end #/Project

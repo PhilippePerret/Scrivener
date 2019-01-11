@@ -1,0 +1,14 @@
+en:
+  documents:
+    titles:
+      list:         'Documents list'
+    questions:
+      choose_a_document_in_list:        'Thanks to choose a document in the list below.'
+    invites:
+      document_to_choose:               'Document to choose (or "q" to abort)'
+    notices:
+      may_be_only_leading_doctitle:     'Tip: you can specify only the beginning of the document title.'
+    errors:
+      document_of_word_title_required:  'The document title of the document that contains the word is required (in parameter: `doc="<title heading>"` ou in options: `-doc="<title heading>"`)'
+      document_title_required:          'Document title is required (in options: --document="Title start")'
+      no_document_with_heading:         'No document which name is or starts with "%{heading_name}" found.'

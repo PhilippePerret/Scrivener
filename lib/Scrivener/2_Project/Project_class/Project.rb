@@ -6,9 +6,9 @@ class << self
   # Dans le cas contraire, raise une erreur
   # Cette méthode est appelée à l'initialisation de la commande.
   def must_exist ppath
-    ppath || raise(ERRORS[:project_path_required] % [Dir.home])
-    File.extname(ppath) == '.scriv'  || raise(ERRORS[:bad_project_extension] % File.extname(ppath))
-    File.exist?(ppath) || raise(ERRORS[:unfound_project] % ppath)
+    ppath || rt('projects.errors.project_path_required', {home: Dir.home})
+    File.extname(ppath) == '.scriv'  || rt('projects.errors.bad_project_extension')
+    File.exist?(ppath) || rt('projects.errors.unfound_project', {project_path: ppath})
   end
 
   # Définit la path du projet courant en fonction de la commande

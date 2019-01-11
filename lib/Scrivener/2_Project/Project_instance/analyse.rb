@@ -17,7 +17,7 @@ class Project
   def get_data_analyse
     CLI.debug_entry
     if analyse.exist? && analyse.uptodate? && !CLI.options[:force]
-      debug('L’analyse existe et elle est actualisée, je la recharge.')
+      # debug('L’analyse existe et elle est actualisée, je la recharge.')
       @analyse = TextAnalyzer::Analyse.reload(analyse)
       CLI.options[:force_calcul] && analyse.force_recalcul
     else
@@ -29,6 +29,7 @@ class Project
     CLI.debug_exit
   end
 
+  # Développement seulement
   def motif_reexec_analyse
     if !analyse.exist?
       'L’analyse n’existe pas'
