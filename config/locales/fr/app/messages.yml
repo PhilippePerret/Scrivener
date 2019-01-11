@@ -11,11 +11,13 @@ fr:
     targets:
       errors:
         bad_value: 'Bad target value (good: "6p", "6pages", "12w", "12words", "126", "126c", "126chars")'
-        
+
   # Pour les objets suffisants différents qui ne peuvent rentrer en
   # colision avec des objets commun
   notices:
     ask_for_compile_help: '(demande l’aide avec `scriv set compile_output -h`)'
+    only_in_command_line: 'seulement en ligne de commande'
+    not_in_command_line:  'pas en ligne de commande'
   errors:
     only_values: 'Only available values for %{var} are : %{values}.'
     unable_to_find_factor_with: 'Impossible de trouver le facteur avec la valeur %{value}. Il faut soit le facteur lui-même (p.e. `1.5`), soit un pourcentage (p.e. `130%%`), soit un pourcentage sans unité (p.e. `400`).'

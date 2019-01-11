@@ -1,226 +1,264 @@
-fr:
-  set:
-    # En clé : les propriétés du projet (qui appelleront les méthodes :
-    # `set_<property>`)
-    name:
-      hname:            'Nom du fichier'
-      variante:         'nom',
-      description:      'Pour définir le nom du fichier du projet.'
-      exemple:          '"nouveau_nom"'
-      category:         ['project_infos']
-      confirmation:     'Nom du fichier mis à %s',
-      not_in_yam_file:  true,
-      default:          null
+values_mode_view: &values_mode_view
+  Single:     ['Texte', 'Single', 'Text', 'T']
+  Scrivening: ['Textes', 'Scrivenings', 'S']
+  Corkboard:  ['Tableau', 'Corkboard', 'C']
+  Outliner:   ['Plan', 'Outliner', 'O']
 
-    title:
-      hname:            'Titre du projet'
-      variante:         'titre'
-      description:      'Pour définir le titre complet du projet.'
-      exemple:          'title="Titre complet du projet"',
-      category:         ['project_infos'],
-      confirmation:     'Titre mis à « %s »',
-      default:          null
+yes_or_no_values: &yes_or_no_values
+  'Oui': ["o", "y", "yes", "oui", "true", "vrai", null]
+  'Non': ["n", "no", "non", "false", "faux"]
 
-    title_abbreviated:
-      hname:               Titre abrégé du projet
-      variante:            titre_court
-      description:         Pour définir le titre court du projet.
-      exemple:             title_abbreviated="Tit. court"
-      category:            ['project_infos']
-      confirmation:        Titre abrégé mis à « %s »
-      default:             null
+values_factor_or_pourcent: &values_factor_or_pourcent 'facteur (réel, comme "1.5"), pourcentage avec ou sans "%" ("120", "120%")'
 
-    author:
-      hname:               Auteur du projet
-      variante:            auteur
-      description:         "Pour définir le prénom et nom de l’auteur principal du projet."
-      exemple:             "Alphonse Jouard"
-      category:            ['project_infos']
-      confirmation:        Auteur principal mis à %s
-      default:             null
+template: |
+  %{fproperty} %{fvariante}%{fnotyamlfile}
 
-    authors:
-      hname:               Auteurs du projet
-      variante:            auteurs
-      description:         "Pour définir les prénoms et noms de tous les auteurs du projet."
-      exemple:             "John Ford, Fred Vargas"
-      category:            ['project_infos']
-      confirmation:        Auteurs mis à %s
-      default:             null
+      => %{fname}
+      Description    : %{fdescription}
+      Valeur espérée : %{fexpected}
+      Exemple        : %{fexample}%{fdefault}
 
-    binder_visible:
-      hname:               Visibilité du classeur
-      variante:            classeur_visible
-      description:         Pour définir la visibilité du classeur.
-      exemple:             binder_visible=non
-      values:              {"Yes"=>[nil, "Yes", "yes", "y", "oui", "o", "true", "vrai"], "No"=>["n", "No", "non", "false", "faux"]}
-      category:            ['interface', 'binder']
-      confirmation:        Visibilité du classeur mise à %s
-      default:             Yes
+# Définition des propriétés modifiables
+properties:
+  # En clé : les propriétés du projet (qui appelleront les méthodes :
+  # `set_<property>`)
+  name:
+    hname:            Nom du fichier du projet
+    variante:
+      fr:       nom
+    description:        Pour redéfinir le nom du fichier du projet (.scriv)
+    extra_description:  Comme vous le savez sans doute, vous ne pouvez pas changer le nom du fichier du projet par le Finder. Cette commande vous permet de le faire sans « enregistrer sous… ».
+    values:             Un nom de fichier valide
+    exemple:            '"Mon_nouveau_nom"'
+    category:           ['project_infos']
+    not_in_yam_file:    true,
+    default:            null
 
-    collections_visible:
-      hname:               Visibilité des collections
-      variante:            null
-      description:         Pour définir la visibilité des collections dans le classeur.
-      exemple:             collections_visible=o
-      values:              {"Yes"=>[nil, "Yes", "yes", "y", "oui", "o", "true", "vrai"], "No"=>["n", "No", "non", "false", "faux"]}
-      category:            ['interface', 'binder']
-      confirmation:        Visibilité des collections dans le classeur mise à %s
-      default:             Yes
+  title:
+    hname:            Titre du projet
+    variante:
+      fr:         titre
+    description:        Pour [re]définir facilement le titre du projet.
+    extra_description:  "Comme vous le savez sans doute, définir le titre du projet n'est pas facile dans Scrivener. Il faut demander la compilation, activer l'onglet des métadonnées, définir le titre, lancer la compilation et annuler… Avec cette commande, vous pouvez le faire très facilement."
+    values:             Une chaine de caractères
+    exemple:            '"Mon tout nouveau titre de projet"'
+    category:           ['project_infos']
+    default:            null
 
-    editors_header:
-      hname:               Visibilité des entêtes des éditeurs
-      variante:            entete_editeurs
-      description:         Pour définir si les entêtes doivent être visibles dans les deux éditeurs.
-      exemple:             editors_header=Yes
-      values:              {"Yes"=>[nil, "Yes", "yes", "y", "oui", "o", "true", "vrai"], "No"=>["n", "No", "non", "false", "faux"]}
-      category:            ['interface', 'editors']
-      confirmation:        Visibilité des entêtes mise à %s
-      default:             Yes
+  title_abbreviated:
+    hname:               Titre court du projet
+    variante:
+      fr:         titre_court
+    description:         "Pour [re]définir le titre court du projet"
+    values:               Une chaine de caractères
+    exemple:              '"Tit. court"'
+    category:             ['project_infos']
+    default:              null
 
-    editors_footer:
-      hname:               Visibilité des pieds de page des éditeurs
-      variante:            pied_de_page_editeurs
-      description:         Pour définir si les pieds de page doivent être visibles dans les deux éditeurs.
-      exemple:             editors_footer=Y
-      values:              {"Yes"=>[nil, "Yes", "yes", "y", "oui", "o", "true", "vrai"], "No"=>["n", "No", "non", "false", "faux"]}
-      category:            ['interface', 'editors']
-      confirmation:        Visibilité des pieds de page mise à %s
-      default:             Yes
+  author:
+    hname:                Auteur principal du projet
+    variante:
+      fr: auteur
+    description:          "Pour définir l’auteur principal du projet"
+    values:               Une chaine de caractère contenant le prénom et le nom.
+    exemple:              ['"Alphonse Jouard"', '"Jouard, Alphone"']
+    exemple_yaml:         ['"Alphonse Jouard"', '"Jouard, Alphone"', '{firstname: "FIRSNAME", lastname: "LASTNAME"}']
+    category:             ['project_infos']
+    default:              null
 
-    editors_selection:
-      hname:               Sélection de texte dans les éditeurs
-      real:                editor1_selection, editor2_selection
-      variante:            selection_editeur1 (ou 2)
-      description:         Pour définir la sélection de texte dans les éditeur
-      exemple:             'editors_selection="10, 30"'
-      values:              <offset start>, <offset end>
-      category:            ['interface', 'editors']
-      confirmation:        'Sélection de l’éditeur %i mis à %s'
-      default:             null
+  authors:
+    hname:                Auteurs du projet
+    variante:
+      fr:       auteurs
+    description:          "Pour définir tous les auteurs du projet."
+    values:               Une chaine de caractère ou une liste dans le fichier YAML.
+    exemple:              '"John Ford, Fred Vargas, ..., prénom nom"'
+    exemple_yaml:         ['["John Ford", "Fred Vargas"]', '["Ford, John", "Vargas, Fred"]']
+    category:             ['project_infos']
+    default:              null
 
-    editor_view_mode:
-      hname:               Mode de vue de l’éditeur principal
-      variante:            mode_vue_editeur
-      description:         Pour définir le mode d’affichage de l’éditeur principal, c’est-à-dire pour définir s’il doit afficher le ou les textes, le tableau d’affichage ou le plan.
-      exemple:             editor_view_mode=Plan
-      values:              {"Single"=>["Single", "Texte", "Text", "T"], "Scrivenings"=>["Scrivenings", "Textes", "S"], "Corkboard"=>["Corkboard", "Tableau", "C"], "Outliner"=>["Plan", "Outliner", "O"]}
-      category:            ['interface', 'editors']
-      confirmation:        Mode courant de vue de l’éditeur principal mis à %s
-      default:             Single
+  binder_visible:
+    hname:               Visibilité du classeur
+    variante:
+      fr:       classeur_visible
+    description:          Pour définir la visibilité (ou non) du classeur dans l'interface.
+    values: *yes_or_no_values
+    exemple:              "non"
+    category:             ['interface', 'binder']
+    default:              'Oui'
 
-    editors_group_view_mode:
-      hname:               Mode de vue de groupe dans les éditeurs
-      real:                editor1_group_view_mode, editor2_group_view_mode
-      variante:            'mode_vue_groupe_editeur1 (ou 2)'
-      description:         "Pour définir le mode d’affichage d’un groupe de documents ou de dossier dans l’éditeur principal, c’est-à-dire pour définir s’il doit afficher les textes, le tableau d’affichage ou le plan."
-      exemple:             editors_group_view_mode=Plan
-      values:              {"Single"=>["Single", "Texte", "Text", "T"], "Scrivenings"=>["Scrivenings", "Textes", "S"], "Corkboard"=>["Corkboard", "Tableau", "C"], "Outliner"=>["Plan", "Outliner", "O"]}
-      category:            ['interface', 'editors']
-      confirmation:        "Mode courant de vue de groupe de l’éditeur %i mis à %s"
-      default:             Single
+  collections_visible:
+    hname:               Visibilité des collections
+    variante:
+      fr: null
+    description:         Pour définir la visibilité des collections dans l'interface.
+    values:              *yes_or_no_values
+    exemple:             'o'
+    category:            ['interface', 'binder']
+    default:             'Oui'
 
-    inspector_visible:
-      hname:               Visibilité de l’inspecteur
-      variante:            inspecteur_visible
-      description:         Pour définir la visibilité de l’inspecteur.
-      exemple:             "inspector_visible=No"
-      values:              {"Yes"=>[nil, "Yes", "yes", "y", "oui", "o", "true", "vrai"], "No"=>["n", "No", "non", "false", "faux"]}
-      category:            ['interface', 'inspector']
-      confirmation:        Visibilité de l’inspecteur mise à %s
-      default:             Yes
+  editors_header:
+    hname:               Visibilité des entêtes des éditeurs
+    variante:
+      fr:       entete_editeurs
+    description:         "Pour définir si les entêtes des éditeurs doivent être visibles ou non."
+    values:              *yes_or_no_values
+    exemple:             'Oui'
+    category:            ['interface', 'editors']
+    default:             'Oui'
 
-    inspector_tab:
-      hname:               Onglet de l’inspecteur
-      variante:            onglet_inspecteur
-      description:         Pour définir l’onglet courant de l’inspecteur.
-      exemple:             inspector_tab=Bookmarks
-      method_values:       inspector_tabs_valid_values
-      category:            ['interface', 'inspector']
-      confirmation:        Onglet courant de l’inspecteur mis à %s
-      default:             Notes
+  editors_footer:
+    hname:               Visibilité des pieds des pages des éditeurs
+    variante:
+      fr:       pied_de_page_editeurs
+    description:         "Pour définir si les pieds de page des éditeurs doivent être visibles ou non."
+    values:              *yes_or_no_values
+    exemple:             'O'
+    category:            ['interface', 'editors']
+    default:             'Oui'
 
-    zoom_notes:
-      hname:               zoom des notes
-      description:         Pour définir la taille des notes dans l’inspecteur.
-      exemple:             zoom_notes=1.5
-      category:            ['interface', 'inspector']
-      confirmation:        Zoom des notes dans l’inspecteur mis à %s
-      default:             100
+  editors_selection:
+    hname:               Sélection de texte dans les éditeurs
+    real:                editor1_selection, editor2_selection
+    variante:
+      fr:       selection_editeur1, selection_editeur2
+    description:         Pour définir le début et la fin de la sélection de texte dans chaque éditeur.
+    values:              '"<décalage départ>, <décalage fin>"'
+    exemple:             '"10, 30"'
+    category:            ['interface', 'editors']
+    default:             null
 
-    zoom_editor:
-      hname:               zoom de l’éditeur
-      variante:            zoom_editeur
-      description:         Pour définir le zoom dans l’éditeur. On peut le définir soit par un facteur (zoom_editor=2.5) soit par un pourcentage (zoom_editor="150%").
-      exemple:             "zoom_editor=200%"
-      category:            ['interface']
-      confirmation:        Zoom de l’éditeur principal mis à %s
-      default:             100
+  editor_view_mode:
+    hname:               Mode de vue dans l'éditeur principal
+    variante:
+      fr: mode_vue_editeur
+    description:         Pour définir le mode de vue dans l’éditeur principal. Pour qu’il affiche le texte, le tableau ou le plan.
+    values:              *values_mode_view
+    exemple:             Plan
+    category:            ['interface', 'editors']
+    default:             Single
 
-    zoom_alt_editor:
-      hname:               zoom de l’éditeur alternatif
-      variante:            zoom_autre_editeur
-      description:         Pour définir le zoom dans le second éditeur. On peut le définir soit par un facteur (zoom_editor=2.5) soit par un pourcentage (zoom_editor="150%").
-      exemple:             zoom_alt_editor=2
-      category:            ['interface', 'editors']
-      confirmation:        Zoom de l’éditeur alternatif mis à %s
-      default:             100
+  editors_group_view_mode:
+    hname:               Mode de vue de groupe des éditeurs
+    real:                editor1_group_view_mode, editor2_group_view_mode
+    variante:
+      fr: 'mode_vue_groupe_editeur1 (ou 2)'
+    description:         "Pour définir le mode de vue des documents ou des dossiers dans l’éditeur principal, pour qu’il affiche parmi les textes, le tableau ou le plan."
+    values:              *values_mode_view
+    exemple:             Plan
+    category:            ['interface', 'editors']
+    default:             Single
 
-    zoom_editors:
-      hname:               zoom des deux éditeurs
-      variante:            zoom_editeurs
-      description:         "Pour définir le zoom dans les deux éditeurs en même temps. On peut le définir soit par un facteur (zoom_editor=2.5) soit par un pourcentage (zoom_editor="150%")."
-      exemple:             zoom_editors=250
-      category:            ['interface', 'editors']
-      default:             100
+  inspector_visible:
+    hname:               Visibilité de l'inspecteur
+    variante:
+      fr: inspecteur_visible
+    description:         "Pour définir si l’inspecteur doit être visible ou non dans l’interface."
+    values:              *yes_or_no_values
+    exemple:             "Non"
+    category:            ['interface', 'inspector']
+    default:             'Oui'
 
-    compile_comments:
-      hname:               Ne pas compiler les commentaires
-      variante:            compiler_sans_commentaires
-      description:         Pour compiler le projet sans ou avec les commentaires
-      exemple:             "compile_comments=vrai"
-      values:              {"Yes"=>[nil, "Yes", "yes", "y", "oui", "o", "true", "vrai"], "No"=>["n", "No", "non", "false", "faux"]}
-      category:            ['compilation']
-      confirmation:        Ajout des commentaires à la compilation mis à %s
-      default:             false
+  inspector_tab:
+    hname:               Onglet courant de l’Inspecteur
+    variante:
+      fr: onglet_inspecteur
+    description:         "Pour définir l'onglet à activer dans l'Inspecteur"
+    method_values:       inspector_tabs_valid_values
+    exemple:             Bookmarks
+    category:            ['interface', 'inspector']
+    default:             Notes
 
-    compile_annotations:
-      hname:               Suppression des annotations à la compilation
-      variante:            compiler_les_annotations
-      description:         Pour compiler le projet avec ou sans les annotations.
-      exemple:             compile_annotations=Oui
-      values:              {"Yes"=>[nil, "Yes", "yes", "y", "oui", "o", "true", "vrai"], "No"=>["n", "No", "non", "false", "faux"]}
-      category:            ['compilation']
-      confirmation:        Ajout des annotations à la compilation mis à %s
-      default:             false
+  zoom_notes:
+    hname:                Facteur de zoom des notes
+    description:          Pour définir la taille des notes dans l’inspecteur.
+    values:               *values_factor_or_pourcent
+    exemple:              '1.5'
+    category:             ['interface', 'inspector']
+    default:              '100'
 
-    compile_output:
-      hname:               Type de sortie de la compilation
-      variante:            sortie_compilation
-      description:         "Pour définir s’il faut imprimer ou créer un document PDF lors de la compilation."
-      exemple:             compile_output=PDF
-      method_values:       compile_output_valid_values
-      category:            ['compilation']
-      confirmation:        Format de sortie de compilation mis à %s
-      default:             Print
+  zoom_editor:
+    hname:                Facteur de zoom de l’éditeur principal
+    variante:
+      fr:       zoom_editeur
+    description:          "Pour définir l’apparence en taille du texte dans l’éditeurs principal."
+    values:               *values_factor_or_pourcent
+    exemple:              ['2.5', '150', '"200%"']
+    category:             ['interface']
+    default:              '100'
 
-    target:
-      hname:               cible
-      variante:            objectif
-      description:         "Pour définir l’objectif du projet ou d’un document en particulier."
-      exemple:             'target="6p" --document="début du titre"'
-      in_yaml_file:        "<début titre>::<longueur>" (par exemple : "Début du titre::6p")
-      category:            ['project_infos']
-      confirmation:        Objectif du %s mis à %s
-      options:             null
-      default:             null
+  zoom_alt_editor:
+    hname:                Facteur de zoom de l’éditeur alternatif
+    variante:
+      fr: zoom_autre_editeur
+    description:          "Pour définir l’apparence en taille du texte dans l’éditeur alternatif."
+    values:               *values_factor_or_pourcent
+    exemple:              '2'
+    category:             ['interface', 'editors']
+    default:              '100'
 
-    targets:
-      hname:               objectifs
-      variante:            objectifs
-      description:         Pour définir les objectifs de plusieurs documents.
-      in_yaml_file:        objectifs: ["<début titre>::<longueur>", "<autre début>::<longueur>"]
-      only_in_yaml_file:   true
-      category:            ['documents']
-      confirmation:        Les objectifs ont été définis
-      default:             null
+  zoom_editors:
+    hname:                Facteur de zoom pour les deux éditeurs
+    variante:
+      fr:   zoom_editeurs
+    description:          "Pour définir l’apparence en taille du texte dans les deux éditeurs."
+    values:               *values_factor_or_pourcent
+    exemple:              "250"
+    category:             ['interface', 'editors']
+    default:              '100'
+
+  compile_output:
+    hname:                'Format de sortie de la compilation'
+    variante:
+      fr: sortie_compilation
+    description:          "Pour définir si Scrivener doit imprimer, faire un PDF ou tout autre chose du manuscrit (voir les valeurs possibles)."
+    exemple:              'PDF'
+    method_values:        compile_output_valid_values
+    category:             ['compilation']
+    default:              'Print'
+
+  compile_comments:
+    hname:               Compilation des commentaires
+    variante:
+      fr: compiler_sans_commentaires
+    description:          "Pour déterminer si les commentaires doivent être compilés avec le texte."
+    values:               *yes_or_no_values
+    exemple:              "vrai"
+    category:             ['compilation']
+    default:              'Non'
+
+  compile_annotations:
+    hname:               Compilations des annotations
+    variante:
+      fr: compiler_les_annotations
+    description:          "Pour déterminer si les annotations doivent être compilées avec le texte."
+    values:               *yes_or_no_values
+    exemple:              '"Oui"'
+    category:             ['compilation']
+    default:              'Non'
+
+  target:
+    hname:               Objectif du projet (en nombre de mots, pages, etc.)
+    variante:
+      fr: objectif
+    description:          "Pour définir l’objectif de taille du projet (ou d’un document avec l’option --document/-doc)."
+    values:               'Nombre de signes, de mots ou de pages'
+    exemple:              '"6p" --document="Début du titre"'
+    exemple_yaml:         ['50_000', '"Mon docum::6p"']
+    category:             ['project_infos']
+    default:              null
+
+  targets:
+    hname:               Objectifs à atteindre
+    variante:
+      fr: objectifs
+    description:          "Pour définir les objectifs à atteindre pour plusieurs documents."
+    values:               'Autant de "<doc title>::<target>" que nécessaire'
+    exemple_yaml: |+
+
+                             - "<Titre doc>::<cible>"
+                             - "<Autre document>::<cible>"
+                             ...
+    only_in_yaml_file:    true
+    category:             ['documents']
+    default:              null

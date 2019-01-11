@@ -90,6 +90,9 @@ fr:
     tit:
       sing: Cumul
       plur: Cumuls
+  default_:
+    min:  'par défaut :'
+    tit:  'Par défaut :'
   difference:
     min:
       sing: différence

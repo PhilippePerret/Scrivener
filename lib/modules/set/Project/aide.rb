@@ -4,6 +4,13 @@ class Scrivener
 class Project
 class << self
 
+  # Le fichier localisé des données en fonction de la lang
+  def modifiable_properties
+    @modifiable_properties ||= begin
+      YAML.load(File.read(File.join(APPFOLDER,'config','locales','extra','set',Scrivener.lang.to_s,'properties_definition.yml')))
+    end
+  end
+
   # Fabrication de l'aide qui sera ajoutée à l'aide définie dans la
   # commande.
   # Elle affiche toutes les propriétés modifiables.
@@ -20,71 +27,137 @@ class << self
     str_aide = Array.new
     str_aide << tit
     str_aide << "-" * tit.length
-    MODIFIABLE_PROPERTIES.each do |property, dproperty|
+
+    # Le modèle
+    property_template = modifiable_properties['template']
+
+    # puts "modifiable_properties: #{modifiable_properties.inspect}"
+    modifiable_properties['properties'].each do |property, dproperty|
+
       # Si une commande à été précisée, on filtre seulement celles qui peuvent
-      # correspondre.
+      # correspondre. C'est-à-dire celle qui match avec le filtre fourni.
       filtre && ( property.match(filtre) || next )
-      dproperty.key?(:variante) && dproperty[:variante] || dproperty.merge!(variante: '---')
-      dproperty.merge!(description: String.truncate(dproperty[:description], 60, {indent: ' '*15}).join(String::RC))
-      if dproperty.key?(:method_values)
-        dproperty.merge!(values: send(dproperty[:method_values]))
-      end
-      values_possibles =  if dproperty.key?(:values)
-                            case dproperty[:values]
-                            when String
-                              dproperty[:values]
-                            when Array
-                              dproperty[:values].join(', ')
-                            when Hash
-                              String::RC +
-                              dproperty[:values].collect do |val, facons|
-                                '        %s %s : %s' % [t('for.tit'), val, facons.pretty_join]
-                              end.join(String::RC)
-                            end
-                          else
-                            '---'
-                          end
-      dproperty.merge!(:valeurs_possibles => if dproperty.key?(:values)
-        String::RC + "  #{'value.tit.plur'}  : " + values_possibles
-        else '' end
-      )
-      if dproperty.key?(:in_yaml_file)
-        dproperty[:in_yaml_file] = String::RC + INDENT * 2 + 'YAML file : ' + dproperty[:in_yaml_file]
-      else
-        dproperty.merge!(in_yaml_file: '')
-      end
 
-      if dproperty.key?(:only_in_yaml_file)
-        dproperty[:variante] += " (#{t('files.notices.only_in_yaml_file', nil, {color: :rouge})})"
-      end
-      if dproperty.key?(:exemple) && dproperty[:exemple]
-        # dproperty[:exemple] = String::RC + INDENT * 2 + 'Exemple  :' +
-        dproperty[:exemple] = ('scriv set "~/projets/pj.scriv" ' + dproperty[:exemple]).jaune
-        dproperty[:exemple].prepend(String::RC + INDENT * 2 + "#{t('example.tit.sing')}  : ")
-      else
-        dproperty[:exemple] = ''
-      end
+      # Certaines méthodes de formatage en ont besoin
+      dproperty.merge!('property' => property)
 
-      str_aide << '
-  %{property} / %{variante}
-
-    %{fct} : %{description}%{exemple}%{valeurs_possibles}%{in_yaml_file}
-      ' % dproperty.merge({ property: (dproperty[:real] || property).to_s.jaune,
-                            fct: t('function.tit.sing')
-      })
+      # On construit le bloc d'aide pour cette propriété
+      str_aide << property_template % {
+        fproperty:      (dproperty['real'] || property).jaune,
+        fvariante:      formated_variante(dproperty),
+        fnotyamlfile:   formated_in_or_not_in_yaml_file(dproperty),
+        fname:          formated_name(dproperty),
+        fdescription:   formated_description(dproperty),
+        fexample:       formated_example(dproperty),
+        fdefault:       formated_default(dproperty),
+        fexpected:      formated_expected_values(dproperty)
+      }
     end
 
+    str_aide << String::RC * 4
     str_aide << t('helps.set.mode_utilisation')
 
     INDENT + str_aide.join(String::RC + INDENT)
   end
   # /aide_commande_set
 
+  def formated_variante(d)
+    if d.key?('variante') && d['variante'].key?(Scrivener.lang.to_s)
+      " / #{d['variante'][Scrivener.lang.to_s]}"
+    else
+      ''
+    end
+  end
+
+  def formated_name(d)
+    d['hname']
+  end
+  def formated_description(d)
+    d.key?('description') || raise(ForBlankValue)
+    desc = d['description']
+    d.key?('extra_description') && desc += ' ' + d['extra_description']
+    @indentation_description ||= ' ' * 21
+    String.truncate(desc, 60, {indent: @indentation_description}).join(String::RC)
+  rescue ForBlankValue
+    return '---'
+  end
+
+  def formated_expected_values(d)
+    if d['method_values']
+      send(d['method_values'].to_sym).inspect
+    else
+      case d['values']
+      when String
+        d['values']
+      when Hash
+        d['values'].collect do |k, v|
+          '%s -> %s' % [k, v.inspect]
+        end.join(String::RC + @indentation_description)
+      when nil
+        '---'
+      end
+    end
+  end
+
+  # S'il y a une property 'real', on doit l'utiliser. Mais noter qu'il
+  # peut y en avoir plusieurs, séparées par des virgules
+  def one_real_property(d)
+    d['real'] || (return d['property'])
+    d['real'].split(',').collect{|e|e.strip}.first
+  end
+
+  def formated_example(d)
+    d.key?('exemple') || d['exemple_yaml'] || raise(ForBlankValue)
+    formated_exemple_command_line(d) + formated_example_yaml(d)
+  rescue ForBlankValue
+    return '---'
+  end
+
+  def formated_exemple_command_line(d)
+    d['exemple'] || raise(ForBlankValue)
+    d['exemple'].is_a?(Array) || d['exemple'] = [d['exemple']]
+    d['exemple'].collect do |ex|
+      ('scriv set %s=%s' % [one_real_property(d), ex]).mauve
+    end.join(String::RC + @indentation_description)
+  rescue ForBlankValue
+    return '---'
+  end
+
+  def formated_example_yaml(d)
+    d['exemple_yaml'] || raise(ForBlankValue)
+    d['exemple_yaml'].is_a?(Array) || d['exemple_yaml'] = [d['exemple_yaml']]
+    "#{String::RC}#{INDENT * 2}YAML File      : "+
+    d['exemple_yaml'].collect do |ex|
+      "#{one_real_property(d)}: #{ex}"
+    end.join(String::RC + @indentation_description)
+  rescue ForBlankValue
+    return ''
+  end
+
+  def formated_default(d)
+    d['default'] || raise(ForBlankValue)
+    ' / %s %s' % [t('default_.min'), d['default']]
+  rescue ForBlankValue
+    return ''
+  end
+
+  def formated_in_or_not_in_yaml_file(d)
+    d['not_in_yam_file'] || d['only_in_yaml_file'] || raise(ForBlankValue)
+    if d['not_in_yam_file']
+      @mark_not_in_yaml_file  ||= "    (#{t('notices.only_in_command_line')}, #{t('files.notices.not_in_yaml_file')})".rouge
+    else
+      @mark_only_in_yaml_file ||= "    (#{t('files.notices.only_in_yaml_file')}, #{t('notices.not_in_command_line')})".rouge
+    end
+  rescue ForBlankValue
+    return ''
+  end
+
+
 
   def compile_output_valid_values
     XMLCompile::OUTPUT_FORMATS.collect do |kfmt, dformat|
-      '%s %s %s' % [kfmt.to_s.inspect, t('for.min'), dformat[:hname]]
-    end
+      '%s %s %s' % ["'#{kfmt.to_s}'", t('for.min'), dformat[:hname]]
+    end.join(', ')
   end
   # /compile_output_valid_values
   private :compile_output_valid_values

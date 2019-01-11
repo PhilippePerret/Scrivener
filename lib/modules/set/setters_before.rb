@@ -6,9 +6,11 @@ class Scrivener
 
 class Project
 
-  def self.add_modpro h
-    MODIFIABLE_PROPERTIES.key?(h.keys.first) && raise('LA CLÉ %s existe déjà !' % [h.keys.first])
-    MODIFIABLE_PROPERTIES.merge!(h)
+  def self.add_modpro keyh
+    MODIFIABLE_PROPERTIES.key?(keyh) && raise('LA CLÉ %s existe déjà !' % [keyh])
+    MODIFIABLE_PROPERTIES.merge!(keyh => true)
+    # TODO Plus tard, il faudra peut-être charger les textes localisés en
+    # fonction de la langue.
   end
 
 end#/Project

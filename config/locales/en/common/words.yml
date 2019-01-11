@@ -91,6 +91,9 @@ en:
     tit:
       sing: Cumulative
       plur: Cumulatives
+  default_:
+    min:  'default:'
+    tit:  'Default:'
   difference:
     min:
       sing: difference

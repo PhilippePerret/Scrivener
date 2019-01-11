@@ -1,0 +1,264 @@
+values_mode_view: &values_mode_view
+  Single:     ['Single', 'Texte', 'Text', 'T']
+  Scrivening: ['Scrivenings', 'Textes', 'S']
+  Corkboard:  ['Corkboard', 'Tableau', 'C']
+  Outliner:   ['Outliner', 'Plan', 'O']
+
+yes_or_no_values: &yes_or_no_values
+  'Yes': ["o", "y", "yes", "oui", "true", "vrai", null]
+  'No ': ["n", "no", "non", "false", "faux"]
+
+values_factor_or_pourcent: &values_factor_or_pourcent 'factor (real, like "1.5"), pourcentage with or without "%" ("120", "120%")'
+
+template: |
+  %{fproperty} %{fvariante}%{fnotyamlfile}
+
+      => %{fname}
+      Description    : %{fdescription}
+      Expected value : %{fexpected}
+      Example        : %{fexample}%{fdefault}
+
+# Définition des propriétés modifiables
+properties:
+  # En clé : les propriétés du projet (qui appelleront les méthodes :
+  # `set_<property>`)
+  name:
+    hname:            File name
+    variante:
+      fr:       nom
+    description:        To redefine the project’s filename.
+    extra_description:  For your information, you can’t change the project’s filename by the Finder without making troubles. This command lets you proceed properly.
+    values:             A string
+    exemple:            '"my_new_filename"'
+    category:           ['project_infos']
+    not_in_yam_file:    true,
+    default:            null
+
+  title:
+    hname:            Project title
+    variante:
+      fr:         titre
+    description:        To define easily the title project.
+    extra_description:  As you know, defining the title project is complicated in Scrivener (compile > metadata > set title, run compile and cancel…). With this command, you can do it easily.
+    values:             A string
+    exemple:            '"My New Project Title"'
+    category:           ['project_infos']
+    default:            null
+
+  title_abbreviated:
+    hname:               Project's abbreviated title
+    variante:
+      fr:         titre_court
+    description:         "To define the project's abbreviated title."
+    values:               A string
+    exemple:              '"Tit. court"'
+    category:             ['project_infos']
+    default:              null
+
+  author:
+    hname:                Project's main author
+    variante:
+      fr: auteur
+    description:          "To define the main project’s author."
+    values:               A string
+    exemple:              ['"Alphonse Jouard"', '"Jouard, Alphone"']
+    exemple_yaml:         ['"Alphonse Jouard"', '"Jouard, Alphone"', '{firstname: "FIRSNAME", lastname: "LASTNAME"}']
+    category:             ['project_infos']
+    default:              null
+
+  authors:
+    hname:                Project's authors
+    variante:
+      fr:       auteurs
+    description:          "To define every author of the project."
+    values:               A String, a list in yaml file
+    exemple:              '"John Ford, Fred Vargas, ..., firstname lastname"'
+    exemple_yaml:         ['["John Ford", "Fred Vargas"]', '["Ford, John", "Vargas, Fred"]']
+    category:             ['project_infos']
+    default:              null
+
+  binder_visible:
+    hname:               Binder visibility
+    variante:
+      fr:       classeur_visible
+    description:          To define the binder visibility (interface)
+    values: *yes_or_no_values
+    exemple:              "no"
+    category:             ['interface', 'binder']
+    default:              'Yes'
+
+  collections_visible:
+    hname:               Collections visibility
+    variante:
+      fr: null
+    description:         To define the visibility of collections in the user interface.
+    values:              *yes_or_no_values
+    exemple:             'o'
+    category:            ['interface', 'binder']
+    default:             'Yes'
+
+  editors_header:
+    hname:               Editors Headers Visibility
+    variante:
+      fr:       entete_editeurs
+    description:         To define if the editors headers are visible or not.
+    values:              *yes_or_no_values
+    exemple:             'Yes'
+    category:            ['interface', 'editors']
+    default:             'Yes'
+
+  editors_footer:
+    hname:               Editors Footers Visibility
+    variante:
+      fr:       pied_de_page_editeurs
+    description:         To define if the editors footers are visible or not.
+    values:              *yes_or_no_values
+    exemple:             'Y'
+    category:            ['interface', 'editors']
+    default:             'Yes'
+
+  editors_selection:
+    hname:               Text selection in editors
+    real:                editor1_selection, editor2_selection
+    variante:
+      fr:       selection_editeur1, selection_editeur2
+    description:         To define the current text selection (start, end) in the editors.
+    values:              '"<offset start>, <offset end>"'
+    exemple:             '"10, 30"'
+    category:            ['interface', 'editors']
+    default:             null
+
+  editor_view_mode:
+    hname:               Main Editor View Mode
+    variante:
+      fr: mode_vue_editeur
+    description:         To define the main editor view mode, i.e. to define what it displays, among the text(s), the Corkboard or the Outliner.
+    values:              *values_mode_view
+    exemple:             Plan
+    category:            ['interface', 'editors']
+    default:             Single
+
+  editors_group_view_mode:
+    hname:               Editors Group View Mode
+    real:                editor1_group_view_mode, editor2_group_view_mode
+    variante:
+      fr: 'mode_vue_groupe_editeur1 (ou 2)'
+    description:         "To define the documents or folder group view mode in the main editor, i.e. to define what it displays among Texts, Corkboard or Outliner."
+    values:              *values_mode_view
+    exemple:             Plan
+    category:            ['interface', 'editors']
+    default:             Single
+
+  inspector_visible:
+    hname:               Inspector Visibility
+    variante:
+      fr: inspecteur_visible
+    description:         To define whether Inspector is visible or not.
+    values:              *yes_or_no_values
+    exemple:             "No"
+    category:            ['interface', 'inspector']
+    default:             'Yes'
+
+  inspector_tab:
+    hname:               Inspector Current Tab
+    variante:
+      fr: onglet_inspecteur
+    description:         To define inspector current tab.
+    method_values:       inspector_tabs_valid_values
+    exemple:             Bookmarks
+    category:            ['interface', 'inspector']
+    default:             Notes
+
+  zoom_notes:
+    hname:                Notes zoom
+    description:          To define the width of notes in the Inspector.
+    values:               *values_factor_or_pourcent
+    exemple:              '1.5'
+    category:             ['interface', 'inspector']
+    default:              '100'
+
+  zoom_editor:
+    hname:                Editor zoom
+    variante:
+      fr:       zoom_editeur
+    description:          "To define the width of police (zoom) in editor."
+    values:               *values_factor_or_pourcent
+    exemple:              ['2.5', '150', '"200%"']
+    category:             ['interface']
+    default:              '100'
+
+  zoom_alt_editor:
+    hname:                Alt Editor Zoom Factor
+    variante:
+      fr: zoom_autre_editeur
+    description:          To define the zoom factor of the second editor.
+    values:               *values_factor_or_pourcent
+    exemple:              '2'
+    category:             ['interface', 'editors']
+    default:              '100'
+
+  zoom_editors:
+    hname:                Editors (both) Zoom Factor
+    variante:
+      fr:   zoom_editeurs
+    description:          "To define in one command the zoom factor in twice editors."
+    values:               *values_factor_or_pourcent
+    exemple:              "250"
+    category:             ['interface', 'editors']
+    default:              '100'
+
+  compile_output:
+    hname:                'Compilation Output Type'
+    variante:
+      fr: sortie_compilation
+    description:          "To define if Scrivener must print, create a PDF document or whatever (see values)."
+    exemple:              'PDF'
+    method_values:        compile_output_valid_values
+    category:             ['compilation']
+    default:              'Print'
+
+  compile_comments:
+    hname:               Comments compilation
+    variante:
+      fr: compiler_sans_commentaires
+    description:          To define if the comments have to be compiled with the whole text.
+    values:               *yes_or_no_values
+    exemple:              "vrai"
+    category:             ['compilation']
+    default:              'No'
+
+  compile_annotations:
+    hname:               Annotations Compilation
+    variante:
+      fr: compiler_les_annotations
+    description:          To define if the annotations have to be compiled with the whole text.
+    values:               *yes_or_no_values
+    exemple:              '"Yes"'
+    category:             ['compilation']
+    default:              'No'
+
+  target:
+    hname:               Project Target
+    variante:
+      fr: objectif
+    description:          "To define the project target or the document targets (with --document/-doc option)."
+    values:               'Number of words, or signs or pages'
+    exemple:              '"6p" --document="title heading"'
+    exemple_yaml:         ['50_000', '"My docum::6p"']
+    category:             ['project_infos']
+    default:              null
+
+  targets:
+    hname:               Targets
+    variante:
+      fr: objectifs
+    description:          "To define the target for several documents."
+    values:               'As many "<doc title>::<target>" as necessary'
+    exemple_yaml: |+
+
+                             - "<doc title>::<target>"
+                             - "<other tit>::<target>"
+                             ...
+    only_in_yaml_file:    true
+    category:             ['documents']
+    default:              null

@@ -15,55 +15,9 @@
 class Scrivener
 class Project
 
-  # Différents textes qu'on peut trouver pour différentes propriétés
-  DIVEXPLI = {
-    factor_or_pourcentage: 'On peut le définir soit par un facteur (zoom_editor=2.5) soit par un pourcentage (zoom_editor="150%").',
-    yes_or_no_values: {'Yes' => [nil, 'Yes', 'yes', 'y', 'oui', 'o', 'true', 'vrai'], 'No' => ['n', 'No', 'non', 'false', 'faux']},
-    modes_vues: {'Single' => ['Single', 'Texte', 'Text', 'T'], 'Scrivenings' => ['Scrivenings', 'Textes', 'S'], 'Corkboard' => ['Corkboard', 'Tableau', 'C'], 'Outliner' => ['Plan', 'Outliner', 'O']}
-  }
 
   # ---------------------------------------------------------------------
   # Méthodes de modification des données
-
-  # POUR FAIRE DES ESSAIS AVEC LA COMMANDE `scriv set essai`
-  def set_essai value = nil
-    # puts "La valeur de value est #{value.inspect}"
-    # dproximites = project.binder_item('B6C40A17-4527-4481-9547-64252E551B0D')
-
-    second_chapitre   = project.binder_item('76E56CA6-F25A-41E6-A513-44309432382F')
-    premier_chapitre  = project.binder_item('0F81282D-A49B-43E4-8EDB-31E192CBF90A')
-    chapitre_trois    = project.binder_item('8A0B3C46-465A-452B-992E-FF90FC4267F9')
-
-    # # ui_common.binder.unselect_all
-    # ui_common.save
-
-    # puts '--' + ui_common.editor1.view_node.count.inspect
-    # puts '-- view_node 12' + ui_common.editor1.view_node.elements['ShowHeader'].text.inspect
-
-    # ui_common.editor1.header_visible(false)
-    # ui_common.editor2.header_visible(true)
-    # ui_common.editor1.footer_visible(true)
-    # ui_common.editor2.footer_visible(false)
-    # ui_common.save
-    # puts 'Je rends l’header visible ou invisible'
-
-    # puts '--- second_chapitre : %s::{%s}' % [second_chapitre.title, second_chapitre.class.to_s]
-    # puts '--- premier_chapitre: %s::{%s}' % [premier_chapitre.title, premier_chapitre.class.to_s]
-    # ui_common.editor1.content= chapitre_trois
-    # # ui_common.editor1.content= [premier_chapitre, second_chapitre]
-    # ui_common.editor2.content= second_chapitre
-
-    # ui_common.editor1.reset_historique
-    # ui_common.editor1.add_historique([premier_chapitre, second_chapitre, chapitre_trois], {last_is_current: true})
-    ui_common.editor1.reset_historique
-    ui_common.editor1.add_historique([chapitre_trois, second_chapitre, premier_chapitre], {last_is_current: true})
-
-    ui_common.save
-  end
-
-  QUESTIONS = {
-    set_project_name: 'Voulez-vous mettre le nom du projet %s à %s ?'
-  }
 
   # Définir le nom de fichier du projet
   add_modpro(:name)
@@ -71,7 +25,7 @@ class Project
     value === nil && return # quand un fichier de configuration met à null la valeur
     new_nom = value.gsub(/ /, '_')
     new_nom.end_with?('.scriv') || new_nom.concat('.scriv')
-    if yesOrNo(QUESTIONS[:set_project_name] % [File.basename(path).inspect, new_nom.inspect])
+    if yesOrNo(t('projects.questions.set_title', {old_fn: File.basename(path).inspect, new_fn: new_nom.inspect}))
       old_path_scrivx = self.xfile.path
       new_path_scrivx = File.join(path, "#{new_nom}x")
       FileUtils.move(old_path_scrivx, new_path_scrivx)
@@ -99,14 +53,7 @@ class Project
   end
 
   # Définir le titre abbrégé (court) du projet
-  add_modpro(:title_abbreviated => {hname: 'Titre abrégé du projet',
-                                    variante: 'titre_court',
-                                    description: 'Pour définir le titre court du projet.',
-                                    exemple: 'title_abbreviated="Tit. court"',
-                                    category: :project_infos,
-                                    confirmation: 'Titre abrégé mis à « %s »',
-                                    default: 'null'
-                                  })
+  add_modpro(:title_abbreviated)
   def set_title_abbreviated value
     value === nil && return
     compile_xml.set_xpath('//MetaData/ProjectAbbreviatedTitle', value)
@@ -117,11 +64,11 @@ class Project
   # Définir l'auteur du projet
   # Note : chaque setter doit définir cette valeur pour tenir à jour la
   # table des matières.
-  add_modpro(:author)
   # Trois façons de le définir avec +value+ :
   #   - "Prénom Nom"
   #   - "Nom, Prénom"
   #   - {firstname: "Prénom", lastname: "Nom"}
+  add_modpro(:author)
   def set_author value
     value === nil && return
     case value

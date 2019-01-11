@@ -8,6 +8,13 @@ class << self
   attr_accessor :command
   attr_accessor :project_path
 
+  def lang
+    @lang ||= ENV['SCRIV_LANG'].to_sym
+  end
+  def set_lang(lg)
+    @lang = lg
+  end
+  
   # ---------------------------------------------------------------------
   #   Méthodes accessoire
 

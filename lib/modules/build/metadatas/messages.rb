@@ -32,7 +32,7 @@ def raise_code_yaml_invalid(spec_err)
 end
 # ---------------------------------------------------------------------
 def lang
-  @lang ||= ENV['SCRIV_LANG'].to_sym
+  @lang ||= Scrivener.lang
 end
 def raise_err_with(err_id, *args)
   err = ERRORS[:build][:custom_metadatas][err_id]

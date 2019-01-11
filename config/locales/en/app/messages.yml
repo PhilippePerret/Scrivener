@@ -15,6 +15,8 @@ en:
   # colision avec des objets commun
   notices:
     ask_for_compile_help: '(ask help with `scriv set compile_output -h`)'
+    only_in_command_line: 'only in command line'
+    not_in_command_line:  'not in command line'
   errors:
     only_values: 'Les seules valeurs possibles pour %{var} sont : %{values}.'
     unable_to_find_factor_with: 'Unable to calc factor value with from %{value}. I need either the factor itself (p.e. `1.5`), either a pourcentage (p.e. `130%%`), either a pourcentage without unit (p.e. `400`).'
