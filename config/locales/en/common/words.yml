@@ -365,7 +365,7 @@ en:
       sing: SEGMENT
       plur: SEGMENTS
   sorted:
-    alphabetical:         alphabetical
+    alphabetically:       sorted alphabetically
     by:                   sorted by
     by_occurences_count:  by count
     by_proxs_count:       by proximities count
@@ -447,9 +447,12 @@ en:
     cap:
       sing: WORD
       plur: WORDS
-  generic_word:
-    min: 'generic word'
-    tit: 'Generic Word'
+  word_after:
+    min: 'word after'
+    tit: 'Word after'
+  word_before:
+    min: 'word before'
+    tit: 'Word before'
   canonical_word:
     min:
       sing: 'canonical word'
@@ -457,6 +460,9 @@ en:
       sing: 'Canonical Word'
     cap:
       sing: 'CANONICAL WORD'
+  generic_word:
+    min: 'generic word'
+    tit: 'Generic Word'
   written:
     min:
       sing: written

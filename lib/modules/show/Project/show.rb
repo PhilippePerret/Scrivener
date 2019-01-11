@@ -1,10 +1,5 @@
 # encoding: UTF-8
 class Scrivener
-  SHOW_ERRORS = {
-    nothing_to_show: 'Aucun élément spécifié ne peut être affiché.',
-    bads_to_show:    'Impossible d’afficher les éléments : %s.'
-  }
-
 class Project
   CHOSES = {
     'words'       => :mots,
@@ -19,10 +14,10 @@ class Project
   }
 
   SORT_TYPES = {
-    alpha: 'ordre alphabétique', :'-alpha' => 'ordre alphabétique inverse',
-    count: 'nombre d’occurences',
-    prox: 'nombre de proximités',
-    dist:  'distance', :'-dist' => 'distance (inverse)'
+    alpha: t('sorted.alphabetically'), :'-alpha' => "#{t('sorted.alphabetically')} inverse",
+    count: t('count.occurences').downcase,
+    prox: t('count.proxs').downcase,
+    dist:  t('distance.min.sing'), :'-dist' => t('distance.min.sing') + ' (inverse)'
   }
 
   class << self
@@ -39,8 +34,8 @@ class Project
         end
         choses << [chose, (sortkey || :count).to_sym]
       end
-      bads.empty? || raise(SHOW_ERRORS[:bads_to_show] % bads.pretty_join)
-      choses.any? || raise(SHOW_ERRORS[:nothing_to_show])
+      bads.empty? || rt('commands.show.errors.bads_to_show', {bads: bads.pretty_join})
+      choses.any? || rt('commands.show.errors.nothing_to_show')
       iprojet.show_elements(choses)
     rescue Exception => e
       puts e.message.rouge
@@ -56,6 +51,7 @@ class Project
   def show_elements choses
     Scrivener.require_module('TextAnalyzer')
     get_data_analyse || return
+    CLI::Screen.clear
     choses.each do |dchose|
       chose_name    = dchose[0]
       chose_keysort = dchose[1]
@@ -66,7 +62,7 @@ class Project
   # ---------------------------------------------------------------------
   #   Pour créer l'entête de toutes les tables
   #
-  LINES_ENTETE = ['', '', '   %{chose}s classées par %{sort_type}', '', '']
+  LINES_ENTETE = ['', '', '   %{chose} '+' %{sort_type}', '', '']
   LINES_ENTETE << '__labels__'
 
   def header_table_and_separator data
@@ -88,8 +84,8 @@ class Project
   def show_element_mots(sorted_by)
     analyse.output.defaultize_options({sorted_by: sorted_by})
     header, separator = header_table_and_separator(
-      chose: 'Proximité', sort_type: SORT_TYPES[sorted_by],
-      labels: "  Index | #{'Mot %{nb_mots}'.ljust(MOT_MAX_LEN)} "+
+      chose: t('proximity.tit.plur'), sort_type: SORT_TYPES[sorted_by],
+      labels: "  #{t('index.tit.sing')} | #{"#{t('word.tit.sing')} %{nb_mots}".ljust(MOT_MAX_LEN)} "+
         "| #{'x'.rjust(4)} | #{'%%'.rjust(9)} " +
         "| #{'Lemma'.ljust(MOT_MAX_LEN)} " +
         "| #{'Canon'.ljust(MOT_MAX_LEN)} | #{'Prox.'.ljust(6)} |",
@@ -119,9 +115,9 @@ class Project
   def show_element_proximites(sorted_by)
     analyse.output.defaultize_options({sorted_by: sorted_by})
     header, separator = header_table_and_separator(
-      chose: 'Proximité', sort_type: SORT_TYPES[sorted_by],
-      labels: "  #{'Id'.rjust(5)} | #{'Mot avant'.ljust(MOT_MAX_LEN)} | " +
-        "#{'Mot après'.ljust(MOT_MAX_LEN)} | #{'Dist.'.ljust(5)}|"
+      chose: t('proximity.tit.plur'), sort_type: SORT_TYPES[sorted_by],
+      labels: "  #{'Id'.rjust(5)} | #{t('word_before.tit').ljust(MOT_MAX_LEN)} | " +
+        "#{t('word_after.tit').ljust(MOT_MAX_LEN)} | #{t('distance.abbr.tit').ljust(5)}|"
     )
     puts header
     analyse.output.sorted_list_proximites.each do |iprox|
@@ -144,9 +140,9 @@ class Project
     TextAnalyzer::Analyse::TableResultats::Proximite.init(analyse)
     analyse.output.defaultize_options({sorted_by: sorted_by})
     header, separator = header_table_and_separator(
-      chose: 'Distance', sort_type: SORT_TYPES[sorted_by],
-      labels: "    #{'Mot'.ljust(MOT_MAX_LEN)} " +
-        "| #{'Dist.'.ljust(6)} |"
+      chose: t('distance.tit.plur'), sort_type: SORT_TYPES[sorted_by],
+      labels: "    #{t('word.tit.sing').ljust(MOT_MAX_LEN)} " +
+        "| #{t('distance.abbr.tit').ljust(6)} |"
     )
     puts header
     analyse.output.sorted_list_mots.each_with_index do |dmot, index_mot|

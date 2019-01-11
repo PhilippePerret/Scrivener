@@ -5,6 +5,7 @@ en:
     pages:    'Pages count'
     proxs:    'Proximities count'
     signs:    'Characters count'
+    occurences: 'Occurences count'
     words:
       all:        'Words count'
       different:  'Different words count'

@@ -5,6 +5,7 @@ fr:
     pages:    'Nombre de pages'
     proxs:    'Nombre de proximités'
     signs:    'Nombre de caractères'
+    occurences: 'Nombre d’occurences'
     words:
       all:        'Nombre de mots'
       different:  'Nombre de mots différents'

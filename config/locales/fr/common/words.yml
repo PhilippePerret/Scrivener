@@ -364,9 +364,9 @@ fr:
       sing: SEGMENT
       plur: SEGMENTS
   sorted:
-    alphabetical:         alphabétiquement
+    alphabetically:       classés alphabétiquement
     by:                   classés par
-    by_occurences_count:  by occurences count
+    by_occurences_count:  par nombre d’occurences
     by_proxs_count:       par nombre de proximités
     by_words_count:       par nombre de mots
     nearest_to_farest:    de la plus proche à la plus éloignée
@@ -446,9 +446,12 @@ fr:
     cap:
       sing: MOT
       plur: MOTS
-  generic_word:
-    min: 'mot générique'
-    tit: 'Mot générique'
+  word_after:
+    min: 'mot après'
+    tit: 'Mot après'
+  word_before:
+    min: 'mot avant'
+    tit: 'Mot avant'
   canonical_word:
     min:
       sing: 'terme canonique'
@@ -456,6 +459,9 @@ fr:
       sing: 'Terme canonique'
     cap:
       sing: 'TERME CANONIQUE'
+  generic_word:
+    min: 'mot générique'
+    tit: 'Mot générique'
   written:
     min:
       sing: écrit

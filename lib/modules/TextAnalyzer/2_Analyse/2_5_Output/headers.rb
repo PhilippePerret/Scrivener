@@ -12,7 +12,7 @@ class Proximite
     when :distance
       t('sorted.nearest_to_farest')
     else
-      t('sorted.alphabetical')
+      t('sorted.alphabetically')
     end
   end
 
@@ -35,7 +35,7 @@ class Canon
     when :proximites_count, :prox_count
       t('sorted.by_proxs_count')
     else # :alpha
-      t('sorted.alphabetical')
+      t('sorted.alphabetically')
     end
   end
 
@@ -55,7 +55,7 @@ class Mot
     when :proximites_count, :prox_count
       t('sorted.by_proxs_count')
     else # :alpha
-      t('sorted.alphabetical')
+      t('sorted.alphabetically')
     end
   end
 
