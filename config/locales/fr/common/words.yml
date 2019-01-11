@@ -280,6 +280,10 @@ fr:
     cap:
       sing: MÉTADONNÉE
       plur: MÉTADONNÉE
+  no:
+    min: non
+    tit: Non
+    cap: NON
   number:
     min:
       sing: nombre
@@ -459,3 +463,7 @@ fr:
     tit:
       sing: Écrit
       plur: Écrits
+  yes:
+    min: oui
+    tit: Oui
+    cap: OUI

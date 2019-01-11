@@ -295,6 +295,10 @@ en:
       min: nb.
       tit: Nb.
       cap: NB.
+  no:
+    min: no
+    tit: No
+    cap: NO
   numero:
     min:
       sing: numero
@@ -460,3 +464,7 @@ en:
     tit:
       sing: Written
       plur: Written
+  yes:
+    min: yes
+    tit: Yes
+    cap: YES

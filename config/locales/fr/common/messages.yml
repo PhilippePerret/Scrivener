@@ -1,10 +1,17 @@
 fr:
   test: 'Ceci est un test'
   notices:
-    abort_:         'Abandon…'
-    change_lang_ok: D’accord, parlons français maintenant !
-    cancel_changes: 'Modifications abandonnées…'
-    any_change:     'Aucun changement'
+    abort_:                 'Abandon…'
+    change_lang_ok:         D’accord, parlons français maintenant !
+    cancel_changes:         'Modifications abandonnées…'
+    any_change:             'Aucun changement'
+    property_set_to_value:  'Propriété « %{property} » mise à %{value}.'
+  # === ERREURS ===
+  errors:
+    value:
+      invalid:                  "Valeur invalide : %{value} (attendue : %{expected})."
+      unable_to_find_real_for:  'Impossible de trouver la valeur correspondant à %{value}'
+      expected_among:           'La valeur devrait être une parmi : %{expected}'
   # === QUESTIONS ===
   questions:
     restart_from_beginning: 'Reprendre au début ?' # 'Restart from beginning?'

@@ -6,11 +6,11 @@ class Scrivener
 
 class Project
 
+  # Pour le moment, cette méthode ne sert qu'à lister toutes les
+  # propriétés modifiables et à vérifier qu'il n'y a pas de collision
   def self.add_modpro keyh
     MODIFIABLE_PROPERTIES.key?(keyh) && raise('LA CLÉ %s existe déjà !' % [keyh])
     MODIFIABLE_PROPERTIES.merge!(keyh => true)
-    # TODO Plus tard, il faudra peut-être charger les textes localisés en
-    # fonction de la langue.
   end
 
 end#/Project
@@ -64,7 +64,7 @@ module ModuleSetValuesWithKeys
     when Array
       # Quand +data_value+ est une liste, on doit juste vérifier que
       # +value+ appartient bien à cette liste
-      data_value.include?(value) || raise('La valeur devrait être une parmi : %s' % data_value.join(', '))
+      data_value.include?(value) || rt('errors.value.expected_among', {expected: data_value.join(', ')})
     when Hash
       data_value.key?(value) && (return value)
       # Sinon, il faut chercher la bonne valeur
@@ -72,7 +72,7 @@ module ModuleSetValuesWithKeys
         arr_values.include?(value) && (return real)
       end
       # Si on arrive ici c'est que la valeur n'a pas été trouvée
-      raise('Impossible de trouver la valeur correspond à %s' % value.inspect)
+      rt('errors.value.unable_to_find_real_for', {value: value.inspect})
     end
     nil
   rescue Exception => e
@@ -83,7 +83,7 @@ module ModuleSetValuesWithKeys
     case value.to_s.downcase
     when '', 'vrai', 'true', 'yes', 'oui', 'y', 'o' then 'Yes'
     when 'no', 'non', 'n', 'false', 'faux' then 'No'
-    else raise 'Valeur yes/no invalide.'
+    else rt('errors.value.invalid', {value: value, expected: "#{t('yes.min')}/#{t('no.min')}"})
     end
   end
 
@@ -101,10 +101,8 @@ module ModuleSetValuesWithKeys
     end.to_f
   end
 
-  def confirme key_set, replacements = nil
-    msg = MODIFIABLE_PROPERTIES[key_set][:confirmation]
-    replacements.nil? || msg = msg % replacements
-    puts INDENT_TIRET + msg
+  def confirme key, new_value = nil
+    wt('notices.property_set_to_value', {property: key.to_s, value: new_value.inspect}, {air: true, color: :bleu})
   end
 
 end
