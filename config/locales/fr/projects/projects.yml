@@ -5,8 +5,8 @@ fr:
       project_to_choose: "Projet à choisir (sa lettre — \"q\" pour renoncer)"
     # === MESSAGES ===
     notices:
-      last_is_current: (le dernier projet — « %{title} » — est le projet courant)
-      project_chosen:  "Le projet « %{title} » a été mis en dernier projet. Vous pouvez utiliser les commandes `scriv` sans indiquer de chemin (de projet)."
+      last_is_current:        '(le dernier projet — « %{title} » — est le projet courant)'
+      project_chosen:         "Le projet « %{title} » a été mis en dernier projet. Vous pouvez utiliser les commandes `scriv` sans indiquer de chemin (de projet)."
       require_project_closed: 'Cette opération nécessite que le projet soit absolument fermé.'
     # === ERREURS ===
     errors:
@@ -17,7 +17,7 @@ fr:
     # === QUESTIONS ===
     questions:
       is_project_closed:      'Le projet est-il bien fermé dans Scrivener ? C’est indispensable.'
-      invite_project_close:   'Projet fermé ?',
+      invite_project_close:   'Projet fermé ?'
       open_the_project:       'Voulez-vous ouvrir votre projet ?'
       save_project_modified:  'Le projet a été modifié. Dois-je le sauver ?'
       set_title:              'Voulez-vous mettre le nom du projet (nom du fichier) « %{olf_fn} » à « %{new_fn} » ?'

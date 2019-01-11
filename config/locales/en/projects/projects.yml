@@ -4,7 +4,7 @@ en:
     invites:
       project_to_choose: "Choose project (its letter or \"q\" to abort)"
     # === MESSAGES ===
-    messages:
+    notices:
       last_is_current: "(last project in the list — \"%{title}\" — is the current project)"
       project_chosen:  "Project \"%{title}\" is current. You can use `scriv` command without path (without project)."
       require_project_closed: 'Make sure, to run this operation, that the project is closed in Scrivener.'
@@ -17,7 +17,7 @@ en:
     # === QUESTIONS ===
     questions:
       is_project_closed:      'Is the project closed in Scrivener? It’s mandatory.'
-      invite_project_close:   'Project closed?',
+      invite_project_close:   'Project closed?'
       open_the_project:       'Would you like to open your project?'
       save_project_modified:  'The project has been modified. Save it?'
       set_title:              'Do you want to change the project filename from "%{olf_fn}" to "%{new_fn}"?'

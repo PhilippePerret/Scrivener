@@ -11,7 +11,7 @@ class Scrivener
   # expliquer les choses ici)
   NOT_ON_PROJECT_COMMANDS = {
     'check'       => {hname: 'Vérification de l’application'},
-    'help'        => {hname: t('help.tit.sing')},
+    'help'        => {hname: 'Aide'},
     'last'        => {hname: 'Derniers projets utilisés'},
     'commands'    => {hname: 'Liste des commandes'},
     'lemma'       => {hname: 'Données de lemmatisation'},
