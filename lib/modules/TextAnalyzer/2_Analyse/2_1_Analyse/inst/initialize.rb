@@ -34,7 +34,7 @@ class Analyse
   # à l'analyse du texte.
   def data_valid?
     # Un path doit absolument avoir été transmis à l'instanciation (vraiment ?)
-    self.paths.is_a?(Array) || rt('files.errors.one_path_required'))
+    self.paths.is_a?(Array) || rt('files.errors.one_path_required')
 
     # On doit vérifier que chaque path existe. On en profite pour relever
     # leur date de dernière modification pour pouvoir régler le

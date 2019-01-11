@@ -13,8 +13,7 @@ class << self
       return wt('projects.errors.none')
     end
     lines = Array.new
-    lines << t('list.cap.sing of.cap.plur last.cap.plur project.cap.plur')
-    lines << '='.ljust(lines.first.length,'=')
+    lines << INDENT + t('list.cap.sing of.cap.plur last.cap.plur project.cap.plur')
     lines << separator
     expected_keys = Array.new
     expected_keys << 'q' #pour renoncer

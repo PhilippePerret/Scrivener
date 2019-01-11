@@ -4,6 +4,8 @@
 #
 module TextAnalyzerOutputHelpers
 
+  TableResClass = TextAnalyzer::Analyse::TableResultats
+
   class TextAnalyzer::Analyse::TableResultats::Output
     def ecrit_date_analyse
       ls = ['']
@@ -52,9 +54,9 @@ module TextAnalyzerOutputHelpers
 
     def header(options)
       @header ||= begin
-        tbltitre = '%{des} %{canons} (%{sorteds} %{type_classement})' % {
+        tbltitre = '%{des} %{canons} (%{type_classement})' % {
           des: options[:limit] == Float::INFINITY ? t('all_the.cap') : ('%s %s' % [options[:limit], t('first.cap.plur')]),
-          type_classement: self.class.classement_name(options),
+          type_classement: TableResClass.classement_name(options),
           canons: t('canon.cap.plur'),
           sorteds: t('sorted.plur')
         }
@@ -146,9 +148,9 @@ module TextAnalyzerOutputHelpers
 
     # Entête de la ligne d'affichage des proximités
     def header(options)
-      tbltitre = '%{des} %{prox} (%{sorteds} %{type_classement})' % {
+      tbltitre = '%{des} %{prox} (%{type_classement})' % {
         des: options[:limit] == Float::INFINITY ? t('all_the.fem.cap') : ('%s %s' % [options[:limit], t('first.fem.cap.plur')]),
-        type_classement: self.class.classement_name(options),
+        type_classement: TableResClass.classement_name(options),
         prox: t('proximity.cap.plur'),
         sorteds: t('sorted.plur')
       }
@@ -213,14 +215,17 @@ module TextAnalyzerOutputHelpers
   class TextAnalyzer::Analyse::WholeText::Mot
 
     def outputClass
-      @outputClass ||= TextAnalyzer::Analyse::TableResultats::Output
+      @outputClass ||= TableResClass::Output
     end
+    # def tableResClass
+    #   @tableResClass ||= TextAnalyzer::Analyse::TableResultats
+    # end
 
     # Entête de la ligne d'affichage des proximités
     def header(options)
-      tbltitre = '%{des} %{words} (%{sorteds} %{type_classement})' % {
+      tbltitre = '%{des} %{words} (%{type_classement})' % {
         des: options[:limit] == Float::INFINITY ? t('all_the.cap') : ('%s %s' % [options[:limit], t('first.cap.plur')]),
-        type_classement: self.class.classement_name(options),
+        type_classement: TableResClass.classement_name(options),
         words: t('word.cap.plur'),
         sorteds: t('sorted.plur')
       }

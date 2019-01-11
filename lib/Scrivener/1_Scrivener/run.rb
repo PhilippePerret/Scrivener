@@ -20,6 +20,8 @@ class Scrivener
         require File.join(APPFOLDER,'lib','commands',self.command)
       end
 
+      puts String::RC * 4
+
     rescue Exception => e
       raise_by_mode(e, Scrivener.mode)
     end

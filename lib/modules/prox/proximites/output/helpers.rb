@@ -33,7 +33,7 @@ class << self
       prox: t('proximity.abbr.cap'),
       nb: t('number.abbr.cap'),
       mot: t('word.cap.sing'),
-      total: t('total.cap.sing')
+      total: t('total.cap.sing'),
       corrected: t('corrected.fem.cap.plur'),
       reste: t('rest.cap.sing')
     }
