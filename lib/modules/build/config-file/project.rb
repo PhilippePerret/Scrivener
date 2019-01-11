@@ -24,9 +24,11 @@ module BuildConfigFileModule
   # Si on ne doit pas ouvrir le fichier à la fin, on indique comment le
   # voir ou l'ouvrir.
   def annonce_fin_build
-    puts String::RC * 2
-    puts INDENT + (Scrivener::NOTICES[:build][:config_file_success] % [config_file_path, config_file_name == DEFAULT_NAME ? '' : (' --name="%s"' % config_file_name)]).bleu
-    puts String::RC * 2
+    hvalues = {
+      pth:      config_file_path,
+      filename: config_file_name == DEFAULT_NAME ? '' : " --name=\"#{config_file_name}\""
+    }
+    wt('commands.build.notices.config_file_success', hvalues, {color: :bleu, air: true})
   end
 
   def build_new_config_file

@@ -12,13 +12,13 @@ ERRORS[:update].merge!({
 ERRORS[:build].merge!({
   # Documents
   default_source_unfoundable:  'Sans option --from=<...> définissant la document source, il faut que ce document source porte le nom "tdm.csv" et qu’il se trouve dans le dossier du projet.',
-  no_source:          'Un document source est absolument requis (ajouter l’option `--from=<path/to/source>`)',
-  source_unfound:     'Impossible de trouver le fichier %s…',
-  empty_source:       'Le document source %s ne contient malheureusement aucune donnée.',
-  bad_cells_count:    'La ligne %s ne contient pas le bon nombre de cellules (%i contre %i attendues)',
-  delimitor_required: 'Il n’y a qu’une seule donnée par ligne. Un délimiteur est visiblement requis (ajouter l’option --delimitor="<del>")',
-  double_colonne_targets:  'Deux colonnes peuvent contenir des objectifs. Précisez à l’aide de l’entête des labels laquelle doit être utilisée comme vraie colonne des objectifs.',
-  depth_required_for_test: 'Dans ce cas, il faut impérativement définir la profondeur',
+  no_source:                'Un document source est absolument requis (ajouter l’option `--from=<path/to/source>`)',
+  source_unfound:           'Impossible de trouver le fichier %s…',
+  empty_source:             'Le document source %s ne contient malheureusement aucune donnée.',
+  bad_cells_count:          'La ligne %s ne contient pas le bon nombre de cellules (%i contre %i attendues)',
+  delimitor_required:       'Il n’y a qu’une seule donnée par ligne. Un délimiteur est visiblement requis (ajouter l’option --delimitor="<del>")',
+  double_colonne_targets:   'Deux colonnes peuvent contenir des objectifs. Précisez à l’aide de l’entête des labels laquelle doit être utilisée comme vraie colonne des objectifs.',
+  depth_required_for_test:  'Dans ce cas, il faut impérativement définir la profondeur',
   # Reprendre ci-dessus une des phrases utilisées dans le texte ci-dessous
   # (pour les tests)
   depth_required: '
@@ -75,7 +75,7 @@ def raise_double_value_profondeur(lig, idx_in_file)
   raise(ERRORS[:build][:two_depth_on_same_line] % [idx_in_file, lig, building_settings.depth, building_settings.depth])
 end
 def id_column_exist_pour_update_or_raise
-  building_settings.id_column || raise(ERRORS[:update][:id_column_required])
+  building_settings.id_column || rt('commands.update.errors.id_column_required')
 end
 
 end #/Project

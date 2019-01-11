@@ -143,7 +143,7 @@ class Update
   end
 
   def raise_unknown_type_for_update(type)
-    raise(ERRORS[:update][:unenable_to_update_value] % [type])
+    rt('commands.update.errors.unenable_to_update_value', {type: type})
   end
   # ---------------------------------------------------------------------
   #   Méthodes utilisataires
