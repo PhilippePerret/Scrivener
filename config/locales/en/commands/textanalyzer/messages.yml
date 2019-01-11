@@ -1,0 +1,8 @@
+en:
+  textanalyzer:
+    errors:
+      folder_uncalcable:        'I can’t define the analysis folder… (no definition and no paths)'
+      nb_doc2treate_unmatch:    'The number of paths to assemble together (%{nb_expected}) doesn’t match the number of treated texts (%{nb_treated})…'
+      no_table_resultats:       'No resultats table (Marshal file) for this analysis.'
+      no_files_to_analyze:      'No file to analyze.'
+      unfound_word:             'Unable to find de "%{word}" word (%{canon})'

@@ -9,15 +9,19 @@ en:
         remove_proximity:           'Confirm the removing of the current prox with ENTER KEY.'
         remove_all_word_occurences: 'Confirm the removing of ALL the occurences of current word with ENTER KEY'
       notices:
-        first_prox:               'It’s the very first proximity. Any one before.'
-        word_replaced:            'Word replaced successfully!'
-        prox_will_be_ignored:     'This proximity will be ignored'
-        file_created_in_project:  '"%{name}" file has been created in project, in "Proximities" folder.'
-        opt_with_only_calculs:    "With --only_calculs option, you must add an other option to see the list (--segments, --proximites, etc.)"
+        first_prox:                     'It’s the very first proximity. Any one before.'
+        word_replaced:                  'Word replaced successfully!'
+        prox_will_be_ignored:           'This proximity will be ignored'
+        file_created_in_project:        '"%{name}" file has been created in project, in "Proximities" folder.'
+        opt_with_only_calculs:          "With --only_calculs option, you must add an other option to see the list (--segments, --proximites, etc.)"
+        option_u_to_update:             'To update the display, add `-u/--update` option to command.'
+        update_running:                 'Updating resultat file. Wait please…'
       errors:
         new_prox_between_words_failed:  'A problem occured, can’t create the new proximity between "%{pword}" (at %{offpword}) and "%{nword}" (at %{offnword})…'
         cant_create_prox_file:          'Unfortunately, proximities file seems to not exist in project folder…'
         colors_tag_failed:              'Can’t set the colors tag…'
+        no_text:                        'No text to analyze.'
+        distance_null:                  'In a proximity instance, distance is weirdly equal to zero… (%{iprox})'
       interactions:
         modify_word_before:             'Modify previous word'
         modify_word_after:              'Modify next word'

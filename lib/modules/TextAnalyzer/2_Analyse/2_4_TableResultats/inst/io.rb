@@ -10,7 +10,7 @@ class TableResultats
   # Méthode qui retourne la table des résultats prise dans le fichier marshal
   # (rechargement)
   def self.load(analyse)
-    analyse.table_resultats.exist? || raise(ERRORS[:no_table_resultats])
+    analyse.table_resultats.exist? || rt('textanalyzer.errors.no_table_resultats')
     File.open(analyse.table_resultats.file_path,'rb') { |f| Marshal.load(f) }
   end
 

@@ -18,7 +18,7 @@ class Analyse
   def exec given_paths = nil
     CLI.debug_entry
     given_paths && self.paths = given_paths
-    data_valid? || raise(ERRORS[:no_files_to_analyze])
+    data_valid? || rt('textanalyzer.errors.no_files_to_analyze')
     init_analyse
     assemble_texts_of_paths || return
     texte_entier.proceed_analyse
@@ -65,9 +65,9 @@ class Analyse
     CLI.dbg('  Nombre de fichier à traiter : %i' % paths_count)
     CLI.dbg('  Nombre fichiers traités : %i' % nombre_traited)
     CLI.dbg('  Longueur du texte entier : %i' % self.texte_entier.length)
-    paths_count == nombre_traited || raise(ERRORS[:nb_doc2treate_unmatch] % [paths_count, nombre_traited])
+    paths_count == nombre_traited || rt('textanalyzer.errors.nb_doc2treate_unmatch', {nb_expected: paths_count, nb_treated: nombre_traited})
     # Une erreur est produite si aucun texte n'est fourni
-    raise(ERRORS[:proximites][:no_text]) if nombre_traited == 0
+    rt('commands.proximity.errors.no_text') if nombre_traited == 0
     return true
   ensure
     CLI.debug_exit

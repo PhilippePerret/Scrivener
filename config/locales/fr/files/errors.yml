@@ -1,5 +1,7 @@
 fr:
   files:
     errors:
+      unfound_file:           'Impossible de trouver le fichier « %{pth} ». Vérifiez le chemin.'
+      one_path_required:      'Il faut au moins spécifier un chemin d’accès de fichier.'
       imported_file_unfound:  'Impossible de trouver le fichier à importer « %{pth} ».'
       file_should_be_created: 'Le fichier « %{pth} » aurait dû être créé…'

@@ -20,7 +20,7 @@ class Output
     set_filepath_current_format(options[:output_format])
     if CLI.options[:update] || CLI.options[:force] || !File.exist?(all_resultats_path) || parametres_changeants?
       CLI::Screen.clear
-      CLI::Screen.write_slowly('---> Actualisation du fichier résultat. Merci de patienter…')
+      CLI::Screen.write_slowly('---> ' + t('commands.proximity.notices.update_running'))
       ecrit_date_analyse
       table_nombres
       # = Proxmités =
@@ -44,7 +44,7 @@ class Output
         puts line
       end
     else
-      raise 'Je ne sais pas encore faire ça.'
+      rt('errors.cant_do_that_yet')
     end
     CLI.debug_exit
   end
@@ -69,9 +69,8 @@ class Output
   end
 
   def message_footer
-    ecrit String::RC * 3 + '(pour actualiser l’affichage, ajouter l’option -u/--update)' + String::RC
+    ecrit String::RC * 3 + "(#{t('commands.proximity.notices.option_u_to_update')})" + String::RC
   end
-
 end #/Output
 end #/TableResultats
 end #/Analyse

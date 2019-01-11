@@ -1,5 +1,7 @@
 en:
   files:
     errors:
-      imported_file_unfound:  'Unable to find the "%{pth}" file to import…'
-      file_should_be_created: '"%{pth}" should have been created… It did’nt.'
+      unfound_file:               'Unable to find the "%{pth}" file. Check the path.'
+      one_path_required:          'A path should be specified.'
+      imported_file_unfound:      'Unable to find the "%{pth}" file to import…'
+      file_should_be_created:     '"%{pth}" should have been created… It did’nt.'

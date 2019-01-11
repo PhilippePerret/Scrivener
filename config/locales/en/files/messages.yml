@@ -3,3 +3,5 @@ en:
     notices:
       only_in_yaml_file:  'only in a YAML file'
       not_in_yaml_file:   'not in a YAML file'
+    questions:
+      open_it:            'Open it?'

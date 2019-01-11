@@ -34,14 +34,14 @@ class Analyse
   # à l'analyse du texte.
   def data_valid?
     # Un path doit absolument avoir été transmis à l'instanciation (vraiment ?)
-    self.paths.is_a?(Array) || raise(ERRORS[:one_path_required])
+    self.paths.is_a?(Array) || rt('files.errors.one_path_required'))
 
     # On doit vérifier que chaque path existe. On en profite pour relever
     # leur date de dernière modification pour pouvoir régler le
     # :original_doc_modified_at si :modified_at n'est pas fourni
     arr_modified_at = Array.new
     self.paths.each do |p|
-      File.exist?(p) || raise(ERRORS[:bad_path_provided] % data[:path])
+      File.exist?(p) || rt('files.errors.unfound_file', {pth: data[:path]})
       arr_modified_at << File.stat(p).mtime
     end
 

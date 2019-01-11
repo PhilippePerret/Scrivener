@@ -82,7 +82,7 @@ class Analyse
       File.exist?(self.paths.first) || raise
       File.expand_path(File.dirname(self.paths.first))
     rescue Exception
-      raise(ERRORS[:folder_uncalcable])
+      rt('textanalyzer.errors.folder_uncalcable')
     end
   end
 

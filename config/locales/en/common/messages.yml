@@ -8,6 +8,7 @@ en:
     property_set_to_value:  'Property "%{property}" set to %{value}.'
   # === ERREURS ===
   errors:
+    cant_do_that_yet:           'I can’t (yet) do that.'
     value:
       invalid:                  "Invalid value: %{value} (expected: %{expected})."
       unable_to_find_real_for:  'Unable to find value for %{value}'

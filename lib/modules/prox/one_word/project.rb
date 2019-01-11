@@ -19,7 +19,7 @@ class Project
     if analyse.table_resultats.canons.key?(imot.canon)
       self.analyse.output.affiche_en_deux_pages(mot)
     else
-      puts ERRORS[:unfound_word] % [mot, imot.canon]
+      wt('textanalyzer.errors.unfound_word', {word: mot, canon: imot.canon})
     end
 
   rescue Exception => e

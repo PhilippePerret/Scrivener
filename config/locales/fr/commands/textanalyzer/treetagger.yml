@@ -1,0 +1,13 @@
+fr:
+  treetagger:
+    notices:
+      abbreviations_file_restored: 'Fichier des abbréviations initiales récupéré.'
+      no_abbreviations_file:        'Aucun fichier d’abbréviations original n’existe. Elles n’ont pas dû être modifiées.'
+    errors:
+      abbrevations_file_unfound: 'Le fichier des abbréviations est introuvable. Vous devez définir correctement le chemin d’accès au dossier TreeTagger dans le fichier `./config/config.rb`.'
+    warnings:
+      abbreviations_file_sensible: |
+        Attention, il s’agit du fichier de la commande Tree-Tagger
+        elle-même. En cas de problème, revenez à la liste originale
+        en récupérant le fichier original avec la commande :
+        `scriv lemma abbreviations --initial`.
