@@ -19,5 +19,5 @@ fr:
       success:          'Métadonnée %{name} créée avec succès.'
     errors:
       invalid_yaml_code:      'Le code YAML du fichier transmis est invalide : %{error}. Merci de consulter l’aide (`scriv build metadata -h`).'
-      list_items_required:    'Les options (items de liste) sont obligatoires pour définir une donnée personnalisée de type liste. C’est une liste (Array) constituée de paires [valeur, titre].',
+      list_items_required:    'Les options (items de liste) sont obligatoires pour définir une donnée personnalisée de type liste. C’est une liste (Array) constituée de paires [valeur, titre].'
       title_undefined:        'Le nom de la métadonnée d’ID "%{key}" doit être défini (avec au choix `name`, `nom`, `titre` ou `title`)'

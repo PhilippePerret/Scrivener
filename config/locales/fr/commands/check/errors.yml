@@ -1,0 +1,7 @@
+fr:
+  commands:
+    check:
+      errors:
+        no_what: |
+          Vous devez choisir ce qui doit être vérifié ("install[ation]", "projet", etc.).
+          Utilisez `scriv check -h` pour obtenir de l’aide.

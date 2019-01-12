@@ -1,9 +1,5 @@
 # encoding: UTF-8
 class Scrivener
-ERRORS.key?(:check) || ERRORS.merge!(check: Hash.new)
-ERRORS[:check].merge!(
-  no_what: 'Vous devez choisir ce qui doit être vérifié ("install[ation]", "projet", etc.).\nUtilisez `scriv check -h` pour obtenir de l’aide.'
-)
 class << self
 
   # {String} Ce qui doit être vérifier. Par exemple 'installation'
@@ -36,7 +32,7 @@ class << self
     puts ('  - ' + str.ljust(70) + (is_ok ? 'OK' : 'NOT OK')).send(is_ok ? :vert : :rouge)
     unless is_ok || d[:solve].nil?
       d[:solve] = [d[:solve]] if d[:solve].is_a?(String)
-      puts '         Remède :'
+      puts '         %s%s:' % [t('solution.tit.sing'),FRENCH_SPACE]
       d[:solve].each do |msg|
         puts ('          - %s' % msg).bleu
       end
@@ -53,7 +49,7 @@ class << self
       when 'install', 'installation'
         :install
       else
-        non_fatal_error(ERRORS[:check][:no_what])
+        non_fatal_error(t('commands.check.errors.no_what'))
       end
     end
   end

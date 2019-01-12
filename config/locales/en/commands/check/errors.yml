@@ -1,0 +1,7 @@
+en:
+  commands:
+    check:
+      errors:
+        no_what: |
+          You have to choose what to verify ("install", "project", etc.).
+          Run `scriv check -h` for help.

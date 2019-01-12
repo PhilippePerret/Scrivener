@@ -398,6 +398,13 @@ fr:
     cap:
       sing: SEGMENT
       plur: SEGMENTS
+  solution:
+    min:
+      sing: solution
+      plur: solutions
+    tit:
+      sing: Solution
+      plur: Solutions
   sorted:
     alphabetically:       classés alphabétiquement
     by:                   classés par
