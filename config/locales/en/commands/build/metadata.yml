@@ -1,0 +1,23 @@
+en:
+  metadata:
+    titles:
+      types:    'Metadata types'
+    create:
+      confirm_data:     'Data confirmation'
+      custom_format:    'custom format (to define next)'
+      date_warning:     'unicode — warning, no check'
+      questions:
+        confirm:        'Create this metadata?'
+        title:          'Metadata name (title)'
+        type:           'Metadata type (first letter)'
+        align:          'Texte alignment ("r" for "rigth", "l" for "left")'
+        wrap:           'Wrap the text?'
+        choices:        'List of choices (separated with ";")'
+        default:        'Default value (its index)'
+        checked:        'Is the checkbox checked by default?'
+        date_format:    'Date format'
+      success:          'Metadata "%{name}" created with success.'
+    errors:
+      invalid_yaml_code:      'Invalid YAML code from file: %{error} (see help: `scriv build metadata -h`).'
+      list_items_required:    'List items are required to define a custom metadata of type list. List items is a list (Array) with paires [value, title].'
+      title_undefined:        'Name of the metadata with ID "%{key}" is required (use `name` or `title`).'

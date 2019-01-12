@@ -1,0 +1,5 @@
+fr:
+  values:
+    errors:
+      must_be_an_hash:  'must be a Hash (table)'
+      type_invalid:     '"%{type}" is an invalid type.'

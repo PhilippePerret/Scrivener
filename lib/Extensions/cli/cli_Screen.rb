@@ -5,8 +5,9 @@
 
 
 =end
-INDENT = '  '
-INDENT_TIRET = INDENT + '– '
+INDENT        = '  '
+DBLINDENT     = INDENT * 2
+INDENT_TIRET  = INDENT + '– '
 
 class CLI
 class Screen
@@ -16,11 +17,18 @@ class << self
     puts "\033c"
   end
 
-  # +line+ Numéro de ligne où il faut écrire le texte
-  def write_slowly str, line = nil, column = nil
-    line && goto(line,column)
+  # +options+
+  #     :underlined   If true (or caracter string), add a underline (not slowly)
+  #                   under the +str+
+  #     :newline     If false, no new line after +str+
+  #     :line         Line number for +str+ (default: 1)
+  #     :column       Column number for +str+ (default: 1)
+  def write_slowly str, options = nil
+    options ||= Hash.new
+    options.key?(:newline) || options.merge!(newline: true)
+    options[:line] && goto(options[:line],options[:column]||1)
     if CLI.mode_interactif? && !CLI.options[:no_slowly] && !CLI.options[:fast]
-      print '  '
+      print INDENT
       str.split('').each do |let|
         print let
         sleep 0.04
@@ -28,6 +36,11 @@ class << self
     else
       print str
     end
+    if options[:underlined]
+      options[:underlined].is_a?(String) || options[:underlined] = '-'
+      print String::RC + INDENT + (options[:underlined] * str.length)
+    end
+    print String::RC if options[:newline]
   end
 
   def goto line, column

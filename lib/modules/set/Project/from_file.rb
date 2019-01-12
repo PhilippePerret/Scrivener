@@ -41,7 +41,7 @@ class Project
     end
   end
   def file_yaml_exists_or_raise
-    File.exist?(yaml_file) || raise(IOError, ERRORS[:yaml_file_unfound] % yaml_file)
+    File.exist?(yaml_file) || rt('files.errors.yaml_file_unfound', {pth: yaml_file}, IOError)
   end
   # /file_yaml_exists_or_raise
   private :file_yaml_exists_or_raise

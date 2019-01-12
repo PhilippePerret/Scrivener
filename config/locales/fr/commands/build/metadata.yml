@@ -1,0 +1,23 @@
+fr:
+  metadata:
+    titles:
+      types:    'Types de métadonnées'
+    create:
+      confirm_data:     'Confirmation des données'
+      custom_format:    'format personnalisé (à définir)'
+      date_warning:     'unicode — attention, ne sera pas vérifié'
+      questions:
+        confirm:        'Créer cette métadonnée ?'
+        title:          'Nom de la métadonnée (titre)'
+        type:           'Type de la métadonnée (première lettre)'
+        align:          'Alignement du texte ("d" pour "à droite", "g" pour "à gauche")'
+        wrap:           'Le texte doit-il être enroulé ?'
+        choices:        'Liste des choix possibles (séparés par des « ; »)'
+        default:        'Valeur par défaut (son index)'
+        checked:        'La case est-elle cochée par défaut ?'
+        date_format:    'Format de date'
+      success:          'Métadonnée %{name} créée avec succès.'
+    errors:
+      invalid_yaml_code:      'Le code YAML du fichier transmis est invalide : %{error}. Merci de consulter l’aide (`scriv build metadata -h`).'
+      list_items_required:    'Les options (items de liste) sont obligatoires pour définir une donnée personnalisée de type liste. C’est une liste (Array) constituée de paires [valeur, titre].',
+      title_undefined:        'Le nom de la métadonnée d’ID "%{key}" doit être défini (avec au choix `name`, `nom`, `titre` ou `title`)'

@@ -9,6 +9,3 @@ fr:
     update:
       notices:
         no_modification_tdm: 'No change of the table of contents to operate.'
-      errors:
-        id_column_require: 'Pour actualiser un projet, il faut impérativement une colonne d’identifiant (ID) pour retrouver les éléments.'
-        unenable_to_update_value: 'Impossible d’actualiser la donnée de type « %{type} ».'

@@ -1,0 +1,5 @@
+fr:
+  values:
+    errors:
+      must_be_an_hash:  'doit être une table de hashage (un tableau)'
+      type_invalid:     '"%{type}" est un type invalide.'

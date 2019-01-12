@@ -17,16 +17,16 @@ class MetaData
   }
 
   DATE_TYPES = {
-    'short'       => {ex: '02/01/2019'              , real: 'Short'},
-    'short+time'  => {ex: '02/01/2019 09:39'        , real: 'Short+Time'},
-    'medium'      => {ex: '2 janv. 2019'            , real: 'Medium'},
-    'medium+time' => {ex: '2 janv. 2019 9:34'       , real: 'Medium+Time'},
-    'long'        => {ex: '2 janvier 2019'          , real: 'Long'},
-    'long+time'   => {ex: '2 janvier 2019 09:40'    , real: 'Long+Time'},
-    'full'        => {ex: 'Mercredi 2 janvier 2019' , real: 'Full'},
-    'full+time'   => {ex: 'Mercredi 2 janvier 2019 09:41',  real: 'Full+Time'},
-    'timeOnly'    => {ex: '09:45 (heure seulement)' , real: 'TimeOnly'},
-    'custom'      => {ex: 'EEE j MMMM aaaa kk:mm'   , real: 'Custom'}
+    'short'       => {real: 'Short'       , key: 'short'},
+    'short+time'  => {real: 'Short+Time'  , key: 'short+time'},
+    'medium'      => {real: 'Medium'      , key: 'medium'},
+    'medium+time' => {real: 'Medium+Time' , key: 'medium+time'},
+    'long'        => {real: 'Long'        , key: 'long'},
+    'long+time'   => {real: 'Long+Time'   , key: 'long+time'},
+    'full'        => {real: 'Full'        , key: 'full'},
+    'full+time'   => {real: 'Full+Time'   , key: 'full+time'},
+    'timeOnly'    => {real: 'TimeOnly'    , key: 'timeOnly'},
+    'custom'      => {real: 'Custom'      , key: 'custom'}
   }
 
   attr_accessor :projet
@@ -45,20 +45,17 @@ class MetaData
     self.key    = key
     self.data   = data
   end
-
   # = main =
   #
   # Méthode de création de la métadonnée
   def create
     # debug "--> create (data = #{data.inspect})"
     conform_data
-    valid?      || raise('Procédure interrompue.')
-    not_exist?  || raise('INTERROMPU POUR IMPLÉMENTATION REQUISE')
-    # On procède vraiment à la création
+    valid?      || rt('notices.interrupted_procedure')
+    not_exist?  || raise('Interrupted due to an implementation required')
+    # = On procède vraiment à la création =
     get_supp_values_by_type
-    # debug "--> data avant create_custom...: #{data.inspect}"
     create_custom_metadata_main_field
-    # debug "--> data avant build_or_update...:#{data.inspect}"
     build_or_update_supplied_elements
 
     projet.xfile.set_modified # pour pouvoir l'enregistrer
@@ -150,7 +147,7 @@ class MetaData
       # Ne rien faire
     when :list
       sup_values = {
-        'Options' => data.delete('Options') || raise_options_required_for_cm_list,
+        'Options' => data.delete('Options') || rt('metadatas.errors.list_items_required', nil, ArgumentError),
         'Default' => data.delete('Default') || 'None'
       }
     when :date
@@ -244,10 +241,10 @@ class MetaData
   #   Méthodes fonctionnelles
 
   def type_is_valid_or_raise
-    CUSTOM_METADATA_PER_TYPE.key?(type) || raise_type_invalid(type)
+    CUSTOM_METADATA_PER_TYPE.key?(type) || rt('values.errors.type_invalid', {type: type}, ArgumentError)
   end
   def name_is_defined_or_raise
-    title != nil || raise_title_undefined(key.inspect)
+    title != nil || rt('metadata.errors.title_undefined', {id: key}
   end
 end #/class MetaData
 end #/module

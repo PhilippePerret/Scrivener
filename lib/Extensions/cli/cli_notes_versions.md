@@ -1,8 +1,12 @@
 # Notes sur les versions de CLI
 
-** Version courante : 1.9.3 **
+** Version courante : 1.9.4 **
 
+## Version 1.9.4
 
+  Options en second argument de la méthode `CLI::Screen.write_slowly`
+  pour définir des options simplificatrices.
+  
 ## Version 1.9.3
 
   `INDENT` et `INDENT_TIRET` pour faciliter les écritures et unifor-

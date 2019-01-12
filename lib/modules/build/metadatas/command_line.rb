@@ -37,7 +37,7 @@ module BuildMetadatasModule
     MetaData.new(self, md_key, md_data).create
     xfile.save
     puts String::RC
-    puts ('Métadonnée %s créée avec succès.' % [md_data['Name'].inspect]).bleu
+    wt('metadata.create.success', {name: md_data['Name']}, {color: :bleu})
   end
 
   # ---------------------------------------------------------------------
@@ -45,13 +45,12 @@ module BuildMetadatasModule
 
   def confirm_data_metadata(mdata)
     CLI::Screen.clear
-    CLI::Screen.write_slowly('Confirmation des données')
-    puts String::RC + '  ------------------------'
+    CLI::Screen.write_slowly(t('metadata.create.confirm_data'), {underlined: '-'})
     mdata.each do |k, v|
       puts '    %s : %s' % [k.ljust(20), v]
     end
     puts ''
-    CLI::Screen.write_slowly('Créer cette métadonnée ?')
+    CLI::Screen.write_slowly(t('metadata.create.questions.confirm'), {newline: false})
     yesOrNo('')
   end
   # /confirm_data_metadata
@@ -67,7 +66,7 @@ module BuildMetadatasModule
       name = CLI.options[prop] and break
     end
     name ||= begin
-      CLI::Screen.write_slowly('Nom de la métadonnée (titre)')
+      CLI::Screen.write_slowly(t('metadata.create.questions.title'), {newline: false})
       askFor('')
     end
   end
@@ -78,20 +77,19 @@ module BuildMetadatasModule
     CLI::Screen.clear
     type = CLI.options[:type]
     type || begin
-      CLI::Screen.write_slowly('Types métadonnée' + String::RC)
-      puts '  ----------------'
+      CLI::Screen.write_slowly(t('metadata.titles.types'), {underlined: '-'})
       TYPES.values.each do |ty|
-        puts '   %s' % ty.first
+        puts DBLINDENT + ty.first
       end
       puts String::RC
       # expected_keys = %w{t l c d q}
-      CLI::Screen.write_slowly('Type de la métadonnée (première lettre)')
+      CLI::Screen.write_slowly(t('metadata.create.questions.type'), {newline: false})
       expected_keys = ['t', 'l', 'c', 'd', 'q']
       choix = getc('', {expected_keys: expected_keys})
       # choix = getc('')
-      choix != 'q' || raise('Abandon')
+      choix != 'q' || rt('notices.abort_')
       type = TYPES[choix].last
-      type || raise('Abandon')
+      type || rt('notices.abort_')
     end
     return type
   end
@@ -101,10 +99,10 @@ module BuildMetadatasModule
     # CLI::Screen.clear
     align = CLI.options[:align]
     align || begin
-      CLI::Screen.write_slowly('Alignement du texte ("d" pour "à droite", "g" pour "à gauche")')
-      choix = getc('', expected_keys: ['d', 'g', 'q'])
-      choix != 'q' || raise('Abandon')
-      return choix == 'd' ? 'Right' : 'Left'
+      CLI::Screen.write_slowly(t('metadata.create.questions.align'), {newline: false})
+      choix = getc('', expected_keys: ['r', 'd', 'l', 'g', 'q'])
+      choix != 'q' || rt('notices.abort_')
+      return ['d', 'r'].include?(choix) ? 'Right' : 'Left'
     end
     return align
   end
@@ -112,7 +110,7 @@ module BuildMetadatasModule
   def ask_for_md_wraps
     # CLI::Screen.clear
     wraps = CLI.options[:wraps]
-    CLI::Screen.write_slowly('Le texte doit-il être enroulé ?')
+    CLI::Screen.write_slowly(t('metadata.create.questions.wrap'), {newline: false})
     wraps ||= yesOrNo('') ? 'Yes' : 'No'
   end
   # /ask_for_md_wraps
@@ -123,7 +121,7 @@ module BuildMetadatasModule
     if options
       options.split(';')
     else
-      CLI::Screen.write_slowly('Liste des choix possibles (séparés par des ";")')
+      CLI::Screen.write_slowly(t('metadata.create.questions.choices'))
       askFor('').split(';').collect{|e|e.strip}
     end
   end
@@ -134,7 +132,7 @@ module BuildMetadatasModule
       puts '   %i : %s' % [idx + 1, item]
       expected_keys << (idx + 1).to_s
     end
-    CLI::Screen.write_slowly('Valeur par défaut (son index)')
+    CLI::Screen.write_slowly(t('metadata.create.questions.default'), {newline: false})
     choix = getc('', expected_keys: expected_keys).to_i
     return liste[choix - 1]
   end
@@ -144,7 +142,7 @@ module BuildMetadatasModule
   def ask_for_md_checked
     checked = CLI.options[:checked]
     checked != nil || begin
-      CLI::Screen.write_slowly('La case est-elle cochée par défaut ?')
+      CLI::Screen.write_slowly(t('metadata.create.questions.checked'), {newline: false})
       checked = yesOrNo('')
     end
     return checked ? 'Yes' : 'No'
@@ -155,14 +153,14 @@ module BuildMetadatasModule
     date_type = CLI.options[:date_type]
     date_type || begin
       keys = Array.new
-      puts '    0 : format personnalisé (à définir)'
+      puts str_custom_format_to_define
       keys << '0'
       MetaData::DATE_TYPES.values.each.with_index do |ddate, idx|
         idx < 9 || break
-        puts '    %i : %s' % [idx + 1, ddate[:ex]]
+        puts DBLINDENT+'%i : %s' % [idx + 1, example_date_per_type(ddate[:key])]
         keys << (idx + 1).to_s
       end
-      CLI::Screen.write_slowly('Format de date')
+      CLI::Screen.write_slowly(t('metadata.create.questions.date_format'), {newline: false})
       choix = getc('', {expected_keys: keys}).to_i
       if choix == 0
         ['Custom', ask_for_md_format_date]
@@ -173,9 +171,18 @@ module BuildMetadatasModule
   end
   # /ask_for_md_date_type
 
+  def example_date_per_type ty
+    t('dates.formats.%s' % ty.sub(/\+/,'_n_'))
+  end
+
+
+  # Simple helper for clarity
+  def str_custom_format_to_define
+    DBLINDENT+'0'+FRENCH_SPACE+': '+t('metadata.create.custom_format')
+  end
   # On demande le format
   def ask_for_md_format_date
-    CLI::Screen.write_slowly('Formate de date (unicode — attention, ne sera pas vérifié)')
+    CLI::Screen.write_slowly('%s (%s)' % [t('metadata.create.questions.date_format'), t('metadata.create.date_warning')], {newline: false})
     askFor('')
   end
   # /ask_for_md_format_date

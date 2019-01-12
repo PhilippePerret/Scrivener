@@ -1,0 +1,13 @@
+en:
+  dates:
+    formats:
+      short:          '02/13’19'
+      short_n_time:   '02/13’19 09:39'
+      medium:         'jan. 2, 2019'
+      medium_n_time:  'jan. 2, 2019 9:34'
+      long:           'january, 2 2019'
+      long_n_time:    'January, 2 2019 09:40'
+      full:           'Wednesday janvier, 2  2019'
+      full_n_time:    'Wednesday january 2 2019 09:41'
+      timeOnly:       '09:45 (only hours)'
+      custom:         'EEE j MMMM aaaa kk:mm'

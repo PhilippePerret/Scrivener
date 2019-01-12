@@ -2,6 +2,8 @@ fr:
   files:
     errors:
       unfound_file:           'Impossible de trouver le fichier « %{pth} ». Vérifiez le chemin.'
+      yaml_file_unfound:      'Le fichier YAML "%{pth}" contenant les données à régler est introuvable.'
+      no_yaml_code:           'Le code YAML du fichier transmis ne semble pas être du code YAML valide.'
       one_path_required:      'Il faut au moins spécifier un chemin d’accès de fichier.'
       imported_file_unfound:  'Impossible de trouver le fichier à importer « %{pth} ».'
       file_should_be_created: 'Le fichier « %{pth} » aurait dû être créé…'

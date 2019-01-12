@@ -5,6 +5,7 @@ en:
     construction_settings:    'CONSTRUCTION SETTINGS'
   notices:
     abort_:                 'Abort…'
+    interrupted_procedure:  'interrupted procedure.'
     change_lang_ok:         'OK, let’s speak english, now!'
     cancel_changes:         'Canceling changes…'
     any_change:             'Any change'

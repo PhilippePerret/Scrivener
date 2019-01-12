@@ -5,6 +5,7 @@ fr:
     construction_settings:      'RÉGLAGES DE CONSTRUCTION'
   notices:
     abort_:                     'Abandon…'
+    interrupted_procedure:      'Procédure interrompue.'
     change_lang_ok:             D’accord, parlons français maintenant !
     cancel_changes:             'Modifications abandonnées…'
     any_change:                 'Aucun changement'

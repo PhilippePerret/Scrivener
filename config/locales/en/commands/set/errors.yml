@@ -3,4 +3,3 @@ en:
     set:
       errors:
         unknown_set_method: '`%{prop}` property, if exists for a Scrivener Project, can’t (yet) be defined with `set` command.'
-        yaml_file_unfound:  'Unable to find the YAML file "%{pth}" with data to set.'
