@@ -353,6 +353,13 @@ fr:
     tit:
       sing: Numéro de page
       plur: Numéros de page
+  path:
+    min:
+      sing: chemin d’accès
+      plur: chemins d’accès
+    tit:
+      sing: Chemin d’accès
+      plur: Chemins d’accès
   project:
     min:
       sing: projet

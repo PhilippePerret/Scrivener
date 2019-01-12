@@ -1,10 +1,5 @@
 class Scrivener
 class Project
-
-  ERRORS_DATA = {
-    not_analyzed: 'Ce projet « %s » n’a pas encore été analysé. Impossible d’afficher ses données. Jouer la commande `scriv prox` pour procéder à son analyse.'
-  }
-
   class << self
 
     # = main =
@@ -18,7 +13,6 @@ class Project
       CLI::Screen.clear
       iproj.display_data
       # puts iproj.build_graph_densites # TODO Remettre plus tard
-      puts String::RC*3
     end
     # /exec_data_projet
 
@@ -28,11 +22,13 @@ class Project
   #   MÉTHODES D'INSTANCE
 
   def display_data
-    puts String.console_delimitor('=')
-    puts '  Titre complet : « %s »' % self.title
-    puts '  Path          : %s' % self.path.relative_path
-    puts '  (pour plus d’infos, taper `scriv infos`)'
-    puts String.console_delimitor
+    arr = Array.new
+    arr << String.console_delimitor('=')
+    arr << t('full_title.tit.sing').ljust(20) + FRENCH_SPACE + ': ' + self.title
+    arr << t('path.tit.sing').ljust(20) + FRENCH_SPACE + ': ' + self.path.relative_path
+    arr << t('notices.pour_plus_dinfos_')
+    arr << String.console_delimitor
+    puts INDENT + arr.join(String::RC + INDENT)
     # On recharge toutes les données du projet ou on les calcule
     get_data_analyse || return
     self.analyse.output.all

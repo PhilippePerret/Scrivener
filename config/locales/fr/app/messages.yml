@@ -18,6 +18,7 @@ fr:
     ask_for_compile_help: '(demande l’aide avec `scriv set compile_output -h`)'
     only_in_command_line: 'seulement en ligne de commande'
     not_in_command_line:  'pas en ligne de commande'
+    pour_plus_dinfos_:    '(pour plus d’infos, taper `scriv infos`)'
   errors:
     only_values: 'Only available values for %{var} are : %{values}.'
     unable_to_find_factor_with: 'Impossible de trouver le facteur avec la valeur %{value}. Il faut soit le facteur lui-même (p.e. `1.5`), soit un pourcentage (p.e. `130%%`), soit un pourcentage sans unité (p.e. `400`).'

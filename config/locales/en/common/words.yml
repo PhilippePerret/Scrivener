@@ -354,6 +354,13 @@ en:
     tit:
       sing: Page number
       plur: Page numbers
+  path:
+    min:
+      sing: path
+      plur: paths
+    tit:
+      sing: Path
+      plur: Path
   project:
     min:
       sing: project
