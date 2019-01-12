@@ -1,10 +1,12 @@
 en:
   files:
     notices:
-      only_in_yaml_file:  'only in a YAML file'
-      not_in_yaml_file:   'not in a YAML file'
+      only_in_yaml_file:                'only in a YAML file'
+      not_in_yaml_file:                 'not in a YAML file'
     questions:
-      open_it:            'Open it?'
+      open_it:                          'Open it?'
+      replace_existant_file:            'File "%{pth}" exists. Replace it?'
+      what_name_for_configuration_file: 'Configuration file name'
   folders:
     notices:
-      create_with_success:  '= Folder "%{pth}" created with success.'
+      create_with_success:    '= Folder "%{pth}" created with success.'

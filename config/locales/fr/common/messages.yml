@@ -1,20 +1,26 @@
 fr:
   test: 'Ceci est un test'
+  titles:
+    summary_modifs_performed:   'Résumé des modifications opérées'
+    construction_settings:      'RÉGLAGES DE CONSTRUCTION'
   notices:
-    abort_:                 'Abandon…'
-    change_lang_ok:         D’accord, parlons français maintenant !
-    cancel_changes:         'Modifications abandonnées…'
-    any_change:             'Aucun changement'
-    property_set_to_value:  'Propriété « %{property} » mise à %{value}.'
+    abort_:                     'Abandon…'
+    change_lang_ok:             D’accord, parlons français maintenant !
+    cancel_changes:             'Modifications abandonnées…'
+    any_change:                 'Aucun changement'
+    property_set_to_value:      'Propriété « %{property} » mise à %{value}.'
   # === ERREURS ===
   errors:
     cant_do_that_yet:           'Je ne sais pas encore faire ça.'
+    property:
+      cant_treate:              'Je ne sais pas encore traiter la propriété %{property}.'
     value:
       invalid:                  "Valeur invalide : %{value} (attendue : %{expected})."
       unable_to_find_real_for:  'Impossible de trouver la valeur correspondant à %{value}'
       expected_among:           'La valeur devrait être une parmi : %{expected}'
   # === QUESTIONS ===
   questions:
-    restart_from_beginning: 'Reprendre au début ?' # 'Restart from beginning?'
-    which_editor:           "Avec quel éditeur dois-je ouvrir le fichier \"%{pth}\" ?"
-    proceed_changes:        "Dois-je procéder à ces changements ?"
+    restart_from_beginning:   'Reprendre au début ?' # 'Restart from beginning?'
+    which_editor:             "Avec quel éditeur dois-je ouvrir le fichier \"%{pth}\" ?"
+    proceed_changes:          "Dois-je procéder à ces changements ?"
+    proceed_with_setup_above: 'Puis-je procéder à l’opération avec les réglages ci-dessus ?'

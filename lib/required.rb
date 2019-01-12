@@ -3,11 +3,7 @@ require 'fileutils'
 require 'yaml'
 require 'plist'
 
-# APPFOLDER = File.expand_path(File.dirname(File.dirname(__FILE__)))
-APPFOLDER = File.expand_path(File.dirname(__dir__))
-
-HOME_FOLDER = File.join(Dir.home,'.scriv')
-`mkdir -p "#{HOME_FOLDER}"` # créé au besoin
+require_relative 'first_constants'
 
 [
   File.join('lib','Extensions'),

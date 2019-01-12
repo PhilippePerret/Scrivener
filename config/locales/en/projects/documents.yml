@@ -4,6 +4,11 @@ en:
       list:         'Documents list'
     questions:
       choose_a_document_in_list:        'Thanks to choose a document in the list below.'
+      create_id_metadata:               'Create ID metadata with document ID?'
+      take_into_account_targets:        'Take into account the defined targets?'
+      set_title_to:                     'Set the title of document "%{old_title}" to "%{new_title}"?'
+      set_target_to:                    'Set the target of document "%{title}" to #{new_target} signs (against #{old_target} now)?'
+      set_data_to:                      "Set the #{data_id} data to #{new_value} (against #{old_value} now)?"
     invites:
       document_to_choose:               'Document to choose (or "q" to abort)'
     notices:

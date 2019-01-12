@@ -56,6 +56,9 @@ en:
     min:  choose
     tit:  Choose
     cap:  CHOOSE
+  column:
+    targets:  'Targets column'
+    ids:      'IDs column'
   config_file:
     min:
       sing: config file
@@ -94,6 +97,24 @@ en:
   default_:
     min:  'default:'
     tit:  'Default:'
+  default:
+    by:
+      min:  by default
+      tit:  By default
+  delimitor:
+    min:
+      sing: delimitor
+      plur: delimitors
+    tit:
+      sing: Delimitor
+      plur: Delimitors
+  depth:
+    min:
+      sing: depth
+      plur: depths
+    tit:
+      sing: Depth
+      plur: Depths
   difference:
     min:
       sing: difference
@@ -138,6 +159,13 @@ en:
     tit:
       sing: Example
       plur: Examples
+  file:
+    min:
+      sing: file
+      plur: files
+    csv:
+      min: csv file
+      tit: CSV File
   filtred:
     min:
       sing: filtred
@@ -240,6 +268,13 @@ en:
     cap:
       sing: LIST
       plur: LISTS
+  metadata:
+    min:
+      sing: metadata
+      plur: metadatas
+    tit:
+      sing: Metadata
+      plur: Metadatas
   of:
     min:
       sing: of

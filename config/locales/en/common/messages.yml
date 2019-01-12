@@ -1,5 +1,8 @@
 en:
   test: 'That is a test!'
+  titles:
+    summary_modifs_performed: 'Summary of modifications performed'
+    construction_settings:    'CONSTRUCTION SETTINGS'
   notices:
     abort_:                 'Abort…'
     change_lang_ok:         'OK, let’s speak english, now!'
@@ -9,12 +12,15 @@ en:
   # === ERREURS ===
   errors:
     cant_do_that_yet:           'I can’t (yet) do that.'
+    property:
+      cant_treate:              'Can’t (yet) treate %{property} property.'
     value:
       invalid:                  "Invalid value: %{value} (expected: %{expected})."
       unable_to_find_real_for:  'Unable to find value for %{value}'
       expected_among:           'Value should be one of: %{expected}'
   # === QUESTIONS ===
   questions:
-    restart_from_beginning: 'Restart from beginning?'
-    which_editor: "Which editor to open the file \"%{pth}\"?"
-    proceed_changes: "Proceed theses changes?"
+    restart_from_beginning:   'Restart from beginning?'
+    which_editor:             'Which editor to open the file "%{pth}"?'
+    proceed_changes:          'Proceed theses changes?'
+    proceed_with_setup_above: 'Can I proceed with setup above?'

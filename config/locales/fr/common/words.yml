@@ -55,6 +55,9 @@ fr:
   choisir:
     min:  choisir
     tit:  Choisir
+  column:
+    targets:  'Colonne des objectifs'
+    ids:      'Colonne des ID'
   config_file:
     min:
       sing: fichier de configuration
@@ -93,6 +96,24 @@ fr:
   default_:
     min:  'par défaut :'
     tit:  'Par défaut :'
+  default:
+    by:
+      min:  par défaut
+      tit:  Par défaut
+  delimitor:
+    min:
+      sing: délimiteur
+      plur: délimiteurs
+    tit:
+      sing: Délimiteur
+      plur: Délimiteurs
+  depth:
+    min:
+      sing: profondeur
+      plur: profondeurs
+    tit:
+      sing: Profondeur
+      plur: Profondeurs
   difference:
     min:
       sing: différence
@@ -137,6 +158,13 @@ fr:
     tit:
       sing: Exemple
       plur: Exemples
+  file:
+    min:
+      sing: fichier
+      plur: fichiers
+    csv:
+      min: fichier csv
+      tit: Fichier CSV
   filtred:
     min:
       sing: filtré
@@ -239,6 +267,13 @@ fr:
     cap:
       sing: LISTE
       plur: LISTES
+  metadata:
+    min:
+      sing: métadonnée
+      plur: métadonnées
+    tit:
+      sing: Métadonnée
+      plur: Métadonnées
   of:
     min:
       sing: du

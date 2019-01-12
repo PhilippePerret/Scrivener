@@ -9,10 +9,10 @@ module BuildDocumentsModule
   # les documents
   class BuildingSettings
 
+
 OVERVIEW_SETTINGS = <<-TXT
 
-  Réglages de construction
-  ------------------------
+  #{'titles.construction_settings'}
 
     %{tit_fichier_csv} : %{ffilecsv}
     %{tit_delimitor} : %{fdelimitor}
@@ -131,16 +131,17 @@ TXT
 
     def overview
       # Afficher un résumé de l'opération :
+      CLI::Screen.clear
       puts OVERVIEW_SETTINGS % {
-        tit_fichier_csv:  formate_titre('Fichier CSV', source_csv_default?),
+        tit_fichier_csv:  formate_titre(t('file.csv.tit'), source_csv_default?),
         ffilecsv:         real_source_csv.relative_path(projet.folder),
-        tit_delimitor:    formate_titre('Délimiteur', cell_delimitor_default?),
+        tit_delimitor:    formate_titre(t('delimitor.tit.sing'), cell_delimitor_default?),
         fdelimitor:       cell_delimitor.inspect,
-        tit_target_unit:  formate_titre('Unité cibles', target_unit_default?),
+        tit_target_unit:  formate_titre(t('targets_unit'), target_unit_default?),
         ftarget:          target_unit.inspect,
-        tit_depth:        formate_titre('Profondeur', depth_default?),
+        tit_depth:        formate_titre(t('depth.tit.sing'), depth_default?),
         fdepth:           depth || '---',
-        tit_metadatas:    formate_titre('Métadonnées', false),
+        tit_metadatas:    formate_titre(t('metadata.tit.plur'), false),
         fmetadatas:       formated_metadatas
       }
     end
@@ -151,7 +152,7 @@ TXT
     end
 
     def formate_titre titre, par_default
-      ('%s %s' % [titre, par_default ? '(par défaut)' : '']).ljust(30)
+      ('%s %s' % [titre, par_default ? "(#{default.by.min})" : '']).ljust(30)
     end
 
 

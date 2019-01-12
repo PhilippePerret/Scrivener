@@ -1,6 +1,8 @@
 en:
   commands:
     build:
+      titles:
+        built_tdm_overview:   'OVERVIEW OF THE BUILT TABLE OF CONTENTS'
       notices:
         config_file_success:  'Config file "%{pth}" built with success. You can find it in the project folder (`scriv open folder`) or by open it with `scriv open config%{filename}` command.'
         tdm_build:            'Table of contents built in « %{filename} » file in the project folder. Tip: you can open it just after the building with the `--open` option.'

@@ -6,11 +6,8 @@
 module BuildDocumentsModule
 
 OVERVIEW_BUILD_DOCUMENT = <<-EOT
-
-
-APERÇU DE LA TABLE DES MATIÈRES PRODUITE
-----------------------------------------
-
+#{t('commands.build.titles.built_tdm_overview')}
+%{separation}
 %{flabels}
 %{separation}
 %{lignes}
@@ -56,13 +53,14 @@ EOT
 
   def confirm_all?
     if building_settings.id_column
-      building_settings.options[:create_id_metadata] = yesOrNo('Dois-je créer la métadonnée ID avec l’identifiant du document ?')
+      building_settings.options[:create_id_metadata] = yesOrNo(t('documents.questions.create_id_metadata'))
     end
     if building_settings.target_column
-      building_settings.options[:create_target_metadata] = yesOrNo('Dois-je tenir compte des objectifs définis ?')
+      building_settings.options[:create_target_metadata] = yesOrNo(t('documents.questions.take_into_account_targets'))
     end
+    CLI::Screen.clear
     puts building_settings.overview
-    yesOrNo('Puis-je procéder à la création avec les réglages ci-dessus ?')
+    yesOrNo(t('questions.proceed_with_setup_above'))
   end
   # ---------------------------------------------------------------------
 
@@ -139,7 +137,8 @@ TABLE_MODIFICATIONS = '
     proceed_each_line(procedure_update)
     # Pour terminer, on affiche les actualisations opérées
     # puts "Nombre de modifications: #{updates.count}"
-    header  = "  Résumé des modifications opérées (#{updates.count})"
+
+    header  = "  #{t('titles.summary_modifs_performed')} (#{updates.count})"
     sep     = '  -'.ljust(header.length,'-')
     puts TABLE_MODIFICATIONS % {
       header: header,
@@ -211,12 +210,13 @@ TABLE_MODIFICATIONS = '
     formated_spec_cols = Array.new
 
     # Si une colonne pour l'objectif a été trouvée, on l'indique
-
     unless building_settings.target_column.nil?
-      formated_spec_cols << ('    Colonne des objectifs : %i%s' % [building_settings.target_column + 1, building_settings.target_column > 0 ? 'e' : 'ère'])
+      str = '%s%s: %s' % [t('column.targets'), FRENCH_SPACE, building_settings.target_column + 1]
+      formated_spec_cols << INDENT*2 + str
     end
     if building_settings.id_column
-      formated_spec_cols << ('    Colonne des ID : %i%s' % [building_settings.id_column + 1, building_settings.id_column > 0 ? 'e' : 'ère'])
+      str = '%s%s: %s' % [t('column.ids'), FRENCH_SPACE, building_settings.id_column + 1]
+      formated_spec_cols << INDENT*2 + str
     end
 
     unless formated_spec_cols.empty?
@@ -497,7 +497,7 @@ TABLE_MODIFICATIONS = '
         if une_valeur_deja_definie
           # Il ne peut pas y avoir deux valeurs définies à deux niveaux
           # de profondeur différents
-          puts "\n\nERREUR(double valeur): #{lig}::#{idx_in_file}"
+          puts "\n\nERROR(double value): #{lig}::#{idx_in_file}"
           raise_double_value_profondeur(lig, idx_in_file)
         else
           une_valeur_deja_definie = true

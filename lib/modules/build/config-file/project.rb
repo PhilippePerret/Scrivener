@@ -60,23 +60,22 @@ module BuildConfigFileModule
   end
 
   def open_new_config_file
-    editor = CLI.options[:open] === true ? ENV['SCRIV_EDITOR'] : CLI.options[:open]
-    if editor == 'vim'
+    if Scrivener.editor == 'vim'
       system('vim "%s"' % config_file_path)
     else
-      `open -a #{editor} "#{config_file_path}"`
+      `open -a #{Scrivener.editor} "#{config_file_path}"`
     end
   end
 
   # Si un fichier de même nom existe déjà, on demande quoi faire. Le supprimer
   # ou entrer une nouveau nom, qui sera lui aussi testé.
   def ask_for_solution_if_exist
-    if yesOrNo('Le fichier "%s" existe. Dois-je le remplacer ? (les définitions seront perdues)' % config_file_path)
+    if yesOrNo(t('files.questions.replace_existant_file', {pth: config_file_path}) + ' (%s)' % [t('app.warnings.definitions_will_be_lost')])
       File.unlink(config_file_path)
       return true
     else
       @config_file_path = nil
-      @config_file_name = askFor('Nom à donner à ce fichier de configuration')
+      @config_file_name = askFor('files.questions.what_name_for_configuration_file')
     end
   end
 

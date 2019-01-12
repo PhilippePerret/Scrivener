@@ -45,7 +45,7 @@ class Project
       }
       puts '  %s %s%s' % [t('document.tit.sing'), bitem.title[0..50].inspect.ljust(50,'.'), s]
     end
-    return yesOrNo('% (%)' % [t('questions.proceed_changes', t('app.warning.project_must_be_closed').rouge]))
+    return yesOrNo('% (%)' % [t('questions.proceed_changes', t('app.warnings.project_must_be_closed').rouge]))
   end
 
   def get_targets_to_modify

@@ -1,4 +1,5 @@
 en:
+  targets_unit: Targets unit
   count:
     canons:   'Canons count'
     elements: 'Elements count'

@@ -1,10 +1,12 @@
 fr:
   files:
     notices:
-      only_in_yaml_file:  'Seulement dans un fichier YAML'
-      not_in_yaml_file:   'pas dans un fichier YAML'
+      only_in_yaml_file:      'Seulement dans un fichier YAML'
+      not_in_yaml_file:       'pas dans un fichier YAML'
     questions:
-      open_it:            'Dois-je l’ouvrir ?'
+      open_it:                'Dois-je l’ouvrir ?'
+      replace_existant_file:  'Le fichier « %{pth} » existe. Dois-je le remplacer ?'
+      what_name_for_configuration_file: 'Nom à donner à ce fichier de configuration'
   folders:
     notices:
       create_with_success:  '= Dossier « %{pth} » créé avec succès.'

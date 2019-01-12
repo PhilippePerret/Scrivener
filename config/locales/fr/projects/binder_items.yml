@@ -1,0 +1,4 @@
+fr:
+  binder_items:
+    errors:
+      unfoundable_with_id: 'Impossible de trouver le binder-item avec un ID "%{id}".'

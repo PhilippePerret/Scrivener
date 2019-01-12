@@ -34,6 +34,7 @@ class Project
       command:      last_data[:last_command],
       options:      last_data[:options].collect{|o, v| "--#{o}[=#{v.inspect}]"}.join
     }
+    CLI::Screen.clear
     wt('projects.pannels.infos', tempvalues, {air: true})
   end
 

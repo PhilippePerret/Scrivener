@@ -31,7 +31,7 @@ module BuildDocumentsModule
         end
       else
         # Par exemple un élément sans ID, un dossier par exemple
-        puts 'Impossible de trouver le binder-item avec un ID de %s' % self.id.inspect
+        wt('binder_items.errors.unfoundable_with_id', {id: self.id.inspect})
         # TODO Il faut peut-être le créer ?
       end
     end

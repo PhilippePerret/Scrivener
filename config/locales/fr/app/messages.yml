@@ -5,9 +5,9 @@ fr:
     messages:
       actions:
         make_sure_project_is_closed: "Assurez-vous que le projet soit bien fermé dans Scrivener."
-    warning:
-      project_must_be_closed: "project must not be opened in Scrivener"
-
+    warnings:
+      project_must_be_closed:     'le projet ne doit pas être ouvert dans Scrivener'
+      definitions_will_be_lost:   'les définitions seront perdues'
     targets:
       errors:
         bad_value: 'Bad target value (good: "6p", "6pages", "12w", "12words", "126", "126c", "126chars")'

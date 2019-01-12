@@ -30,11 +30,6 @@ class Update
 
   attr_accessor :old_value, :new_value
 
-  HPROPERTIES = {
-    title:    {fr: 'titre',     en: 'title'},
-    target:   {fr: 'objectif',  en: 'target'}
-  }
-
   # Type de la modification
   def type
     @type ||= data[:type]
@@ -51,14 +46,11 @@ class Update
   def hproperty
     @hproperty ||= begin
       unless custom_metadata?
-        HPROPERTIES[property][lang]
+        t('%s.min.sing' % [property])
       else
         id
       end
     end
-  end
-  def lang
-    @lang ||= Scrivener.lang
   end
 
   def custom_metadata?
@@ -100,21 +92,18 @@ class Update
   def message_confirmation
     case type
     when :title
-      "Dois-je mettre le titre #{du_doc} à #{new_value.inspect} (titre actuel : #{old_value.inspect}) ?"
+      t('documents.questions.set_title_to', {new_title: new_value, old_title: old_value})
     when :target
-      "Dois-je mettre l'objectif #{du_doc} à #{new_value} signes (contre #{old_value} actuellement) ?"
+      t('documents.questions.set_target_to', {title: binder_item.title, old_target: old_value, new_target: new_value})
     when :custom_metadata
-      "Dois-je mettre la donnée #{id} à #{new_value} (actuellement : #{old_value}) ?"
+      t('documents.questions.set_data_to', {data_id: id, old_value: old_value, new_value: new_value})
     else
-      raise 'Je ne sais pas encore traiter la propriété %s' % property.inspect
+      rt('errors.property.cant_treate', {property: property.inspect})
     end
   end
 
-  def du_doc
-    @du_doc ||= 'du %s' % refdoc
-  end
   def refdoc
-    @refdoc ||= 'document "%s" (#%i)' % [binder_item.title, element.id]
+    @refdoc ||= '%s "%s" (#%i)' % [t('document.min.sing'), binder_item.title, element.id]
   end
 
   # ---------------------------------------------------------------------
@@ -138,7 +127,7 @@ class Update
     if update_ok
       ''
     else
-      String::RC + indent*3 + ('ERREUR RENCONTRÉE: %s' % error)
+      String::RC + indent*3 + ('ERROR ENCOUNTERED: %s' % error)
     end
   end
 
