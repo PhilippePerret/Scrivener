@@ -7,8 +7,8 @@ fr:
       create_id_metadata:               'Dois-je créer la métadonnée ID avec l’identifiant du document ?'
       take_into_account_targets:        'Dois-je tenir compte des objectifs définis ?'
       set_title_to:                     "Dois-je mettre le titre du document « %{old_title} » à « %{new_title} » ?"
-      set_target_to:                    "Dois-je mettre l'objectif du document « %{title} » à #{new_target} signes (contre #{old_target} actuellement) ?"
-      set_data_to:                      "Dois-je mettre la donnée #{data_id} à #{new_value} (actuellement : #{old_value}) ?"
+      set_target_to:                    "Dois-je mettre l'objectif du document « %{title} » à %{new_target} signes (contre %{old_target} actuellement) ?"
+      set_data_to:                      "Dois-je mettre la donnée %{data_id} à %{new_value} (actuellement : %{old_value}) ?"
     invites:
       document_to_choose:               'Document à choisir (ou "q" pour renoncer)'
     notices:

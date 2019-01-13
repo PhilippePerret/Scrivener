@@ -13,7 +13,7 @@ en:
         bad_cells_count:          'Line %{line} don’t have the right cells count (%{nb_actual} actual against %{nb_expected} expected).'
         delimitor_required:       'Only one data per line in the source file. A delimitor seems to be required (add `--delimitor="<del>"` option to define it).'
         double_colonne_targets:   'Two columns of the source file seem to be targets column. Add a header with labels at the top of the source file to avoid any ambiguity.'
-        depth_required_for_test:  'In this case, you have to define explicitaly the depth.'
+        depth_required_for_test:  'In this case, you have to define explicitaly the depth'
         # Reprendre ci-dessus une des phrases utilisées dans le texte ci-dessous
         # (pour les tests)
         depth_required: |
@@ -29,7 +29,7 @@ en:
             … then the depth is 2, you can use :
               `scriv build documents --depth=2`
 
-        two_depth_on_same_line_for_test: 'Double nesting value on a same line.'
+        two_depth_on_same_line_for_test: 'Double nesting value on a same line'
         # Reprendre ci-dessus la première ligne ci-dessous
         two_depth_on_same_line: |
           Double nesting value on a same line! line %{line_index} : « %{line} ».

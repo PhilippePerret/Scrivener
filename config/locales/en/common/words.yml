@@ -458,6 +458,16 @@ en:
     tit:
       sing: Target
       plur: Targets
+  title:
+    min:
+      sing: titre
+      plur: titres
+    tit:
+      sing: Titre
+      plur: Titres
+    cap:
+      sing: TITRE
+      plur: TITRES
   total:
     min:
       sing: amount

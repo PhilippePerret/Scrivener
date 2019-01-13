@@ -244,7 +244,7 @@ class MetaData
     CUSTOM_METADATA_PER_TYPE.key?(type) || rt('values.errors.type_invalid', {type: type}, ArgumentError)
   end
   def name_is_defined_or_raise
-    title != nil || rt('metadata.errors.title_undefined', {id: key}
+    title != nil || rt('metadata.errors.title_undefined', {id: key})
   end
 end #/class MetaData
 end #/module

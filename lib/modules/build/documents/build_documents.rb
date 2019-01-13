@@ -447,7 +447,7 @@ TABLE_MODIFICATIONS = '
     building_settings.labels.each_with_index {|label, idx| metadatas_columns.merge!(idx => label)}
 
     # On passe les colonnes de profondeur
-    building_settings.depth.times{|itime| metadatas_columns.delete(itime) }
+    (building_settings.depth||1).times{|itime| metadatas_columns.delete(itime) }
     # On passe les colonnes des ID et Target si elles sont définies
     building_settings.id_column && metadatas_columns.delete(building_settings.id_column)
     building_settings.target_column && metadatas_columns.delete(building_settings.target_column)

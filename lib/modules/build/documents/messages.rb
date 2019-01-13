@@ -12,6 +12,7 @@ def raise_source_unfoundable(path)
   rt('commands.build.errors.source_unfound', {pth: path})
 end
 def raise_empty_document_source(path)
+  rt('commands.build.errors.empty_source', {pth: path})
 end
 def raise_bad_nombre_cellules(line, nb, nb_expected)
   rt('commands.build.errors.bad_cells_count', {line: line.inspect, nb_actual: nb, nb_expected: nb_expected})

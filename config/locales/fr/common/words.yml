@@ -457,6 +457,16 @@ fr:
     tit:
       sing: Objectif
       plur: Objectifs
+  title:
+    min:
+      sing: titre
+      plur: titres
+    tit:
+      sing: Titre
+      plur: Titres
+    cap:
+      sing: TITRE
+      plur: TITRES
   total:
     min:
       sing: total

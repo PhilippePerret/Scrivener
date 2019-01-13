@@ -152,7 +152,7 @@ TXT
     end
 
     def formate_titre titre, par_default
-      ('%s %s' % [titre, par_default ? "(#{default.by.min})" : '']).ljust(30)
+      ('%s %s' % [titre, par_default ? "(#{t('default.by.min')})" : '']).ljust(30)
     end
 
 
