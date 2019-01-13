@@ -4,10 +4,12 @@
 
   C'est l'aide générale du site
 =end
-if CLI.options[:help]
-  Scrivener.require_texte('commands/check/help')
-  Scrivener.help(AideGeneraleCommandeCheck::MANUEL)
-else
-  Scrivener.require_module('check')
-  Scrivener.exec_check
-end
+class Scrivener
+  if help?
+    require_texte('commands.check.help')
+    help(AideGeneraleCommandeCheck::MANUEL)
+  else
+    require_module('check')
+    exec_check
+  end
+end#/Scrivener

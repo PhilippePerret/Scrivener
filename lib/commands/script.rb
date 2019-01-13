@@ -4,27 +4,24 @@
 
   C'est l'aide générale du site
 =end
-if CLI.options[:help]
-  aide = <<-EOT
-  #{'  COMMANDE `scriv script <name>`  '.underlined('-').gras}
+class Scrivener
 
-    #{'Description'.underlined('-', '  ')}
+  if help?
 
-        La commande `scriv script <name>` joue le script qui est
-        défini dans le dossier `./script`. C'est une commande
-        plutôt réservée aux programmateurs.
+    require_texte('commands.script.help')
+    help(AideGeneraleCommandeScript)
 
-  EOT
-  Scrivener.help(aide)
+  else
 
-else
-  begin
-    script_path = File.join(APPFOLDER,'script',CLI.params[1])
-    script_path.end_with?('.rb') || script_path.concat('.rb')
-    # puts '-- Jouer le script « %s »' % script_path
-    File.exist?(script_path) || raise('Le fichier `%s` est introuvable.' % script_path)
-    load script_path
-  rescue Exception => e
-    raise e
-  end
-end
+    begin
+      script_path = File.join(APPFOLDER,'script',CLI.params[1])
+      script_path.end_with?('.rb') || script_path.concat('.rb')
+      File.exist?(script_path) || rt('files.errors.unfound_file' % {pth: script_path})
+      load script_path
+    rescue Exception => e
+      raise e
+    end
+
+  end #/ if
+
+end # /Scrivener

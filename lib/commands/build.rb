@@ -4,31 +4,34 @@
 
   C'est l'aide générale du site
 =end
-if CLI.options[:help]
-  Scrivener.require_texte('commands/build/help')
+class Scrivener
+
+if help?
+
+  require_texte('commands/build/help')
   full_aide = AideGeneraleBuildCommand::AIDE.dup
   # On peut ajouter une aide si l'objet à construire est déjà
   # déterminé (par exemple `scriv build metadata -h`)
   full_aide <<  case CLI.params[1]
                 when 'documents', 'document'
-                  Scrivener.require_texte('commands/build/aide_build_document_command')
+                  require_texte('commands/build/aide_build_document_command')
                   BuildDocumentCommandHelp::AIDE
                 when 'metadata', 'metadatas'
-                  Scrivener.require_texte('commands/build/aide_build_metadata_command')
+                  require_texte('commands/build/aide_build_metadata_command')
                   BuildMetadataCommandHelp::AIDE
                 when 'config-file'
-                  Scrivener.require_texte('commands/build/aide_build_config_file_command')
+                  require_texte('commands/build/aide_build_config_file_command')
                   BuildConfigFileCommandHelp::AIDE
                 else
                   ''
                 end
 
   # On peut écrire l'aide complète
-  Scrivener.help(full_aide)
+  help(full_aide)
 
 else
+
   # Si ce n'est pas l'aide qui est demandée
-  class Scrivener
   class Project
   class << self
     def exec_build_thing thing
@@ -43,7 +46,7 @@ else
       Scrivener.require_module('build/%s' % thing)
 
       # On peut lancer l'opération
-      Scrivener::Project.exec_build
+      exec_build
     end
     # Return true si +thing+ est une chose constructible
     def is_thing?(thing)
@@ -58,6 +61,8 @@ else
 
   end #/<< self
   end #/Project
-  end #/Scrivener
-  Scrivener::Project.exec_build_thing(Scrivener::Project.real_thing(CLI.params[1]))
+
+  Project.exec_build_thing(Project.real_thing(CLI.params[1]))
 end
+
+end #/Scrivener

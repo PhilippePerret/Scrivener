@@ -19,8 +19,19 @@ class << self
   #   Méthodes accessoire
 
   def save_current_informations
+    # Il n'est pas certain qu'il y ait un projet courant valide. Par
+    # exemple, si le dernier projet courant a été détruit depuis la
+    # dernière utilisation de la commande, l'appel de `title` lèverait
+    # une exception.
+    begin
+      title_test = project && project.title
+    rescue
+      self.project_path = nil
+      Project.current   = nil
+      return
+    end
     save_project_data(
-      title:          project && project.title,
+      title:          title_test,
       last_command:   self.command,
       path:           project && self.project_path,
       options:        CLI.options,

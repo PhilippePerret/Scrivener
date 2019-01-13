@@ -8,7 +8,7 @@ Version 0.1.4
 # Version 0.1.4
 #   C'est `t` qui traite toutes les options possibles. Et ajout du
 #   soulignement avec :underlined.
-# 
+#
 # Version 0.1.3
 #   Possibilité de mettre n'importe quel délimiteur entre plusieurs
 #   path envoyées par t('path1<del>path2<del>path3')
@@ -24,7 +24,12 @@ require 'i18n'
 #   :underlined   Si défini, c'est le soulignement à ajouter. La valeur peut
 #                 être true ou le caractère à utiliser pour le soulignement.
 def wt pth, template_values = nil, options = nil
-  puts t(pth, template_values, options)
+  options ||= Hash.new
+  msg = t(pth, template_values, options)
+  options[:indent] === false || begin
+    msg = msg.prepend(INDENT).gsub(/(\r?\n)/,  '\1' + INDENT)
+  end
+  puts msg
 end
 
 # Raccourci pour 'raise I18n translation'
@@ -71,9 +76,6 @@ def t pth, template_values = nil, options = nil
   options[:underlined] && begin
     options[:underlined].is_a?(String) || options[:underlined] = '-'
     msg += String::RC + (options[:underlined] * msg.length)
-  end
-  options[:indent] === false || begin
-    msg = msg.prepend(INDENT).gsub(/(\r?\n)/,  '\1' + INDENT)
   end
   options[:color] && msg = msg.send(options[:color])
   options[:air] && msg = String::RC * 2 + msg + String::RC * 3

@@ -30,7 +30,12 @@ class << self
   # Ces textes sont localisés, c'est-à-dire qu'on prend celui de la
   # langue et, à défaut, celui en anglais.
   #
+  # +relpath+ Chemin relatif depuis le dossier ./assets/textes. La valeur
+  #           peut être passée comme un chemin i18n, c'est-à-dire avec des
+  #           points plutôt que des séparateurs.
+  #
   def require_texte(relpath)
+    relpath = relpath.gsub(/\./, '/')
     require required_texte_path(relpath)
   end
 
@@ -47,7 +52,7 @@ class << self
   end
   def required_texte_path_in_lang(relpath, lg)
     pth = File.join(APPFOLDER,'assets','textes', lg.to_s, relpath)
-    puts "--pth: #{pth.with_extension('rb')}"
+    # puts "--pth: #{pth.with_extension('rb')}"
     File.exist?(pth.with_extension('rb')) || return
     return pth
   end

@@ -4,11 +4,13 @@
 
   C'est l'aide générale du site
 =end
-if CLI.options[:help]
-  aide = t('commands.data.help')
-  Scrivener.help(aide)
-else
-  Scrivener.require_module('Scrivener')
-  Scrivener.require_module('data')
-  Scrivener::Project.exec_data_projet(project)
-end
+class Scrivener
+  if help?
+    require_texte('commands.data.help')
+    help(AideCommandGeneralData::MANUEL)
+  else
+    require_module('Scrivener')
+    require_module('data')
+    Project.exec_data_projet(project)
+  end
+end #/Scrivener

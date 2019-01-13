@@ -4,22 +4,18 @@
 
   C'est l'aide générale du site
 =end
-if CLI.options[:help]
-  aide = <<-EOT
-  #{'  COMMANDE `scriv last[s]`  '.underlined('-').gras}
+class Scrivener
 
-    #{'Description'.underlined('-', '  ')}
+  if help?
 
-        Permet d’obtenir la liste des 10 derniers projets analysés ou
-        utilisés par la commande `scriv`.
+    require_texte('commands.last.help')
+    help(AideGeneraleCommandeLast::MANUEL)
 
-        Taper l'indice correspondant au projet permet ensuite de le
-        mettre en projet courant.
+  else
 
-  EOT
-  Scrivener.help(aide)
+    require_module('last')
+    exec_last_projects
 
-else
-  Scrivener.require_module('last')
-  Scrivener.exec_last_projects
-end
+  end
+
+end #/Scrivener

@@ -1,30 +1,22 @@
 # encoding: UTF-8
-=begin
-  Command 'help' ou quand on fait simplement `scriv`
+class Scrivener
 
-  C'est l'aide générale du site
-=end
-if CLI.options[:help]
-  aide = <<-EOT
-  #{'  COMMANDE `scriv run`  '.underlined('-').gras}
+  if help?
 
-    #{'Description'.underlined('-', '  ')}
+    require_texte('commands/run/help')
+    help(AideGeneraleCommandeRun::MANUEL)
 
-        La commande `scriv run` permet de jouer du code ruby dans le
-        programme, par rapport au projet courant.
+  else
 
+    begin
+      code = CLI.params[1].strip
+      puts "Code à évaluer : #{code.inspect}"
+      eval (code)
+    rescue Exception => e
+      puts e.message.rouge
+      puts e.backtrace[0..2].join(String::RC).rouge
+    end
 
-  EOT
-  Scrivener.help(aide)
-
-else
-
-  begin
-    code = CLI.params[1].strip
-    eval (code)
-  rescue Exception => e
-    puts e.message.rouge
-    puts e.backtrace[0..2].join(String::RC).rouge
   end
 
-end
+end # /Scrivener

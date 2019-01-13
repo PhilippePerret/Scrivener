@@ -16,7 +16,7 @@ en:
           unfound:  'You would have destroy your Scrivener project until your last use of the scriv command. I can’t find it.'
         folder:
           found:    null
-          unfound: 'Ça ne devrait pas pouvoir se produire. Vous avez dû détruire le projet depuis votre dernière utilisation de commande scriv.'
+          unfound:  'It’s seem you have destroyed the folder project since the last use of the scriv command.'
         config:
           found:    null
           unfound:  'To create a config-file, use the `scriv build config-file` command. This files contain configurations that you can easily launch with `scriv set --from=NAME` command.'

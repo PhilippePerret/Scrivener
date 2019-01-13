@@ -14,6 +14,9 @@ fr:
         projet:
           found:    null
           unfound:  'Vous avez dû détruire votre projet depuis votre dernière utilisation de la commande scriv.'
+        folder:
+          found:    null
+          unfound:  'Vous avez dû détruire le projet (et son dossier) depuis votre dernière utilisation de ce projet.'
         config:
           found:    null
           unfound:  'Pour en créer un, utilisez `scriv build config-file. Ces fichiers contiennent des configurations de l’application qu’il suffit de charger avec `scriv set --from=NAME`.'

@@ -4,24 +4,19 @@
 
   C'est l'aide générale du site
 =end
-if CLI.options[:help]
-  aide = <<-EOT
-  #{'  COMMANDE `scriv infos`  '.underlined('-').gras}
+class Scrivener
 
-    #{'Description'.underlined('-', '  ')}
+  if help?
 
-        La commande `scriv infos` permet d’obtenir les informations
-        sur le projet Scrivener courant, c'est-à-dire le dernier
-        projet analysés.
+    require_texte('commands.infos.help')
+    help(AideGeneraleCommandeInfos::MANUEL)
 
-        Donne par exemple son chemin d'accès et sa date de dernière
-        analyse.
+  else
 
-  EOT
-  Scrivener.help(aide)
+    require_module('Scrivener')
+    require_module('infos')
+    Project.exec_infos_last_projet
 
-else
-  Scrivener.require_module('Scrivener')
-  Scrivener.require_module('infos')
-  Scrivener::Project.exec_infos_last_projet
-end
+  end
+
+end #/ Scrivener

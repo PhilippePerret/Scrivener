@@ -9,8 +9,14 @@ class << self
   # affichant juste ce qu'il faut pour la fenêtre
   def help message
     CLI.debug_entry
+    message = INDENT + message.gsub(/(\r?\n)/, '\1'+INDENT)
     CLI::Screen.less(message)
     CLI.debug_exit
+  end
+
+  # Retourne true si c'est l'aide qui est demandé
+  def help?
+    CLI.options[:help]
   end
 
 end #/<< self

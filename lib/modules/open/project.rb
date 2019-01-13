@@ -81,7 +81,7 @@ class Project
         yesOrNo( t('commands.open.questions.want_open', {what: msg})) || return
       end
       datawt = {what: msg, with_vim: (options[:vim] || ''), pth: chemin}
-      wt('commands.open.opening', datawt, {color: :bleu})
+      wt('commands.open.notices.opening', datawt, {color: :bleu})
       if options[:tip] == :scrivx
         # Ouverture du fichier scrivx
         open_with_an_editor(chemin)
@@ -89,16 +89,16 @@ class Project
         `vim -es "#{chemin}"`
       else
         `open "#{chemin}"`
-        unless AIDES_OPEN[options[:tip]][:no_vim] || options[:vim]
+        unless (AIDES_OPEN[options[:tip]] && AIDES_OPEN[options[:tip]][:no_vim]) || options[:vim]
           wt('commands.open.notices.add_vim_option')
         end
       end
-      tip = t('commands.open.%s.found' % options[:tip])
+      tip = t('commands.open.help.%s.found' % options[:tip])
       puts tip unless tip.nil?
     else
       # Quand le fichier n'existe pas ou est introuvable
       wt('commands.open.errors.file_unfound', {what: msg, pth: chemin}, {color: :rouge})
-      tip = t('commands.open.%s.unfound' % options[:tip])
+      tip = t('commands.open.help.%s.unfound' % options[:tip])
       puts tip.rouge unless tip.nil?
     end
   end

@@ -4,6 +4,9 @@ fr:
       command_list:
         tit: Liste des commandes
         cap: LISTE DES COMMANDES
+    notices:
+      h_for_resumes: 'utiliser `scriv commands -h` pour un résumé des fonctionnalités de chaque commande'
+      h_for_command_help: 'utiliser `scriv <commande> -h` ou `scriv <commande> --help` pour obtenir de l’aide sur la commande "<commande>"'
     errors:
       unknown_command: 'La commande `%{command_name}` est inconnue. Utiliser `scriv commands` pour obtenir la liste des commandes et `scriv <command> -h` pour obtenir de l’aide sur une commande particulière.'
     overviews:

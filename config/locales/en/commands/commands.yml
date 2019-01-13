@@ -4,6 +4,9 @@ en:
       command_list:
         tit: Command List
         cap: COMMAND LIST
+    notices:
+      h_for_resumes: 'use `scriv commands -h` to display a summary of the features of each command'
+      h_for_command_help: 'use `scriv <command> -h` or `scriv <command> --help` to get help about "<command>" command'
     errors:
       unknown_command: 'Unknown `%{command_name}` command. Use `scriv commands` to get the command list dans `scriv <command> -h` to receive help for a particular command.'
     overviews:
