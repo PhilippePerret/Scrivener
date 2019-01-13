@@ -5,22 +5,18 @@
   du projet Scrivener courant, que ce soit le titre, les zooms de l'interface
   ou le format de sortie de la compilation.
 
-  NOTE
-  Ce module est aussi chargé par getter.rb pour pouvoir connaitre la liste
-  des propriétés MODIFIABLE_PROPERTIES.
-
 =end
-# require_relative '../setters_before'
+require_relative '../setters_before'
+  # Contient notamment la méthode self.add_settable_property
 
 class Scrivener
 class Project
-
 
   # ---------------------------------------------------------------------
   # Méthodes de modification des données
 
   # Définir le nom de fichier du projet
-  add_modpro(:name)
+  add_settable_property(:name, {not_in_yam_file: true})
   def set_name value
     value === nil && return # quand un fichier de configuration met à null la valeur
     new_nom = value.gsub(/ /, '_')
@@ -43,7 +39,7 @@ class Project
   end
 
   # Définir le titre du projet
-  add_modpro(:title)
+  # add_settable_property(:title)
   # TODO On devrait pouvoir définir le titre d'un document de cette manière
   # aussi, avec l'option '-doc="début du titre actuel"'
   def set_title value
@@ -53,7 +49,7 @@ class Project
   end
 
   # Définir le titre abbrégé (court) du projet
-  add_modpro(:title_abbreviated)
+  # add_settable_property(:title_abbreviated)
   def set_title_abbreviated value
     value === nil && return
     compile_xml.set_xpath('//MetaData/ProjectAbbreviatedTitle', value)
@@ -68,7 +64,7 @@ class Project
   #   - "Prénom Nom"
   #   - "Nom, Prénom"
   #   - {firstname: "Prénom", lastname: "Nom"}
-  add_modpro(:author)
+  # add_settable_property(:author)
   def set_author value
     value === nil && return
     case value
@@ -102,7 +98,7 @@ class Project
   end
 
   # Définir les auteurs du projet
-  add_modpro(:authors)
+  # add_settable_property(:authors)
   def set_authors value
     value === nil && return
     compile_xml.remove_children_of_xpath('//MetaData/Authors')
@@ -124,7 +120,7 @@ class Project
   #   MÉTHODES INTERFACE
 
   # Définir la visibilité du classeur
-  add_modpro(:binder_visible)
+  # add_settable_property(:binder_visible)
   def set_binder_visible value
     value === nil && return
     value = yes_or_no_value(value)
@@ -132,7 +128,7 @@ class Project
     confirme(:binder_visible, value.inspect)
   end
 
-  add_modpro(:collections_visible)
+  # add_settable_property(:collections_visible)
   def set_collections_visible value
     value === nil && return
     value = yes_or_no_value(value)
@@ -143,7 +139,7 @@ class Project
   # ---------------------------------------------------------------------
   #   MÉTHODES INTERFACE ÉDITEURS
 
-  add_modpro(:editors_header)
+  # add_settable_property(:editors_header)
   def set_editors_header value
     value === nil && return
     value = yes_or_no_value(value)
@@ -152,7 +148,7 @@ class Project
     confirme(:editors_header, value.inspect)
   end
 
-  add_modpro(:editors_footer)
+  # add_settable_property(:editors_footer)
   def set_editors_footer value
     value === nil && return
     value = yes_or_no_value(value)
@@ -161,8 +157,7 @@ class Project
     confirme(:editors_footer, value.inspect)
   end
 
-  add_modpro(
-    :editors_selection)
+  # add_settable_property(:editors_selection)
   def set_editor1_selection value
     set_editor_selection(1, value)
   end
@@ -176,7 +171,7 @@ class Project
     confirme(:editors_selection, [index_editor, paire.inspect])
   end
 
-  add_modpro(:editor_view_mode)
+  # add_settable_property(:editor_view_mode)
   def set_editor_view_mode value
     value === nil && return
     value = real_value_in(value.capitalize, DIVEXPLI[:modes_vues]) || return
@@ -184,7 +179,7 @@ class Project
     confirme(:editor_view_mode, value.inspect)
   end
 
-  add_modpro( :editors_group_view_mode)
+  # add_settable_property( :editors_group_view_mode)
   def set_editor1_group_view_mode value
     set_editor_group_view_mode(1, value)
   end
@@ -201,7 +196,7 @@ class Project
   # ---------------------------------------------------------------------
   #   MÉTHODES INTERFACE INSPECTEUR
 
-  add_modpro(:inspector_visible)
+  # add_settable_property(:inspector_visible)
   def set_inspector_visible value
     value === nil && return
     value = yes_or_no_value(value)
@@ -209,7 +204,7 @@ class Project
     confirme(:inspector_visible, value.inspect)
   end
 
-  add_modpro(:inspector_tab)
+  # add_settable_property(:inspector_tab)
   def set_inspector_tab value
     value === nil && return
     UI::UICommon::Inspector::ONGLETS[value.downcase.to_sym] || raise(ERRORS[:bad_onglet_inspector])
@@ -218,7 +213,7 @@ class Project
   end
 
   # Définir le zoom des notes
-  add_modpro(:zoom_notes)
+  # add_settable_property(:zoom_notes)
   def set_zoom_notes value
     value === nil && return
     factor = any_value_as_factor(value)
@@ -227,7 +222,7 @@ class Project
   end
 
   # Définir le zoom de l'éditeur principal
-  add_modpro(:zoom_editor)
+  # add_settable_property(:zoom_editor)
   def set_zoom_editor value
     value === nil && return
     factor = any_value_as_factor(value)
@@ -236,7 +231,7 @@ class Project
   end
 
   # Définir le zoom de l'éditeur secondaire
-  add_modpro(:zoom_alt_editor)
+  # add_settable_property(:zoom_alt_editor)
   def set_zoom_alt_editor value
     value === nil && return
     factor = any_value_as_factor(value)
@@ -244,14 +239,14 @@ class Project
     confirme(:zoom_alt_editor, "#{(factor * 100).round}%")
   end
 
-  add_modpro(:zoom_editors)
+  # add_settable_property(:zoom_editors)
   def set_zoom_editors value
     value === nil && return
     set_zoom_editor value
     set_zoom_alt_editor value
   end
 
-  add_modpro(:compile_comments)
+  # add_settable_property(:compile_comments)
   def set_compile_comments value
     value === nil && return
     value = yes_or_no_value(value) == 'Yes' ? 'No' : 'Yes'
@@ -259,7 +254,7 @@ class Project
     confirme(:compile_comments, value)
   end
 
-  add_modpro(:compile_annotations)
+  # add_settable_property(:compile_annotations)
   def set_compile_annotations value
     value === nil && return
     value = yes_or_no_value(value) == 'Yes' ? 'No' : 'Yes'
@@ -268,7 +263,7 @@ class Project
   end
 
 
-  add_modpro(:compile_output)
+  # add_settable_property(:compile_output)
   def set_compile_output value
     value === nil && return
     # Value doit être 'print' ou 'pdf'
@@ -277,10 +272,10 @@ class Project
     confirme(:compile_output, dvalue[:hname])
   end
 
-  add_modpro(:target)
+  # add_settable_property(:target)
   # TODO On doit aussi pouvoir définir --notify, --show_overrun et --show_buffer
   #      et les autres options pour un projet
-  # TODO Pouvoir mettre :options à add_modpro pour afficher les options des
+  # TODO Pouvoir mettre :options à # add_settable_property pour afficher les options des
   #      différentes commandes
   # +value+ peut venir de la ligne de commande ou d'un fichier YAML. Dans
   # un fichier YAML, on trouver "<nom document (début)>::<longueur avec unité>"
@@ -317,7 +312,7 @@ class Project
   end
 
 
-  add_modpro(:targets)
+  # add_settable_property(:targets)
   def set_targets value
     value.is_a?(Array) || raise('Il faut une liste, pour définir les objectifs de documents')
     value.each do |docdef|

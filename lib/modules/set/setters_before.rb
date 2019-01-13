@@ -5,12 +5,12 @@ class Scrivener
   MODIFIABLE_PROPERTIES = Hash.new
 
 class Project
-
-  # Pour le moment, cette méthode ne sert qu'à lister toutes les
-  # propriétés modifiables et à vérifier qu'il n'y a pas de collision
-  def self.add_modpro keyh
+  # Liste des propriétés modifiables (pour éviter les collisions) et
+  # enregistre parfois les spécificités, telles que le fait qu'elles peuvent
+  # ou non être utilisées dans un fichier YAML
+  def self.add_settable_property keyh, hdata = nil
     MODIFIABLE_PROPERTIES.key?(keyh) && raise('LA CLÉ %s existe déjà !' % [keyh])
-    MODIFIABLE_PROPERTIES.merge!(keyh => true)
+    MODIFIABLE_PROPERTIES.merge!(keyh => (hdata ||= Hash.new))
   end
 
 end#/Project

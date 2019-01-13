@@ -37,7 +37,7 @@ module BuildConfigFileModule
       # On doit lire déjà toutes les propriétés uen fois pour
       # voir la longueur à adopter
       max_len = 0
-      Scrivener::Project::MODIFIABLE_PROPERTIES.each do |kprop, dprop|
+      Scrivener::MODIFIABLE_PROPERTIES.each do |kprop, dprop|
         next if dprop[:not_in_yam_file]
         kprop.to_s.length > max_len || next
         max_len = kprop.to_s.length
@@ -49,7 +49,7 @@ module BuildConfigFileModule
 
     begin
       rf = File.open(config_file_path,'wb')
-      Scrivener::Project::MODIFIABLE_PROPERTIES.each do |kprop, dprop|
+      Scrivener::MODIFIABLE_PROPERTIES.each do |kprop, dprop|
         next if dprop[:not_in_yam_file]
         hprop = max_len ? kprop.to_s.ljust(max_len) : kprop.to_s
         rf.puts(DEFAULT_CONFIG_LINE % dprop.merge(property: hprop))
