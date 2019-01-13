@@ -5,19 +5,19 @@
   C'est l'aide générale du site
 =end
 if CLI.options[:help]
-  Scrivener.require_texte('aide_generale_build_command')
+  Scrivener.require_texte('commands/build/help')
   full_aide = AideGeneraleBuildCommand::AIDE.dup
   # On peut ajouter une aide si l'objet à construire est déjà
   # déterminé (par exemple `scriv build metadata -h`)
   full_aide <<  case CLI.params[1]
                 when 'documents', 'document'
-                  Scrivener.require_texte('aide_build_document_command')
+                  Scrivener.require_texte('commands/build/aide_build_document_command')
                   BuildDocumentCommandHelp::AIDE
                 when 'metadata', 'metadatas'
-                  Scrivener.require_texte('aide_build_metadata_command')
+                  Scrivener.require_texte('commands/build/aide_build_metadata_command')
                   BuildMetadataCommandHelp::AIDE
                 when 'config-file'
-                  Scrivener.require_texte('aide_build_config_file_command')
+                  Scrivener.require_texte('commands/build/aide_build_config_file_command')
                   BuildConfigFileCommandHelp::AIDE
                 else
                   ''

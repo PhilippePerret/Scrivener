@@ -1,3 +1,4 @@
+# encoding: UTF-8
 module AideGeneraleBuildCommand
 AIDE = <<-MARKDOWN
   #{'AIDE DE LA COMMANDE `scriv build`  '.underlined('-','  ').gras}
@@ -11,7 +12,8 @@ AIDE = <<-MARKDOWN
     cation. Dans le cas contraire, toutes les modifications sont
     opérées sans demande.
 
-    #{'Description'.underlined('-', '  ')}
+    Description
+    -----------
 
     La commande `scriv build` permet de construire des éléments
     dans le projet scrivener courant. Cette commande ne peut pas

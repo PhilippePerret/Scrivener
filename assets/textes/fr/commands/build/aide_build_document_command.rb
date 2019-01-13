@@ -1,3 +1,4 @@
+# encoding: UTF-8
 module BuildDocumentCommandHelp
 AIDE = <<-SOUSAIDE
     AIDE PROPRE À LA COMMANDE `scriv build documents`

@@ -1,4 +1,26 @@
 fr:
   commands:
+    titles:
+      command_list:
+        tit: Liste des commandes
+        cap: LISTE DES COMMANDES
     errors:
       unknown_command: 'La commande `%{command_name}` est inconnue. Utiliser `scriv commands` pour obtenir la liste des commandes et `scriv <command> -h` pour obtenir de l’aide sur une commande particulière.'
+    overviews:
+      build:      Permet de construire des éléments tels que des hiérachies de roman ou des métadonnées.
+      check:      Permet de checker l’application, à commancer par l’installation.
+      commands:   Permet de lister toutes les commandes et d’obtenir une brève description.
+      data:       Retourne toutes les données du projet, proximités, occurences, etc.
+      help:       Aide générale de la commande `scriv`.
+      infos:      Affiche les informations générales du projet.
+      last:       Affiche les derniers projets enregistrés, et permet d’en choisir un.
+      lemma:      Informations sur la lemmatisation.
+      open:       Permet d’ouvrir le projet (dans Scrivener), le dossier (dans le Finder), etc.
+      pagination: Pour produire des tables des matières d’après le projet. Synonyme de `tdm`
+      proximites: Procède à l’analyse textuelle du projet.
+      run:        Permet de jouer du code ruby (réservé au développement — très sensible).
+      script:     Permet de lancer un script (réservé au développement).
+      set:        Permet de définir un grand nombre de paramètres de l’application et de l’interface de Scrivener
+      show:       Affiche la chose voulue
+      test:       Lance les tests de la commande (réservé au développement)
+      watch_proximites: Permet de suivre en direct les proximités ajoutées et corrigées dans le texte suivi.

@@ -1,4 +1,26 @@
 en:
   commands:
+    titles:
+      command_list:
+        tit: Command List
+        cap: COMMAND LIST
     errors:
       unknown_command: 'Unknown `%{command_name}` command. Use `scriv commands` to get the command list dans `scriv <command> -h` to receive help for a particular command.'
+    overviews:
+      build:      To build things like novel nesting or metadatas.
+      check:      To check the application, install, project, and so on.
+      commands:   List of all available commands.
+      data:       All the project data, proximities, occurences, densities, etc.
+      help:       General help, a mini manual of `scriv` command.
+      infos:      Display general information about the current project.
+      last:       Display the last projects opened, to choose one among them.
+      lemma:      Informations about the lemmatization.
+      open:       To open elements of project, the Scrivener project itself, its folder in the Finder, etc.
+      pagination: "To product table of contents. Alias: `tdm`."
+      proximites: Proceed the text analysis of the project text.
+      run:        To run ruby code inside the application (dev only).
+      script:     Run a script in the script folder (dev only).
+      set:        Let you define a lot of app parameters and Scrivener project.
+      show:       Display the wanted thing.
+      test:       Run tests (dev)
+      watch_proximites: 'Run the proximities watcher while we write. To watch the proximities "en direct".'
