@@ -161,8 +161,8 @@ class CLI
         CLI.options.merge!(cmd.last)
         cmd.first
       else
-        argv.gsub(/\-/,'_')
-      end
+        argv
+      end.gsub(/\-/,'_')
     end
 
     # Pour benchmarker l'application

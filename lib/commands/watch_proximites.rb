@@ -1,15 +1,9 @@
 # encoding: UTF-8
-=begin
-
-  Commande/module permettant d'afficher la proximité des mots.
-
-
-=end
 class Scrivener
 
   if help?
 
-    require_texte('commands.watch.help.rb')
+    require_texte('commands.watch.help')
     help(AideGeneraleCommandeWatch::MANUEL)
 
   else

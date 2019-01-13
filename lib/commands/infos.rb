@@ -1,9 +1,4 @@
 # encoding: UTF-8
-=begin
-  Command 'infos' pour voir les infos générales du projet courant
-
-  C'est l'aide générale du site
-=end
 class Scrivener
 
   if help?

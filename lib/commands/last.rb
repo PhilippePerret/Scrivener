@@ -1,9 +1,4 @@
 # encoding: UTF-8
-=begin
-  Command 'help' ou quand on fait simplement `scriv`
-
-  C'est l'aide générale du site
-=end
 class Scrivener
 
   if help?

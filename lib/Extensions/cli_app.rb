@@ -11,7 +11,7 @@ class CLI
   DIM_CMD_TO_REAL_CMD = {
     'prox'        => 'proximites',
     'stats'       => 'data',
-    'watch-prox'  => 'watch-proximites',
+    'watch-prox'  => 'watch_proximites',
     'lasts'       => 'last',
     'tdm'         => 'pagination',
     'toc'         => 'pagination',
