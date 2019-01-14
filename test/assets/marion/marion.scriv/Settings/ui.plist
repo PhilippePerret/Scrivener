@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NotesScaleFactor</key>
-	<real>1.0</real>
+	<real>3.2</real>
 	<key>SuppressBookmarksFolderCheck</key>
 	<false/>
 	<key>binderSplitFrames</key>
@@ -39,7 +39,7 @@
 	<key>mainDocumentEditor.textEditorState</key>
 	<dict>
 		<key>textScaleFactor</key>
-		<real>1.5</real>
+		<real>4.0</real>
 	</dict>
 	<key>mainWindowFrame</key>
 	<string>88 99 1411 928 0 0 1680 1027 </string>
@@ -53,7 +53,7 @@
 	<key>supportingDocumentEditor.textEditorState</key>
 	<dict>
 		<key>textScaleFactor</key>
-		<real>0.9</real>
+		<real>3.0</real>
 	</dict>
 	<key>supportingDocumentViewIsCurrent</key>
 	<false/>

@@ -14,17 +14,36 @@ class << self
   # Définit la path du projet courant en fonction de la commande
   # et/ou des dernières données enregistrées
   def define_project_path_from_command
-    index_param = Scrivener::TWO_PARAMS_COMMANDS.include?(CLI.command) ? 2 : 1
-    path_param = CLI.params[index_param]
-    if (path_param||'').end_with?('.scriv')
-      path_param
-    elsif path_param && File.directory?(path_param)
-      dossier = path_param
-      dossier = dossier[0...-1] if dossier.end_with?('/')
-      Dir['%s/*.scriv' % dossier].first
-    else
-      Dir['./*.scriv'].first || Scrivener.last_project_data[:path]
+    CLI.debug_entry
+    # On cherche, dans les paramètres, le premier argument qui peut être
+    # le path du projet.
+    CLI.params.each do |k, prm|
+      prm.is_a?(String) || next
+      pth = is_a_project_path?(prm)
+      pth.nil? || (return pth)
     end
+    # En dernier recours, on prend le dernier projet utilisé par
+    # la commande.
+    Scrivener.last_project_data[:path]
+  end
+
+  # Retourne true si +pth+ peut être un path de projet scrivener.
+  # +pth+ peut être le path explicite du projet, ou le nom dans le
+  # dossier courant, ou le dossier contenant le projet, etc.
+  def is_a_project_path? pth
+    # Si pth est le fichier lui-même, avec ou sans extension
+    full_path = File.expand_path(File.join('.', pth.with_extension('scriv')))
+    return full_path if File.exist?(full_path)
+    # Si pth est un dossier contenant un fichier .scriv
+    dossier = String.new(pth)
+    dossier = dossier[0...-1] if dossier.end_with?(File::Separator)
+    dossier = File.expand_path('.',dossier)
+    return first_scriv_file_in(dossier) if File.directory?(dossier)
+  end
+
+  # Retourne le premier fichier .scriv se trouvant dans le dossier +dossier+
+  def first_scriv_file_in dossier
+    Dir['%s/*.scriv' % dossier].first
   end
 
 end #/<< self

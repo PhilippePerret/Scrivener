@@ -38,6 +38,7 @@ class Scrivener
         self.command = CLI.command || 'help'
         command_exist?(self.command) || rt('commands.errors.unknown_command', {command_name: self.command})
         self.project_path = Project.define_project_path_from_command
+        debug('-- PROJECT PATH: %s' % self.project_path)
         test_project_if_command_on_project
         save_current_informations
         return true
