@@ -1,8 +1,8 @@
 values_mode_view: &values_mode_view
-  Single:     ['Single', 'Texte', 'Text', 'T']
-  Scrivening: ['Scrivenings', 'Textes', 'S']
-  Corkboard:  ['Corkboard', 'Tableau', 'C']
-  Outliner:   ['Outliner', 'Plan', 'O']
+  Single:       ['Single', 'Texte', 'Text', 'T']
+  Scrivenings:  ['Scrivenings', 'Textes', 'S']
+  Corkboard:    ['Corkboard', 'Tableau', 'C']
+  Outliner:     ['Outliner', 'Plan', 'O']
 
 yes_or_no_values: &yes_or_no_values
   'Yes': ["o", "y", "yes", "oui", "true", "vrai", null]

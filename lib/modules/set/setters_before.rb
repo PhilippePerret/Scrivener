@@ -72,13 +72,14 @@ module ModuleSetValuesWithKeys
         arr_values.include?(value) && (return real)
       end
       # Si on arrive ici c'est que la valeur n'a pas été trouvée
-      rt('errors.value.unable_to_find_real_for', {value: value.inspect})
+      rt('errors.value.unable_to_find_real_for', {value: value})
     end
     nil
   rescue Exception => e
     raise_by_mode(e, Scrivener.mode)
     false
   end
+
   def yes_or_no_value value
     case value.to_s.downcase
     when '', 'vrai', 'true', 'yes', 'oui', 'y', 'o' then 'Yes'
@@ -102,7 +103,7 @@ module ModuleSetValuesWithKeys
   end
 
   def confirme key, new_value = nil
-    wt('notices.property_set_to_value', {property: key.to_s, value: new_value.inspect}, {air: true, color: :bleu})
+    wt('notices.property_set_to_value', {property: key.to_s, value: new_value.inspect}, {color: :bleu})
   end
 
 end

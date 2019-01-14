@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <UIStates>
-    <Binder Show='No'>
-        <ShowCollections>No</ShowCollections>
+    <Binder Show='Yes'>
+        <ShowCollections>Yes</ShowCollections>
         <SelectedCollection>0</SelectedCollection>
         <SubdocumentCounts>No</SubdocumentCounts>
         <ExpandedItems>
@@ -14,7 +14,7 @@
         </Selection>
         <SearchResultsSort Dates='Ascending' Titles='Ascending'>None</SearchResultsSort>
     </Binder>
-    <Inspector Show='Yes' View='MetaData'>
+    <Inspector Show='No' View='Notes'>
         <ShowProjectBookmarks>No</ShowProjectBookmarks>
         <Collapse>CustomMetaData</Collapse>
         <FootnoteNumbers Prompt='No'>No</FootnoteNumbers>
@@ -57,8 +57,8 @@
     <Editors Primary='Editor1'>
         <Editor1>
             <View>
-                <ShowHeader>No</ShowHeader>
-                <ShowFooter>No</ShowFooter>
+                <ShowHeader>Yes</ShowHeader>
+                <ShowFooter>Yes</ShowFooter>
                 <GroupsViewMode>Scrivenings</GroupsViewMode>
                 <CurrentViewMode>Scrivenings</CurrentViewMode>
                 <SelectionAffects>None</SelectionAffects>
@@ -114,7 +114,7 @@
                 <PageLayout Facing='No'>No</PageLayout>
                 <TypewriterScrolling>No</TypewriterScrolling>
                 <LineNumbers Interval='1'>No</LineNumbers>
-                <Selection>10,20</Selection>
+                <Selection>2,-1</Selection>
             </Text>
             <Outliner>
                 <Columns>
@@ -148,8 +148,8 @@
         </Editor1>
         <Editor2>
             <View>
-                <ShowHeader>No</ShowHeader>
-                <ShowFooter>No</ShowFooter>
+                <ShowHeader>Yes</ShowHeader>
+                <ShowFooter>Yes</ShowFooter>
                 <GroupsViewMode>Corkboard</GroupsViewMode>
                 <SelectionAffects>None</SelectionAffects>
             </View>
@@ -158,7 +158,7 @@
                 <PageLayout Facing='No'>No</PageLayout>
                 <TypewriterScrolling>No</TypewriterScrolling>
                 <LineNumbers Interval='1'>No</LineNumbers>
-                <Selection>5,10</Selection>
+                <Selection>20,30</Selection>
             </Text>
             <Outliner>
                 <Columns>

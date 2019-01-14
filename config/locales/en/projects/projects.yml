@@ -20,4 +20,4 @@ en:
       invite_project_close:   'Project closed?'
       open_the_project:       'Would you like to open your project?'
       save_project_modified:  'The project has been modified. Save it?'
-      set_title:              'Do you want to change the project filename from "%{olf_fn}" to "%{new_fn}"?'
+      set_title:              'Do you want to change the project filename from "%{old_fn}" to "%{new_fn}"?'

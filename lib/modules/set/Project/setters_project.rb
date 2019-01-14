@@ -174,7 +174,7 @@ class Project
   # add_settable_property(:editor_view_mode)
   def set_editor_view_mode value
     value === nil && return
-    value = real_value_in(value.capitalize, DIVEXPLI[:modes_vues]) || return
+    value = real_value_in(value.capitalize, Project.modifiable_properties['values_mode_view']) || return
     project.ui_common.editor1.current_view_mode= value
     confirme(:editor_view_mode, value.inspect)
   end
@@ -188,7 +188,7 @@ class Project
   end
   def set_editor_group_view_mode index_editor, value
     value === nil && return
-    value = real_value_in(value.capitalize, DIVEXPLI[:modes_vues]) || return
+    value = real_value_in(value.capitalize, Project.modifiable_properties['values_mode_view']) || return
     project.ui_common.send("editor#{index_editor}".to_sym).group_view_mode= value
     confirme(:editors_group_view_mode, [index_editor, value.inspect])
   end

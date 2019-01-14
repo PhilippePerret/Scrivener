@@ -9,7 +9,7 @@
             </Filter>
         </Content>
         <Options>
-            <RemoveComments>Yes</RemoveComments>
+            <RemoveComments>No</RemoveComments>
             <RemoveAnnotations>Yes</RemoveAnnotations>
             <Scriptwriting>
                 <IncludeTitles>Yes</IncludeTitles>
@@ -31,13 +31,13 @@
             </Ebook>
         </Options>
         <MetaData>
-            <ProjectTitle>Le Projet de Phil</ProjectTitle>
-            <ProjectAbbreviatedTitle>Phil&apos;s Proj</ProjectAbbreviatedTitle>
+            <ProjectTitle>Le Projet de Marion</ProjectTitle>
+            <ProjectAbbreviatedTitle>Proj. Marion</ProjectAbbreviatedTitle>
             <Authors>
-              
-            <Author FileAs='Perret, Philippe' Role='aut'>Philippe Perret</Author><Author FileAs='Ackerman, Benoit' Role='aut'>Benoit Ackerman</Author></Authors>
-            <Surname>Perret</Surname>
-            <Forename>Philippe</Forename>
+
+            <Author FileAs='Michel, Marion' Role='aut'>Marion Michel</Author></Authors>
+            <Surname>Michel</Surname>
+            <Forename>Marion</Forename>
             <EbookLanguage>en</EbookLanguage>
             <FountainTitlePageMetaData>
                 <Value Key='Title'><![CDATA[<$projecttitle>]]></Value>
@@ -49,7 +49,7 @@
             </MMDMetaData>
         </MetaData>
     </ProjectSettings>
-    <CurrentFileType>Print</CurrentFileType>
+    <CurrentFileType>pdf</CurrentFileType>
     <FormatSettings>
         <Format ID='DEFAULT'>
             <SectionLayouts>
