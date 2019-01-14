@@ -4,15 +4,15 @@ Scrivener.require_module('TextAnalyzer')
 class TestProximiteSimple < Test::Unit::TestCase
 
   test '`scriv prox --help` retourne l’aide de la commande' do
-    run_command('scriv prox --help')
-    assert_match('Aide à la commande `proximites`', CLI::Test.output)
+    run_command('scriv prox --help', ['n', 'q'])
+    assert_match('AIDE DE LA COMMANDE `proximites`', CLI::Test.output)
   end
 
   test '`scriv prox` lancé sur un projet vide produit une erreur normale' do
     assert_nothing_raised {
       run_command('scriv prox ./test/assets/vide/vide.scriv')
     }
-    assert_erreur(TextAnalyzer::ERRORS[:proximites][:no_text]) {
+    assert_erreur(t('commands.proximity.errors.no_text')) {
       run_command('scriv prox ./test/assets/vide/vide.scriv')
     }
   end
@@ -36,7 +36,7 @@ class TestProximiteSimple < Test::Unit::TestCase
     run_command('scriv prox ./test/assets/marion/marion.scriv')
 
     # débug
-    puts CLI::Test.output
+    # puts CLI::Test.output
 
     # Le dossier .textanalyzer doit contenir tous les éléments voulus
     file_name_list.each do |fname|
