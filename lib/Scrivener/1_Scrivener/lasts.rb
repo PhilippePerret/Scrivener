@@ -5,6 +5,13 @@
 class Scrivener
 class << self
 
+  # Retourne les données du dernier projet, mais en vérifiant qu'il
+  # existe bien encore
+  # TODO
+  def last_existant_project
+    Scrivener.last_project_data
+  end
+
   # Retourne le path du dernier projet scrivener
   def last_project_data
     unless last_projects_data.empty?

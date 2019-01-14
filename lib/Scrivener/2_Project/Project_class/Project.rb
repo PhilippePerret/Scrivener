@@ -13,7 +13,7 @@ class << self
 
   # Définit la path du projet courant en fonction de la commande
   # et/ou des dernières données enregistrées
-  def define_project_path_from_command
+  def get_project_path_from_command
     CLI.debug_entry
     # On cherche, dans les paramètres, le premier argument qui peut être
     # le path du projet.
@@ -23,8 +23,8 @@ class << self
       pth.nil? || (return pth)
     end
     # En dernier recours, on prend le dernier projet utilisé par
-    # la commande.
-    Scrivener.last_project_data[:path]
+    # la commande, qui existe encore
+    Scrivener.last_existant_project[:path]
   end
 
   # Retourne true si +pth+ peut être un path de projet scrivener.
@@ -32,18 +32,16 @@ class << self
   # dossier courant, ou le dossier contenant le projet, etc.
   def is_a_project_path? pth
     # Si pth est le fichier lui-même, avec ou sans extension
-    full_path = File.expand_path(File.join('.', pth.with_extension('scriv')))
+    full_path = File.absolute_path(pth.with_extension('scriv'), File.expand_path('.'))
     return full_path if File.exist?(full_path)
     # Si pth est un dossier contenant un fichier .scriv
-    dossier = String.new(pth)
-    dossier = dossier[0...-1] if dossier.end_with?(File::Separator)
-    dossier = File.expand_path('.',dossier)
+    dossier = File.absolute_path(pth, File.expand_path('.'))
     return first_scriv_file_in(dossier) if File.directory?(dossier)
   end
 
   # Retourne le premier fichier .scriv se trouvant dans le dossier +dossier+
   def first_scriv_file_in dossier
-    Dir['%s/*.scriv' % dossier].first
+    Dir["#{dossier}/*.scriv"].first
   end
 
 end #/<< self

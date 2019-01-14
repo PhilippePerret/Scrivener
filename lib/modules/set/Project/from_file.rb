@@ -32,14 +32,10 @@ class Project
   def yaml_file
     @yaml_file ||= begin
       yf = CLI.options[:from].to_s
-      File.extname(yf) == '.yaml' || yf.concat('.yaml')
-      if File.exist?(yf)
-        # Path relatif depuis le dossier du projet
-        yf = File.join(folder,yf)
-      end
-      yf
+      File.expand_path(File.join(folder, yf.with_extension('yaml')))
     end
   end
+
   def file_yaml_exists_or_raise
     File.exist?(yaml_file) || rt('files.errors.yaml_file_unfound', {pth: yaml_file}, IOError)
   end

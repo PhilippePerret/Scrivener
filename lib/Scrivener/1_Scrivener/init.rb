@@ -33,12 +33,11 @@ class Scrivener
     # Initialisation de l'application
     def init
       Debug.init
-      CLI.analyse_command_line || (return false)# pour 'todo'
+      CLI.analyse_command_line || (return false) # 'todo', 'test', etc
       begin
         self.command = CLI.command || 'help'
         command_exist?(self.command) || rt('commands.errors.unknown_command', {command_name: self.command})
-        self.project_path = Project.define_project_path_from_command
-        debug('-- PROJECT PATH: %s' % self.project_path)
+        self.project_path = Project.get_project_path_from_command
         test_project_if_command_on_project
         save_current_informations
         return true
