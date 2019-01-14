@@ -13,7 +13,13 @@ class Proximite
   # retourne la distance, en caractères, entre les deux mots (de la fin
   # du premier au début du deuxième)
   def distance
-    @distance ||= mot_apres.offset - (mot_avant.offset + mot_avant.length)
+    @distance ||= begin
+      mot_apres.offset > mot_avant.offset || begin
+        @distance = 'UNAVAILABLE' # sinon, stack level overflow avec le inspect
+        rt('commands.proximity.errors.distance_null', {iprox: self.inspect})
+      end
+      mot_apres.offset - (mot_avant.offset + mot_avant.length)
+    end
   end
 
   # La distance minimale pour cette proximité

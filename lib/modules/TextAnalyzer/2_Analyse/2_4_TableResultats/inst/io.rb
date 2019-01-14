@@ -7,18 +7,11 @@ class TextAnalyzer
 class Analyse
 class TableResultats
 
-  # Méthode qui retourne la table des résultats prise dans le fichier marshal
-  # (rechargement)
-  def self.load(analyse)
-    analyse.table_resultats.exist? || rt('textanalyzer.errors.no_table_resultats')
-    File.open(analyse.table_resultats.file_path,'rb') { |f| Marshal.load(f) }
-  end
-
   # Méthode qui sauve la table de résultats dans son fichier
   def save
     self.created_at || self.created_at = Time.now
     self.updated_at = Time.now
-    File.open(file_path,'wb') { |f| Marshal.dump(self, f) }
+    write_in_file(self, file_path, {marshal: true})
   end
 
   # Retourne true si le fichier des résultats enregistrés existe
@@ -31,6 +24,8 @@ class TableResultats
   def file_path
     @file_path ||= File.join(analyse.hidden_folder, 'table_resultats.msh')
   end
+  alias :path :file_path
+
 end #/TableResultats
 end #/Analyse
 end #/TextAnalyzer

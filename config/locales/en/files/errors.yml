@@ -2,6 +2,7 @@ en:
   files:
     errors:
       unfound_file:               'Unable to find the "%{pth}" file. Check the path.'
+      empty_file:                 'The file "%{pth}" is empty…'
       yaml_file_unfound:          'Unable to find the YAML file "%{pth}" with data to set.'
       no_yaml_code:               'Invalid YAML code.'
       one_path_required:          'A path should be specified.'

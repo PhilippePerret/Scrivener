@@ -69,7 +69,7 @@ class Project
 
     if !File.exists?(chemin) && CLI.options[:create]
       if AIDES_OPEN[options[:tip]][:creatable]
-        File.open(chemin,'wb'){|f| f.write(t('commands.open.%s.default_contents' % [options[:tip]]))}
+        write_in_file(t('commands.open.%s.default_contents' % [options[:tip]]), chemin)
       else
         puts (t('commands.open.errors.not_creatable', {what: msg})).rouge
       end

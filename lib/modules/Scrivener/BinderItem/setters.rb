@@ -20,7 +20,7 @@ class BinderItem
   # Définir le contenu du fichier RTF
   # TODO Plus tard, on pourra définir d'enregistrer en markdown par exemple
   def content= content, options = nil
-    File.open(txt_text_path,'wb') { |f| f.write content }
+    write_in_file(content, txt_text_path)
     File.exist?(txt_text_path) || rt('files.errors.file_should_be_created', {pth: txt_text_path})
     `textutil -format txt -convert rtf -output "#{rtf_text_path}" "#{txt_text_path}"`
     File.exist?(rtf_text_path) || rt('files.errors.file_should_be_created', {pth: rtf_text_path})

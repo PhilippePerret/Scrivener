@@ -122,7 +122,7 @@ class Livre
   # /decoupe_texte_initial_en_fichiers
 
   def decoupe_texte_initial_with_markers_split
-    File.open(projet.whole_text_path,'wb'){|f| f.write texte_initial}
+    write_in_file(texte_initial, projet.whole_text_path)
 
     buffer          = Array.new
     titre_document  = nil

@@ -7,11 +7,11 @@ class Analyse
   # Rechargement de l'analyse, c'est-à-dire :
   #   - de la table de résultat
   #   - de l'instance du texte entier (et donc des mots)
+  #   - des données (data)
   #
   def reload
     self.exist? || begin
-      self.exec
-      return
+      retur self.exec
     end
     # Les données de l'analyse
     @data             = TextAnalyzer::Analyse::Data.load(self)
@@ -24,8 +24,7 @@ class Analyse
   # RETURN true si tous les fichiers d'analyse (Marshal) existent (et peuvent
   # donc être rechargés)
   def exist?
-    self.texte_entier.exist? &&
-    self.table_resultats.exist?
+    texte_entier.exist? && table_resultats.exist?
   end
 
   # RETURN true si l'analyse est d'actualité. On peut le savoir seulement si

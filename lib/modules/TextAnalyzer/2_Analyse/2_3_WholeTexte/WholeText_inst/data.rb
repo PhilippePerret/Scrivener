@@ -9,7 +9,20 @@ class TextAnalyzer
 class Analyse
 class WholeText
 
-  attr_accessor :created_at, :updated_at
+  # Pour la gestion des données enregistrées et loadées
+  include ModuleForFromYaml
+
+  # Pour l'enregistrement YAML
+  def yaml_properties
+    {
+      dispatched: {
+        path:             {type: :accessible_property},
+        lemma_file_path:  {type: :accessible_property},
+        mots:             {type: :method}
+      }
+      # Other properties
+    }
+  end
 
   # Chemin d'accès au fichier contenant tout le texte
   def path

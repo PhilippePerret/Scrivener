@@ -66,7 +66,7 @@ class << self
   def get_last_projects_data
     CLI.debug_entry
     if File.exists?(last_projects_path_file) && File.stat(last_projects_path_file).size > 0
-      File.open(last_projects_path_file,'rb'){|f| Marshal.load(f)}.reject{|dp| dp[:title].nil?}
+      read_from_file(last_projects_path_file, marshal: true).reject{|dp| dp[:title].nil?}
     else
       Array.new
     end
@@ -76,7 +76,7 @@ class << self
   def save_last_projects_data
     CLI.debug_entry
     lastdata = last_projects_data # pour qu'il ne soit pas ouvert
-    File.open(last_projects_path_file,'wb'){|f| Marshal.dump(lastdata, f)}
+    write_in_file(lastdata, last_projects_path_file, {marshal: true})
     CLI.debug_exit
   end
   def last_projects_path_file

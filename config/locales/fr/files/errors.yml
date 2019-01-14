@@ -2,6 +2,7 @@ fr:
   files:
     errors:
       unfound_file:           'Impossible de trouver le fichier « %{pth} ». Vérifiez le chemin.'
+      empty_file:             'Le fichier « %{pth} » est vide…'
       yaml_file_unfound:      'Le fichier YAML "%{pth}" contenant les données à régler est introuvable.'
       no_yaml_code:           'Le code YAML du fichier transmis ne semble pas être du code YAML valide.'
       one_path_required:      'Il faut au moins spécifier un chemin d’accès de fichier.'

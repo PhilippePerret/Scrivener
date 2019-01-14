@@ -20,7 +20,9 @@ class XFile
   def save
     File.exist?(copy_path) && File.unlink(copy_path)
     FileUtils.move(path, copy_path)
-    xmldoc.write(output: File.open(path, 'w'), indent: 2, transitive: true)
+    docfile = File.new(path, 'w')
+    xmldoc.write(output: docfile, indent: 2, transitive: true)
+    docfile.close rescue nil
     File.exist?(path) && File.unlink(copy_path)
     unset_modified
   end

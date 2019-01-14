@@ -155,6 +155,7 @@ module XMLModule
     def save
       docfile = File.new(path,'wb')
       docxml.write(output: docfile)
+      docfile.close rescue nil
       @modified = false
     end
 

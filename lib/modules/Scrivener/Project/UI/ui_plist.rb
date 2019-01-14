@@ -54,7 +54,7 @@ class Project
         @modified = true
       end
       def save
-        File.open(path,'wb') { |f| f.write Plist::Emit.dump(xml)}
+        write_in_file(Plist::Emit.dump(xml), path)
         @modified = false
       end
       def path

@@ -46,12 +46,12 @@ class Preferences
   end
 
   def load
-    YAML.load(File.read(file_path), symbolize_keys: true)
+    read_from_file(file_path, {yaml: true, symbolize_keys: true})
   end
 
   def save
     code = YAML.dump(data) # surtout pour éviter les problèmes d'accès
-    File.open(file_path,'wb'){|f| f.write(code)}
+    write_in_file(code, file_path)
   end
 
   def file_path

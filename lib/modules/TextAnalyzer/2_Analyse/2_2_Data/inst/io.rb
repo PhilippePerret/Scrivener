@@ -10,14 +10,10 @@ class Data
     File.exist?(path)
   end
 
-  def save
-    self.text_analyzer_version = TextAnalyzer.current_version
-    File.open(path,'wb').write(Marshal.dump(self))
-  end
-
   def path
-    @path ||= File.join(analyse.hidden_folder,'data.msh')
+    @path ||= File.join(analyse.hidden_folder,'data.yaml')
   end
+  alias :yaml_file_path :path # pour le module YAML
 
 end #/Data
 end #/Analyse

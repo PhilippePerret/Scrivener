@@ -31,7 +31,7 @@ class BinderItem
   # RETURN true si le fichier a pu être construit, false dans le cas contraire
   def build_simple_text_file
     File.exist?(rtf_text_path) || (return false)
-    File.open(simple_text_path,'wb'){|f| f.write(simple_text)}
+    write_in_file(simple_text, simple_text_path)
     return simple_text_file_exists?
   end
   # /build_simple_text_file

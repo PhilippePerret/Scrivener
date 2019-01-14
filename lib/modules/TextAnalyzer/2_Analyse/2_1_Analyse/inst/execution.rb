@@ -27,7 +27,8 @@ class Analyse
   end
 
   def save
-    Marshal.dump(self, File.open(data_path, 'wb'))
+    # write_in_file(self, data_path, {marshal: true})
+    write_in_file(self.yaml_data, data_path, {yaml: true})
   end
 
   def save_all

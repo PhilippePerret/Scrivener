@@ -26,7 +26,7 @@ class WholeText
   # On tient également à jour la longueur, pour ne pas avoir à la calculer
   # en relevant tout.
   def << portion
-    File.open(path,'ab'){|f| f.write portion}
+    write_in_file(portion, path, {append: true})
     @length += portion.length
   end
   alias :add :<<

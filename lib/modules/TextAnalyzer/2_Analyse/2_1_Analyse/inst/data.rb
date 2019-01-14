@@ -16,17 +16,34 @@ class Analyse
   # Attention, il ne s'agit pas du document texte complet.
   attr_accessor :original_doc_modified_at
 
-  # L'instance contenant les données générales de l'analyse
-  def data
-    @data ||= begin
-      provdata = Data.new(self)
-      if provdata.exist?
-        TextAnalyzer::Analyse::Data.load(self)
-      else
-        provdata
-      end
+  # Date de création et de modification des données
+  attr_accessor :created_at, :updated_at
+
+  # Les données de l'analyse, sous forme de code YAML
+  def yaml_data
+    {
+      dispatched: {
+        folder:       folder,
+        paths:        paths,
+        files:        files,
+        original_doc_modified_at: original_doc_modified_at,
+        created_at:   self.created_at || Time.now,
+        updated_at:   Time.now
+      }
+    }
+  end
+
+  def dispatch hdata
+    hdata[:dispatched].each do |k, v|
+      send("#{k}=".to_sym, v)
     end
   end
+
+  # L'instance contenant les données générales de l'analyse
+  def data
+    @data ||= TextAnalyzer::Analyse::Data.load(self)
+  end
+
 
   # L'instance contenant tous les résultats de l'analyse
   # Note : pour charger les données qui sont enregistrées dans le fichier,
@@ -70,33 +87,6 @@ class Analyse
   # Question : est-ce que ça sert encore ?
   def get_file object_id
     files[object_id]
-  end
-
-  # Définit et retourne le dossier de l'analyse (le dossier du projet, en
-  # réalité)
-  # Noter qu'il a pu être défini à l'instanciation.
-  def folder
-    @folder ||= begin
-      self.paths                    || raise
-      self.paths.first              || raise
-      File.exist?(self.paths.first) || raise
-      File.expand_path(File.dirname(self.paths.first))
-    rescue Exception
-      rt('textanalyzer.errors.folder_uncalcable')
-    end
-  end
-
-  # Le dossier caché de l'analyse, pour mettre tous les fichiers utiles et
-  # produits.
-  # Pour le trouver, on utilise le premier path de texte à traiter. C'est
-  # par exemple le projet Scrivener.
-  # Note : on construit le dossier s'il n'existe pas (et toute sa hiérarchie).
-  def hidden_folder
-    @hidden_folder ||= begin
-      d = File.join(folder, '.textanalyzer')
-      `mkdir -p "#{d}"`
-      d
-    end
   end
 
 end #/Analyse

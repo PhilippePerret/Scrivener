@@ -17,6 +17,15 @@ class WholeText
     mots[index_mot]
   end
 
+  # Pour définir comment enregistrer la donnée `mots`
+  def mots_for_yaml
+    # TODO Définir le traitement (nil pour le moment)
+  end
+  # Pour savoir comment traiter les mots en retour (load)
+  def mots_from_yaml(value)
+    # TODO Définir le traitement
+  end
+  
 end #/WholeText
 end #/Analyse
 end #/TextAnalyzer

@@ -36,13 +36,13 @@ class Project
 
 
   def save_new_table_resultats tableres
-    File.open(last_table_resultats_path,'wb'){|f| Marshal.dump(tableres, f)}
+    write_in_file(tableres, last_table_resultats_path, {marshal: true})
   end
   # Retourne soit le dernier tableau d'analyse des proximités s'il existe
   # et s'il correspond au document analysés, ou un tableau par défaut, vide
   def load_table_resultats_if_exist
     if File.exists?(last_table_resultats_path)
-      File.open(last_table_resultats_path,'rb'){|f| Marshal.load(f)}
+      read_from_file(last_table_resultats_path, {marshal: true})
     end
   end
   def table_par_default

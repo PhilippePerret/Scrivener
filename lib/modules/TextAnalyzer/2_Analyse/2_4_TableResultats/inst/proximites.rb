@@ -32,7 +32,7 @@ class TableResultats
         # On doit donc créer une proximité
         iprox = Proximite.create(self, mot_avant, mot_apres)
         iprox.distance > 0 || begin
-          rt('commands.prox.errors.distance_null', {iprox: iprox.inspect})
+          rt('commands.proximity.errors.distance_null', {iprox: iprox.inspect})
         end
         # On va mettre la PROXIMITÉ PAR TRANCHE et en
         # profiter pour calculer la moyenne d'éloignement

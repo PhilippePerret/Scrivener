@@ -3,3 +3,5 @@ fr:
   system:
     errors:
       unknown_module_required: 'Le module `%{module_name}` est introuvable…'
+      required_instance_method: 'La méthode `%{method_name}` est requise pour une instance de classe %{class_name}.'
+      unknown_type:             'Type inconnu dans la méthode %{method} : "%{type}".'
