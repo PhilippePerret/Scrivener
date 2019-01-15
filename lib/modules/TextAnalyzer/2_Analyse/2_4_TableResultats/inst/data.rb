@@ -34,7 +34,7 @@ class TableResultats
         canons:                 {type: :method},
         mots:                   {type: :method},
         proximites:             {type: YFDATA},
-        # segments:               {type: YFDATA}
+        segments:               {type: YFDATA}
       }
     }
   end
