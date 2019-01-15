@@ -39,13 +39,13 @@ class Canon
     @mots ||= Array.new
   end
   def mots_for_yaml
-    mots.collect{|imot|imot.data_for_yaml}
+    mots.collect { |imot| imot.data_for_yaml}
   end
   def mots_from_yaml(adata)
     @mots = Array.new
     adata.each do |hdata|
-      puts "-- hdata: #{hdata.inspect}"
-      imot = Mot.new
+      # puts "-- hdata: #{hdata.inspect}"
+      imot = TextAnalyzer::Analyse::WholeText::Mot.new
       imot.data_from_yaml(hdata)
       self.mots << imot
     end

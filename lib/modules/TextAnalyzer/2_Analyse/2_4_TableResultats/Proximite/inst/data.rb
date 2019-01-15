@@ -29,10 +29,10 @@ class Proximite
   end
 
   def mot_avant
-    @mot_avant ||= mot_avant_index ? analyse.mot[mot_avant_index] : nil
+    @mot_avant ||= mot_avant_index ? analyse.get_mot_by_index(mot_avant_index) : nil
   end
   def mot_apres
-    @mot_apres ||= mot_apres_index ? analyse.mot[mot_apres_index] : nil
+    @mot_apres ||= mot_apres_index ? analyse.get_mot_by_index(mot_apres_index) : nil
   end
 
   def mot_avant_index

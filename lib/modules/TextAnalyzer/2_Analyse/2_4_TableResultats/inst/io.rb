@@ -14,12 +14,12 @@ class TableResultats
 
   # Chemin d'accès au fichier des résultats de l'analyse dans le
   # dossier caché
-  def path
-    @path ||= File.join(analyse.hidden_folder, 'table_resultats.yaml')
+  def yaml_file_path
+    @yaml_file_path ||= File.join(analyse.hidden_folder, 'table_resultats.yaml')
     # @file_path ||= File.join(analyse.hidden_folder, 'table_resultats.msh')
   end
-  alias :file_path :path
-  alias :yaml_file_path :path # pour le module YAML
+  alias :file_path  :yaml_file_path
+  alias :path       :yaml_file_path
 
 end #/TableResultats
 end #/Analyse

@@ -42,6 +42,7 @@ class TableResultats
     end
     def items_from_yaml(hdata)
       hdata.each do |k, v|
+        # puts "-- v dans items_from_yaml: #{v.inspect}"
         inst = Canon.new(analyse)
         inst.data_from_yaml(v)
         self.merge!(k => inst)

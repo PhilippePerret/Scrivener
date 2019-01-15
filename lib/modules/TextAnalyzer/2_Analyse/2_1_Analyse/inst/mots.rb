@@ -17,7 +17,7 @@ class Analyse
 
   # Return instance Mot of index +idx+
   def get_mot_by_index(idx)
-    texte_entier.get_by_index(idx)
+    texte_entier.mot(idx)
   end
   # Retourne l'instance {...WholeText::Mot} du mot de :lemma +lemma+
   # Renvoie en fait la première instance
