@@ -2,20 +2,10 @@
 class TextAnalyzer
 class Analyse
 
-
-  def yaml_data_file
-    @yaml_data_file ||= File.join(hidden_folder,'data.yaml')
+  # Fichier pour enregistrer les données
+  def yaml_file_path
+    @yaml_file_path ||= File.join(hidden_folder,'analyse.yaml')
   end
-
-  def yaml_analyse_file
-    @yaml_analyse_file ||= File.join(hidden_folder,'analyse.yaml')
-  end
-
-
-  def data_path
-    @data_path ||= File.join(hidden_folder, 'analyse.msh')
-  end
-
 
   # Définit et retourne le dossier de l'analyse (le dossier du projet, en
   # réalité)

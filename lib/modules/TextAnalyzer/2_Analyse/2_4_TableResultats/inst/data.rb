@@ -31,8 +31,8 @@ class TableResultats
         current_offset:         {type: YAPROP},
         current_index_mot:      {type: YAPROP},
         last_id_proximite:      {type: YAPROP},
-        canons:                 {type: :method},
-        mots:                   {type: :method},
+        canons:                 {type: YFDATA},
+        mots:                   {type: YFDATA},
         proximites:             {type: YFDATA},
         segments:               {type: YFDATA}
       }
@@ -42,12 +42,6 @@ class TableResultats
   def canons
     @canons ||= Canons.new(self.analyse)
   end
-  def canons_for_yaml
-    nil
-  end
-  def canons_from_yaml(hdata)
-
-  end
 
   # La liste de tous les mots réels
   # C'est une table à ne pas confondre avec la liste des mots du texte entier.
@@ -55,12 +49,6 @@ class TableResultats
   # en valeur la liste des index de tous les mots identiques du texte.
   def mots
     @mots ||= Mots.new(self.analyse)
-  end
-  def mots_for_yaml
-    mots.data_for_yaml
-  end
-  def mots_from_yaml(hdata)
-    mots.data_from_yaml(hdata)
   end
 
   # Liste {Segments} des segments de texte dans le texte total. Chaque segment

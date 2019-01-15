@@ -202,27 +202,38 @@ module ModuleForFromYaml
     data_for_yaml.to_yaml
   end
 
+  # La méthode qui reçoit les données lues dans le fichier YAML et qui va
+  # les dispatcher dans l'instance en fonction de leur type.
   def data_from_yaml(hdata)
     hdata[:datas].each do |prop, value|
-      data_properties = yaml_properties[prop.to_sym]
-      case data_properties[prop][:type]
+      data_properties =
+        if yaml_properties[:datas].key?(prop.to_sym)
+          yaml_properties[:datas][prop.to_sym]
+        else
+          case prop
+          when :created_at, :updated_at
+            {type: YAPROP}
+          else
+            raise 'La propritété "%s" est intraitable.' % prop.inspect
+          end
+        end
+      # puts "-- data_properties de #{prop.inspect}: #{data_properties.inspect}"
+      case data_properties[:type]
       when :accessible_property
-        method = "#{prop}="
+        send("#{prop}=".to_sym, value)
       when :instance_variable
         self.instance_variable_set("@#{prop}", value)
-        next
       when :data_for_yaml
         if send(prop) # peut être nil
           send(prop).respond_to?(:data_from_yaml) || rt('system.errors.instance_method_required', {class_name: self.class.name, method_name: ':data_from_yaml(hdata)'})
           send(prop).data_from_yaml(value)
         end
       when :method
-        method = "#{prop}_from_yaml"
+        send("#{prop}_from_yaml".to_sym, value)
       when nil
         next
       end
-      send(method.to_sym, value)
     end
   end
-
+  # /data_from_yaml
 end

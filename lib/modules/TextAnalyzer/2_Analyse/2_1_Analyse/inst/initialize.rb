@@ -15,7 +15,10 @@ class Analyse
   #         :folder       Peut indiquer le dossier dans lequel mettre l'analyse
   #                       C'est dans ce dossier que sera créé le dossier
   #                       `.textanalyzer`
+  #         {String} +data+ peut être aussi simplement le path du fichier
+  #                  à analyser.
   def initialize data = nil
+    data.is_a?(Hash) || data = {path: data}
     treate_data(data)
   end
 

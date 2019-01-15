@@ -9,7 +9,7 @@ class TextAnalyzer
 class Analyse
 class WholeText
 
-  # Retourne TRUE si le fichier marshal existe
+  # Retourne TRUE si le fichier YAML existe
   def exist?
     File.exist?(yaml_file_path)
   end

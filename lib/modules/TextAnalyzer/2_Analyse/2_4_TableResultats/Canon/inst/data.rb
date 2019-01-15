@@ -41,10 +41,11 @@ class Canon
   def mots_for_yaml
     mots.collect{|imot|imot.data_for_yaml}
   end
-  def mots_from_yaml(rdata)
+  def mots_from_yaml(adata)
     @mots = Array.new
     adata.each do |hdata|
-      imot = Mot.new(analyse)
+      puts "-- hdata: #{hdata.inspect}"
+      imot = Mot.new
       imot.data_from_yaml(hdata)
       self.mots << imot
     end

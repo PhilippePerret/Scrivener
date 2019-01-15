@@ -11,7 +11,7 @@ class TableResultats
 class Canon
 
   # Initialisation d'un nouveau canon
-  def initialize analyse, canon, data = nil
+  def initialize analyse, canon = nil
     self.analyse  = analyse
     self.canon    = canon
   end

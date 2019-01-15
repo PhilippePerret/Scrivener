@@ -16,11 +16,11 @@ class WholeText
   def yaml_properties
     {
       datas: {
-        path:             {type: YAPROP},
+        path:             {type: YIVAR},
         lemma_file_path:  {type: YIVAR},
         length:           {type: YIVAR},
         pages_count:      {type: YIVAR},
-        mots:             {type: :method}
+        mots:             {type: YFDATA}
       }
       # Other properties
     }

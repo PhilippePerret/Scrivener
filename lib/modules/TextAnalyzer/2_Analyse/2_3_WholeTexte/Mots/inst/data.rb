@@ -39,7 +39,11 @@ class Mots
   end
   def items_from_yaml(hdata)
     self.items = Hash.new
-    hdata.each { |mid, mdata| self.items.merge!(mid => Mot.new(mid, mdata)) }
+    hdata.each do |mid, mdata|
+      imot = Mot.new
+      imot.data_from_yaml(mdata)
+      self.items.merge!(mid => imot)
+    end
   end
   def count
     @count ||= items.count

@@ -96,7 +96,8 @@ class TableResultats
     def items_from_yaml(hdata)
       hdata.each do |k, v|
         inst = Proximite.new(analyse)
-        self.merge!(k => inst.data_from_yaml(v))
+        inst.data_from_yaml(v)
+        self.merge!(k => inst)
       end
     end
 

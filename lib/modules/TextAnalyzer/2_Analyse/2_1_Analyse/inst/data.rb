@@ -2,6 +2,8 @@
 class TextAnalyzer
 class Analyse
 
+  # Pour la gestion des données enregistrées et loadées
+  include ModuleForFromYaml
 
   # {String} Le chemin d'accès au dossier qui contiendra le dossier
   # caché de l'analyse
@@ -16,34 +18,30 @@ class Analyse
   # Attention, il ne s'agit pas du document texte complet.
   attr_accessor :original_doc_modified_at
 
-  # Date de création et de modification des données
-  attr_accessor :created_at, :updated_at
-
   # Les données de l'analyse, sous forme de code YAML
-  def yaml_data
+  def yaml_properties
     {
       datas: {
-        folder:       folder,
-        paths:        paths,
-        files:        files,
-        original_doc_modified_at: original_doc_modified_at,
-        created_at:   self.created_at || Time.now,
-        updated_at:   Time.now
+        title:                    {type: YAPROP},
+        folder:                   {type: YAPROP},
+        paths:                    {type: YAPROP},
+        # files:                  {type: },
+        original_doc_modified_at: {type: YAPROP},
+        text_analyzer_version:    {type: YIVAR}
       }
     }
   end
 
-  def dispatch hdata
-    hdata[:datas].each do |k, v|
-      send("#{k}=".to_sym, v)
-    end
-  end
-
   # L'instance contenant les données générales de l'analyse
+  # Noter que pour les recharger, il faut explicitement appeler la
+  # méthode reload (soit de l'analyse, soit de ce data)
   def data
-    @data ||= TextAnalyzer::Analyse::Data.load(self)
+    @data ||= TextAnalyzer::Analyse::Data.new(self)
   end
 
+  def text_analyzer_version
+    @text_analyzer_version ||= TextAnalyzer.version
+  end
 
   # L'instance contenant tous les résultats de l'analyse
   # Note : pour charger les données qui sont enregistrées dans le fichier,

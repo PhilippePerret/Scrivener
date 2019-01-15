@@ -10,12 +10,14 @@ class Analyse
 class TableResultats
 class Mot
 
-  def initialize imot, data = nil
-    self.real     = imot.real
-    self.downcase = imot.downcase
-    self.sortish  = imot.downcase.normalize
-    self.data     = data
-    self.indexes  = Array.new
+  def initialize imot = nil, data = nil
+    unless imot.nil? # rechargement
+      self.real     = imot.real
+      self.downcase = imot.downcase
+      self.sortish  = imot.downcase.normalize
+      self.data     = data
+      self.indexes  = Array.new
+    end
   end
 
   # Ajout d'un mot (on ajoute son index. On pourra retrouver le mot avec

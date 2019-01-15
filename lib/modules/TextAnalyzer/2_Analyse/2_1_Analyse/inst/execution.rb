@@ -26,23 +26,6 @@ class Analyse
     save_all
   end
 
-  def save
-    # write_in_file(self, data_path, {marshal: true})
-    write_in_file(self.yaml_data, data_path, {yaml: true})
-  end
-
-  def save_all
-    table_resultats.save
-    texte_entier.save
-    data.ended_at = Time.now
-    data.save
-    self.save
-  end
-  # /save_all
-
-  def data_path
-    @data_path ||= File.join(hidden_folder, 'analyse.msh')
-  end
   # = main =
   #
   # Analyse des paths transmises

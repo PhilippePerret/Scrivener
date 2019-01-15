@@ -26,13 +26,14 @@ class Data
   # Définition des propriétés à sauver
   # Pour le module YAML
   def yaml_properties
+    self.text_analyzer_version ||= TextAnalyzer.version
     {
-      analyse_path: analyse.yaml_data_file,
+      analyse_path: analyse.yaml_file_path,
       datas: {
-        text_analyzer_version:  {value: TextAnalyzer.current_version},
-        paths:        {type: :accessible_property},
-        started_at:   {type: :accessible_property},
-        ended_at:     {type: :accessible_property}
+        text_analyzer_version:  {type: YAPROP},
+        paths:                  {type: YAPROP},
+        started_at:             {type: YAPROP},
+        ended_at:               {type: YAPROP}
       }
     }
   end

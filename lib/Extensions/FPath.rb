@@ -3,7 +3,7 @@
 
   Utilities for application files
 
-Version 0.0.1
+Version 0.0.2
 
   @usage
 
@@ -26,6 +26,9 @@ Version 0.0.1
     fp.exist? #=> true/false
     fp.read   # => return contents
 
+# Version 0.0.2
+  Ajout des méthodes #file? et #directory?
+
 # Version 0.0.1
     Mise en place avec seulement la méthode exist?
 
@@ -43,6 +46,12 @@ module ModuleFPath
 
     def ext extension
       self.end_with?('.%s' % extension) || self.replace(self + '.' + extension)
+    end
+    def file?
+      exist? && !directory?
+    end
+    def directory?
+      exist? && File.directory?(self)
     end
     def exist?
       File.exist?(self)

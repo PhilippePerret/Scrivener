@@ -17,9 +17,35 @@ class TableResultats
   # Classe de la liste des canons
   #
   class Canons < Hash
+
+    # Pour la gestion des données enregistrées et loadées
+    include ModuleForFromYaml
+
     attr_accessor :analyse
+
     def initialize ianalyse
-      self.analyse    = ianalyse
+      self.analyse = ianalyse
+    end
+
+    def yaml_properties
+      {
+        datas: {
+          pourcentage:  {type: YIVAR},
+          nombre:       {type: YIVAR},
+          items:        {type: :method}
+        }
+      }
+    end
+
+    def items_for_yaml
+      h = Hash.new ; self.each{|k,v| h.merge!(k => v.data_for_yaml)} ; return h
+    end
+    def items_from_yaml(hdata)
+      hdata.each do |k, v|
+        inst = Canon.new(analyse)
+        inst.data_from_yaml(v)
+        self.merge!(k => inst)
+      end
     end
 
     # Retourne l'instance {...::Canon} des données du canon du

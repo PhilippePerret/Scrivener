@@ -20,13 +20,28 @@ class Proximite
         fixed:              {type: YAPROP},
         erased:             {type: YAPROP},
         ignored:            {type: YAPROP},
-        mot_avant:          {type: YFDATA},
-        mot_apres:          {type: YFDATA},
+        mot_avant_index:    {type: YIVAR},
+        mot_apres_index:    {type: YIVAR},
         distance:           {type: YIVAR},
         distance_minimale:  {type: YIVAR}
       }
     }
   end
+
+  def mot_avant
+    @mot_avant ||= mot_avant_index ? analyse.mot[mot_avant_index] : nil
+  end
+  def mot_apres
+    @mot_apres ||= mot_apres_index ? analyse.mot[mot_apres_index] : nil
+  end
+
+  def mot_avant_index
+    @mot_avant_index ||= mot_avant ? mot_avant.index : nil
+  end
+  def mot_apres_index
+    @mot_apres_index ||= mot_apres ? mot_apres.index : nil
+  end
+
   # retourne la distance, en caractères, entre les deux mots (de la fin
   # du premier au début du deuxième)
   def distance
