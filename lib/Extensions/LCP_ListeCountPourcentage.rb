@@ -10,12 +10,25 @@
 
 class LCP
 
+  include ModuleForFromYaml
+
   attr_accessor :list
   attr_accessor :nombre_comp
 
   def initialize liste, nombre_comp
     self.list = liste
     self.nombre_comp = nombre_comp
+  end
+
+  def yaml_properties
+    {
+      no_date: true,
+      dispatched: {
+        nombre:       {type: YIVAR},
+        pourcentage:  {type: YIVAR},
+        list:         {type: YAPROP}
+      }
+    }
   end
 
   def nombre

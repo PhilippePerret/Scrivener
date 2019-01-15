@@ -26,7 +26,7 @@ end
 def read_from_file(pth, options = nil)
   options ||= Hash.new
   if options[:marshal]
-    File.open(pth,'rb'){|rf| Marshal.load(rf, check_object)}
+    File.open(pth,'rb'){|rf| Marshal.load(rf)}
   elsif options[:yaml]
     YAML.load(File.read(pth), symbolize_keys: options[:symbolize_keys])
   else

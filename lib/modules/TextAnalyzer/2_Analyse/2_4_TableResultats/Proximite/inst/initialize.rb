@@ -9,7 +9,7 @@ class TableResultats
     attr_accessor :analyse
 
     # Instanciation d'une nouvelle proximité
-    def initialize ianalyse, id, mot_avant, mot_apres
+    def initialize ianalyse, id = nil, mot_avant = nil, mot_apres = nil
       self.analyse    = ianalyse
       self.id         = id
       self.mot_avant  = mot_avant

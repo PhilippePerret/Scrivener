@@ -15,8 +15,7 @@ GEM_LIST = {
 class << self
 
   def load_data_check
-    require File.join(APPFOLDER,'config','locales','extra','check',Scrivener.lang.to_s,'data_check.rb')
-    # DATA_CHECK_INSTALL.merge!()
+    require Scrivener.fpath('config','locales','extra','check',Scrivener.lang.to_s,'data_check.rb')
   end
 
   def exec_check_install

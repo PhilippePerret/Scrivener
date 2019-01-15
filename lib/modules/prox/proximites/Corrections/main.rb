@@ -122,17 +122,17 @@ class ProxMot
       #     Le mot courant est en état de proximité avec le mot précédent
       #     s'il existe une proximité qui les lie, c'est-à-dire si le
       #     mot courant et le "mot_apres" cette proximité, donc si le
-      #     mot courant a un `proximite_avant_id` défini
-      if self.proximite_avant_id
-        if proximite_avant_id == old_mot_avant.proximite_apres_id
+      #     mot courant a un `prox_prev_id` défini
+      if self.prox_prev_id
+        if prox_prev_id == old_mot_avant.prox_next_id
           # Devrait toujours être vrai
           # Il faut détruire cette proximité
-          iprox = self.proximite_avant
+          iprox = self.prox_avant
           iprox.destroy
         else
           # debug 'ERREUR : Les deux ID suivants devraient être identiques (%s:%i)' % [__FILE__, __LINE__]
-          # debug '= ID de la proximité "avant" du mot courant (proximite_avant_id) : %i' % proximite_avant_id
-          # debug '= ID de la proximité "après" du mot précédant : %i' % old_mot_avant.proximite_apres_id
+          # debug '= ID de la proximité "avant" du mot courant (prox_prev_id) : %i' % prox_prev_id
+          # debug '= ID de la proximité "après" du mot précédant : %i' % old_mot_avant.prox_next_id
           return
         end
       end
@@ -140,17 +140,17 @@ class ProxMot
 
     # Si un mot suivante existe (proche ou pas)
     if old_mot_apres
-      if self.proximite_apres_id
+      if self.prox_next_id
         # <= Le mot après est proche
-        if proximite_apres_id == old_mot_apres.proximite_avant_id
+        if prox_next_id == old_mot_apres.prox_prev_id
           # Devrait toujours être vrai
           # On peut détuire cette proximité
-          iprox = self.proximite_apres
+          iprox = self.prox_apres
           iprox.destroy
         else
           # debug 'ERREUR : Les deux ID suivants devraient être identiques (%s:%i)' % [__FILE__, __LINE__]
-          # debug '= ID de la proximité "apres" du mot courant (proximite_apres_id) : %i' % proximite_apres_id
-          # debug '= ID de la proximité "avant" du mot suivant : %i' % old_mot_apres.proximite_avant_id
+          # debug '= ID de la proximité "apres" du mot courant (prox_next_id) : %i' % prox_next_id
+          # debug '= ID de la proximité "avant" du mot suivant : %i' % old_mot_apres.prox_prev_id
           return false
         end
       end

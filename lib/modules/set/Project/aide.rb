@@ -7,7 +7,7 @@ class << self
   # Le fichier localisé des données en fonction de la lang
   def modifiable_properties
     @modifiable_properties ||= begin
-      YAML.load(File.read(File.join(APPFOLDER,'config','locales','extra','set',Scrivener.lang.to_s,'properties_definition.yml')))
+      YAML.load(Scrivener.fpath('config','locales','extra','set',Scrivener.lang.to_s,'properties_definition.yml').read)
     end
   end
 

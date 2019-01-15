@@ -7,13 +7,6 @@ class TextAnalyzer
 class Analyse
 class TableResultats
 
-  # Méthode qui sauve la table de résultats dans son fichier
-  def save
-    self.created_at || self.created_at = Time.now
-    self.updated_at = Time.now
-    write_in_file(self, file_path, {marshal: true})
-  end
-
   # Retourne true si le fichier des résultats enregistrés existe
   def exist?
     File.exist?(file_path)
@@ -21,10 +14,12 @@ class TableResultats
 
   # Chemin d'accès au fichier des résultats de l'analyse dans le
   # dossier caché
-  def file_path
-    @file_path ||= File.join(analyse.hidden_folder, 'table_resultats.msh')
+  def path
+    @path ||= File.join(analyse.hidden_folder, 'table_resultats.yaml')
+    # @file_path ||= File.join(analyse.hidden_folder, 'table_resultats.msh')
   end
-  alias :path :file_path
+  alias :file_path :path
+  alias :yaml_file_path :path # pour le module YAML
 
 end #/TableResultats
 end #/Analyse

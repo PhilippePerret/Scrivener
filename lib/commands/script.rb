@@ -9,8 +9,7 @@ class Scrivener
   else
 
     begin
-      script_path = File.join(APPFOLDER,'script',CLI.params[1])
-      script_path.end_with?('.rb') || script_path.concat('.rb')
+      script_path = Scrivener.fpath('script',CLI.param[1]).ext('rb')
       File.exist?(script_path) || rt('files.errors.unfound_file' % {pth: script_path})
       load script_path
     rescue Exception => e

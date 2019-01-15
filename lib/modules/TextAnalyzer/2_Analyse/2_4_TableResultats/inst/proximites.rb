@@ -71,10 +71,33 @@ class TableResultats
 
   class Proximites < Hash
 
+    # Pour la gestion des données enregistrées et loadées
+    include ModuleForFromYaml
+
     attr_accessor :analyse
 
     def initialize ianalyse
       self.analyse = ianalyse
+    end
+
+    def yaml_properties
+      {
+        dispatched: {
+          pourcentage:  {type: YIVAR},
+          nombre:       {type: YIVAR},
+          items:        {type: :method}
+        }
+      }
+    end
+
+    def items_for_yaml
+      h = Hash.new ; self.each{|k,v| h.merge!(k, v.data_for_yaml)} ; return h
+    end
+    def items_from_yaml(hdata)
+      hdata.each do |k, v|
+        inst = Proximite.new(analyse)
+        self.merge!(k => inst.data_from_yaml(v))
+      end
     end
 
     # Pour ajouter une proximité

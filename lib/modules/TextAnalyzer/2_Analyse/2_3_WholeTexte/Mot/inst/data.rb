@@ -3,6 +3,9 @@ class Analyse
 class WholeText
 class Mot
 
+  # Pour la gestion des données YAML
+  include ModuleForFromYaml
+
   attr_accessor :analyse
 
   # {String} Le mot fourni à l'instanciation et le mot initial gardé,
@@ -23,8 +26,29 @@ class Mot
   # {Fixnum} Décalage du mot dans le texte de son fichier
   attr_accessor :relative_offset
 
-  attr_accessor :proximite_avant_id, :proximite_apres_id
+  attr_accessor :prox_prev_id, :prox_next_id
 
+  # Pour composer la donnée qui sera enregistrée
+  def yaml_properties
+    {
+      no_date: true,
+      dispatched: {
+        index:              {type: YAPROP},
+        real:               {type: YAPROP},
+        offset:             {type: YAPROP},
+        relative_offset:    {type: YAPROP},
+        real_init:          {type: YAPROP},
+        file_id:            {type: YAPROP},
+        prox_prev_id:       {type: YAPROP},
+        prox_next_id:       {type: YAPROP},
+        downcase:           {type: YIVAR},
+        lemma:              {type: YIVAR},
+        canon:              {type: YIVAR},
+        length:             {type: YIVAR},
+        sortish:            {type: YIVAR}
+      }
+    }
+  end
   def file
     @file ||= TextAnalyzer::AnalyzedFile.get(file_id)
   end
@@ -69,24 +93,24 @@ class Mot
 
   # RETURN true si le mot est en proximité avec un autre mot
   def en_proximite?
-    proximite_avant_id || proximite_apres_id
+    prox_prev_id || prox_next_id
   end
 
-  def proximite_avant
-    @proximite_avant ||= begin
-      analyse.table_resultats.proximites[proximite_avant_id]
+  def prox_avant
+    @prox_avant ||= begin
+      analyse.table_resultats.proximites[prox_prev_id]
     end
   end
-  def proximite_avant= iprox
-    self.proximite_avant_id = iprox.nil? ? nil : iprox.id
+  def prox_avant= iprox
+    self.prox_prev_id = iprox.nil? ? nil : iprox.id
   end
-  def proximite_apres
-    @proximite_apres ||= begin
-      analyse.table_resultats.proximites[proximite_apres_id]
+  def prox_apres
+    @prox_apres ||= begin
+      analyse.table_resultats.proximites[prox_next_id]
     end
   end
-  def proximite_apres= iprox
-    self.proximite_apres_id = iprox.nil? ? nil : iprox.id
+  def prox_apres= iprox
+    self.prox_next_id = iprox.nil? ? nil : iprox.id
   end
 
   def distance_minimale
@@ -111,7 +135,6 @@ class Mot
       analyse.canons[self.canon].proximites.count
     end
   end
-
 
   def data_in_table_resultats
     @in_table_resultats ||= self.analyse.table_resultats.mots[self.lemma]

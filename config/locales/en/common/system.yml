@@ -3,5 +3,5 @@ en:
   system:
     errors:
       unknown_module_required: 'Unfound module `%{module_name}`…'
-      unknown_instance_method: 'Required method `%{method_name}` for instance of class %{class_name}.'
+      instance_method_required: 'Required method `%{method_name}` for instance of class %{class_name}.'
       unknown_type: 'Unknown :type "%{type}" in method %{method}.'

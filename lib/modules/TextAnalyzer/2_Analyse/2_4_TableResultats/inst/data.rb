@@ -3,6 +3,9 @@ class TextAnalyzer
 class Analyse
 class TableResultats
 
+  # Pour la gestion des données YAML
+  include ModuleForFromYaml
+
   # Au cours d'une analyse de plusieurs textes constituant un même texte (comme
   # dans un projet Scrivener), on maintient l'offset courant dans cette
   # propriété mise à 0 à l'initialisation de l'instance TableResultats.
@@ -15,10 +18,35 @@ class TableResultats
   # Le dernier index pour une proximité
   attr_accessor :last_id_proximite
 
-  attr_accessor :created_at, :updated_at
+  # Version d'analyser utilisée
+  attr_accessor :text_analyzer_version
+
+  # Définitions des données qui seront sauvées dans la table de
+  # résultat
+  def yaml_properties
+    self.text_analyzer_version ||= TextAnalyzer.current_version
+    {
+      dispatched: {
+        text_analyzer_version:  {type: YAPROP},
+        current_offset:         {type: YAPROP},
+        current_index_mot:      {type: YAPROP},
+        last_id_proximite:      {type: YAPROP},
+        canons:                 {type: :method},
+        mots:                   {type: :method},
+        proximites:             {type: :method},
+        segments:               {type: :method}
+      }
+    }
+  end
 
   def canons
     @canons ||= Canons.new(self.analyse)
+  end
+  def canons_for_yaml
+    nil
+  end
+  def canons_from_yaml(hdata)
+
   end
 
   # La liste de tous les mots réels
@@ -28,6 +56,12 @@ class TableResultats
   def mots
     @mots ||= Mots.new(self.analyse)
   end
+  def mots_for_yaml
+    mots.data_for_yaml
+  end
+  def mots_from_yaml(hdata)
+    mots.data_from_yaml(hdata)
+  end
 
   # Liste {Segments} des segments de texte dans le texte total. Chaque segment
   # peut être un mot ou un inter-mot, comme une ponctuation. Cette liste
@@ -35,11 +69,23 @@ class TableResultats
   def segments
     @segments ||= Segments.new(self.analyse)
   end
+  def segments_for_yaml
+    nil
+  end
+  def segments_from_yaml(hdata)
+
+  end
 
   # La liste des proximités
   # C'est une instance qui permet de gérer les proximités plus facilement
   def proximites
     @proximites ||= Proximites.new(self.analyse)
+  end
+  def proximites_for_yaml
+    nil
+  end
+  def proximites_from_yaml(hdata)
+
   end
 
 end #/TableResultats

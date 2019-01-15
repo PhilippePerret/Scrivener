@@ -17,10 +17,11 @@ class Scrivener
       # return
 
       Dir.chdir(command_on_project?(self.command) ? project.folder : File.expand_path('.')) do
-        require File.join(APPFOLDER,'lib','commands',self.command)
+        require fpath('lib','commands',command)
       end
 
-      puts String::RC * 4
+      # Space between end script and invite
+      puts String::RC * 3
 
     rescue Exception => e
       raise_by_mode(e, Scrivener.mode)

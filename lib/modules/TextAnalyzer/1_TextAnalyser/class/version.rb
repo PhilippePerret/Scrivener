@@ -1,8 +1,6 @@
 # encoding: UTF-8
 class TextAnalyzer
-class << self
-  def current_version
-    '0.8.2'
+  def self.current_version
+    File.read(Scrivener.fpath('TEXTANALYZER_VERSION')).strip
   end
-end #/<< self
 end #/TextAnalyzer

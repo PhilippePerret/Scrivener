@@ -5,6 +5,27 @@
   Module permettant de gérer les enregistrements d'instance dans des
   fichiers YAML sans passer par Marshal.
 
+  MISE EN PLACE
+  -------------
+
+    class ClasseUsingYaml
+
+      include ModuleForFromYaml
+
+      ...
+
+      def yaml_properties
+        {
+          ...
+        }
+      end
+
+      def path
+        @path ||= '/to/yaml/file.yml'
+      end
+      
+    end #/ClasseUsingYaml
+
   REQUIS
   ------
 
@@ -55,6 +76,9 @@
       :method                   Si on l'atteint par :<prop>_for_yaml et
                                 :<prop>_from_yaml.
       :instance_variable        Si c'est une @variable d'instance
+      :data_for_yaml            Cela signifie que la propriété est une instance
+                                qui répond aux méthode `data_for_yaml` et
+                                `data_from_yaml`.
 
   La méthode "for yaml" fera hdata[dispatched].merge!(<prop> => send(<prop>))
   La méthode "from yaml" fera send("<prop>=", <value>) (ou instance_variable_set)
@@ -76,9 +100,18 @@
   Le module ajoute automatiquement les propriétés avec accesseurs
   :created_at et :updated_at et les renseigne. Donc inutile de les
   traiter dans les instances.
+  Pour ne pas les enregistrer (pour les données à grand nombre), on
+  ajoute simplement :no_date au premier niveau de yaml_properties
 
 =end
 module ModuleForFromYaml
+
+  # Type d'une propriété dans yaml_properties
+  # Pour simplifier l'écriture
+  YAPROP  = :accessible_property
+  YIVAR   = :instance_variable
+  YFDATA  = :data_for_yaml
+
 
   attr_accessor :created_at, :updated_at
 
@@ -105,6 +138,11 @@ module ModuleForFromYaml
   end
   alias :load :read_from_yaml
 
+  # Les propriétés de premier niveau à passer
+  SKIP_ROOT_LEVEL = {
+    dispatched: true, no_date: true
+  }
+
   def data_for_yaml
     hdata = Hash.new
     # Les données fonctionnelles, qui permettent de connaitre les
@@ -112,11 +150,13 @@ module ModuleForFromYaml
     hdata.merge!(
       class:      self.class.name
     )
+    # Faut-il ou non des dates
+    no_date = !!yaml_properties.delete(:no_date)
+
     # On enregistre les propriétés non dispatchée (qui servent souvent de
     # simple rappel)
     yaml_properties.each do |prop, value|
-      prop != :dispatched || next
-      hdata.merge!(prop => value)
+      SKIP_ROOT_LEVEL[prop] || hdata.merge!(prop => value)
     end
     hdata.merge!(dispatched: Hash.new)
     yaml_properties[:dispatched].each do |prop, dprop|
@@ -125,8 +165,13 @@ module ModuleForFromYaml
       def_value = dprop[:value] ||  case dprop[:type]
                                     when :accessible_property
                                       send(prop)
-                                    when :variable_instance
-                                      self.instance_variable_get("@#{prop}")
+                                    when :instance_variable
+                                      send(prop) # pour l'évaluer au besoin
+                                    when :data_for_yaml
+                                      if send(prop) # peut être nil
+                                        send(prop).respond_to?(:data_for_yaml) || rt('system.errors.instance_method_required', {class_name: self.class.name, method_name: ':data_for_yaml'})
+                                        send(prop).data_for_yaml
+                                      end
                                     when :method
                                       dprop[:value] || send("#{prop}_for_yaml".to_sym)
                                     else
@@ -134,10 +179,13 @@ module ModuleForFromYaml
                                     end
       hdata[:dispatched].merge!(prop => def_value)
     end
-    # Pour terminer, on ajoute les dates de création (si nécessaire) et de
-    # dernière modification
-    self.created_at || hdata[:dispatched].merge!(created_at: Time.now)
-    hdata[:dispatched].merge!(updated_at: Time.now)
+
+    unless no_date
+      # Pour terminer, on ajoute les dates de création (si nécessaire) et de
+      # dernière modification
+      self.created_at || hdata[:dispatched].merge!(created_at: Time.now)
+      hdata[:dispatched].merge!(updated_at: Time.now)
+    end
 
     # On peut retourner les données à enregistrer dans le fichier YAML
     return hdata
@@ -152,6 +200,11 @@ module ModuleForFromYaml
       when :instance_variable
         self.instance_variable_set("@#{prop}", value)
         next
+      when :data_for_yaml
+        if send(prop) # peut être nil
+          send(prop).respond_to?(:data_from_yaml) || rt('system.errors.instance_method_required', {class_name: self.class.name, method_name: ':data_from_yaml(hdata)'})
+          send(prop).data_from_yaml(value)
+        end
       when :method
         method = "#{prop}_from_yaml"
       when nil

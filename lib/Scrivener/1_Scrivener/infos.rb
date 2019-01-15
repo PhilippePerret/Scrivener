@@ -101,7 +101,7 @@ class << self
 
   # Retourne true si la commande +commande+ existe.
   def command_exist?(commande)
-    File.exist?(File.join(APPFOLDER,'lib','commands',"#{commande}.rb"))
+    Scrivener.fpath('lib','commands',commande).ext('rb').exist?
   end
 end #/<< self
 end #/Scriver

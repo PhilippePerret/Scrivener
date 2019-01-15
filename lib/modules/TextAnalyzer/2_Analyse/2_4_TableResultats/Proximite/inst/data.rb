@@ -7,9 +7,26 @@ class Analyse
 class TableResultats
 class Proximite
 
+  # Pour la gestion des données enregistrées et loadées
+  include ModuleForFromYaml
+
   # Pour indiquer que cette proximité a été corrigée, supprimée ou ignorée
   attr_accessor :fixed, :erased, :ignored
 
+  # Pour le module YAML
+  def yaml_properties
+    {
+      distached: {
+        fixed:              {type: YAPROP},
+        erased:             {type: YAPROP},
+        ignored:            {type: YAPROP},
+        mot_avant:          {type: :method},
+        mot_apres:          {type: :method},
+        distance:           {type: YIVAR},
+        distance_minimale:  {type: YIVAR}
+      }
+    }
+  end
   # retourne la distance, en caractères, entre les deux mots (de la fin
   # du premier au début du deuxième)
   def distance

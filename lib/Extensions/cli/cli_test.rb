@@ -90,8 +90,8 @@ class << self
     end
 
     # Si une méthode before_all existe, on la joue
-    phelpertest = File.join(APPFOLDER,'test','test_helper.rb')
-    require phelpertest if File.exist?(phelpertest)
+    phelpertest = Scrivener.fpath('test','test_helper.rb')
+    require phelpertest if phelpertest.exist?
 
     self.respond_to?(:before_all) && begin
       CLI.dbg "SUIVI --> Scrivener.before_all"

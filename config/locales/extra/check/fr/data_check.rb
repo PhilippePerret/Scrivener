@@ -21,7 +21,7 @@ DATA_CHECK_INSTALL = {
   scriv_app: {
     success_msg:  'Application CLI `scriv` trouvée',
     failure_msg:  'L’application CLI `scriv` est introuvable…',
-    value:        'File.exist?(File.join(APPFOLDER,\'bin\',\'scriv.rb\'))',
+    value:        'Scrivener.fpath(\'bin\',\'scriv.rb\').exist?',
     expected:     'true',
     evaluate:     'value == expected',
     solve:        'Il faut charger la dernière version stable à l’adresse https://github.com/PhilippePerret/Scrivener'
@@ -29,7 +29,7 @@ DATA_CHECK_INSTALL = {
   scriv_builder_command: {
     success_msg:  'Le constructeur de la commande `scriv` existe',
     failure_msg:  'Le constructeur de la commande `scriv` est introuvable…',
-    value:        'File.exist?(File.join(APPFOLDER,\'bin\',\'build_command.rb\'))',
+    value:        'Scrivener.fpath(\'bin\',\'build_command.rb\').exist?',
     expected:     'true',
     evaluate:     'value == expected',
     solve:        'Il faut recharger une version stable de `scriv` à l’adresse https://github.com/PhilippePerret/Scrivener'

@@ -23,10 +23,32 @@ class TableResultats
   # Classe de la liste des mots
   # C'est l'instance obtenue par <analyse>.table_resultats.mots
   class Mots < Hash
+
+    # Pour la gestion des données YAML
+    include ModuleForFromYaml
+
     attr_accessor :analyse
 
     def initialize ianalyse
       self.analyse = ianalyse
+    end
+
+    # Définition des données YAML à enregistrer
+    def yaml_properties
+      {
+        dispatched: {
+          mots_uniques:       {type: YIVAR},
+          nombre_total_mots:  {type: YIVAR},
+          items:              {type: :method}
+        }
+      }
+    end
+
+    def items_for_yaml
+      h = Hash.new ; self.each { |lemma, arr| h.merge!(lemma => arr) } ; h
+    end
+    def items_from_yaml(hdata)
+      hdata.each { |lemma, arr| self.merge!(lemma => arr) }
     end
 
     # Ajouter le mot quoi qu'il en soit (traitable ou pas)

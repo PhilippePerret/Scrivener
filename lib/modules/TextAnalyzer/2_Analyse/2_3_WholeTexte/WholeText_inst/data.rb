@@ -16,8 +16,10 @@ class WholeText
   def yaml_properties
     {
       dispatched: {
-        path:             {type: :accessible_property},
-        lemma_file_path:  {type: :accessible_property},
+        path:             {type: YAPROP},
+        lemma_file_path:  {type: YIVAR},
+        length:           {type: YIVAR},
+        pages_count:      {type: YIVAR},
         mots:             {type: :method}
       }
       # Other properties

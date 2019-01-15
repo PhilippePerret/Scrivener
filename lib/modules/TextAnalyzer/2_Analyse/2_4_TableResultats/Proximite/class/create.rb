@@ -15,8 +15,8 @@ class Proximite
       table.canons.add_proximite(mot_avant, new_prox)
 
       # On associe les mots à leur proximité
-      mot_avant.proximite_apres= new_prox
-      mot_apres.proximite_avant= new_prox
+      mot_avant.prox_apres= new_prox
+      mot_apres.prox_avant= new_prox
 
       # On retourne la nouvelle proximité créée
       return new_prox

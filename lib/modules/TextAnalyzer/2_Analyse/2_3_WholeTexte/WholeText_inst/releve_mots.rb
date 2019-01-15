@@ -147,11 +147,11 @@ class WholeText
     # L'ID du fichier courant.
     # Pour le trouver, pour le moment, on cherche avec les Files de l'analyse,
     # dont l'instance contient l'offset dans le texte.
+    file_index = nil
     from_file_offset_to_file_offset.each_with_index do |offset, file_index|
-      offset < offs || begin
-        return file_index
-      end
+      offset < offs || (return file_index)
     end
+    return from_file_offset_to_file_offset.count - 1
   end
 
   def from_file_offset_to_file_offset

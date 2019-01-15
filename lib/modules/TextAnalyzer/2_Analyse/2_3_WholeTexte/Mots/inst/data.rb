@@ -7,6 +7,9 @@ class Analyse
 class WholeText
 class Mots
 
+  # Pour la gestion des données YAML
+  include ModuleForFromYaml
+
   # {TextAnalyzer::Analyse::WholeText} Instance du texte entier
   attr_accessor :texte_entier
 
@@ -15,6 +18,29 @@ class Mots
   # Cf. la méthode `create` pour voir comment ils sont créés
   attr_accessor :items
 
+
+  # Pour la gestion des données en YAML
+  def yaml_properties
+    {
+      dispatched: {
+        count:            {type: YIVAR},
+        items:            {type: :method},
+        en_proximites:    {type: YFDATA},
+        hors_proximites:  {type: YFDATA}
+      }
+    }
+  end
+
+  # Pour l'enregistrement et le chargement des mots
+  def items_for_yaml
+    h = Hash.new
+    items.each { |mid, mdata| h.merge!(mid => mdata.data_for_yaml) }
+    return h
+  end
+  def items_from_yaml(hdata)
+    self.items = Hash.new
+    hdata.each { |mid, mdata| self.items.merge!(mid => Mot.new(mid, mdata)) }
+  end
   def count
     @count ||= items.count
   end

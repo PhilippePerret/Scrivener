@@ -8,7 +8,7 @@ class << self
   end
 
   def require_module module_name
-    module_full_path = File.join(APPFOLDER,'lib','modules',module_name)
+    module_full_path = Scrivener.fpath('lib','modules',module_name)
     File.exist?(module_full_path) || begin
       ct('system.errors.unknown_module_required', {module_name: module_name})
     rescue Exception => e
