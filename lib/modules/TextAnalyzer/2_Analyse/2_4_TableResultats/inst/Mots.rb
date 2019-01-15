@@ -36,7 +36,7 @@ class TableResultats
     # Définition des données YAML à enregistrer
     def yaml_properties
       {
-        dispatched: {
+        datas: {
           mots_uniques:       {type: YIVAR},
           nombre_total_mots:  {type: YIVAR},
           items:              {type: :method}

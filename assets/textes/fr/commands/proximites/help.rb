@@ -127,7 +127,7 @@ Usage :    #{'scriv prox[imites][ vers/mon/projet.scriv][ <parametres>][ <option
   TRAITEMENT PROPRE DE MOTS
   -------------------------
 
-  On peut, dans un fichier `proximites.txt` se trouvant au même
+  On peut, dans un fichier `__proximites.txt` se trouvant au même
   niveau que le projet Scrivener, définir des listes propres de
   mots qui devont être traités différemment pour le projet consi-
   dérés.

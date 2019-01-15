@@ -20,7 +20,7 @@ class Mot
 
   def yaml_properties
     {
-      dispatched: {
+      datas: {
         real:       {type: YAPROP},
         downcase:   {type: YAPROP},
         sortish:    {type: YAPROP},

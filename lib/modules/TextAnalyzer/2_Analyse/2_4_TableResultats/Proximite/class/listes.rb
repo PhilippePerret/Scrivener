@@ -45,7 +45,7 @@ class Proximite
     # /prepare_liste_proximites_projet
 
     def custom_proximites_file_path(analyse = nil)
-      @custom_custom_proximites_file_path ||= File.join(analyse.folder, 'proximites.txt')
+      @custom_custom_proximites_file_path ||= File.join(analyse.folder, '__proximites.txt')
     end
 
   end #/ << self

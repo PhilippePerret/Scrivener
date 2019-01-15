@@ -22,7 +22,7 @@ class Mots
   # Pour la gestion des données en YAML
   def yaml_properties
     {
-      dispatched: {
+      datas: {
         count:            {type: YIVAR},
         items:            {type: :method},
         en_proximites:    {type: YFDATA},

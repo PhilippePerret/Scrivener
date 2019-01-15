@@ -23,7 +23,7 @@ class LCP
   def yaml_properties
     {
       no_date: true,
-      dispatched: {
+      datas: {
         nombre:       {type: YIVAR},
         pourcentage:  {type: YIVAR},
         list:         {type: YAPROP}

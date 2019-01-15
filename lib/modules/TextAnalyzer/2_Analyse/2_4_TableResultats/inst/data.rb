@@ -26,15 +26,15 @@ class TableResultats
   def yaml_properties
     self.text_analyzer_version ||= TextAnalyzer.current_version
     {
-      dispatched: {
+      datas: {
         text_analyzer_version:  {type: YAPROP},
         current_offset:         {type: YAPROP},
         current_index_mot:      {type: YAPROP},
         last_id_proximite:      {type: YAPROP},
         canons:                 {type: :method},
         mots:                   {type: :method},
-        proximites:             {type: :method},
-        segments:               {type: :method}
+        proximites:             {type: YFDATA},
+        # segments:               {type: YFDATA}
       }
     }
   end
@@ -69,23 +69,11 @@ class TableResultats
   def segments
     @segments ||= Segments.new(self.analyse)
   end
-  def segments_for_yaml
-    nil
-  end
-  def segments_from_yaml(hdata)
-
-  end
 
   # La liste des proximités
   # C'est une instance qui permet de gérer les proximités plus facilement
   def proximites
     @proximites ||= Proximites.new(self.analyse)
-  end
-  def proximites_for_yaml
-    nil
-  end
-  def proximites_from_yaml(hdata)
-
   end
 
 end #/TableResultats

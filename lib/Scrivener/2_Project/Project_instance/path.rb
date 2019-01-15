@@ -11,7 +11,7 @@ class Scrivener
     # Fichier contenant la définition des données de proximité propres
     # au projet courant
     def custom_proximites_file_path
-      @custom_proximites_file_path ||= File.join(folder, 'proximites.txt')
+      @custom_proximites_file_path ||= File.join(folder, '__proximites.txt')
     end
 
     def affixe

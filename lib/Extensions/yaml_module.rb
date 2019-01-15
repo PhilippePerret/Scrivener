@@ -23,7 +23,7 @@
       def path
         @path ||= '/to/yaml/file.yml'
       end
-      
+
     end #/ClasseUsingYaml
 
   REQUIS
@@ -43,7 +43,7 @@
     def yaml_properties
       @yaml_properties ||= {
         # Property to dispatch on load
-        dispatched: {
+        datas: {
           <prop>: {regular: true/false},
           <prop>: {regular: true/false},
           ...
@@ -97,11 +97,16 @@
   NOTES
   -----
 
-  Le module ajoute automatiquement les propriétés avec accesseurs
-  :created_at et :updated_at et les renseigne. Donc inutile de les
-  traiter dans les instances.
-  Pour ne pas les enregistrer (pour les données à grand nombre), on
-  ajoute simplement :no_date au premier niveau de yaml_properties
+    * Le module ajoute automatiquement les propriétés avec accesseurs
+      :created_at et :updated_at et les renseigne. Donc inutile de les
+      traiter dans les instances.
+      Pour ne pas les enregistrer (pour les données à grand nombre), on
+      ajoute simplement :no_date au premier niveau de yaml_properties
+
+    * La méthode `inspect` des instances est remplacée par la méthode
+      data_for_yaml qui permet d'avoir un affichage plus lisible. On
+      peut néanmoins obtenir le vrai inspect avec la méthode
+      `real_inspect`
 
 =end
 module ModuleForFromYaml
@@ -140,7 +145,7 @@ module ModuleForFromYaml
 
   # Les propriétés de premier niveau à passer
   SKIP_ROOT_LEVEL = {
-    dispatched: true, no_date: true
+    datas: true, no_date: true
   }
 
   def data_for_yaml
@@ -158,8 +163,8 @@ module ModuleForFromYaml
     yaml_properties.each do |prop, value|
       SKIP_ROOT_LEVEL[prop] || hdata.merge!(prop => value)
     end
-    hdata.merge!(dispatched: Hash.new)
-    yaml_properties[:dispatched].each do |prop, dprop|
+    hdata.merge!(datas: Hash.new)
+    yaml_properties[:datas].each do |prop, dprop|
       # dprop peut définir des façons particulières de traiter la donnée
       # pour l'enregistrer
       def_value = dprop[:value] ||  case dprop[:type]
@@ -177,22 +182,28 @@ module ModuleForFromYaml
                                     else
                                       rt('system.errors.unknown_type', {type: dprop[:type], method: ':data_for_yaml'})
                                     end
-      hdata[:dispatched].merge!(prop => def_value)
+      hdata[:datas].merge!(prop => def_value)
     end
 
     unless no_date
       # Pour terminer, on ajoute les dates de création (si nécessaire) et de
       # dernière modification
-      self.created_at || hdata[:dispatched].merge!(created_at: Time.now)
-      hdata[:dispatched].merge!(updated_at: Time.now)
+      self.created_at || hdata[:datas].merge!(created_at: Time.now)
+      hdata[:datas].merge!(updated_at: Time.now)
     end
 
     # On peut retourner les données à enregistrer dans le fichier YAML
     return hdata
   end
+  # /data_for_yaml
+
+  alias :real_inspect :inspect
+  def inspect
+    data_for_yaml.to_yaml
+  end
 
   def data_from_yaml(hdata)
-    hdata[:dispatched].each do |prop, value|
+    hdata[:datas].each do |prop, value|
       data_properties = yaml_properties[prop.to_sym]
       case data_properties[prop][:type]
       when :accessible_property

@@ -15,7 +15,7 @@ class WholeText
   # Pour l'enregistrement YAML
   def yaml_properties
     {
-      dispatched: {
+      datas: {
         path:             {type: YAPROP},
         lemma_file_path:  {type: YIVAR},
         length:           {type: YIVAR},

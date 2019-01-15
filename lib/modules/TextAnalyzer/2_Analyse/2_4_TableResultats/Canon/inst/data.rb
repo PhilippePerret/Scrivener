@@ -10,6 +10,9 @@ class Analyse
 class TableResultats
 class Canon
 
+  # Pour la gestion des données enregistrées et loadées
+  include ModuleForFromYaml
+
   # Instance {TextAnalyzer::Analyse} de l'analyse à laquelle appartient le
   # canon
   attr_accessor :analyse
@@ -17,10 +20,34 @@ class Canon
   # {String} Le mot canonique
   attr_accessor :canon
 
+  def yaml_properties
+    {
+      no_date: true,
+      datas: {
+        canon:              {type: YAPROP},
+        proximites:         {type: YIVAR},
+        mots:               {type: :method},
+        nombre_occurences:  {type: YIVAR},
+        nombre_proximites:  {type: YIVAR}
+      }
+    }
+  end
+
   # Liste des instances mots du canon
   # Note : avant, c'était `items`
   def mots
     @mots ||= Array.new
+  end
+  def mots_for_yaml
+    mots.collect{|imot|imot.data_for_yaml}
+  end
+  def mots_from_yaml(rdata)
+    @mots = Array.new
+    adata.each do |hdata|
+      imot = Mot.new(analyse)
+      imot.data_from_yaml(hdata)
+      self.mots << imot
+    end
   end
 
   # Liste des identifiants ({Fixnum}) des proximités du canon

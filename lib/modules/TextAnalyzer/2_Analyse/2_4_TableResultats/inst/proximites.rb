@@ -24,9 +24,9 @@ class TableResultats
     total_distances_common = 0
 
     canons.each do |canon, dcanon|
-      dcanon.mots.each_with_index do |mot_apres, index_mot|
-        index_mot > 0 || next
-        mot_avant = dcanon.mots[index_mot - 1]
+      dcanon.mots.each_with_index do |mot_apres, mot_idx|
+        mot_idx > 0 || next
+        mot_avant = dcanon.mots[mot_idx - 1]
         mot_apres.trop_proche_de?(mot_avant) || next
         # Si on passe ici, c'est que le mot imot est trop du mot précédent.
         # On doit donc créer une proximité
@@ -82,7 +82,7 @@ class TableResultats
 
     def yaml_properties
       {
-        dispatched: {
+        datas: {
           pourcentage:  {type: YIVAR},
           nombre:       {type: YIVAR},
           items:        {type: :method}
@@ -91,7 +91,7 @@ class TableResultats
     end
 
     def items_for_yaml
-      h = Hash.new ; self.each{|k,v| h.merge!(k, v.data_for_yaml)} ; return h
+      h = Hash.new ; self.each{|k,v| h.merge!(k => v.data_for_yaml)} ; return h
     end
     def items_from_yaml(hdata)
       hdata.each do |k, v|

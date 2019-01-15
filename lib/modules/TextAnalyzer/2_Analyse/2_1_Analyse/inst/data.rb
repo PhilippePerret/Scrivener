@@ -22,7 +22,7 @@ class Analyse
   # Les données de l'analyse, sous forme de code YAML
   def yaml_data
     {
-      dispatched: {
+      datas: {
         folder:       folder,
         paths:        paths,
         files:        files,
@@ -34,7 +34,7 @@ class Analyse
   end
 
   def dispatch hdata
-    hdata[:dispatched].each do |k, v|
+    hdata[:datas].each do |k, v|
       send("#{k}=".to_sym, v)
     end
   end

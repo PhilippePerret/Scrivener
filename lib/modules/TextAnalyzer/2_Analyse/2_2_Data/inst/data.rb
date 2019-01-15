@@ -28,7 +28,7 @@ class Data
   def yaml_properties
     {
       analyse_path: analyse.yaml_data_file,
-      dispatched: {
+      datas: {
         text_analyzer_version:  {value: TextAnalyzer.current_version},
         paths:        {type: :accessible_property},
         started_at:   {type: :accessible_property},

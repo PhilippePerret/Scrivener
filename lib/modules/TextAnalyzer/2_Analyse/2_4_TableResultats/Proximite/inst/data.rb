@@ -16,12 +16,12 @@ class Proximite
   # Pour le module YAML
   def yaml_properties
     {
-      distached: {
+      datas: {
         fixed:              {type: YAPROP},
         erased:             {type: YAPROP},
         ignored:            {type: YAPROP},
-        mot_avant:          {type: :method},
-        mot_apres:          {type: :method},
+        mot_avant:          {type: YFDATA},
+        mot_apres:          {type: YFDATA},
         distance:           {type: YIVAR},
         distance_minimale:  {type: YIVAR}
       }

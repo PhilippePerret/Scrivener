@@ -32,7 +32,7 @@ class Mot
   def yaml_properties
     {
       no_date: true,
-      dispatched: {
+      datas: {
         index:              {type: YAPROP},
         real:               {type: YAPROP},
         offset:             {type: YAPROP},
