@@ -1,7 +1,10 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    concurrent-ruby (1.1.5)
     curses (1.2.5)
+    i18n (1.6.0)
+      concurrent-ruby (~> 1.0)
     plist (3.5.0)
     rake (12.3.2)
 
@@ -10,6 +13,7 @@ PLATFORMS
 
 DEPENDENCIES
   curses!
+  i18n!
   plist (>= 3.4.0)!
   rake!
 

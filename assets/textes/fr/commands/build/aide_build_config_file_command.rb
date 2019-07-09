@@ -42,10 +42,10 @@ AIDE = <<-SOUSAIDE
                       ra plus clair mais plus lourd).
 
   --open[=EDITOR]     Si cette option est ajoutée, le fichier est im-
-                      médiatement ouvert dans l'éditeur défini par
-                      dans le fichier de configuration de Scrivener
-                      dans ENV['SCRIV_EDITOR'] ou dans l'éditeur spé-
-                      cifié par EDITOR. Exemple :
+                      médiatement ouvert dans l'éditeur défini dans
+                      le fichier de configuration de Scrivener dans
+                      ENV['SCRIV_EDITOR'] ou dans l'éditeur spécifié
+                      par EDITOR. Exemple :
                       #{'scriv build config-file --open=TextMate'}
 
 

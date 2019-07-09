@@ -48,11 +48,11 @@ class << self
     end
     pth || raise
   rescue
-    fail(LoadError, 'Unfound text file "%s"…' % relpath)
+    fail(LoadError, 'Unfound text file "%s" (fullpath: "%s")…' % [relpath, pth])
   end
   def required_texte_path_in_lang(relpath, lg)
     pth = File.join(APPFOLDER,'assets','textes', lg.to_s, relpath)
-    # puts "--pth: #{pth.with_extension('rb')}"
+    puts "--pth: #{pth.with_extension('rb')}"
     File.exist?(pth.with_extension('rb')) || return
     return pth
   end

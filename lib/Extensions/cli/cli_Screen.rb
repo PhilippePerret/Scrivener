@@ -13,6 +13,7 @@ class CLI
 class Screen
 class << self
 
+  # Nettoyer l'écran
   def clear
     puts "\033c"
   end
