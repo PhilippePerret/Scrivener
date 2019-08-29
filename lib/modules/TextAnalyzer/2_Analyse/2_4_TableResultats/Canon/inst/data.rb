@@ -51,7 +51,7 @@ class Canon
     end
   end
 
-  # Liste des identifiants ({Fixnum}) des proximités du canon
+  # Liste des identifiants ({Integer}) des proximités du canon
   def proximites
     @proximites ||= Array.new
   end

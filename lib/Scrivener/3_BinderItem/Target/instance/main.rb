@@ -14,7 +14,7 @@ class Scrivener
         # Raccourci
         def projet ; binder_item.projet end
 
-        # +value+   {Fixnum} La valeur à donner à la cible. L'unité dépend
+        # +value+   {Integer} La valeur à donner à la cible. L'unité dépend
         #           de +options+
         #           {Hash} Peut contenir toutes les valeurs de la définition
         #           Dans ce cas, value[:value] doit contenir la valeur

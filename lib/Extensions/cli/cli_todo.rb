@@ -136,7 +136,7 @@ class << self
   # ---------------------------------------------------------------------
   # Méthodes utilitaires
 
-  # Retourne l'indice de la tâche ({Fixnum}) de référence +ref_task+
+  # Retourne l'indice de la tâche ({Integer}) de référence +ref_task+
   # +ref_task+ peut être :
   #   - l'indice de la tâche (String)
   #   - la tâche complète

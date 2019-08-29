@@ -3,14 +3,22 @@
 <plist version="1.0">
 <dict>
 	<key>NotesScaleFactor</key>
-	<real>1.0</real>
+	<real>1.5</real>
 	<key>SuppressBookmarksFolderCheck</key>
 	<false/>
 	<key>binderSplitFrames</key>
 	<array>
 		<string>{{0, 0}, {265, 906}}</string>
-		<string>{{266, 0}, {1145, 906}}</string>
+		<string>{{266, 0}, {1391, 906}}</string>
 	</array>
+	<key>bookmarksSelectionInfo</key>
+	<dict>
+		<key>0F81282D-A49B-43E4-8EDB-31E192CBF90A</key>
+		<dict>
+			<key>Row</key>
+			<integer>-1</integer>
+		</dict>
+	</dict>
 	<key>collectionsRepresentedBinderDocumentsInfo</key>
 	<dict>
 		<key>MainID</key>
@@ -25,35 +33,38 @@
 	</dict>
 	<key>inspectorSplitFrames</key>
 	<array>
-		<string>{{0, 0}, {336, 896}}</string>
+		<string>{{0, 0}, {851, 876}}</string>
+		<string>{{852, 0}, {539, 876}}</string>
 	</array>
 	<key>inspectorWidth</key>
-	<real>245.0</real>
+	<real>245</real>
+	<key>mainDocumentEditor.cardWidth</key>
+	<real>300</real>
 	<key>mainDocumentEditor.dockedQRTextSettings</key>
 	<dict>
 		<key>textScaleFactor</key>
-		<real>1.0</real>
+		<real>1</real>
 	</dict>
 	<key>mainDocumentEditor.scrollRect</key>
-	<string>{{0, 0}, {620, 546.66666666666663}}</string>
+	<string>{{0, 0}, {567.33333333333337, 546.66666666666663}}</string>
 	<key>mainDocumentEditor.textEditorState</key>
 	<dict>
 		<key>textScaleFactor</key>
 		<real>1.5</real>
 	</dict>
 	<key>mainWindowFrame</key>
-	<string>88 99 1411 928 0 0 1680 1027 </string>
+	<string>23 99 1657 928 0 0 1680 1027 </string>
 	<key>supportingDocumentEditor.dockedQRTextSettings</key>
 	<dict>
 		<key>textScaleFactor</key>
-		<real>1.0</real>
+		<real>1</real>
 	</dict>
 	<key>supportingDocumentEditor.scrollRect</key>
 	<string>{{0, 0}, {620, 294}}</string>
 	<key>supportingDocumentEditor.textEditorState</key>
 	<dict>
 		<key>textScaleFactor</key>
-		<real>0.9</real>
+		<real>0.90000000000000002</real>
 	</dict>
 	<key>supportingDocumentViewIsCurrent</key>
 	<false/>

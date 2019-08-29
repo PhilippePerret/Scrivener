@@ -1,6 +1,6 @@
 # encoding: UTF-8
 #
-# Extension classe Fixnum
+# Extension classe Integer
 # Version: 2.0.5
 #
 # Note version 2.0.5
@@ -22,7 +22,7 @@
 #   Méthode `to_expo` pour écrire le chiffre en exposant
 #   Requiert au moins la version 1.3.1 de String_CLI.rb
 #
-class Fixnum
+class Integer
 
 
   MOIS_LONG = ['','janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août',
@@ -142,4 +142,4 @@ class Fixnum
     (100 * ( self.to_f / comp )).round(rounding||1000)
   end
 
-end #/Fixnum
+end #/Integer

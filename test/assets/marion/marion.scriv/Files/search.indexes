@@ -12,10 +12,12 @@ J'écris un autre truc. Mais si je fais un truc.</Text>
         </Document>
         <Document ID="0F81282D-A49B-43E4-8EDB-31E192CBF90A">
             <Title>Premier chapitre</Title>
+            <Synopsis>Un premier chapitre pour voir.</Synopsis>
             <Text>Un premier chapitre de Marion.
 Pour voir.
 
 Le mot Marion Marion est répété.</Text>
+            <Notes>Une note avec un format assez petit.</Notes>
         </Document>
         <Document ID="96607C23-C15F-46E7-823A-6512DE979A7E">
             <Title>Un troisième chapitre pour voir</Title>

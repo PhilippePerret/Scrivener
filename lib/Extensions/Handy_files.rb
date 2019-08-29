@@ -24,11 +24,13 @@ end
 # +
 #   :symbolize_keys     Pour YAML
 def read_from_file(pth, options = nil)
-  options ||= Hash.new
+  options ||= {}
   if options[:marshal]
     File.open(pth,'rb'){|rf| Marshal.load(rf)}
   elsif options[:yaml]
-    YAML.load(File.read(pth), symbolize_keys: options[:symbolize_keys])
+    res = YAML.load(File.read(pth))
+    res = res.symbolize_keys if res.respond_to?(:symbolize_keys)
+    res
   else
     File.open(pth,'rb'){|f| rf.read}
   end

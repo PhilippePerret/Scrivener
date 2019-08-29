@@ -176,9 +176,9 @@ class CSVFile
       self.file = csv_file
       self.row  = row_line
     end
-    # +key+ {String (label) ou Fixnum (index)}
+    # +key+ {String (label) ou Integer (index)}
     def [] key
-      if key.is_a?(Fixnum)
+      if key.is_a?(Integer)
         to_a[key - 1].value
       else
         to_h[key].value
@@ -213,7 +213,7 @@ class CSVFile
     # Attention : ne pas confondre cette méthode avec la méthode de CSVFile
     # qui attend une ligne et une colonne en argument.
     def cell ref
-      if ref.is_a?(Fixnum)
+      if ref.is_a?(Integer)
         self.to_a[ref - 1]
       else
         self.to_h[ref]

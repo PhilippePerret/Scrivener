@@ -46,7 +46,7 @@ class Project
     # Largeur pour un numéro de page (écrite)
     attr_accessor :wri_page_number_width
 
-    # {Fixnum} Numéro de la dernière page (écrite)
+    # {Integer} Numéro de la dernière page (écrite)
     attr_accessor :wri_last_page_number
 
     def initialize iprojet

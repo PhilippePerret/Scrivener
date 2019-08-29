@@ -202,9 +202,9 @@ class SWP # Pour Signs-Words-Pages
   #   Méthodes fonctionnelles
 
   # Pour les opérations, on peut envoyer soit un nombre soit un objet SWP
-  # Dans les deux cas, on retourne un nombre (Fixnum)
+  # Dans les deux cas, on retourne un nombre (Integer)
   def real_nbsigns nb
-    nb.is_a?(SWP) || nb.is_a?(Fixnum) || raise('On ne peut additionner que des SWP ou des nombres de signes.')
+    nb.is_a?(SWP) || nb.is_a?(Integer) || raise('On ne peut additionner que des SWP ou des nombres de signes.')
     nb.is_a?(SWP) && nb = nb.signs
     return nb
   end

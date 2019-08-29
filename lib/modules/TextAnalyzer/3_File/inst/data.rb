@@ -20,7 +20,7 @@ class AnalyzedFile
   # n'est pas analysé dans le cadre d'une analyse de texte
   attr_accessor :analyse
 
-  # {Fixnum} Décalage, dans le fichier du texte complet, de ce
+  # {Integer} Décalage, dans le fichier du texte complet, de ce
   # fichier (pour retrouver les documents des mots)
   attr_accessor :offset
 

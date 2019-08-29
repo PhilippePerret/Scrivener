@@ -106,7 +106,7 @@ class Segments < Array
         case proxorarr
         when Proximite
           [proxorarr]
-        when Fixnum
+        when Integer
           [table_proxs[proxorarr]]
         when Array
           proxorarr

@@ -13,6 +13,16 @@
 =end
 class Array
 
+  # Transforme toutes les clés des tables que peut contenir
+  # la liste en clé symboliques
+  def symbolize_keys
+    new_arr
+    self.each do |v|
+      v = v.symbolize_keys if v.respond_to?(:symbolize_keys)
+      new_arr << v
+    end
+    new_arr
+  end
 
   # +options+
   #   :inspect      Si false, l'élément de la liste n'est pas "inspecté"
