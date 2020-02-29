@@ -6,7 +6,7 @@ GEM
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     plist (3.5.0)
-    rake (12.3.2)
+    rake (12.3.3)
 
 PLATFORMS
   ruby
